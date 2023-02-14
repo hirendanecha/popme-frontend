@@ -23,8 +23,8 @@ const Login = () => {
   const submitForm = (e) => {
     // e.preventDefault();
     // setErrorMessage("");
-
-    window.location.pathname = "/app/dashboard"
+    navigate('/app/dashboard');
+    // window.location.pathname = "/app/dashboard"
 
 
 
