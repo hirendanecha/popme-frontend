@@ -21,17 +21,18 @@ const Login = () => {
     e.preventDefault();
     setErrorMessage("");
 
-    if (loginObj.emailId.trim() === "")
-      return setErrorMessage("Email Id is required! (use any value)");
-    if (loginObj.password.trim() === "")
-      return setErrorMessage("Password is required! (use any value)");
-    else {
-      setLoading(true);
-      // Call API to check user credentials and save token in localstorage
-      localStorage.setItem("token", "DumyTokenHere");
-      setLoading(false);
-      window.location.href = "/app/dashboard";
-    }
+    window.location.href = "/app/dashboard";
+
+    // if (loginObj.emailId.trim() === "")
+    //   return setErrorMessage("Email Id is required! (use any value)");
+    // if (loginObj.password.trim() === "")
+    //   return setErrorMessage("Password is required! (use any value)");
+    // else {
+    //   setLoading(true);
+    //   localStorage.setItem("token", "DumyTokenHere");
+    //   setLoading(false);
+    //   window.location.href = "/app/dashboard";
+    // }
   };
 
   const updateFormValue = ({ updateType, value }) => {
