@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorText from "../components/Typography/ErrorText";
 // import InputText from "../components/Input/InputText";
 import NewInputText from "../components/Input/NewInputText";
@@ -8,6 +8,9 @@ import LockSvg from "../assets/svgs/LockSvg";
 import google from "../assets/images/google.png";
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
   const INITIAL_LOGIN_OBJ = {
     password: "",
     emailId: "",
@@ -18,10 +21,12 @@ const Login = () => {
   const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ);
 
   const submitForm = (e) => {
-    e.preventDefault();
-    setErrorMessage("");
+    // e.preventDefault();
+    // setErrorMessage("");
 
-    window.location.href = "/app/dashboard";
+    window.location.pathname = "/app/dashboard"
+
+
 
     // if (loginObj.emailId.trim() === "")
     //   return setErrorMessage("Email Id is required! (use any value)");
