@@ -22,7 +22,7 @@ const Login = () => {
   const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ);
 
   const submitForm = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     // setErrorMessage("");
     localStorage.setItem("token", "dummyToken");
     // simulate API response - delay 1sec
