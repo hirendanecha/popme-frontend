@@ -6,6 +6,7 @@ import NewInputText from "../components/Input/NewInputText";
 import logo from "../assets/images/logo.png";
 import LockSvg from "../assets/svgs/LockSvg";
 import google from "../assets/images/google.png";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
 
@@ -23,6 +24,7 @@ const Login = () => {
   const submitForm = (e) => {
     // e.preventDefault();
     // setErrorMessage("");
+    localStorage.setItem("token", "dummyToken");
     navigate('/app/dashboard');
     // window.location.pathname = "/app/dashboard"
 
