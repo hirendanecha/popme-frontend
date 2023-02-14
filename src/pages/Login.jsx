@@ -25,7 +25,10 @@ const Login = () => {
     // e.preventDefault();
     // setErrorMessage("");
     localStorage.setItem("token", "dummyToken");
-    navigate('/app/dashboard');
+    // simulate API response - delay 1sec
+    setTimeout(() => {
+      navigate('/app/dashboard');
+    }, 1000);
     // window.location.pathname = "/app/dashboard"
 
 
