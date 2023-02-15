@@ -19,7 +19,7 @@ const Content = () => {
     });
   }, [pageTitle]);
   return (
-    <div className='drawer-content flex flex-col '>
+    <div className='drawer-content flex flex-col h-[calc(100vh-88px)]'>
       <main
         className='flex-1 overflow-y-auto'
         ref={mainContentRef}

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
-const NewTextArea = ({ containerStyle, labelTitle, labelStyle, inputStyle, defaultValue, placeholder, updateFormValue, updateType, register }) => {
+const NewTextArea = ({ containerStyle, labelTitle, labelStyle, inputStyle, defaultValue, placeholder, updateFormValue, name, register }) => {
 
     const [value, setValue] = useState(defaultValue);
 
 
     const updateInputValue = (val) => {
         setValue(val)
-        updateFormValue({ updateType, value: val })
+        updateFormValue({ name, value: val })
     }
 
     return (
@@ -23,7 +23,7 @@ const NewTextArea = ({ containerStyle, labelTitle, labelStyle, inputStyle, defau
 
                 {
                     register ? (<>
-                        <textarea className={`textarea textarea-bordered w-full text-primary-main bg-white focus:outline-none border-borderColor-main h-24 ${inputStyle}`} placeholder={placeholder || ""} {...register(updateType, { required: false })}></textarea>
+                        <textarea className={`textarea textarea-bordered w-full text-primary-main bg-white focus:outline-none border-borderColor-main h-24 ${inputStyle}`} placeholder={placeholder || ""} {...register(name, { required: false })}></textarea>
                     </>) : (<>
                         <textarea className={`textarea textarea-bordered w-full text-primary-main bg-white focus:outline-none border-borderColor-main h-24 ${inputStyle}`} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} value={value}></textarea>
                     </>)

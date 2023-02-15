@@ -25,7 +25,7 @@ function SelectBox(props) {
   };
 
   return (
-    <div className={`inline-block ${containerStyle}`}>
+    <div className={`inline-block w-full ${containerStyle}`}>
 
       {labelDescription ? (
         <label className={`label`}>

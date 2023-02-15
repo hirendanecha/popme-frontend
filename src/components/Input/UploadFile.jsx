@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import UploadImgSvg from '../../assets/svgs/UploadImgSvg';
 
-const UploadFile = ({ updateType, register, handleFile, removeImage, files }) => {
+const UploadFile = ({ name, register, handleFile, removeImage, files }) => {
 
 
     return (
         <div className='flex flex-col w-full'>
             <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
-                <input type="file" className="h-full w-full opacity-0 z-10 absolute" {...register(updateType, { required: false, onChange: (e) => handleFile(e) })} />
+                <input type="file" className="h-full w-full opacity-0 z-10 absolute" {...register(name, { required: false, onChange: (e) => handleFile(e) })} />
 
                 <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">
                     <div className="flex flex-col">
