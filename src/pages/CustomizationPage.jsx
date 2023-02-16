@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import Button from '../components/Button/Button';
 import NewInputText from '../components/Input/NewInputText';
@@ -12,6 +12,8 @@ import InputWithIcon from '../components/Input/InputWithIcon';
 import ColorPickerInput from '../components/Input/ColorPickerInput';
 import ClipBoardSvg from '../assets/svgs/ClipBoardSvg';
 import ShareSvg from '../assets/svgs/ShareSvg';
+import workspace1 from "../assets/images/workspace-1.png";
+import PlayButtonSvg from '../assets/svgs/PlayButtonSvg';
 
 
 const CloseSvg = () => (
@@ -101,10 +103,27 @@ const ColorObj = {
 }
 
 
+const VolumeSvg = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+    </svg>
+
+)
+
+const DashSvg = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+    </svg>
+
+)
+
+
+
+
+
 const CustomizationPage = () => {
 
     const dispatch = useDispatch();
-
     const [pickColor, setPickColor] = useState(ColorObj);
 
     const colorHandler = (e) => {
@@ -159,6 +178,78 @@ const CustomizationPage = () => {
     };
 
 
+    const ClapprComponent = ({ id, source, height, width }) => {
+        let player = useRef();
+
+        useEffect(() => {
+            player.current = new Clappr.Player({
+                source: "http://clappr.io/highline.mp4",
+                poster: 'http://clappr.io/poster.png',
+                parentId: "#player",
+                height,
+                width,
+
+                // events: {
+                //     onPlay: function () {
+                //         player.current.resize({ height: 360, width: 640 });
+                //     }
+                // }
+
+            });
+
+        }, [])
+
+        return (
+            <>
+                <div className="absolute bottom-0 rounded-2xl overflow-hidden ">
+
+                    <div className="relative">
+                        <div ref={player} id={id}></div>
+
+                        <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50">
+
+                            <div className='flex flex-col justify-between h-full p-3'>
+                                <div className="flex justify-between">
+                                    <div className='flex'>
+                                        <h5 className="text-white text-base">Elie MoreReels</h5>
+                                    </div>
+
+                                    <div className='flex'>
+                                        <VolumeSvg />
+                                        <DashSvg />
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-col'>
+                                    <h4 className='text-2xl text-white mb-3'>This is PopMe!</h4>
+
+                                    <p className="text-sm text-white" >A widget you can use to upload videos
+                                        and get personal with your customers to
+                                        schedule meetings, ask for reviews, or
+                                        share the latest features with its CTA
+                                        functionnality.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div className="absolute bottom-0">
+                    <div className="relative">
+                        <img src={workspace1} alt="workspace1" className="h-[200px] w-full object-cover rounded-xl" />
+                        <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center">
+                            <PlayButtonSvg />
+                        </div>
+                    </div>
+                </div>
+
+            </>
+        );
+    };
+
+
+
     return (
         <div className="inline-block w-full h-full">
             <form onSubmit={handleSubmit(onSubmit)} className="h-full">
@@ -182,7 +273,6 @@ const CustomizationPage = () => {
 
                         <div className='flex flex-col'>
                             <div tabIndex={0} className="collapse collapse-arrow border-t border-borderColor-main bg-transparent">
-                                <input type="checkbox" />
 
                                 <div className="collapse-title text-xl font-bold text-primary-normal">
                                     Basic Setup
@@ -217,7 +307,6 @@ const CustomizationPage = () => {
                             </div>
 
                             <div tabIndex={1} className="collapse collapse-arrow border-t border-borderColor-main bg-transparent">
-                                <input type="checkbox" />
 
                                 <div className="collapse-title text-xl font-bold text-primary-normal">
                                     Add Video
@@ -241,7 +330,6 @@ const CustomizationPage = () => {
                             </div>
 
                             <div tabIndex={2} className="collapse collapse-arrow border-t border-borderColor-main bg-transparent">
-                                <input type="checkbox" />
 
                                 <div className="collapse-title text-xl font-bold text-primary-normal">
                                     Call To Action
@@ -271,7 +359,6 @@ const CustomizationPage = () => {
                             </div>
 
                             <div tabIndex={3} className="collapse collapse-arrow border-t border-borderColor-main bg-transparent">
-                                <input type="checkbox" />
 
                                 <div className="collapse-title text-xl font-bold text-primary-normal">
                                     Design Customization
@@ -312,7 +399,6 @@ const CustomizationPage = () => {
                             </div>
 
                             <div tabIndex={4} className="collapse collapse-arrow border-t border-borderColor-main bg-transparent">
-                                <input type="checkbox" />
 
                                 <div className="collapse-title text-xl font-bold text-primary-normal">
                                     Color Studio
@@ -469,7 +555,6 @@ const CustomizationPage = () => {
                             </div>
 
                             <div tabIndex={5} className="collapse collapse-arrow border-t border-borderColor-main bg-transparent">
-                                <input type="checkbox" />
 
                                 <div className="collapse-title text-xl font-bold text-primary-normal">
                                     Font Studio
@@ -492,7 +577,6 @@ const CustomizationPage = () => {
                             </div>
 
                             <div tabIndex={6} className="collapse collapse-arrow border-t border-borderColor-main bg-transparent">
-                                <input type="checkbox" />
 
                                 <div className="collapse-title text-xl font-bold text-primary-normal">
                                     Get Link
@@ -523,7 +607,6 @@ const CustomizationPage = () => {
 
                                 <div className="collapse-content">
                                     <div tabIndex={8} className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3">
-                                        <input type="checkbox" />
 
                                         <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
                                             www.mywebsite.com
@@ -547,7 +630,6 @@ const CustomizationPage = () => {
                                     </div>
 
                                     <div tabIndex={9} className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3">
-                                        <input type="checkbox" />
 
                                         <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
                                             www.mywebsite#2.com
@@ -558,7 +640,6 @@ const CustomizationPage = () => {
                                     </div>
 
                                     <div tabIndex={10} className="collapse collapse-arrow border border-borderColor-main rounded-lg">
-                                        <input type="checkbox" />
 
                                         <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
                                             www.mywebsite#3.com
@@ -585,14 +666,14 @@ const CustomizationPage = () => {
                                 </div>
                             </div>
 
-                            <div className='inline-block w-full h-[calc(100vh-183px)]'>
+                            <div className='inline-block w-full h-[calc(100vh-183px)] relative'>
 
-                                <div className='inline-block w-full h-full disabled pointer-events-none opacity-25'>
-                                    <iframe id="iFrameExample"
-                                        // title="iFrame Example"
-                                        src="https://heroicons.com/" className='w-full h-full'>
-                                    </iframe>
-                                </div>
+                                <ClapprComponent
+                                    id="player"
+                                    source="https://www.w3schools.com/tags/movie.ogg"
+                                    height={461}
+                                    width={261}
+                                />
                             </div>
                         </div>
                     </div>
