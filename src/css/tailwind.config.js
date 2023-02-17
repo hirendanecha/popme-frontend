@@ -8,19 +8,20 @@ module.exports = {
         primary: {
           main: "#111827",
           light: "#707583",
-          normal: "#4A5565"
+          normal: "#4A5565",
         },
         secondary: {
           main: "#3A6FFA",
           light: "#779BFA",
-          sidebarColor: "#183169"
+          sidebarColor: "#183169",
         },
         borderColor: {
           main: "#D1D5DB",
         },
         shadow: {
           buttonShadow: "0px 1px 2px rgba(0, 0, 0, 0.05)",
-          headerShadow: "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)"
+          headerShadow:
+            "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)",
         },
       },
       boxShadow: {
@@ -72,7 +73,15 @@ module.exports = {
     },
   },
   daisyui: {
-    themes: ["light", "dark"],
+    themes: [
+      "light",
+      "dark",
+      {
+        mytheme: {
+          primary: "#ffff",
+        },
+      },
+    ],
   },
   plugins: [
     // add custom variant for expanding sidebar

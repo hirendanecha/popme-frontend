@@ -42,7 +42,7 @@ const DashboardPage = () => {
 
           <div className='flex flex-wrap items-center justify-end gap-3'>
             <SelectBox options={[{ name: "Last 7 days", value: 1 }, { name: "option 2", value: 2 }]} updateFormValue={updateValue} containerStyle="min-w-[10rem]" selectStyle="text-primary-main" />
-            <Button text="New Workspace" rightIcon={PlusIcon()} />
+            <Button text="New Workspace" leftIcon={PlusIcon()} />
           </div>
         </div>
 
@@ -94,7 +94,7 @@ const DashboardPage = () => {
               </div>
 
               <div className='flex justify-center items-center h-full'>
-                <Button text="New Workspace" rightIcon={PlusIcon()} />
+                <Button text="New Workspace" leftIcon={PlusIcon()} />
               </div>
             </div>
 
@@ -107,7 +107,7 @@ const DashboardPage = () => {
               </div>
 
               <div className='flex justify-center items-center h-full'>
-                <Button text="New Workspace" rightIcon={PlusIcon()} />
+                <Button text="New Workspace" leftIcon={PlusIcon()} />
               </div>
             </div>
           </div>
