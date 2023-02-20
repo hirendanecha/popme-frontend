@@ -62,50 +62,63 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     <div>
       {/* Sidebar backdrop (mobile only) */}
       <div
-        className={`fixed inset-0 bg-secondary-sidebarColor bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-        aria-hidden='true'
+        className={`fixed inset-0 bg-secondary-sidebarColor bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
+          sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden="true"
       ></div>
 
       {/* Sidebar */}
       <div
-        id='sidebar'
+        id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-72 lg:w-20 lg:sidebar-expanded:!w-72 2xl:!w-72 shrink-0 bg-secondary-sidebarColor transition-all duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-72"
-          }`}
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-72 lg:w-20 lg:sidebar-expanded:!w-72 2xl:!w-72 shrink-0 bg-secondary-sidebarColor transition-all duration-200 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-72"
+        }`}
       >
         {/* Sidebar header */}
         <div className="inline-block p-4">
-          <div className='flex justify-between mb-10 pr-3 sm:px-2'>
+          <div className="flex justify-between mb-10 pr-3 sm:px-2">
             {/* Close button mobile */}
             <button
               ref={trigger}
-              className='lg:hidden text-slate-500 hover:text-slate-400'
+              className="lg:hidden text-slate-500 hover:text-slate-400"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              aria-controls='sidebar'
+              aria-controls="sidebar"
               aria-expanded={sidebarOpen}
             >
-              <span className='sr-only'>Close sidebar</span>
+              <span className="sr-only">Close sidebar</span>
               <svg
-                className='w-6 h-6 fill-current'
-                viewBox='0 0 24 24'
-                xmlns='http://www.w3.org/2000/svg'
+                className="w-6 h-6 fill-current"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d='M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z' />
+                <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
               </svg>
             </button>
 
             {/* Logo */}
             <div className="flex items-center justify-between w-full">
-              <NavLink end to='/' className='block'>
+              <NavLink end to="/" className="block">
                 <div className="flex">
                   <img src={sidebarLogo} alt="sidebarLogo" className="w-36" />
                 </div>
               </NavLink>
 
               <div className="cursor-pointer hidden sidebar-expanded:block">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </div>
             </div>
@@ -119,26 +132,27 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         </div>
 
         {/* Links */}
-        <div className='space-y-8'>
+        <div className="space-y-8">
           {/* Pages group */}
           <div>
-            <ul className='mt-3 p-4'>
-
+            <ul className="mt-3 p-4">
               {/* Dashboard */}
               <li
-                className={`p-3 mb-2 rounded-md last:mb-0 ${pathname.includes("dashboard") && "bg-slate-900"
-                  }`}
+                className={`p-3 mb-2 rounded-md last:mb-0 ${
+                  pathname.includes("dashboard") && "bg-slate-900"
+                }`}
               >
                 <NavLink
                   end
-                  to='/'
-                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${pathname.includes("dashboard") && "hover:text-slate-200"
-                    }`}
+                  to="/"
+                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
+                    pathname.includes("dashboard") && "hover:text-slate-200"
+                  }`}
                 >
-                  <div className='flex items-center'>
+                  <div className="flex items-center">
                     <DashboardSvg svgClass="shrink-0 h-6 w-6" />
 
-                    <span className='text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200'>
+                    <span className="text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       Dashboard
                     </span>
                   </div>
@@ -147,19 +161,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               {/* Workspaces */}
               <li
-                className={`p-3 mb-2 rounded-md last:mb-0 ${pathname.includes("workspaces") && "bg-slate-900"
-                  }`}
+                className={`p-3 mb-2 rounded-md last:mb-0 ${
+                  pathname.includes("workspaces") && "bg-slate-900"
+                }`}
               >
                 <NavLink
                   end
-                  to='/app/workspaces'
-                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${pathname.includes("workspaces") && "hover:text-slate-200"
-                    }`}
+                  to="/app/workspaces"
+                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
+                    pathname.includes("workspaces") && "hover:text-slate-200"
+                  }`}
                 >
-                  <div className='flex items-center'>
+                  <div className="flex items-center">
                     <WorkspaceSvg svgClass="shrink-0 h-6 w-6" />
 
-                    <span className='text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200'>
+                    <span className="text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       Workspaces
                     </span>
                   </div>
@@ -168,19 +184,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               {/* Customization */}
               <li
-                className={`p-3 mb-2 rounded-md last:mb-0 ${pathname.includes("customization") && "bg-slate-900"
-                  }`}
+                className={`p-3 mb-2 rounded-md last:mb-0 ${
+                  pathname.includes("customization") && "bg-slate-900"
+                }`}
               >
                 <NavLink
                   end
-                  to='/app/customization'
-                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${pathname.includes("customization") && "hover:text-slate-200"
-                    }`}
+                  to="/app/customization"
+                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
+                    pathname.includes("customization") && "hover:text-slate-200"
+                  }`}
                 >
-                  <div className='flex items-center'>
+                  <div className="flex items-center">
                     <CustomizationSvg svgClass="shrink-0 h-6 w-6" />
 
-                    <span className='text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200'>
+                    <span className="text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       Customization
                     </span>
                   </div>
@@ -189,45 +207,51 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               {/* Testing */}
               <li
-                className={`p-3 mb-2 rounded-md last:mb-0 ${pathname.includes("testing") && "bg-slate-900"
-                  }`}
+                className={`p-3 mb-2 rounded-md last:mb-0 ${
+                  pathname.includes("testing") && "bg-slate-900"
+                }`}
               >
                 <NavLink
                   end
-                  to='/'
-                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${pathname.includes("testing") && "hover:text-slate-200"
-                    }`}
+                  to="/"
+                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
+                    pathname.includes("testing") && "hover:text-slate-200"
+                  }`}
+                  onClick={(event) => event.preventDefault()}
                 >
-                  <div className='flex items-center'>
+                  <div className="flex items-center">
                     <TestingSvg svgClass="shrink-0 h-6 w-6" />
 
-                    <span className='text-base mr-6 text-white/50 ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200'>
+                    <span className="text-base mr-6 text-white/50 ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       A/B Testing
                     </span>
 
-                    <span className="bg-[#DBEAFE] rounded-2xl px-2 text-sm text-secondary-sidebarColor font-medium">Soon</span>
+                    <span className="bg-[#DBEAFE] rounded-2xl px-2 text-sm text-[#1E40AF] font-medium">
+                      Soon
+                    </span>
                   </div>
                 </NavLink>
               </li>
 
               {/* Settings */}
               <li
-                className={`p-3 rounded-md last:mb-0 ${pathname.includes("settings") && "bg-slate-900"
-                  }`}
+                className={`p-3 rounded-md last:mb-0 ${
+                  pathname.includes("settings") && "bg-slate-900"
+                }`}
               >
                 <NavLink
                   end
-                  to='/'
-                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${pathname.includes("settings") && "hover:text-slate-200"
-                    }`}
+                  to="/app/setting"
+                  className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
+                    pathname.includes("settings") && "hover:text-slate-200"
+                  }`}
                 >
-                  <div className='flex items-center'>
+                  <div className="flex items-center">
                     <SettingsSvg svgClass="shrink-0 h-6 w-6" />
 
-                    <span className='text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200'>
+                    <span className="text-base text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       Settings
                     </span>
-
                   </div>
                 </NavLink>
               </li>
@@ -235,22 +259,45 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </div>
         </div>
 
-
         <div className="flex flex-col mt-auto">
           <div className="flex flex-col px-4 py-8 text-center border-y lg:hidden sidebar-expanded:block">
-
-            <div className="flex items-center justify-center mb-3">
+            {/* <div className="flex items-center justify-center mb-3">
               <CakeSvg />
               <span className='text-sm text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200'>
                 Free Trial - 3 days left
               </span>
             </div>
 
-            <Button text="Upgrade" buttonClass="w-full" />
+            <Button text="Upgrade" buttonClass="w-full" /> */}
+
+            <div className="flex justify-between mb-4">
+              <h5 className="text-base text-white font-bold">
+                Views Remaining
+              </h5>
+
+              <span className="text-sm text-white font-normal">40/100</span>
+            </div>
+
+            <div className="flex mb-4">
+              <progress
+                className="progress progress-success w-full bg-white/50"
+                value="40"
+                max="100"
+              ></progress>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="bg-[#DBEAFE] rounded-2xl px-2 text-sm text-[#1E40AF] font-medium">
+                Free Trial
+              </span>
+
+              <span className="text-sm text-white font-normal">
+                Upgrade plan
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center justify-between px-4 py-8">
-
             <div className="flex">
               <div className="flex items-center justify-center rounded-lg h-11 w-11 bg-indigo-500 mr-3">
                 <div className="flex items-center justify-center rounded-lg border-2 h-10 w-10 bg-[#EC407A]">
@@ -267,28 +314,26 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <div className="flex lg:hidden sidebar-expanded:block">
               <SettingsSvg color="#CBCBCB" />
             </div>
-
           </div>
         </div>
 
-        <div className='hidden lg:inline-flex 2xl:hidden justify-end mt-auto'>
-          <div className='px-3 py-2'>
+        <div className="hidden lg:inline-flex 2xl:hidden justify-end mt-auto">
+          <div className="px-3 py-2">
             <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
-              <span className='sr-only'>Expand / collapse sidebar</span>
+              <span className="sr-only">Expand / collapse sidebar</span>
               <svg
-                className='w-6 h-6 fill-current sidebar-expanded:rotate-180'
-                viewBox='0 0 24 24'
+                className="w-6 h-6 fill-current sidebar-expanded:rotate-180"
+                viewBox="0 0 24 24"
               >
                 <path
-                  className='text-slate-400'
-                  d='M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z'
+                  className="text-slate-400"
+                  d="M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z"
                 />
-                <path className='text-slate-600' d='M3 23H1V1h2z' />
+                <path className="text-slate-600" d="M3 23H1V1h2z" />
               </svg>
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );

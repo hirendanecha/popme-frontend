@@ -96,5 +96,6 @@ module.exports = {
       });
     }),
     require("daisyui"),
+    require("@tailwindcss/line-clamp"),
   ],
 };

@@ -330,6 +330,18 @@ const CustomizationPage = () => {
           document.getElementById(id).classList.remove("hidden");
           document.getElementById(id).classList.add("block");
 
+          document
+            .querySelector(".player_wrap")
+            .classList.remove("translate-y-[130%]");
+          document
+            .querySelector(".player_wrap")
+            .classList.remove("translate-x-[-130%]");
+          document.querySelector(".player_wrap").classList.remove("opacity-0");
+
+          document.querySelector(".player_wrap").classList.add("translate-y-0");
+          document.querySelector(".player_wrap").classList.add("translate-x-0");
+          document.querySelector(".player_wrap").classList.add("opacity-100");
+
           if (
             document.querySelector(".player_wrap").classList.contains("z-0")
           ) {
@@ -350,6 +362,24 @@ const CustomizationPage = () => {
           document.getElementById(id).classList.add("hidden");
           document.querySelector(".player_wrap").classList.remove("z-10");
           document.querySelector(".player_wrap").classList.add("z-0");
+
+          document
+            .querySelector(".player_wrap")
+            .classList.remove("translate-y-0");
+          document
+            .querySelector(".player_wrap")
+            .classList.remove("translate-x-0");
+          document
+            .querySelector(".player_wrap")
+            .classList.remove("opacity-100");
+
+          document
+            .querySelector(".player_wrap")
+            .classList.add("translate-y-[130%]");
+          document
+            .querySelector(".player_wrap")
+            .classList.add("translate-x-[-130%]");
+          document.querySelector(".player_wrap").classList.add("opacity-0");
         }
       });
     }, []);
@@ -358,8 +388,16 @@ const CustomizationPage = () => {
       <>
         {/* <div ref={player} id={id}></div> */}
 
-        <div className="absolute bottom-0 rounded-2xl overflow-hidden">
-          <div className="relative player_wrap">
+        <div className="inline-block w-full h-full disabled pointer-events-none opacity-25">
+          <iframe
+            id="iFrameExample"
+            src="https://heroicons.com/"
+            className="w-full h-full"
+          ></iframe>
+        </div>
+
+        <div className="absolute bottom-0 left-3 rounded-2xl overflow-hidden">
+          <div className="relative player_wrap transform translate-y-[130%] translate-x-[-130%] opacity-0 transition duration-500 ease-in-out">
             <div ref={player} id={id} className="hidden"></div>
 
             <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50">
@@ -425,7 +463,7 @@ const CustomizationPage = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-0">
+        <div className="absolute bottom-0 left-3">
           <div className="relative">
             <img
               src={workspace1}
@@ -437,6 +475,18 @@ const CustomizationPage = () => {
             </div>
           </div>
         </div>
+
+        <div className="absolute bottom-0 right-3">
+          <img
+            src={workspace1}
+            alt="workspace1"
+            className="h-[178px] w-[178px] object-cover rounded-full"
+          />
+
+          <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center img_play_button">
+            <PlayButtonSvg />
+          </div>
+        </div>
       </>
     );
   };
@@ -445,7 +495,7 @@ const CustomizationPage = () => {
     <div className="inline-block w-full h-full">
       <form onSubmit={handleSubmit(onSubmit)} className="h-full">
         <div className="grid grid-cols-8 h-full">
-          <div className="col-start-1 col-end-3 py-3 border-r overflow-auto max-h-full">
+          <div className="col-start-1 col-end-3 py-3 border-r overflow-auto max-h-full [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl">
             <div className="flex flex-col mb-12 px-4 lg:px-6">
               <h3 className="text-primary-normal font-bold mb-3 text-xl">
                 Workspace
@@ -478,6 +528,8 @@ const CustomizationPage = () => {
                 tabIndex={0}
                 className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
               >
+                <input type="checkbox" />
+
                 <div className="collapse-title text-xl font-bold text-primary-normal">
                   Basic Setup
                 </div>
@@ -499,7 +551,7 @@ const CustomizationPage = () => {
                         Video Position
                       </h5>
 
-                      <div class="grid grid-cols-2 gap-2">
+                      <div class="grid grid-cols-2 gap-2 mb-3">
                         <div className="inline-block w-full">
                           <Button
                             text="Top Left"
@@ -523,6 +575,27 @@ const CustomizationPage = () => {
                             text="Bottom Right"
                             buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black"
                           />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <h5 className="text-primary-main text-base font-semibold py-2">
+                          Preview Style
+                        </h5>
+
+                        <div class="grid grid-cols-2 gap-2">
+                          <div className="inline-block w-full">
+                            <Button
+                              text="Rectangle"
+                              buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black"
+                            />
+                          </div>
+                          <div className="inline-block w-full">
+                            <Button
+                              text="Circular Bubble (Loom)"
+                              buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black h-max"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
