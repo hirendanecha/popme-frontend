@@ -471,6 +471,29 @@ const SettingPage = () => {
             </div>
           </div>
         )}
+
+        {activeTab === 3 && (
+          <div className="flex flex-col">
+            <div className="inline-block w-full pt-11 pb-6 border-b mb-5">
+              <h3 className="text-primary-normal font-bold text-2xl">
+                Billing
+              </h3>
+              <p className="text-base text-primary-light">
+                Manage your billing information, payment methods, and invoices.
+              </p>
+            </div>
+
+            <div className="flex justify-between">
+              <h5 className="text-lg text-primary-normal font-semibold">
+                Payment, subscription and invoices
+              </h5>
+
+              <span className="text-secondary-main text-lg no-underline hover:no-underline cursor-pointer font-semibold">
+                Open billing portal
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

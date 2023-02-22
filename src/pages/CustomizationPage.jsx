@@ -14,6 +14,7 @@ import ClipBoardSvg from "../assets/svgs/ClipBoardSvg";
 import ShareSvg from "../assets/svgs/ShareSvg";
 import workspace1 from "../assets/images/workspace-1.png";
 import PlayButtonSvg from "../assets/svgs/PlayButtonSvg";
+import MouseSvg from "../assets/svgs/MouseSvg";
 
 const CloseSvg = () => (
   <svg
@@ -194,6 +195,28 @@ const DashSvg = () => (
   </svg>
 );
 
+const OpenEye = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="w-20 h-8 text-secondary-main font-bold"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+    />
+  </svg>
+);
+
 const CustomizationPage = () => {
   const dispatch = useDispatch();
   const [pickColor, setPickColor] = useState(ColorObj);
@@ -246,16 +269,18 @@ const CustomizationPage = () => {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+
+  const onSubmit = (data) => console.log("onSubmit", data);
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Customization" }));
   }, []);
 
   const updateValue = (data) => {
-    console.log("data", data);
+    console.log("updateValue", data);
   };
 
   const ClapprComponent = ({ id, source, height, width }) => {
@@ -268,7 +293,7 @@ const CustomizationPage = () => {
         parentId: "#player",
         height,
         width,
-        autoPlay: true,
+        // autoPlay: true,
         loop: true,
         playback: {
           controls: false,
@@ -297,9 +322,6 @@ const CustomizationPage = () => {
 
       //   player.current.getPlugin("poster").$playWrapper.hide();
 
-      //   player.core.activeContainer.on(Clappr.Events.CONTAINER_STATE_BUFFERING, function() { ... })
-      //   Events.CONTAINER_MEDIACONTROL_HIDE = "container:mediacontrol:hide";
-
       let volumeIcon = document.querySelector(".volume_icon");
       volumeIcon.addEventListener("click", function (event) {
         player.current.mute();
@@ -327,6 +349,8 @@ const CustomizationPage = () => {
       let imgPlayIcon = document.querySelector(".img_play_button");
       imgPlayIcon.addEventListener("click", function (event) {
         if (document.getElementById(id).classList.contains("hidden")) {
+          player.current.play();
+
           document.getElementById(id).classList.remove("hidden");
           document.getElementById(id).classList.add("block");
 
@@ -349,7 +373,6 @@ const CustomizationPage = () => {
           }
 
           document.querySelector(".player_wrap").classList.add("z-10");
-          player.current.play();
         }
       });
 
@@ -414,15 +437,15 @@ const CustomizationPage = () => {
                   </div>
 
                   <div className="flex">
-                    <div className="mr-3 inline-block volume_icon">
+                    <div className="mr-3 inline-block volume_icon cursor-pointer">
                       <VolumeSvg />
                     </div>
 
-                    <div className="mr-3 mute_icon hidden">
+                    <div className="mr-3 mute_icon hidden cursor-pointer">
                       <MuteSvg />
                     </div>
 
-                    <div className="minimize_icon">
+                    <div className="minimize_icon cursor-pointer">
                       <DashSvg />
                     </div>
                   </div>
@@ -470,7 +493,7 @@ const CustomizationPage = () => {
               alt="workspace1"
               className="h-[200px] w-full object-cover rounded-xl"
             />
-            <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center img_play_button">
+            <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
               <PlayButtonSvg />
             </div>
           </div>
@@ -483,7 +506,7 @@ const CustomizationPage = () => {
             className="h-[178px] w-[178px] object-cover rounded-full"
           />
 
-          <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center img_play_button">
+          <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer">
             <PlayButtonSvg />
           </div>
         </div>
@@ -494,851 +517,37 @@ const CustomizationPage = () => {
   return (
     <div className="inline-block w-full h-full">
       <form onSubmit={handleSubmit(onSubmit)} className="h-full">
-        <div className="grid grid-cols-8 h-full">
-          <div className="col-start-1 col-end-3 py-3 border-r overflow-auto max-h-full [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl">
-            <div className="flex flex-col mb-12 px-4 lg:px-6">
-              <h3 className="text-primary-normal font-bold mb-3 text-xl">
-                Workspace
-              </h3>
+        <div className="drawer drawer-mobile h-full">
+          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
-              <SelectBox
-                options={[
-                  { name: "Workspace #1", value: "Workspace1" },
-                  { name: "Workspace #2", value: "Workspace2" },
-                ]}
-                updateFormValue={updateValue}
-                containerStyle="min-w-[10rem] mb-4"
-                selectStyle="text-primary-main"
-              />
-
-              <div className="inline-block w-full mb-2">
-                <Button
-                  text="Delete Selected"
-                  buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                />
-              </div>
-
-              <div className="flex">
-                <Button text="New Workspace" buttonClass="w-full text-base" />
-              </div>
-            </div>
-
-            <div className="flex flex-col">
-              <div
-                tabIndex={0}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <input type="checkbox" />
-
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Basic Setup
-                </div>
-                <div className="collapse-content">
-                  <div className="flex flex-col">
-                    <div className="flex">
-                      <NewInputText
-                        type="url"
-                        labelTitle="Website URL"
-                        labelStyle="text-primary-main text-base font-semibold"
-                        inputStyle="mb-3 !bg-transparent"
-                        name="basicSetup.websiteUrl"
-                        register={register}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Video Position
-                      </h5>
-
-                      <div class="grid grid-cols-2 gap-2 mb-3">
-                        <div className="inline-block w-full">
-                          <Button
-                            text="Top Left"
-                            buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black"
-                          />
-                        </div>
-                        <div className="inline-block w-full">
-                          <Button
-                            text="Top Right"
-                            buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black"
-                          />
-                        </div>
-                        <div className="inline-block w-full">
-                          <Button
-                            text="Bottom Left"
-                            buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black"
-                          />
-                        </div>
-                        <div className="inline-block w-full">
-                          <Button
-                            text="Bottom Right"
-                            buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col">
-                        <h5 className="text-primary-main text-base font-semibold py-2">
-                          Preview Style
-                        </h5>
-
-                        <div class="grid grid-cols-2 gap-2">
-                          <div className="inline-block w-full">
-                            <Button
-                              text="Rectangle"
-                              buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black"
-                            />
-                          </div>
-                          <div className="inline-block w-full">
-                            <Button
-                              text="Circular Bubble (Loom)"
-                              buttonClass="w-full text-sm !bg-[#F3F3F4] !hover:bg-[#F3F3F4] !text-black h-max"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                tabIndex={1}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Add Video
-                </div>
-                <div className="collapse-content">
-                  <div className="flex flex-col">
-                    <div className="flex">
-                      <UploadFile
-                        name="addVideo.addVideo"
-                        register={register}
-                        handleFile={(e) => handleFile(e)}
-                        removeImage={(e) => removeImage(e)}
-                        files={files}
-                      />
-                    </div>
-
-                    <div className="flex">
-                      <NewInputText
-                        type="text"
-                        labelTitle="Video Title"
-                        labelStyle="text-primary-main text-base font-semibold"
-                        inputStyle="mb-3 !bg-transparent"
-                        name="addVideo.videoTitle"
-                        register={register}
-                      />
-                    </div>
-
-                    <div className="flex">
-                      <NewTextArea
-                        labelTitle="Video Description"
-                        labelStyle="text-primary-main text-base font-semibold"
-                        inputStyle="!bg-transparent"
-                        name="addVideo.videoDescription"
-                        register={register}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                tabIndex={2}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Call To Action
-                </div>
-                <div className="collapse-content">
-                  <div className="flex flex-col">
-                    <NewInputText
-                      type="text"
-                      labelTitle="Button Text"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="callToAction.buttonText"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="url"
-                      labelTitle="Destination URL"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="callToAction.destinationUrl"
-                      register={register}
-                    />
-
-                    <div className="flex flex-col mb-3">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Button Icon
-                      </h5>
-                      <div className="flex flex-wrap gap-3">
-                        {IconList.map((item, index) => (
-                          <div
-                            className="flex items-center justify-center h-6 w-6 border border-borderColor-main"
-                            key={index}
-                          >
-                            {item.icon}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <SelectBox
-                      labelTitle="Button Style"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      options={[
-                        { name: "Filled", value: "filled" },
-                        { name: "Dashed", value: "dashed" },
-                      ]}
-                      containerStyle="min-w-[10rem] mb-3"
-                      selectStyle="text-primary-main"
-                      name="callToAction.buttonStyle"
-                      register={register}
-                    />
-
-                    <SelectBox
-                      labelTitle="Button Corners"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      options={[
-                        { name: "Round", value: "round" },
-                        { name: "Square", value: "square" },
-                      ]}
-                      containerStyle="min-w-[10rem] mb-3"
-                      selectStyle="text-primary-main"
-                      name="callToAction.buttonCorners"
-                      register={register}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                tabIndex={3}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Design Customization
-                </div>
-                <div className="collapse-content p-0">
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <InputWithIcon
-                      type="text"
-                      labelTitle="Author Picture"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="!bg-transparent"
-                      name="designCustomization.authorPicture"
-                      register={register}
-                      leftIcon={leftIcon()}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Vertical Margin"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="designCustomization.verticalMargin"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Horizontal Margin"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="designCustomization.horizontalMargin"
-                      register={register}
-                    />
-                  </div>
-
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      Toggle
-                    </h4>
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Width"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="designCustomization.toggle.width"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Height"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="designCustomization.toggle.height"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Corner Radius"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="designCustomization.toggle.cornerRadius"
-                      register={register}
-                    />
-                  </div>
-
-                  <div className="flex flex-col px-4">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      Player
-                    </h4>
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Width"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="designCustomization.player.width"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Height"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="designCustomization.player.height"
-                      register={register}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                tabIndex={4}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Color Studio
-                </div>
-                <div className="collapse-content p-0">
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <h5 className="text-primary-main text-base font-semibold py-2">
-                      Templates
-                    </h5>
-
-                    <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                      <label className="label cursor-pointer py-[12px] px-4">
-                        <span className="label-text text-base text-primary-main">
-                          Red
-                        </span>
-                        <input
-                          type="radio"
-                          {...register("colorStudio.templates")}
-                          value="#FF0056"
-                          id="red"
-                          className="radio bg-[#FF0056] checked:bg-[#FF0056]"
-                          checked
-                        />
-                      </label>
-                    </div>
-
-                    <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                      <label className="label cursor-pointer py-[12px] px-4">
-                        <span className="label-text text-base text-primary-main">
-                          Blue
-                        </span>
-                        <input
-                          type="radio"
-                          {...register("colorStudio.templates")}
-                          value="#00A3FF"
-                          id="blue"
-                          className="radio bg-[#00A3FF] checked:bg-[#00A3FF]"
-                        />
-                      </label>
-                    </div>
-
-                    <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                      <label className="label cursor-pointer py-[12px] px-4">
-                        <span className="label-text text-base text-primary-main">
-                          Green
-                        </span>
-                        <input
-                          type="radio"
-                          {...register("colorStudio.templates")}
-                          value="#24CB3F"
-                          id="green"
-                          className="radio bg-[#24CB3F] checked:bg-[#24CB3F]"
-                        />
-                      </label>
-                    </div>
-
-                    <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                      <label className="label cursor-pointer py-[12px] px-4">
-                        <span className="label-text text-base text-primary-main">
-                          Orange
-                        </span>
-                        <input
-                          type="radio"
-                          {...register("colorStudio.templates")}
-                          value="#FFBB0E"
-                          id="orange"
-                          className="radio bg-[#FFBB0E] checked:bg-[#FFBB0E]"
-                        />
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      General
-                    </h4>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Video Title
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.general.videoTitle"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.general.videoTitle}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Video Description
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.general.videoDescription"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.general.videoDescription
-                        }
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Gradient Overlay
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.general.gradientOverlay"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.general.gradientOverlay
-                        }
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Shadow
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.general.shadow"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.general.shadow}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      Player
-                    </h4>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Controls
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.player.controls"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.player.controls}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Seeker
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.player.seeker"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.player.seeker}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Author Name
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.player.authorName"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.player.authorName}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Author Occupation
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.player.authorOccupation"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.player.authorOccupation
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      Toggle
-                    </h4>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Play Icon
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.toggle.playIcon"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.toggle.playIcon}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Close Background
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.toggle.closeBackground"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.toggle.closeBackground}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Close Icon Color
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.toggle.closeIconColor"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.toggle.closeIconColor}
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Close Icon Border
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.toggle.closeIconBorder"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={pickColor.colorStudio.toggle.closeIconBorder}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      Call To Action
-                    </h4>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Button Text
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.callToAction.buttonText"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.callToAction.buttonText
-                        }
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Button Background
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.callToAction.buttonBackground"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.callToAction.buttonBackground
-                        }
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Button Outline
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.callToAction.buttonOutline"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.callToAction.buttonOutline
-                        }
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Button Icon
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.callToAction.buttonIcon"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.callToAction.buttonIcon
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      Others
-                    </h4>
-
-                    <div className="flex flex-col">
-                      <h5 className="text-primary-main text-base font-semibold py-2">
-                        Background Overlay
-                      </h5>
-                      <ColorPickerInput
-                        name="colorStudio.others.backgroundOverlay"
-                        register={register}
-                        colorHandler={(e) => colorHandler(e)}
-                        pickColor={
-                          pickColor.colorStudio.others.backgroundOverlay
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                tabIndex={5}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Font Studio
-                </div>
-                <div className="collapse-content">
-                  <div className="flex flex-col">
-                    <SelectBox
-                      labelTitle="Font Family"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      options={[
-                        { name: "Poppins", value: "poppins" },
-                        { name: "Roboto", value: "roboto" },
-                      ]}
-                      containerStyle="min-w-[10rem] mb-3"
-                      selectStyle="text-primary-main"
-                      name="fontStudio.fontFamily"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Video Title"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="fontStudio.videoTitle"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Video Description"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="fontStudio.videoDescription"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="CTA Button"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="fontStudio.ctaButton"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Author Name"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="fontStudio.authorName"
-                      register={register}
-                    />
-
-                    <NewInputText
-                      type="text"
-                      labelTitle="Author Occupation"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="mb-3 !bg-transparent"
-                      name="fontStudio.authorOccupation"
-                      register={register}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                tabIndex={6}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Get Link
-                </div>
-                <div className="collapse-content">
-                  <div className="flex flex-col">
-                    <h4 className="text-xl font-bold text-primary-normal py-4">
-                      Share Link
-                    </h4>
-
-                    <div className="flex">
-                      <ClipBoardSvg width="60" />
-
-                      <p className="text-base text-[#202223] ml-3">
-                        You can share your facepop widget through a direct link
-                        without embedding it on your website.
-                      </p>
-                    </div>
-
-                    <InputWithIcon
-                      type="text"
-                      labelTitle="PopMe Custom Link"
-                      labelStyle="text-primary-main text-base font-semibold"
-                      inputStyle="!bg-transparent"
-                      name="getLink.popMeCustomLink"
-                      register={register}
-                      rightIcon={<ShareSvg />}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                tabIndex={7}
-                className="collapse collapse-arrow border-t border-borderColor-main bg-transparent"
-              >
-                <input type="checkbox" />
-
-                <div className="collapse-title text-xl font-bold text-primary-normal">
-                  Instant Embed
-                </div>
-
-                <div className="collapse-content">
-                  <div
-                    tabIndex={8}
-                    className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
-                  >
-                    <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
-                      www.mywebsite.com
-                    </div>
-                    <div className="collapse-content">
-                      <div className="inline-block w-full">
-                        <SelectBox
-                          labelTitle="In this website"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Show in some pages", value: "some pages" },
-                            { name: "Option 2", value: "option2" },
-                          ]}
-                          containerStyle="mt-2 mb-3 w-full"
-                          selectStyle="text-primary-main"
-                          name="instantEmbed.inThisWebsite"
-                          register={register}
-                        />
-                      </div>
-
-                      <div className="flex mb-3">
-                        <ClipBoardSvg width="60" />
-                        <p className="text-base text-[#202223] ml-3">
-                          This widget will show only in the pages/URLs selected
-                          below.
-                        </p>
-                      </div>
-
-                      <div className="inline-block w-full mb-3">
-                        <Button
-                          text="Select pages"
-                          buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                        />
-                      </div>
-
-                      <div className="inline-block w-full mb-3">
-                        <Button
-                          text="Add conditions"
-                          buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    tabIndex={9}
-                    className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
-                  >
-                    <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
-                      www.mywebsite#2.com
-                    </div>
-                    <div className="collapse-content">
-                      <p>Lorem Ipsum is simply dummy text of the printing.</p>
-                    </div>
-                  </div>
-
-                  <div
-                    tabIndex={10}
-                    className="collapse collapse-arrow border border-borderColor-main rounded-lg"
-                  >
-                    <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
-                      www.mywebsite#3.com
-                    </div>
-                    <div className="collapse-content">
-                      <p>Lorem Ipsum is simply dummy text of the printing.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-start-3 col-end-9">
+          <div className="drawer-content">
             <div className="inline-block w-full">
-              <div className="flex justify-between items-center py-6 px-4 lg:px-6 border-b">
-                <h3 className="text-primary-normal font-bold text-2xl">
-                  Preview
-                </h3>
+              <div className="flex justify-between items-center py-6 pr-4 lg:px-6 border-b">
+                <div className="flex items-center">
+                  <label
+                    htmlFor="my-drawer-2"
+                    className="drawer-button lg:hidden mr-3 cursor-pointer py-2 px-4 bg-secondary-main shadow-2xl rounded-r-lg"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6 text-white"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+                      />
+                    </svg>
+                  </label>
+
+                  <h3 className="text-primary-normal font-bold text-2xl">
+                    Preview
+                  </h3>
+                </div>
 
                 <div className="flex">
                   <Button
@@ -1348,7 +557,6 @@ const CustomizationPage = () => {
                   />
                 </div>
               </div>
-
               <div className="inline-block w-full h-[calc(100vh-183px)] relative">
                 <ClapprComponent
                   id="player"
@@ -1358,6 +566,1055 @@ const CustomizationPage = () => {
                 />
               </div>
             </div>
+          </div>
+
+          <div className="drawer-side overflow-auto max-h-full [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl max-lg:[&::-webkit-scrollbar]:hidden">
+            <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+            <ul className="menu py-4 w-80 bg-[#f9fafb] text-base-content border-r">
+              <li className="mb-12">
+                <div className="flex flex-col px-4 items-start focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb] p-0">
+                  <h3 className="text-primary-normal font-bold mb-3 text-xl">
+                    Workspace
+                  </h3>
+
+                  <SelectBox
+                    options={[
+                      { name: "Workspace #1", value: "Workspace1" },
+                      { name: "Workspace #2", value: "Workspace2" },
+                    ]}
+                    updateFormValue={updateValue}
+                    containerStyle="w-full mb-4"
+                    selectStyle="text-primary-main"
+                  />
+
+                  <div className="inline-block w-full mb-2">
+                    <Button
+                      text="Delete Selected"
+                      buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                    />
+                  </div>
+
+                  <div className="flex w-full">
+                    <Button
+                      text="New Workspace"
+                      buttonClass="w-full text-base"
+                    />
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={0}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Basic Setup
+                    </div>
+
+                    <div className="collapse-content">
+                      <div className="flex flex-col">
+                        <div className="flex">
+                          <NewInputText
+                            type="url"
+                            labelTitle="Website URL"
+                            labelStyle="text-primary-main text-base font-semibold"
+                            inputStyle="mb-3 !bg-transparent"
+                            name="basicSetup.websiteUrl"
+                            register={register}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Video Position
+                          </h5>
+
+                          <div class="grid grid-cols-2 gap-2 mb-3">
+                            <div className="form-control">
+                              <input
+                                type="radio"
+                                id="top-left"
+                                name="basicSetup.videoPosition"
+                                {...register("basicSetup.videoPosition")}
+                                value="top-left"
+                                className="hidden peer"
+                                // required
+                              ></input>
+
+                              <label
+                                for="top-left"
+                                className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                              >
+                                Top Left
+                              </label>
+                            </div>
+
+                            <div className="form-control">
+                              <input
+                                type="radio"
+                                id="top-right"
+                                name="basicSetup.videoPosition"
+                                {...register("basicSetup.videoPosition")}
+                                value="top-right"
+                                className="hidden peer"
+                              ></input>
+
+                              <label
+                                for="top-right"
+                                className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                              >
+                                Top Right
+                              </label>
+                            </div>
+
+                            <div className="form-control">
+                              <input
+                                type="radio"
+                                id="bottom-left"
+                                name="basicSetup.videoPosition"
+                                {...register("basicSetup.videoPosition")}
+                                value="bottom-left"
+                                className="hidden peer"
+                              ></input>
+
+                              <label
+                                for="bottom-left"
+                                className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                              >
+                                Bottom Left
+                              </label>
+                            </div>
+
+                            <div className="form-control">
+                              <input
+                                type="radio"
+                                id="bottom-right"
+                                name="basicSetup.videoPosition"
+                                {...register("basicSetup.videoPosition")}
+                                value="bottom-right"
+                                className="hidden peer"
+                              ></input>
+
+                              <label
+                                for="bottom-right"
+                                className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                              >
+                                Bottom Right
+                              </label>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col">
+                            <h5 className="text-primary-main text-base font-semibold py-2">
+                              Preview Style
+                            </h5>
+
+                            <div class="grid grid-cols-2 gap-2">
+                              <div className="form-control">
+                                <input
+                                  type="radio"
+                                  id="rectangle"
+                                  name="basicSetup.previewStyle"
+                                  {...register("basicSetup.previewStyle")}
+                                  value="rectangle"
+                                  className="hidden peer"
+                                ></input>
+
+                                <label
+                                  for="rectangle"
+                                  className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                                >
+                                  Rectangle
+                                </label>
+                              </div>
+
+                              <div className="form-control">
+                                <input
+                                  type="radio"
+                                  id="circularBubble"
+                                  name="basicSetup.previewStyle"
+                                  {...register("basicSetup.previewStyle")}
+                                  value="circularBubble"
+                                  className="hidden peer"
+                                ></input>
+
+                                <label
+                                  for="circularBubble"
+                                  className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                                >
+                                  Circular Bubble (Loom)
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={1}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Add Video
+                    </div>
+                    <div className="collapse-content">
+                      <div className="flex flex-col">
+                        <div className="flex">
+                          <UploadFile
+                            name="addVideo.addVideo"
+                            register={register}
+                            handleFile={(e) => handleFile(e)}
+                            removeImage={(e) => removeImage(e)}
+                            files={files}
+                          />
+                        </div>
+
+                        <div className="flex">
+                          <NewInputText
+                            type="text"
+                            labelTitle="Video Title"
+                            labelStyle="text-primary-main text-base font-semibold"
+                            inputStyle="mb-3 !bg-transparent"
+                            name="addVideo.videoTitle"
+                            register={register}
+                          />
+                        </div>
+
+                        <div className="flex">
+                          <NewTextArea
+                            labelTitle="Video Description"
+                            labelStyle="text-primary-main text-base font-semibold"
+                            inputStyle="!bg-transparent"
+                            name="addVideo.videoDescription"
+                            register={register}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={2}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Call To Action
+                    </div>
+                    <div className="collapse-content">
+                      <div className="flex flex-col">
+                        <NewInputText
+                          type="text"
+                          labelTitle="Button Text"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="callToAction.buttonText"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="url"
+                          labelTitle="Destination URL"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="callToAction.destinationUrl"
+                          register={register}
+                        />
+
+                        <div className="flex flex-col mb-3">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Button Icon
+                          </h5>
+                          <div className="flex flex-wrap gap-3">
+                            {IconList.map((item, index) => (
+                              <div
+                                className="flex items-center justify-center h-6 w-6 border border-borderColor-main"
+                                key={index}
+                              >
+                                {item.icon}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <SelectBox
+                          labelTitle="Button Style"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          options={[
+                            { name: "Filled", value: "filled" },
+                            { name: "Dashed", value: "dashed" },
+                          ]}
+                          containerStyle="min-w-[10rem] mb-3"
+                          selectStyle="text-primary-main"
+                          name="callToAction.buttonStyle"
+                          register={register}
+                        />
+
+                        <SelectBox
+                          labelTitle="Button Corners"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          options={[
+                            { name: "Round", value: "round" },
+                            { name: "Square", value: "square" },
+                          ]}
+                          containerStyle="min-w-[10rem] mb-3"
+                          selectStyle="text-primary-main"
+                          name="callToAction.buttonCorners"
+                          register={register}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={3}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Design Customization
+                    </div>
+
+                    <div className="collapse-content p-0">
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <InputWithIcon
+                          type="text"
+                          labelTitle="Author Picture"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="!bg-transparent"
+                          name="designCustomization.authorPicture"
+                          register={register}
+                          leftIcon={leftIcon()}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Vertical Margin"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.verticalMargin"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Horizontal Margin"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.horizontalMargin"
+                          register={register}
+                        />
+                      </div>
+
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Toggle
+                        </h4>
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Width"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.toggle.width"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Height"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.toggle.height"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Corner Radius"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.toggle.cornerRadius"
+                          register={register}
+                        />
+                      </div>
+
+                      <div className="flex flex-col px-4">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Player
+                        </h4>
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Width"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.player.width"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Height"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.player.height"
+                          register={register}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={4}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Color Studio
+                    </div>
+                    <div className="collapse-content p-0">
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <h5 className="text-primary-main text-base font-semibold py-2">
+                          Templates
+                        </h5>
+
+                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
+                          <label className="label cursor-pointer py-[12px] px-4">
+                            <span className="label-text text-base text-primary-main">
+                              Red
+                            </span>
+                            <input
+                              type="radio"
+                              name="colorStudio.templates"
+                              {...register("colorStudio.templates")}
+                              value="#FF0056"
+                              className="radio bg-[#FF0056] checked:bg-[#FF0056] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                              checked
+                            />
+                          </label>
+                        </div>
+
+                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
+                          <label className="label cursor-pointer py-[12px] px-4">
+                            <span className="label-text text-base text-primary-main">
+                              Blue
+                            </span>
+                            <input
+                              type="radio"
+                              name="colorStudio.templates"
+                              {...register("colorStudio.templates")}
+                              value="#00A3FF"
+                              className="radio bg-[#00A3FF] checked:bg-[#00A3FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                              checked
+                            />
+                          </label>
+                        </div>
+
+                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
+                          <label className="label cursor-pointer py-[12px] px-4">
+                            <span className="label-text text-base text-primary-main">
+                              Green
+                            </span>
+                            <input
+                              type="radio"
+                              name="colorStudio.templates"
+                              {...register("colorStudio.templates")}
+                              value="#24CB3F"
+                              className="radio bg-[#24CB3F] checked:bg-[#24CB3F] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                              checked
+                            />
+                          </label>
+                        </div>
+
+                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
+                          <label className="label cursor-pointer py-[12px] px-4">
+                            <span className="label-text text-base text-primary-main">
+                              Green
+                            </span>
+                            <input
+                              type="radio"
+                              name="colorStudio.templates"
+                              {...register("colorStudio.templates")}
+                              value="#FFBB0E"
+                              className="radio bg-[#FFBB0E] checked:bg-[#FFBB0E] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                              checked
+                            />
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          General
+                        </h4>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Video Title
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.general.videoTitle"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.general.videoTitle}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Video Description
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.general.videoDescription"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.general.videoDescription
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Gradient Overlay
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.general.gradientOverlay"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.general.gradientOverlay
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Shadow
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.general.shadow"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.general.shadow}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Player
+                        </h4>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Controls
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.controls"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.player.controls}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Seeker
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.seeker"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.player.seeker}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Author Name
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.authorName"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.player.authorName}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Author Occupation
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.authorOccupation"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.player.authorOccupation
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Toggle
+                        </h4>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Play Icon
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.playIcon"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.toggle.playIcon}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Close Background
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.closeBackground"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.toggle.closeBackground
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Close Icon Color
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.closeIconColor"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.toggle.closeIconColor
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Close Icon Border
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.closeIconBorder"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.toggle.closeIconBorder
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Call To Action
+                        </h4>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Button Text
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.callToAction.buttonText"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.callToAction.buttonText
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Button Background
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.callToAction.buttonBackground"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.callToAction
+                                .buttonBackground
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Button Outline
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.callToAction.buttonOutline"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.callToAction.buttonOutline
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Button Icon
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.callToAction.buttonIcon"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.callToAction.buttonIcon
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col px-4 pb-3">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Others
+                        </h4>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Background Overlay
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.others.backgroundOverlay"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.others.backgroundOverlay
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={5}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Font Studio
+                    </div>
+                    <div className="collapse-content">
+                      <div className="flex flex-col">
+                        <SelectBox
+                          labelTitle="Font Family"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          options={[
+                            { name: "Poppins", value: "poppins" },
+                            { name: "Roboto", value: "roboto" },
+                          ]}
+                          containerStyle="min-w-[10rem] mb-3"
+                          selectStyle="text-primary-main"
+                          name="fontStudio.fontFamily"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Video Title"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="fontStudio.videoTitle"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Video Description"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="fontStudio.videoDescription"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="CTA Button"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="fontStudio.ctaButton"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Author Name"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="fontStudio.authorName"
+                          register={register}
+                        />
+
+                        <NewInputText
+                          type="number"
+                          labelTitle="Author Occupation"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="fontStudio.authorOccupation"
+                          register={register}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={6}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Get Link
+                    </div>
+                    <div className="collapse-content">
+                      <div className="flex flex-col">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Share Link
+                        </h4>
+
+                        <div className="flex">
+                          <ClipBoardSvg width="60" />
+
+                          <p className="text-base text-[#202223] ml-3">
+                            You can share your facepop widget through a direct
+                            link without embedding it on your website.
+                          </p>
+                        </div>
+
+                        <InputWithIcon
+                          type="text"
+                          labelTitle="PopMe Custom Link"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="!bg-transparent"
+                          name="getLink.popMeCustomLink"
+                          register={register}
+                          rightIcon={<ShareSvg />}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={7}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Instant Embed
+                    </div>
+
+                    <div className="collapse-content">
+                      <div
+                        tabIndex={8}
+                        className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
+                      >
+                        <input type="checkbox" />
+
+                        <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
+                          www.mywebsite.com
+                        </div>
+                        <div className="collapse-content">
+                          <div className="inline-block w-full">
+                            <SelectBox
+                              labelTitle="In this website"
+                              labelStyle="text-primary-main text-base font-semibold"
+                              options={[
+                                {
+                                  name: "Show in some pages",
+                                  value: "some pages",
+                                },
+                                { name: "Option 2", value: "option2" },
+                              ]}
+                              containerStyle="mt-2 mb-3 w-full"
+                              selectStyle="text-primary-main"
+                              name="instantEmbed.inThisWebsite"
+                              register={register}
+                            />
+                          </div>
+
+                          <div className="flex mb-3">
+                            <ClipBoardSvg width="60" />
+                            <p className="text-base text-[#202223] ml-3">
+                              This widget will show only in the pages/URLs
+                              selected below.
+                            </p>
+                          </div>
+
+                          <div className="inline-block w-full mb-3">
+                            <Button
+                              text="Select pages"
+                              buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                            />
+                          </div>
+
+                          <div className="inline-block w-full mb-3">
+                            <Button
+                              text="Add conditions"
+                              buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        tabIndex={9}
+                        className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
+                      >
+                        <input type="checkbox" />
+
+                        <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
+                          www.mywebsite#2.com
+                        </div>
+                        <div className="collapse-content">
+                          <p>
+                            Lorem Ipsum is simply dummy text of the printing.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div
+                        tabIndex={10}
+                        className="collapse collapse-arrow border border-borderColor-main rounded-lg"
+                      >
+                        <input type="checkbox" />
+
+                        <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
+                          www.mywebsite#3.com
+                        </div>
+                        <div className="collapse-content">
+                          <p>
+                            Lorem Ipsum is simply dummy text of the printing.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={11}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Preview
+                    </div>
+
+                    <div className="collapse-content">
+                      <div className="flex flex-col">
+                        <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
+                          <OpenEye />
+
+                          <p className="text-sm text-secondary-main font-bold ml-3">
+                            Preview how this PopMe widget will look on your
+                            website without embedding it.
+                          </p>
+                        </div>
+
+                        <div className="flex p-3 bg-[#F2F6F0]">
+                          <MouseSvg width="60" height="30" stroke="#4A8A37" />
+
+                          <p className="text-sm text-[#4A8A37] font-bold ml-3">
+                            Preview how this PopMe widget will look on your
+                            website without embedding it.
+                          </p>
+                        </div>
+
+                        <NewInputText
+                          type="text"
+                          labelTitle="Your website"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="Preview.yourWebsite"
+                          placeholder="example.com"
+                          register={register}
+                        />
+
+                        <div className="flex items-center mb-6">
+                          <ShareSvg height="16" width="16" stroke="#3A6FFA" />
+                          <p className="text-base text-secondary-main font-bold ml-2">
+                            popme.io/preview?example.com
+                          </p>
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2 mb-1">
+                            Preview via custom domain
+                          </h5>
+
+                          <Button
+                            text="Add custom domain"
+                            buttonClass="w-full text-base"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </form>
