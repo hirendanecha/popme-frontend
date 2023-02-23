@@ -101,18 +101,23 @@ const leftIcon = () => (
 const IconList = [
   {
     icon: <CloseSvg />,
+    name: "closeSvg",
   },
   {
     icon: <RightArrowSvg />,
+    name: "rightArrowSvg",
   },
   {
     icon: <RightExitSvg />,
+    name: "rightExitSvg",
   },
   {
     icon: <CalendarSvg />,
+    name: "calendarSvg",
   },
   {
     icon: <PhoneSvg />,
+    name: "phoneSvg",
   },
 ];
 
@@ -842,13 +847,26 @@ const CustomizationPage = () => {
                           <h5 className="text-primary-main text-base font-semibold py-2">
                             Button Icon
                           </h5>
+
                           <div className="flex flex-wrap gap-3">
                             {IconList.map((item, index) => (
-                              <div
-                                className="flex items-center justify-center h-6 w-6 border border-borderColor-main"
-                                key={index}
-                              >
-                                {item.icon}
+                              <div className="inline-block" key={index}>
+                                <input
+                                  type="radio"
+                                  id={item?.name}
+                                  name="callToAction.buttonIcon"
+                                  {...register("callToAction.buttonIcon")}
+                                  value={item?.name}
+                                  className="hidden peer"
+                                  // required
+                                ></input>
+
+                                <label
+                                  for={item?.name}
+                                  className="peer-checked:border-secondary-main flex items-center justify-center h-6 w-6 border border-borderColor-main"
+                                >
+                                  {item?.icon}
+                                </label>
                               </div>
                             ))}
                           </div>
@@ -909,22 +927,24 @@ const CustomizationPage = () => {
                           leftIcon={leftIcon()}
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Vertical Margin"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="designCustomization.verticalMargin"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Horizontal Margin"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="designCustomization.horizontalMargin"
                           register={register}
+                          rightText="px"
                         />
                       </div>
 
@@ -933,31 +953,34 @@ const CustomizationPage = () => {
                           Toggle
                         </h4>
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Width"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="designCustomization.toggle.width"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Height"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="designCustomization.toggle.height"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Corner Radius"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="designCustomization.toggle.cornerRadius"
                           register={register}
+                          rightText="px"
                         />
                       </div>
 
@@ -966,22 +989,24 @@ const CustomizationPage = () => {
                           Player
                         </h4>
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Width"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="designCustomization.player.width"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Height"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="designCustomization.player.height"
                           register={register}
+                          rightText="px"
                         />
                       </div>
                     </div>
@@ -1358,50 +1383,120 @@ const CustomizationPage = () => {
                           register={register}
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Video Title"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="fontStudio.videoTitle"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Video Description"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="fontStudio.videoDescription"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="CTA Button"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="fontStudio.ctaButton"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Author Name"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="fontStudio.authorName"
                           register={register}
+                          rightText="px"
                         />
 
-                        <NewInputText
+                        <InputWithIcon
                           type="number"
                           labelTitle="Author Occupation"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
                           name="fontStudio.authorOccupation"
                           register={register}
+                          rightText="px"
                         />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li>
+                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+                  <div
+                    tabIndex={11}
+                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-normal">
+                      Preview
+                    </div>
+
+                    <div className="collapse-content">
+                      <div className="flex flex-col">
+                        <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
+                          <OpenEye />
+
+                          <p className="text-sm text-secondary-main font-bold ml-3">
+                            Preview how this PopMe widget will look on your
+                            website without embedding it.
+                          </p>
+                        </div>
+
+                        <div className="flex p-3 bg-[#F2F6F0]">
+                          <MouseSvg width="60" height="30" stroke="#4A8A37" />
+
+                          <p className="text-sm text-[#4A8A37] font-bold ml-3">
+                            Preview how this PopMe widget will look on your
+                            website without embedding it.
+                          </p>
+                        </div>
+
+                        <NewInputText
+                          type="text"
+                          labelTitle="Your website"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="Preview.yourWebsite"
+                          placeholder="example.com"
+                          register={register}
+                        />
+
+                        <div className="flex items-center mb-6">
+                          <ShareSvg height="16" width="16" stroke="#3A6FFA" />
+                          <p className="text-base text-secondary-main font-bold ml-2">
+                            popme.io/preview?example.com
+                          </p>
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2 mb-1">
+                            Preview via custom domain
+                          </h5>
+
+                          <Button
+                            text="Add custom domain"
+                            buttonClass="w-full text-base"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1543,71 +1638,6 @@ const CustomizationPage = () => {
                           <p>
                             Lorem Ipsum is simply dummy text of the printing.
                           </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={11}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Preview
-                    </div>
-
-                    <div className="collapse-content">
-                      <div className="flex flex-col">
-                        <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
-                          <OpenEye />
-
-                          <p className="text-sm text-secondary-main font-bold ml-3">
-                            Preview how this PopMe widget will look on your
-                            website without embedding it.
-                          </p>
-                        </div>
-
-                        <div className="flex p-3 bg-[#F2F6F0]">
-                          <MouseSvg width="60" height="30" stroke="#4A8A37" />
-
-                          <p className="text-sm text-[#4A8A37] font-bold ml-3">
-                            Preview how this PopMe widget will look on your
-                            website without embedding it.
-                          </p>
-                        </div>
-
-                        <NewInputText
-                          type="text"
-                          labelTitle="Your website"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="Preview.yourWebsite"
-                          placeholder="example.com"
-                          register={register}
-                        />
-
-                        <div className="flex items-center mb-6">
-                          <ShareSvg height="16" width="16" stroke="#3A6FFA" />
-                          <p className="text-base text-secondary-main font-bold ml-2">
-                            popme.io/preview?example.com
-                          </p>
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2 mb-1">
-                            Preview via custom domain
-                          </h5>
-
-                          <Button
-                            text="Add custom domain"
-                            buttonClass="w-full text-base"
-                          />
                         </div>
                       </div>
                     </div>
