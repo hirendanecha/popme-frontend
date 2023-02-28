@@ -7,3 +7,5 @@
 @import "custom/global.css";
 
 @import "tailwindcss/utilities";
+
+@import "react-toastify/dist/ReactToastify.css";

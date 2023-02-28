@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { setPageTitle } from "../../redux/slices/headerSlice";
 import Button from "../../components/Button/Button";
+import { logoutUser } from "../../redux/actions/authAction";
 
 const Data = [
   {
@@ -75,6 +78,7 @@ const Data = [
 
 const SettingsCom = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState(1);
 
@@ -158,6 +162,28 @@ const SettingsCom = () => {
       />
     </svg>
   );
+
+  const logoutHandler = () => {
+    // console.log("click");
+
+    dispatch(logoutUser())
+      .unwrap()
+      .then((res) => {
+        localStorage.removeItem("token");
+
+        if (res.success === true) {
+          navigate("/login");
+        }
+        // console.log("res", res);
+      })
+      .catch((err) => {
+        if (err) {
+          toast("err", {
+            type: "error",
+          });
+        }
+      });
+  };
   return (
     <>
       <div className="inline-block w-full h-full">
@@ -321,7 +347,10 @@ const SettingsCom = () => {
               </div>
 
               <div className="flex mt-3">
-                <button className="btn btn-link text-base no-underline hover:no-underline capitalize text-[#D73939] px-0">
+                <button
+                  className="btn btn-link text-base no-underline hover:no-underline capitalize text-[#D73939] px-0"
+                  onClick={logoutHandler}
+                >
                   Logout
                 </button>
               </div>

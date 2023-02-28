@@ -87,7 +87,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
             {/* Logo */}
             <div className="flex items-center justify-between w-full">
-              <NavLink end to="/" className="block">
+              <NavLink end to="/app/dashboard" className="block">
                 <div className="flex">
                   <img src={sidebarLogo} alt="sidebarLogo" className="w-36" />
                 </div>
@@ -163,7 +163,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               >
                 <NavLink
                   end
-                  to="/"
+                  to="/app/dashboard"
                   className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
                     pathname.includes("dashboard") && "hover:text-slate-200"
                   }`}
@@ -232,7 +232,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               >
                 <NavLink
                   end
-                  to="/"
+                  to="/app/dashboard"
                   className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
                     pathname.includes("testing") && "hover:text-slate-200"
                   }`}

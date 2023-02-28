@@ -1,7 +1,12 @@
 import React from "react";
+import ForgotPasswordComp from "../features/forgotPassword";
 
 const ForgotPassword = () => {
-  return <div>ForgotPassword</div>;
+  return (
+    <>
+      <ForgotPasswordComp />
+    </>
+  );
 };
 
 export default ForgotPassword;

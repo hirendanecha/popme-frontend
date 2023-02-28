@@ -1,55 +1,87 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ErrorText from "../../components/Typography/ErrorText";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import * as yup from "yup";
 import NewInputText from "../../components/Input/NewInputText";
 import logo from "../../assets/images/logo.png";
 import LockSvg from "../../assets/svgs/LockSvg";
 import google from "../../assets/images/google.png";
-// import InputText from "../components/Input/InputText";
-// import { useAuth } from "../hooks/useAuth";
+import { loginUser } from "../../redux/actions/authAction";
+
+const schema = yup.object({
+  email: yup.string().required("Email is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .matches(
+      /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+      "Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+    ),
+});
 
 const LoginComp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const INITIAL_LOGIN_OBJ = {
-    password: "",
-    emailId: "",
+  const [errorMessage, setErrorMessage] = useState(false);
+
+  const { loading, error, success, userToken, data } = useSelector(
+    (state) => state.auth
+  );
+
+  // console.log("loading", loading);
+  // console.log("success", success);
+  // console.log("error", error);
+  // console.log("userToken", userToken);
+  // console.log("userInfo", data);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (loginInfo) => {
+    dispatch(loginUser(loginInfo))
+      .unwrap()
+      .then((data) => {
+        if (data.success === true) {
+          navigate("/app/dashboard");
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          setErrorMessage(true);
+        }
+      });
   };
 
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ);
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    // setErrorMessage("");
-    localStorage.setItem("token", "dummyToken");
-    // simulate API response - delay 1sec
-    setTimeout(() => {
-      navigate("/app/dashboard");
-    }, 1000);
-    // window.location.pathname = "/app/dashboard"
-
-    // if (loginObj.emailId.trim() === "")
-    //   return setErrorMessage("Email Id is required! (use any value)");
-    // if (loginObj.password.trim() === "")
-    //   return setErrorMessage("Password is required! (use any value)");
-    // else {
-    //   setLoading(true);
-    //   localStorage.setItem("token", "DumyTokenHere");
-    //   setLoading(false);
-    //   window.location.href = "/app/dashboard";
-    // }
-  };
-
-  const updateFormValue = ({ updateType, value }) => {
-    setErrorMessage("");
-    setLoginObj({ ...loginObj, [updateType]: value });
-  };
   return (
     <>
       <div className="min-h-screen flex items-center">
         <div className="mx-auto w-full max-w-xl">
+          {errors.email?.message && (
+            <div className="flex justify-center">
+              <p className="mb-3 text-sm text-[#991B1B] py-1 px-3 bg-[#FEE2E2] rounded-xl text-center">
+                {errors.email?.message}
+              </p>
+            </div>
+          )}
+
+          {errors.password?.message && (
+            <div className="flex justify-center">
+              <p className="mb-3 text-sm text-[#991B1B] py-1 px-3 bg-[#FEE2E2] rounded-xl text-center">
+                {errors.password?.message}
+              </p>
+            </div>
+          )}
+
           <div className="flex justify-center mb-2">
             <img src={logo} alt="logo" />
           </div>
@@ -62,23 +94,63 @@ const LoginComp = () => {
             trial
           </h6>
 
-          <form onSubmit={(e) => submitForm(e)} className="mb-4">
+          {errorMessage && error && (
+            <div className="alert alert-error shadow-lg mb-5">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current flex-shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+              <div className="flex-none">
+                <button
+                  className="btn btn-circle btn-xs btn-outline border-white hover:bg-transparent hover:border-white"
+                  onClick={() => setErrorMessage(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
             <div className="inline-block w-full border border-borderColor-main rounded-md mb-4">
               <NewInputText
-                type="emailId"
-                defaultValue={loginObj.emailId}
-                name="emailId"
-                updateFormValue={updateFormValue}
+                type="email"
+                name="email"
                 inputStyle="border-0 border-b rounded-none rounded-t-md"
                 placeholder="Email address"
+                register={register}
               />
               <NewInputText
                 type="password"
-                defaultValue={loginObj.password}
                 name="password"
-                updateFormValue={updateFormValue}
                 inputStyle="border-0 rounded-none rounded-b-md"
                 placeholder="Password"
+                register={register}
               />
             </div>
 
@@ -104,8 +176,6 @@ const LoginComp = () => {
               </div>
             </div>
 
-            <ErrorText styleClass="my-3">{errorMessage}</ErrorText>
-
             <div className="inline-block w-full">
               <button
                 type="submit"
@@ -127,7 +197,10 @@ const LoginComp = () => {
           </div>
 
           <div className="inline-block w-full">
-            <button className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]">
+            <button
+              type="button"
+              className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]"
+            >
               <img src={google} alt="google" className="mr-2" />
               Login with Google
             </button>

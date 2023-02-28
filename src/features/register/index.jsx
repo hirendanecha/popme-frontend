@@ -1,29 +1,83 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import logo from "../../assets/images/logo.png";
 import LockSvg from "../../assets/svgs/LockSvg";
 import NewInputText from "../../components/Input/NewInputText";
 import google from "../../assets/images/google.png";
+import { registerUser } from "../../redux/actions/authAction";
 
-const INITIAL_REGISTER_OBJ = {
-  firstName: "",
-  lastName: "",
-  emailId: "",
-  password: "",
-  confirmPassword: "",
-};
+const schema = yup
+  .object({
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
+    email: yup.string().email().required("Email is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .matches(
+        /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+        "Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+      ),
+    confirmPassword: yup
+      .string()
+      .required("Confirm Password is required")
+      .oneOf([yup.ref("password")], "Passwords does not match"),
+  })
+  .required();
 
 const RegisterComp = () => {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [registerObj, setRegisterObj] = useState(INITIAL_REGISTER_OBJ);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const submitForm = (e) => {
-    e.preventDefault();
+  const { loading, error, success, userToken, data } = useSelector(
+    (state) => state.auth
+  );
+
+  const [alertMessage, setAlertMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [registerEmail, setRegisterEmail] = useState("");
+
+  // console.log("loading", loading);
+  // console.log("success", success);
+  // console.log("error", error);
+  // console.log("dataaaaaa", data);
+  // console.log("userToken", userToken);
+
+  useEffect(() => {
+    if (userToken) {
+      setAlertMessage(true);
+    }
+  }, [userToken]);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (registerInfo) => {
+    setRegisterEmail(registerInfo.email);
+
+    const { confirmPassword, ...rest } = registerInfo;
+    dispatch(registerUser(rest))
+      .unwrap()
+      .then((res) => {})
+      .catch((err) => {
+        if (err) {
+          setErrorMessage(true);
+        }
+      });
+    reset();
   };
 
-  const updateFormValue = ({ updateType, value }) => {
-    setErrorMessage("");
-    setRegisterObj({ ...registerObj, [updateType]: value });
-  };
   return (
     <>
       <div className="min-h-screen flex items-center">
@@ -35,55 +89,166 @@ const RegisterComp = () => {
           <h2 className="text-3xl font-bold mb-2 text-center text-primary-main">
             Signup to create an account
           </h2>
-          <h6 className="text-center text-base font-normal text-secondary-main mb-8">
-            <span className="text-[#4B5563]">Already have an account?</span>{" "}
-            Login
+          <h6 className="text-center text-base font-normal text-[#4B5563] mb-8">
+            Already have an account?{" "}
+            <span
+              className=" text-secondary-main cursor-pointer"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </span>
           </h6>
 
-          <form onSubmit={(e) => submitForm(e)}>
+          {errorMessage && error && (
+            <div className="alert alert-error shadow-lg mb-5">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current flex-shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+              <div className="flex-none">
+                <button
+                  className="btn btn-circle btn-xs btn-outline border-white hover:bg-transparent hover:border-white"
+                  onClick={() => setErrorMessage(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {alertMessage && (
+            <div className="alert alert-info shadow-lg mb-5">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="stroke-current flex-shrink-0 w-6 h-6 text-white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <div>
+                  <h3 className="font-bold text-white">
+                    Verify Email Address!
+                  </h3>
+                  <div className="text-xs text-white">{`You've entered ${
+                    registerEmail?.length > 0 && registerEmail
+                  } as the email address for your account.
+                  Please verify this email address by clicking button below.
+                  `}</div>
+                </div>
+              </div>
+
+              <div className="flex-none">
+                {data && data?.link && (
+                  <Link
+                    to={data && data?.link}
+                    target="_blank"
+                    onClick={() => setAlertMessage(false)}
+                  >
+                    <button className="btn btn-sm text-white normal-case">
+                      Verify
+                    </button>
+                  </Link>
+                )}
+
+                <button
+                  className="btn btn-circle btn-xs btn-outline border-white hover:bg-transparent hover:border-white"
+                  onClick={() => setAlertMessage(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)}>
             <NewInputText
               type="text"
-              defaultValue={registerObj.firstName}
-              name="firstName"
-              updateFormValue={updateFormValue}
-              inputStyle="mb-3"
+              inputStyle="mb-2"
               placeholder="First name"
+              name="firstName"
+              register={register}
+              errorMessage={errors.firstName?.message}
             />
 
             <NewInputText
               type="text"
-              defaultValue={registerObj.lastName}
-              name="lastName"
-              updateFormValue={updateFormValue}
-              inputStyle="mb-3"
+              inputStyle="mb-2"
               placeholder="Last name"
+              name="lastName"
+              register={register}
+              errorMessage={errors.lastName?.message}
             />
 
             <NewInputText
               type="email"
-              defaultValue={registerObj.emailId}
-              name="emailId"
-              updateFormValue={updateFormValue}
-              inputStyle="mb-3"
+              inputStyle="mb-2"
               placeholder="Email address"
+              name="email"
+              register={register}
+              errorMessage={errors.email?.message}
             />
 
             <NewInputText
               type="password"
-              defaultValue={registerObj.password}
-              name="password"
-              updateFormValue={updateFormValue}
-              inputStyle="mb-3"
+              inputStyle="mb-2"
               placeholder="Password"
+              name="password"
+              register={register}
+              errorMessage={errors.password?.message}
             />
 
             <NewInputText
               type="password"
-              defaultValue={registerObj.confirmPassword}
-              name="confirmPassword"
-              updateFormValue={updateFormValue}
-              inputStyle="mb-3"
+              inputStyle="mb-2"
               placeholder="Confirm Password"
+              name="confirmPassword"
+              register={register}
+              errorMessage={errors.confirmPassword?.message}
             />
 
             <div className="flex mb-3">
@@ -92,6 +257,7 @@ const RegisterComp = () => {
                   <input
                     type="checkbox"
                     className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2"
+                    required
                   />
                   <h6 className="text-base font-normal text-primary-main">
                     I agree to the{" "}

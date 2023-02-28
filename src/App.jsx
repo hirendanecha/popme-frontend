@@ -1,31 +1,64 @@
-import React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-
 import "./css/style.css";
-import { useAuth } from "./hooks/useAuth";
 
 // Importing pages
 const Layout = lazy(() => import("./containers/DefaultLayout"));
 const Login = lazy(() => import("./pages/Login"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const Register = lazy(() => import("./pages/Register"));
+const EmailVerify = lazy(() => import("./pages/EmailVerify"));
 
 function App() {
-  const token = useAuth();
+  const token = localStorage.getItem("token");
+
+  const publicRoutes = [
+    {
+      path: "/login",
+      name: "Login",
+      element: Login,
+    },
+    {
+      path: "/forgot-password",
+      name: "ForgotPassword",
+      element: ForgotPassword,
+    },
+    {
+      path: "/forgot-password/:token",
+      name: "ForgotPassword",
+      element: ForgotPassword,
+    },
+    {
+      path: "/register",
+      name: "Register",
+      element: Register,
+    },
+    {
+      path: "/verify/email/:token",
+      name: "VerifyEmail",
+      element: EmailVerify,
+    },
+  ];
+
   return (
-    <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route path='/forgot-password' element={<ForgotPassword />} />
-      <Route path='/register' element={<Register />} />
+    <Suspense fallback={<>Loading... </>}>
+      <Routes>
+        {!token &&
+          publicRoutes.map(({ path, element: E, ...props }, index) => (
+            <Route path={path} element={<E />} {...props} key={index} />
+          ))}
 
-      {/* Place new routes over this */}
-      <Route path='/app/*' element={<Layout />} />
+        {/* Place new routes over this */}
+        <Route path="/app/*" element={<Layout />} />
 
-      <Route
-        path='*'
-        element={<Navigate to={token ? "/app/dashboard" : "/login"} replace />}
-      />
-    </Routes>
+        <Route
+          path="*"
+          element={
+            <Navigate to={token ? "/app/dashboard" : "/login"} replace />
+          }
+        />
+      </Routes>
+    </Suspense>
   );
 }
 
