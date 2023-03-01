@@ -66,10 +66,13 @@ const Workspaces = () => {
   return (
     <div className="min-h-screen py-8 px-4 lg:px-6">
       <div className="inline-block w-full">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {Data &&
             Data.map((item, index) => (
-              <div className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl">
+              <div
+                className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl"
+                key={index}
+              >
                 <div className="flex flex-col">
                   <div className="flex p-4">
                     <img

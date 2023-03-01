@@ -3,12 +3,14 @@ import headerSlice from "./slices/headerSlice";
 import modalSlice from "./slices/modalSlice";
 import rightDrawerSlice from "./slices/rightDrawerSlice";
 import authSlice from "./slices/authSlice";
+import newModalSlice from "./slices/newModalSlice";
 
 const combinedReducer = {
   header: headerSlice,
   rightDrawer: rightDrawerSlice,
-  modal: modalSlice,
+  // modal: modalSlice,
   auth: authSlice,
+  modal: newModalSlice,
 };
 
 export default configureStore({

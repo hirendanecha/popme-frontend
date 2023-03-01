@@ -164,21 +164,18 @@ const SettingsCom = () => {
   );
 
   const logoutHandler = () => {
-    // console.log("click");
+    localStorage.removeItem("token");
 
     dispatch(logoutUser())
       .unwrap()
       .then((res) => {
-        localStorage.removeItem("token");
-
         if (res.success === true) {
           navigate("/login");
         }
-        // console.log("res", res);
       })
       .catch((err) => {
         if (err) {
-          toast("err", {
+          toast(err, {
             type: "error",
           });
         }
@@ -294,52 +291,52 @@ const SettingsCom = () => {
                 </p>
               </div>
 
-              <div class="grid grid-cols-8 py-5 border-b">
-                <div class="col-start-1 col-end-3">
+              <div className="grid grid-cols-8 py-5 border-b">
+                <div className="col-start-1 col-end-3">
                   <h6 className="text-base text-primary-light font-semibold">
                     Email
                   </h6>
                 </div>
-                <div class="col-start-3 col-end-9">
+                <div className="col-start-3 col-end-9">
                   <h6 className="text-base text-[#121827] font-semibold">
                     elie@morereels.com
                   </h6>
                 </div>
               </div>
 
-              <div class="grid grid-cols-8 py-5 border-b">
-                <div class="col-start-1 col-end-3">
+              <div className="grid grid-cols-8 py-5 border-b">
+                <div className="col-start-1 col-end-3">
                   <h6 className="text-base text-primary-light font-semibold">
                     Password
                   </h6>
                 </div>
-                <div class="col-start-3 col-end-9">
+                <div className="col-start-3 col-end-9">
                   <h6 className="text-base text-[#121827] font-semibold">
                     *********
                   </h6>
                 </div>
               </div>
 
-              <div class="grid grid-cols-8 py-5 border-b">
-                <div class="col-start-1 col-end-3">
+              <div className="grid grid-cols-8 py-5 border-b">
+                <div className="col-start-1 col-end-3">
                   <h6 className="text-base text-primary-light font-semibold">
                     First Name
                   </h6>
                 </div>
-                <div class="col-start-3 col-end-9">
+                <div className="col-start-3 col-end-9">
                   <h6 className="text-base text-[#121827] font-semibold">
                     Elie
                   </h6>
                 </div>
               </div>
 
-              <div class="grid grid-cols-8 py-5 border-b">
-                <div class="col-start-1 col-end-3">
+              <div className="grid grid-cols-8 py-5 border-b">
+                <div className="col-start-1 col-end-3">
                   <h6 className="text-base text-primary-light font-semibold">
                     Last Name
                   </h6>
                 </div>
-                <div class="col-start-3 col-end-9">
+                <div className="col-start-3 col-end-9">
                   <h6 className="text-base text-[#121827] font-semibold">
                     MoreReels
                   </h6>
@@ -360,7 +357,7 @@ const SettingsCom = () => {
           {activeTab === 2 && (
             <div className="flex flex-col">
               <div className="inline-block w-full pt-11 pb-6">
-                <div class="grid grid-cols-2">
+                <div className="grid grid-cols-2">
                   <div className="inline-block w-full">
                     <h3 className="text-primary-normal font-bold text-2xl">
                       Plans
@@ -379,7 +376,7 @@ const SettingsCom = () => {
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
                 {Data &&
                   Data.map((item) => (
                     <div

@@ -78,7 +78,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
         className={`lg:static absolute lg:left-auto left-0 lg:top-auto top-0 lg:translate-x-0 w-72 lg:w-20 sidebar-expanded:!w-72 shrink-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-72"
-        } overflow-y-auto h-screen z-40 flex flex-col bg-secondary-sidebarColor transition-all duration-200 ease-in-out max-lg:[&::-webkit-scrollbar]:hidden`}
+        } lg:min-h-[550px] overflow-y-auto h-screen z-40 flex flex-col bg-secondary-sidebarColor transition-all duration-200 ease-in-out max-lg:[&::-webkit-scrollbar]:hidden`}
       >
         {/* Sidebar header */}
         <div className="inline-block p-4">

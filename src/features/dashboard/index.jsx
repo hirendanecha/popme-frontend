@@ -63,7 +63,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div className="flex flex-wrap p-5 border border-[#E5E7EB] rounded-xl">
             <div className="flex items-center justify-center w-12 h-12 bg-secondary-light/30 rounded-full mr-5">
               <GroupSvg />
@@ -104,8 +104,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div class="grid grid-cols-6 gap-4">
-          <div class="col-start-1 col-end-7 xl:col-start-1 xl:col-end-5">
+        <div className="grid grid-cols-6 gap-4">
+          <div className="col-start-1 col-end-7 xl:col-start-1 xl:col-end-5">
             <div className="inline-block w-full p-3 border border-[#E5E7EB] rounded-md h-[208px] mb-3">
               <div className="flex items-center">
                 <div className="flex items-center justify-center w-6 h-6 bg-secondary-light/30 rounded-full mr-1">
@@ -137,7 +137,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div class="col-start-1 col-end-7 xl:col-start-5 xl:col-end-7">
+          <div className="col-start-1 col-end-7 xl:col-start-5 xl:col-end-7">
             <div className="inline-block w-full p-4 border border-[#E5E7EB] rounded-md">
               <h4 className="text-lg text-[#374151] font-bold">
                 PopMe Insights

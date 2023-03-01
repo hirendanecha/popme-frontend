@@ -43,8 +43,8 @@ const SmallSidebarLogo = () => {
             y2="29.7558"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#FB5B5A" />
-            <stop offset="1" stop-color="#F52A73" />
+            <stop stopColor="#FB5B5A" />
+            <stop offset="1" stopColor="#F52A73" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_819_1536"
@@ -54,8 +54,8 @@ const SmallSidebarLogo = () => {
             y2="19.8385"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#FB5B5A" />
-            <stop offset="1" stop-color="#F52A73" />
+            <stop stopColor="#FB5B5A" />
+            <stop offset="1" stopColor="#F52A73" />
           </linearGradient>
         </defs>
       </svg>

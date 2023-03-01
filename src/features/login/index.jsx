@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import * as yup from "yup";
+import { toast } from "react-toastify";
 import NewInputText from "../../components/Input/NewInputText";
 import logo from "../../assets/images/logo.png";
 import LockSvg from "../../assets/svgs/LockSvg";
@@ -25,11 +26,9 @@ const LoginComp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [errorMessage, setErrorMessage] = useState(false);
-
-  const { loading, error, success, userToken, data } = useSelector(
-    (state) => state.auth
-  );
+  // const { loading, error, success, userToken, data } = useSelector(
+  //   (state) => state.auth
+  // );
 
   // console.log("loading", loading);
   // console.log("success", success);
@@ -50,14 +49,16 @@ const LoginComp = () => {
   const onSubmit = (loginInfo) => {
     dispatch(loginUser(loginInfo))
       .unwrap()
-      .then((data) => {
-        if (data.success === true) {
+      .then((res) => {
+        if (res.success === true) {
           navigate("/app/dashboard");
         }
       })
       .catch((err) => {
         if (err) {
-          setErrorMessage(true);
+          toast(err, {
+            type: "error",
+          });
         }
       });
   };
@@ -93,48 +94,6 @@ const LoginComp = () => {
             <span className="text-[#4B5563]">Or</span> start your 3-day free
             trial
           </h6>
-
-          {errorMessage && error && (
-            <div className="alert alert-error shadow-lg mb-5">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="stroke-current flex-shrink-0 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{error}</span>
-              </div>
-              <div className="flex-none">
-                <button
-                  className="btn btn-circle btn-xs btn-outline border-white hover:bg-transparent hover:border-white"
-                  onClick={() => setErrorMessage(false)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
             <div className="inline-block w-full border border-borderColor-main rounded-md mb-4">

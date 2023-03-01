@@ -12,6 +12,7 @@ const InputWithIcon = ({
   inputStyle,
   register,
   rightText,
+  max,
 }) => {
   return (
     <>
@@ -22,7 +23,7 @@ const InputWithIcon = ({
           </label>
         )}
 
-        <label class="relative text-gray-400 focus-within:text-gray-600 block">
+        <label className="relative text-gray-400 focus-within:text-gray-600 block">
           {leftIcon && (
             <span className="pointer-events-none absolute top-1/2 transform -translate-y-1/2 left-3">
               {leftIcon}
@@ -36,6 +37,8 @@ const InputWithIcon = ({
             className={`form-input w-full bg-white text-primary-main text-base focus:outline-none border border-borderColor-main rounded-lg appearance-none block ${
               rightIcon ? "pr-14" : "pl-14"
             } ${rightText && "pr-[2.5rem] pl-4"} py-[11px] px-4 ${inputStyle}`}
+            max={max && max}
+            min="0"
           />
 
           {rightIcon && (

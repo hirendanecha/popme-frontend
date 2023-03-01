@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { setPageTitle } from "../../redux/slices/headerSlice";
-
 import Button from "../../components/Button/Button";
 import ClipBoardSvg from "../../assets/svgs/ClipBoardSvg";
 import SelectBox from "../../components/Input/SelectBox";
@@ -16,6 +15,9 @@ import PlayButtonSvg from "../../assets/svgs/PlayButtonSvg";
 import MouseSvg from "../../assets/svgs/MouseSvg";
 import NewInputText from "../../components/Input/NewInputText";
 import NewTextArea from "../../components/Input/NewTextArea";
+import ModalButton from "../../components/Button/ModalButton";
+import { openNewModal } from "../../redux/slices/newModalSlice";
+import ConnectWebsiteModal from "./ConnectWebsiteModal";
 
 const CloseSvg = () => (
   <svg
@@ -92,8 +94,8 @@ const PhoneSvg = () => (
 );
 
 const leftIcon = () => (
-  <div class="avatar placeholder">
-    <div class="bg-[#EC407A] text-white text-xs rounded-full w-8">
+  <div className="avatar placeholder">
+    <div className="bg-[#EC407A] text-white text-xs rounded-full w-8">
       <span>MX</span>
     </div>
   </div>
@@ -128,29 +130,29 @@ const ColorObj = {
       videoTitle: "#FFFFFF",
       videoDescription: "#FFFFFF",
       gradientOverlay: "#273149",
-      shadow: "#273149",
-    },
-    player: {
-      controls: "#FFFFFF",
-      seeker: "#FFFFFF",
-      authorName: "#FFFFFF",
-      authorOccupation: "#FFFFFF",
-    },
-    toggle: {
-      playIcon: "#FFFFFF",
-      closeBackground: "#FFFFFF",
-      closeIconColor: "#FFFFFF",
-      closeIconBorder: "#FFFFFF",
+      // shadow: "#273149",
     },
     callToAction: {
       buttonText: "#FFFFFF",
       buttonBackground: "#1B5CF3",
       buttonOutline: "#FFFFFF",
-      buttonIcon: "#FFFFFF",
+      // buttonIcon: "#FFFFFF",
     },
-    others: {
-      backgroundOverlay: "#000000",
+    player: {
+      controls: "#FFFFFF",
+      seeker: "#FFFFFF",
+      authorName: "#FFFFFF",
+      // authorOccupation: "#FFFFFF",
     },
+    toggle: {
+      playIcon: "#FFFFFF",
+      closeBackground: "#FFFFFF",
+      closeIconColor: "#FFFFFF",
+      // closeIconBorder: "#FFFFFF",
+    },
+    // others: {
+    //   backgroundOverlay: "#000000",
+    // },
   },
 };
 
@@ -287,6 +289,11 @@ const Customization = () => {
 
   const updateValue = (data) => {
     console.log("updateValue", data);
+  };
+
+  const modalClickHandler = (props) => {
+    console.log("props", props);
+    dispatch(openNewModal(props));
   };
 
   const ClapprComponent = ({ id, source, height, width }) => {
@@ -433,8 +440,8 @@ const Customization = () => {
               <div className="flex flex-col justify-between h-full px-3 pt-3">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
-                    <div class="avatar placeholder mr-2">
-                      <div class=" bg-secondary-main text-white text-xs rounded-lg w-8">
+                    <div className="avatar placeholder mr-2">
+                      <div className=" bg-secondary-main text-white text-xs rounded-lg w-8">
                         <span>MX</span>
                       </div>
                     </div>
@@ -622,7 +629,7 @@ const Customization = () => {
 
                     <div className="collapse-content">
                       <div className="flex flex-col">
-                        <div className="flex">
+                        {/* <div className="flex">
                           <NewInputText
                             type="url"
                             labelTitle="Website URL"
@@ -631,129 +638,127 @@ const Customization = () => {
                             name="basicSetup.websiteUrl"
                             register={register}
                           />
+                        </div> */}
+
+                        <h5 className="text-primary-main text-base font-semibold py-2">
+                          Video Position
+                        </h5>
+
+                        <div className="grid grid-cols-2 gap-2 mb-3">
+                          <div className="form-control">
+                            <input
+                              type="radio"
+                              id="top-left"
+                              name="basicSetup.videoPosition"
+                              {...register("basicSetup.videoPosition")}
+                              value="top-left"
+                              className="hidden peer"
+                              // required
+                            ></input>
+
+                            <label
+                              htmlFor="top-left"
+                              className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                            >
+                              Top Left
+                            </label>
+                          </div>
+
+                          <div className="form-control">
+                            <input
+                              type="radio"
+                              id="top-right"
+                              name="basicSetup.videoPosition"
+                              {...register("basicSetup.videoPosition")}
+                              value="top-right"
+                              className="hidden peer"
+                            ></input>
+
+                            <label
+                              htmlFor="top-right"
+                              className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                            >
+                              Top Right
+                            </label>
+                          </div>
+
+                          <div className="form-control">
+                            <input
+                              type="radio"
+                              id="bottom-left"
+                              name="basicSetup.videoPosition"
+                              {...register("basicSetup.videoPosition")}
+                              value="bottom-left"
+                              className="hidden peer"
+                            ></input>
+
+                            <label
+                              htmlFor="bottom-left"
+                              className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                            >
+                              Bottom Left
+                            </label>
+                          </div>
+
+                          <div className="form-control">
+                            <input
+                              type="radio"
+                              id="bottom-right"
+                              name="basicSetup.videoPosition"
+                              {...register("basicSetup.videoPosition")}
+                              value="bottom-right"
+                              className="hidden peer"
+                            ></input>
+
+                            <label
+                              htmlFor="bottom-right"
+                              className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
+                            >
+                              Bottom Right
+                            </label>
+                          </div>
                         </div>
 
                         <div className="flex flex-col">
                           <h5 className="text-primary-main text-base font-semibold py-2">
-                            Video Position
+                            Preview Style
                           </h5>
 
-                          <div class="grid grid-cols-2 gap-2 mb-3">
+                          <div className="grid grid-cols-2 gap-2">
                             <div className="form-control">
                               <input
                                 type="radio"
-                                id="top-left"
-                                name="basicSetup.videoPosition"
-                                {...register("basicSetup.videoPosition")}
-                                value="top-left"
+                                id="rectangle"
+                                name="basicSetup.previewStyle"
+                                {...register("basicSetup.previewStyle")}
+                                value="rectangle"
                                 className="hidden peer"
-                                // required
                               ></input>
 
                               <label
-                                for="top-left"
+                                htmlFor="rectangle"
                                 className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
                               >
-                                Top Left
+                                Rectangle
                               </label>
                             </div>
 
                             <div className="form-control">
                               <input
                                 type="radio"
-                                id="top-right"
-                                name="basicSetup.videoPosition"
-                                {...register("basicSetup.videoPosition")}
-                                value="top-right"
+                                id="circularBubble"
+                                name="basicSetup.previewStyle"
+                                {...register("basicSetup.previewStyle")}
+                                value="circularBubble"
                                 className="hidden peer"
                               ></input>
 
                               <label
-                                for="top-right"
+                                htmlFor="circularBubble"
                                 className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
                               >
-                                Top Right
+                                Circular Bubble (Loom)
                               </label>
-                            </div>
-
-                            <div className="form-control">
-                              <input
-                                type="radio"
-                                id="bottom-left"
-                                name="basicSetup.videoPosition"
-                                {...register("basicSetup.videoPosition")}
-                                value="bottom-left"
-                                className="hidden peer"
-                              ></input>
-
-                              <label
-                                for="bottom-left"
-                                className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
-                              >
-                                Bottom Left
-                              </label>
-                            </div>
-
-                            <div className="form-control">
-                              <input
-                                type="radio"
-                                id="bottom-right"
-                                name="basicSetup.videoPosition"
-                                {...register("basicSetup.videoPosition")}
-                                value="bottom-right"
-                                className="hidden peer"
-                              ></input>
-
-                              <label
-                                for="bottom-right"
-                                className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
-                              >
-                                Bottom Right
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col">
-                            <h5 className="text-primary-main text-base font-semibold py-2">
-                              Preview Style
-                            </h5>
-
-                            <div class="grid grid-cols-2 gap-2">
-                              <div className="form-control">
-                                <input
-                                  type="radio"
-                                  id="rectangle"
-                                  name="basicSetup.previewStyle"
-                                  {...register("basicSetup.previewStyle")}
-                                  value="rectangle"
-                                  className="hidden peer"
-                                ></input>
-
-                                <label
-                                  for="rectangle"
-                                  className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
-                                >
-                                  Rectangle
-                                </label>
-                              </div>
-
-                              <div className="form-control">
-                                <input
-                                  type="radio"
-                                  id="circularBubble"
-                                  name="basicSetup.previewStyle"
-                                  {...register("basicSetup.previewStyle")}
-                                  value="circularBubble"
-                                  className="hidden peer"
-                                ></input>
-
-                                <label
-                                  for="circularBubble"
-                                  className="peer-checked:text-secondary-main peer-checked:border-secondary-main w-full py-[11px] px-2 bg-[#F3F3F4] text-center text-black border border-transparent rounded-lg cursor-pointer"
-                                >
-                                  Circular Bubble (Loom)
-                                </label>
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -862,7 +867,7 @@ const Customization = () => {
                                 ></input>
 
                                 <label
-                                  for={item?.name}
+                                  htmlFor={item?.name}
                                   className="peer-checked:border-secondary-main flex items-center justify-center h-6 w-6 border border-borderColor-main"
                                 >
                                   {item?.icon}
@@ -917,7 +922,7 @@ const Customization = () => {
 
                     <div className="collapse-content p-0">
                       <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <InputWithIcon
+                        {/* <InputWithIcon
                           type="text"
                           labelTitle="Author Picture"
                           labelStyle="text-primary-main text-base font-semibold"
@@ -925,6 +930,15 @@ const Customization = () => {
                           name="designCustomization.authorPicture"
                           register={register}
                           leftIcon={leftIcon()}
+                        /> */}
+
+                        <NewInputText
+                          type="text"
+                          labelTitle="Author Name"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          inputStyle="mb-3 !bg-transparent"
+                          name="designCustomization.authorName"
+                          register={register}
                         />
 
                         <InputWithIcon
@@ -955,32 +969,52 @@ const Customization = () => {
 
                         <InputWithIcon
                           type="number"
-                          labelTitle="Width"
+                          labelTitle="Size"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.toggle.width"
+                          name="designCustomization.toggle.size"
                           register={register}
-                          rightText="px"
+                          rightText="%"
+                          max="100"
                         />
 
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Height"
+                        <SelectBox
+                          labelTitle="Animation"
                           labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.toggle.height"
+                          options={[
+                            { name: "Bounce", value: "bounce" },
+                            { name: "Fade Up", value: "fadeUp" },
+                          ]}
+                          containerStyle="min-w-[10rem] mb-3"
+                          selectStyle="text-primary-main"
+                          name="designCustomization.toggle.animation"
                           register={register}
-                          rightText="px"
                         />
 
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Corner Radius"
+                        <SelectBox
+                          labelTitle="Show Play Icon"
                           labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.toggle.cornerRadius"
+                          options={[
+                            { name: "Show", value: "true" },
+                            { name: "Hide", value: "false" },
+                          ]}
+                          containerStyle="min-w-[10rem] mb-3"
+                          selectStyle="text-primary-main"
+                          name="designCustomization.toggle.showPlayIcon"
                           register={register}
-                          rightText="px"
+                        />
+
+                        <SelectBox
+                          labelTitle="Show Close Icon"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          options={[
+                            { name: "Show", value: "true" },
+                            { name: "Hide", value: "false" },
+                          ]}
+                          containerStyle="min-w-[10rem] mb-3"
+                          selectStyle="text-primary-main"
+                          name="designCustomization.toggle.showCloseIcon"
+                          register={register}
                         />
                       </div>
 
@@ -991,10 +1025,10 @@ const Customization = () => {
 
                         <InputWithIcon
                           type="number"
-                          labelTitle="Width"
+                          labelTitle="Size"
                           labelStyle="text-primary-main text-base font-semibold"
                           inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.player.width"
+                          name="designCustomization.player.size"
                           register={register}
                           rightText="px"
                         />
@@ -1007,6 +1041,19 @@ const Customization = () => {
                           name="designCustomization.player.height"
                           register={register}
                           rightText="px"
+                        />
+
+                        <SelectBox
+                          labelTitle="On mobile devices"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          options={[
+                            { name: "Full screen", value: "fullScreen" },
+                            { name: "Half screen", value: "halfScreen" },
+                          ]}
+                          containerStyle="min-w-[10rem] mb-3"
+                          selectStyle="text-primary-main"
+                          name="designCustomization.player.onMobileDevices"
+                          register={register}
                         />
                       </div>
                     </div>
@@ -1082,7 +1129,7 @@ const Customization = () => {
                         <div className="form-control border border-borderColor-main rounded-lg mb-2">
                           <label className="label cursor-pointer py-[12px] px-4">
                             <span className="label-text text-base text-primary-main">
-                              Green
+                              Orange
                             </span>
                             <input
                               type="radio"
@@ -1141,7 +1188,7 @@ const Customization = () => {
                           />
                         </div>
 
-                        <div className="flex flex-col">
+                        {/* <div className="flex flex-col">
                           <h5 className="text-primary-main text-base font-semibold py-2">
                             Shadow
                           </h5>
@@ -1151,123 +1198,7 @@ const Customization = () => {
                             colorHandler={(e) => colorHandler(e)}
                             pickColor={pickColor.colorStudio.general.shadow}
                           />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Player
-                        </h4>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Controls
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.player.controls"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.player.controls}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Seeker
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.player.seeker"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.player.seeker}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Author Name
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.player.authorName"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.player.authorName}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Author Occupation
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.player.authorOccupation"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.player.authorOccupation
-                            }
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Toggle
-                        </h4>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Play Icon
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.toggle.playIcon"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.toggle.playIcon}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Close Background
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.toggle.closeBackground"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.toggle.closeBackground
-                            }
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Close Icon Color
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.toggle.closeIconColor"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.toggle.closeIconColor
-                            }
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Close Icon Border
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.toggle.closeIconBorder"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.toggle.closeIconBorder
-                            }
-                          />
-                        </div>
+                        </div> */}
                       </div>
 
                       <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
@@ -1318,7 +1249,7 @@ const Customization = () => {
                           />
                         </div>
 
-                        <div className="flex flex-col">
+                        {/* <div className="flex flex-col">
                           <h5 className="text-primary-main text-base font-semibold py-2">
                             Button Icon
                           </h5>
@@ -1330,10 +1261,126 @@ const Customization = () => {
                               pickColor.colorStudio.callToAction.buttonIcon
                             }
                           />
+                        </div> */}
+                      </div>
+
+                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Player
+                        </h4>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Controls
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.controls"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.player.controls}
+                          />
                         </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Seeker
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.seeker"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.player.seeker}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Author Name
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.authorName"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.player.authorName}
+                          />
+                        </div>
+
+                        {/* <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Author Occupation
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.player.authorOccupation"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.player.authorOccupation
+                            }
+                          />
+                        </div> */}
                       </div>
 
                       <div className="flex flex-col px-4 pb-3">
+                        <h4 className="text-xl font-bold text-primary-normal py-4">
+                          Toggle
+                        </h4>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Play Icon
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.playIcon"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={pickColor.colorStudio.toggle.playIcon}
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Close Background
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.closeBackground"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.toggle.closeBackground
+                            }
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Close Icon Color
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.closeIconColor"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.toggle.closeIconColor
+                            }
+                          />
+                        </div>
+
+                        {/* <div className="flex flex-col">
+                          <h5 className="text-primary-main text-base font-semibold py-2">
+                            Close Icon Border
+                          </h5>
+                          <ColorPickerInput
+                            name="colorStudio.toggle.closeIconBorder"
+                            register={register}
+                            colorHandler={(e) => colorHandler(e)}
+                            pickColor={
+                              pickColor.colorStudio.toggle.closeIconBorder
+                            }
+                          />
+                        </div> */}
+                      </div>
+
+                      {/* <div className="flex flex-col px-4 pb-3">
                         <h4 className="text-xl font-bold text-primary-normal py-4">
                           Others
                         </h4>
@@ -1351,7 +1398,7 @@ const Customization = () => {
                             }
                           />
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -1423,7 +1470,7 @@ const Customization = () => {
                           rightText="px"
                         />
 
-                        <InputWithIcon
+                        {/* <InputWithIcon
                           type="number"
                           labelTitle="Author Occupation"
                           labelStyle="text-primary-main text-base font-semibold"
@@ -1431,7 +1478,7 @@ const Customization = () => {
                           name="fontStudio.authorOccupation"
                           register={register}
                           rightText="px"
-                        />
+                        /> */}
                       </div>
                     </div>
                   </div>
@@ -1557,6 +1604,62 @@ const Customization = () => {
                     </div>
 
                     <div className="collapse-content">
+                      <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-14 h-7 text-secondary-main"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                          />
+                        </svg>
+
+                        <p className="text-sm text-secondary-main font-bold ml-3">
+                          Connect your website with Answerly and embed any
+                          widget with one click.
+                        </p>
+                      </div>
+
+                      <div className="flex p-3 bg-[#F2F6F0] mb-4">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-12 h-7 text-[#4A8A37]"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+
+                        <p className="text-sm text-[#4A8A37] font-bold ml-3">
+                          The process takes one minute by putting a code on your
+                          website.
+                        </p>
+                      </div>
+
+                      <ModalButton
+                        text="Connect a Website"
+                        id="my-modal-4"
+                        buttonClass="mb-4"
+                        clickHandler={() =>
+                          modalClickHandler({
+                            id: "my-modal-4",
+                            children: <ConnectWebsiteModal />,
+                          })
+                        }
+                      />
+
                       <div
                         tabIndex={8}
                         className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"

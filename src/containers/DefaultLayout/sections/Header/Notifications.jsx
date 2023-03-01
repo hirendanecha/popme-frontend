@@ -8,12 +8,12 @@ const Notification = () => {
   const navigate = useNavigate();
   const { noOfNotifications, pageTitle } = useSelector((state) => state.header);
   const openNotification = () => {
-    dispatch(
-      openRightDrawer({
-        header: "Notifications",
-        bodyType: RIGHT_DRAWER_TYPES.NOTIFICATION,
-      })
-    );
+    // dispatch(
+    //   openRightDrawer({
+    //     header: "Notifications",
+    //     bodyType: RIGHT_DRAWER_TYPES.NOTIFICATION,
+    //   })
+    // );
   };
 
   function logoutUser() {
@@ -24,13 +24,13 @@ const Notification = () => {
   }
   return (
     <button
-      className='btn btn-ghost ml-4 btn-circle bg-[#0639AB]'
+      className="btn btn-ghost ml-4 btn-circle bg-[#0639AB]"
       onClick={() => openNotification()}
     >
-      <div className='indicator'>
-        <BellIcon className='h-6 w-6 text-white' />
+      <div className="indicator">
+        <BellIcon className="h-6 w-6 text-white" />
         {noOfNotifications > 0 ? (
-          <span className='indicator-item badge bg-[#FF0000] text-white border-0 badge-sm'>
+          <span className="indicator-item badge bg-[#FF0000] text-white border-0 badge-sm">
             {noOfNotifications}
           </span>
         ) : null}
