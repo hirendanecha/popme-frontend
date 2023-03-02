@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +8,11 @@ import * as yup from "yup";
 import logo from "../../assets/images/logo.png";
 import Button from "../../components/Button/Button";
 import NewInputText from "../../components/Input/NewInputText";
-import { forgotPassword, resetPassword } from "../../redux/actions/authAction";
+import {
+  forgotPassword,
+  resetPassword,
+  verifyForgotPasswordToken,
+} from "../../redux/actions/authAction";
 
 const ForgotPasswordComp = () => {
   const navigate = useNavigate();
@@ -25,6 +29,7 @@ const ForgotPasswordComp = () => {
 
   const [alertMessage, setAlertMessage] = useState(false);
   const [registerEmail, setRegisterEmail] = useState("");
+  const [verifyForgotPwsToken, setverifyForgotPwsToken] = useState(false);
 
   //   console.log("token", token);
 
@@ -33,6 +38,32 @@ const ForgotPasswordComp = () => {
       setAlertMessage(true);
     }
   }, [userToken]);
+
+  const verifyTokenHandler = useCallback((token) => {
+    dispatch(verifyForgotPasswordToken({ token: token }))
+      .unwrap()
+      .then((res) => {
+        if (res?.success === true) {
+          setverifyForgotPwsToken(true);
+          toast(res?.message, {
+            type: "success",
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    if (token !== undefined) {
+      verifyTokenHandler(token);
+    }
+  }, [token]);
 
   const forgotPasswordSchema = yup.object({
     email: yup.string().email().required("Email is required"),
@@ -60,14 +91,14 @@ const ForgotPasswordComp = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(
-      token !== undefined ? resetPasswordSchema : forgotPasswordSchema
+      verifyForgotPwsToken ? resetPasswordSchema : forgotPasswordSchema
     ),
   });
 
   const onSubmit = (userInfo) => {
     // console.log("forgotInfo", userInfo);
 
-    if (token !== undefined) {
+    if (verifyForgotPwsToken) {
       const userData = {
         token: token,
         password: userInfo.password,
@@ -103,9 +134,7 @@ const ForgotPasswordComp = () => {
           }
         });
     }
-
     reset();
-
     // console.log("userData", userData);
   };
 
@@ -117,10 +146,10 @@ const ForgotPasswordComp = () => {
         </div>
 
         <h2 className="text-3xl font-bold mb-2 text-center text-primary-main">
-          {token !== undefined ? "Change password" : "Forgot password?"}
+          {verifyForgotPwsToken ? "Change password" : "Forgot password?"}
         </h2>
         <h6 className="text-center text-base font-normal text-[#4B5563] mb-8">
-          {token !== undefined
+          {verifyForgotPwsToken
             ? "Enter new password and then repeat it"
             : "No worries. we'll send you reset instructions."}
         </h6>
@@ -189,9 +218,9 @@ const ForgotPasswordComp = () => {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className={token === undefined && "mb-8"}
+          className={!verifyForgotPwsToken && "mb-8"}
         >
-          {token !== undefined ? (
+          {verifyForgotPwsToken ? (
             <>
               <NewInputText
                 type="password"
@@ -227,13 +256,13 @@ const ForgotPasswordComp = () => {
           <div className="flex w-full mt-3">
             <Button
               type="submit"
-              text={token !== undefined ? "Change password" : "Reset password"}
+              text={verifyForgotPwsToken ? "Change password" : "Reset password"}
               buttonClass="w-full text-base"
             />
           </div>
         </form>
 
-        {token === undefined && (
+        {!verifyForgotPwsToken && (
           <div
             className="flex justify-center"
             onClick={() => navigate("/login")}

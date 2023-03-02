@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import authAPI from "../../services/api/auth";
+import userAPI from "../../services/api/user";
 
 const config = {
   headers: {
@@ -73,6 +74,22 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
+export const verifyForgotPasswordToken = createAsyncThunk(
+  "user/verifyForgotPasswordToken",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await authAPI.verifyForgotPasswordTokenApi(data);
+      return response.data;
+    } catch (error) {
+      if (error?.response && error?.response?.data.message) {
+        return rejectWithValue(error?.response?.data?.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
 export const resetPassword = createAsyncThunk(
   "user/resetPassword",
   async (data) => {
@@ -91,7 +108,7 @@ export const resetPassword = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk("user/logout", async () => {
   try {
-    const response = await authAPI.logoutApi();
+    const response = await userAPI.logoutApi();
     return response.data;
   } catch (error) {
     if (error.response && error.response.data.message) {

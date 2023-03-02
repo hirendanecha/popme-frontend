@@ -170,7 +170,9 @@ const SettingsCom = () => {
       .unwrap()
       .then((res) => {
         if (res.success === true) {
-          navigate("/login");
+          setTimeout(() => {
+            navigate("/login");
+          }, 100);
         }
       })
       .catch((err) => {

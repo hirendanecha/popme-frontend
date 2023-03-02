@@ -5,6 +5,7 @@ import {
   logoutUser,
   registerUser,
   resetPassword,
+  verifyForgotPasswordToken,
   verifyRegiterEmail,
 } from "../actions/authAction";
 
@@ -125,6 +126,29 @@ const authSlice = createSlice({
       state.success = false;
       state.error = payload;
     });
+
+    // verifyForgotPasswordToken
+    builder.addCase(verifyForgotPasswordToken.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
+    builder.addCase(
+      verifyForgotPasswordToken.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+        state.data = payload;
+      }
+    );
+
+    builder.addCase(
+      verifyForgotPasswordToken.rejected,
+      (state, { payload }) => {
+        state.loading = false;
+        state.success = false;
+        state.error = payload;
+      }
+    );
   },
 });
 

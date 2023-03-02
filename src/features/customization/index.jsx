@@ -292,7 +292,7 @@ const Customization = () => {
   };
 
   const modalClickHandler = (props) => {
-    console.log("props", props);
+    // console.log("props", props);
     dispatch(openNewModal(props));
   };
 
@@ -1650,11 +1650,11 @@ const Customization = () => {
 
                       <ModalButton
                         text="Connect a Website"
-                        id="my-modal-4"
+                        id="connect-website"
                         buttonClass="mb-4"
                         clickHandler={() =>
                           modalClickHandler({
-                            id: "my-modal-4",
+                            id: "connect-website",
                             children: <ConnectWebsiteModal />,
                           })
                         }

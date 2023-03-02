@@ -29,11 +29,11 @@ const authAPI = {
       email,
     });
   },
+  verifyForgotPasswordTokenApi(data) {
+    return axios.post("/api/auth/token_verify", data);
+  },
   resetPasswordApi(data) {
     return axios.post("/api/auth/reset_password", data);
-  },
-  logoutApi() {
-    return axios.get("/api/auth/logout");
   },
 };
 
