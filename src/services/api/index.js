@@ -1,11 +1,6 @@
 import axios from "../";
 
-// services/axios.js
-// import axios from "./";
-
 const requestHandler = (request) => {
-  console.log("req", request);
-
   const access_token = localStorage.getItem("token");
   if (access_token) {
     // Modify request here
@@ -31,7 +26,5 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-// export default axios;
 
 export default axios;

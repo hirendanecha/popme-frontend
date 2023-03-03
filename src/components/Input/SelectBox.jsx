@@ -19,8 +19,16 @@ function SelectBox(props) {
 
   const [value, setValue] = useState(defaultValue || "");
 
-  const updateValue = (newValue) => {
-    updateFormValue({ name, value: newValue });
+  // console.log("value", value);
+  // console.log("defaultValue", defaultValue);
+
+  const updateValue = (newValue, e) => {
+    // console.log("newValue", newValue);
+    // console.log("name", e.nativeEvent.target[e.target.selectedIndex].text);
+    // console.log("index", e.target.selectedIndex);
+
+    const name = e.nativeEvent.target[e.target.selectedIndex].text;
+    updateFormValue({ name: name, value: newValue });
     setValue(newValue);
   };
 
@@ -70,22 +78,28 @@ function SelectBox(props) {
       ) : (
         <select
           className={`select select-bordered w-full text-primary-main bg-[#F9FAFB] text-base border-borderColor-main focus:outline-none ${selectStyle}`}
-          value={value}
-          onChange={(e) => updateValue(e.target.value)}
+          onChange={(e) => updateValue(e.target.value, e)}
+          value={defaultValue ? defaultValue : value}
         >
           {placeholder && (
-            <option disabled selected>
-              {placeholder}
+            <option value="" disabled defaultValue>
+              Select your option
             </option>
           )}
 
-          {options.map((o, k) => {
-            return (
-              <option value={o.value || o.name} key={k}>
-                {o.name}
-              </option>
-            );
-          })}
+          {options &&
+            options?.length > 0 &&
+            options.map((o, k) => {
+              return (
+                <option
+                  value={o.value || o.name}
+                  key={k}
+                  // selected={defaultValue && o.value === defaultValue}
+                >
+                  {o.name}
+                </option>
+              );
+            })}
         </select>
       )}
     </div>

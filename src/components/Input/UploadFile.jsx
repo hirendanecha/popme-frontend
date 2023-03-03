@@ -4,21 +4,47 @@ import UploadImgSvg from "../../assets/svgs/UploadImgSvg";
 const UploadFile = ({
   name,
   register,
-  handleFile,
-  removeImage,
-  files,
+  // handleFile,
+  // removeImage,
+  // files,
   inputStyle,
+  errorMessage,
 }) => {
+  const [fileName, setFileName] = useState("");
+
+  const handleFile = (e) => {
+    let file = e.target.files;
+
+    setFileName(file[0]?.name);
+    // console.log("file", file);
+  };
+
   return (
     <div className="flex flex-col w-full">
       <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
         <input
           type="file"
+          accept="video/*"
           className="h-full w-full opacity-0 z-10 absolute p-3"
           {...register(name, {
             required: false,
             onChange: (e) => handleFile(e),
+            // validate: {
+            //   lessThan10MB: (files) =>
+            //     files[0]?.size < 104857600 || "Max 100mb",
+            //   acceptedFormats: (files) =>
+            //     [
+            //       "video/mp4",
+            //       "video/x-m4v",
+            //       "video/x-msvideo",
+            //       "video/quicktime",
+            //       "video/vnd.mpegurl",
+            //       "video/webm",
+            //       "video/x-matroska",
+            //     ].includes(files[0]?.type) || "Unsupported video format",
+            // },
           })}
+          // accept="video/mp4,video/x-m4v,video/*"
         />
 
         <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">
@@ -37,7 +63,17 @@ const UploadFile = ({
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mt-2">
+      {errorMessage && (
+        <p className="mt-3 text-sm text-[#991B1B]">{errorMessage}</p>
+      )}
+
+      {fileName && (
+        <p className="mt-3 text-sm text-primary-normal">{fileName}</p>
+      )}
+
+      {/* {console.log("files", files)} */}
+
+      {/* <div className="flex flex-wrap gap-2 mt-2">
         {files &&
           files.map((file, key) => {
             return (
@@ -73,7 +109,7 @@ const UploadFile = ({
               </div>
             );
           })}
-      </div>
+      </div> */}
     </div>
   );
 };
