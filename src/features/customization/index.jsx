@@ -44,104 +44,22 @@ import {
 } from "../workspaces/action";
 import BasicSetup from "./WorkspaceOptions/BasicSetup";
 import AddVideo from "./WorkspaceOptions/AddVideo";
-
-const IconList = [
-  {
-    icon: <CloseSvg />,
-    name: "closeSvg",
-  },
-  {
-    icon: <RightArrowSvg />,
-    name: "rightArrowSvg",
-  },
-  {
-    icon: <RightExitSvg />,
-    name: "rightExitSvg",
-  },
-  {
-    icon: <CalendarSvg />,
-    name: "calendarSvg",
-  },
-  {
-    icon: <PhoneSvg />,
-    name: "phoneSvg",
-  },
-];
-
-const ColorObj = {
-  colorStudio: {
-    general: {
-      videoTitle: "#FFFFFF",
-      videoDescription: "#FFFFFF",
-      gradientOverlay: "#273149",
-      // shadow: "#273149",
-    },
-    callToAction: {
-      buttonText: "#FFFFFF",
-      buttonBackground: "#1B5CF3",
-      buttonOutline: "#FFFFFF",
-      // buttonIcon: "#FFFFFF",
-    },
-    player: {
-      controls: "#FFFFFF",
-      seeker: "#FFFFFF",
-      authorName: "#FFFFFF",
-      // authorOccupation: "#FFFFFF",
-    },
-    toggle: {
-      playIcon: "#FFFFFF",
-      closeBackground: "#FFFFFF",
-      closeIconColor: "#FFFFFF",
-      // closeIconBorder: "#FFFFFF",
-    },
-    // others: {
-    //   backgroundOverlay: "#000000",
-    // },
-  },
-};
-
-// const jj = [
-//   {
-//     name: "jkbjb",
-//     id: 1,
-//   },
-//   {
-//     name: "lll",
-//     id: 2,
-//   },
-// ];
+import CallToActionModal from "./WorkspaceOptions/CallToActionModal";
+import DesignCustomization from "./WorkspaceOptions/DesignCustomization";
+import ColorStudio, { ColorObj } from "./WorkspaceOptions/ColorStudio";
+import FontStudio from "./WorkspaceOptions/FontStudio";
+import Preview from "./WorkspaceOptions/Preview";
+import GetLink from "./WorkspaceOptions/GetLink";
+import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 
 const Customization = () => {
   const dispatch = useDispatch();
   const { data, error } = useSelector((state) => state.workspace);
-  const [pickColor, setPickColor] = useState(ColorObj);
 
   const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
   const [activeWorkspace, setActiveWorkspace] = useState("");
 
   // console.log("data", data);
-
-  const colorHandler = (e) => {
-    // console.log("name", e.target.name);
-    // console.log("value", e.target.value);
-
-    let inputName = e.target.name;
-    let inputValue = e.target.value;
-
-    // console.log("1", [inputName.split('.')[1]]);
-    // console.log("2", { ...pickColor.colorStudio[inputName.split('.')[1]] });
-    // console.log("3", { [inputName.split('.')[1]]: { ...pickColor.colorStudio[inputName.split('.')[1]] } });
-
-    setPickColor({
-      colorStudio: {
-        ...pickColor.colorStudio,
-        [inputName.split(".")[1]]: {
-          ...pickColor.colorStudio[inputName.split(".")[1]],
-          [inputName.split(".")[2]]: inputValue,
-        },
-      },
-    });
-  };
 
   // for upload video delete
 
@@ -172,6 +90,7 @@ const Customization = () => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -184,6 +103,59 @@ const Customization = () => {
         videoDescription: "",
         videoTitle: "",
       },
+      callToAction: {
+        buttonCorners: "",
+        buttonIcon: null,
+        buttonStyle: "",
+        buttonText: "",
+        destinationUrl: "",
+      },
+      designCustomization: {
+        authorName: "",
+        horizontalMargin: "",
+        verticalMargin: "",
+        player: {
+          height: "",
+          onMobileDevices: "",
+          size: "",
+        },
+        toggle: {
+          animation: "",
+          showPlayIcon: "",
+          showCloseIcon: "",
+          size: "",
+        },
+      },
+      colorStudio: {
+        templates: "",
+        general: {
+          gradientOverlay: "",
+          videoDescription: "",
+          videoTitle: "",
+        },
+        callToAction: {
+          buttonBackground: "",
+          buttonOutline: "",
+          buttonText: "",
+        },
+        player: {
+          authorName: "",
+          controls: "",
+          seeker: "",
+        },
+        toggle: {
+          closeBackground: "",
+          closeIconColor: "",
+          playIcon: "",
+        },
+      },
+      fontStudio: {
+        authorName: "",
+        ctaButton: "",
+        fontFamily: "",
+        videoDescription: "",
+        videoTitle: "",
+      },
     },
   });
 
@@ -191,9 +163,154 @@ const Customization = () => {
     if (data !== null) {
       reset({
         basicSetup: {
-          previewStyle: "",
+          previewStyle: data?.data?.basicSetUp?.previewStyle
+            ? data?.data?.basicSetUp?.previewStyle
+            : "",
           videoPosition: data?.data?.basicSetUp?.videoPosition
             ? data?.data?.basicSetUp?.videoPosition
+            : "",
+        },
+        addVideo: {
+          addVideo: null,
+          videoDescription: data?.data?.title ? data?.data?.title : "",
+          videoTitle: data?.data?.description ? data?.data?.description : "",
+        },
+        callToAction: {
+          buttonCorners: data?.data?.callToAction?.buttonCorner
+            ? data?.data?.callToAction?.buttonCorner
+            : "",
+          buttonIcon: null,
+          buttonStyle: data?.data?.callToAction?.buttonStyle
+            ? data?.data?.callToAction?.buttonStyle
+            : "",
+          buttonText: data?.data?.callToAction?.buttonText
+            ? data?.data?.callToAction?.buttonText
+            : "",
+          destinationUrl: data?.data?.callToAction?.destinationUrl
+            ? data?.data?.callToAction?.destinationUrl
+            : "",
+        },
+        designCustomization: {
+          authorName: data?.data?.designCustomization?.authorName
+            ? data?.data?.designCustomization?.authorName
+            : "",
+
+          horizontalMargin: data?.data?.designCustomization?.horizontalMargin
+            ? data?.data?.designCustomization?.horizontalMargin.replace(
+                "px",
+                ""
+              )
+            : "",
+
+          verticalMargin: data?.data?.designCustomization?.verticalMargin
+            ? data?.data?.designCustomization?.verticalMargin.replace("px", "")
+            : "",
+
+          player: {
+            height: data?.data?.designCustomization?.player?.height
+              ? data?.data?.designCustomization?.player?.height.replace(
+                  "px",
+                  ""
+                )
+              : "",
+            onMobileDevices: data?.data?.designCustomization?.player
+              ?.onMobileDevice
+              ? data?.data?.designCustomization?.player?.onMobileDevice
+              : "",
+            size: data?.data?.designCustomization?.player?.size
+              ? data?.data?.designCustomization?.player?.size.replace("%", "")
+              : "",
+          },
+          toggle: {
+            animation: data?.data?.designCustomization?.toggle?.animation
+              ? data?.data?.designCustomization?.toggle?.animation
+              : "",
+
+            showPlayIcon:
+              typeof data?.data?.designCustomization?.toggle?.showPlayIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showPlayIcon
+                : "",
+
+            showCloseIcon:
+              typeof data?.data?.designCustomization?.toggle?.showCloseIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showCloseIcon
+                : "",
+
+            size: data?.data?.designCustomization?.toggle?.size
+              ? data?.data?.designCustomization?.toggle?.size.replace("%", "")
+              : "",
+          },
+        },
+        colorStudio: {
+          templates: data?.data?.colorStudio?.templates
+            ? data?.data?.colorStudio?.templates
+            : "",
+
+          general: {
+            gradientOverlay: data?.data?.colorStudio?.general?.gradientOverlay
+              ? data?.data?.colorStudio?.general?.gradientOverlay
+              : "#273149",
+            videoDescription: data?.data?.colorStudio?.general?.videoDescription
+              ? data?.data?.colorStudio?.general?.videoDescription
+              : "#FFFFFF",
+            videoTitle: data?.data?.colorStudio?.general?.videoTitle
+              ? data?.data?.colorStudio?.general?.videoTitle
+              : "#FFFFFF",
+          },
+          callToAction: {
+            buttonBackground: data?.data?.colorStudio?.callToAction
+              ?.buttonBackground
+              ? data?.data?.colorStudio?.callToAction?.buttonBackground
+              : "#1B5CF3",
+
+            buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
+              ? data?.data?.colorStudio?.callToAction?.buttonOutline
+              : "#FFFFFF",
+
+            buttonText: data?.data?.colorStudio?.callToAction?.buttonText
+              ? data?.data?.colorStudio?.callToAction?.buttonText
+              : "#FFFFFF",
+          },
+          player: {
+            authorName: data?.data?.colorStudio?.player?.authorName
+              ? data?.data?.colorStudio?.player?.authorName
+              : "#FFFFFF",
+            controls: data?.data?.colorStudio?.player?.control
+              ? data?.data?.colorStudio?.player?.control
+              : "#FFFFFF",
+            seeker: data?.data?.colorStudio?.player?.seeker
+              ? data?.data?.colorStudio?.player?.seeker
+              : "#FFFFFF",
+          },
+          toggle: {
+            closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
+              ? data?.data?.colorStudio?.toggle?.closeBackground
+              : "#FFFFFF",
+            closeIconColor: data?.data?.colorStudio?.toggle?.closeIconColor
+              ? data?.data?.colorStudio?.toggle?.closeIconColor
+              : "#FFFFFF",
+            playIcon: data?.data?.colorStudio?.toggle?.playIcon
+              ? data?.data?.colorStudio?.toggle?.playIcon
+              : "#FFFFFF",
+          },
+        },
+        fontStudio: {
+          authorName: data?.data?.fontStudio?.authorName
+            ? data?.data?.fontStudio?.authorName.replace("px", "")
+            : "",
+          ctaButton: data?.data?.fontStudio?.ctaButton
+            ? data?.data?.fontStudio?.ctaButton.replace("px", "")
+            : "",
+          fontFamily: data?.data?.fontStudio?.fontFamily
+            ? data?.data?.fontStudio?.fontFamily
+            : "",
+          videoDescription: data?.data?.fontStudio?.videoDescription
+            ? data?.data?.fontStudio?.videoDescription.replace("px", "")
+            : "",
+          videoTitle: data?.data?.fontStudio?.videoTitle
+            ? data?.data?.fontStudio?.videoTitle.replace("px", "")
             : "",
         },
       });
@@ -207,10 +324,6 @@ const Customization = () => {
   const updateValue = (data) => {
     // console.log("updateValue", data);
     setActiveWorkspace(data?.value);
-  };
-
-  const modalClickHandler = (props) => {
-    dispatch(openNewModal(props));
   };
 
   const workspaceListHandlerApi = useCallback(() => {
@@ -626,840 +739,31 @@ const Customization = () => {
               </li>
 
               <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={2}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Call To Action
-                    </div>
-                    <div className="collapse-content">
-                      <div className="flex flex-col">
-                        <NewInputText
-                          type="text"
-                          labelTitle="Button Text"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="callToAction.buttonText"
-                          register={register}
-                        />
-
-                        <NewInputText
-                          type="url"
-                          labelTitle="Destination URL"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="callToAction.destinationUrl"
-                          register={register}
-                        />
-
-                        <div className="flex flex-col mb-3">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Button Icon
-                          </h5>
-
-                          <div className="flex flex-wrap gap-3">
-                            {IconList.map((item, index) => (
-                              <div className="inline-block" key={index}>
-                                <input
-                                  type="radio"
-                                  id={item?.name}
-                                  name="callToAction.buttonIcon"
-                                  {...register("callToAction.buttonIcon")}
-                                  value={item?.name}
-                                  className="hidden peer"
-                                  // required
-                                ></input>
-
-                                <label
-                                  htmlFor={item?.name}
-                                  className="peer-checked:border-secondary-main flex items-center justify-center h-6 w-6 border border-borderColor-main"
-                                >
-                                  {item?.icon}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <SelectBox
-                          labelTitle="Button Style"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Filled", value: "filled" },
-                            { name: "Dashed", value: "dashed" },
-                          ]}
-                          containerStyle="min-w-[10rem] mb-3"
-                          selectStyle="text-primary-main"
-                          name="callToAction.buttonStyle"
-                          register={register}
-                        />
-
-                        <SelectBox
-                          labelTitle="Button Corners"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Round", value: "round" },
-                            { name: "Square", value: "square" },
-                          ]}
-                          containerStyle="min-w-[10rem] mb-3"
-                          selectStyle="text-primary-main"
-                          name="callToAction.buttonCorners"
-                          register={register}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <CallToActionModal register={register} />
               </li>
 
               <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={3}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Design Customization
-                    </div>
-
-                    <div className="collapse-content p-0">
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <NewInputText
-                          type="text"
-                          labelTitle="Author Name"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.authorName"
-                          register={register}
-                        />
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Vertical Margin"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.verticalMargin"
-                          register={register}
-                          rightText="px"
-                        />
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Horizontal Margin"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.horizontalMargin"
-                          register={register}
-                          rightText="px"
-                        />
-                      </div>
-
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Toggle
-                        </h4>
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Size"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.toggle.size"
-                          register={register}
-                          rightText="%"
-                          max="100"
-                        />
-
-                        <SelectBox
-                          labelTitle="Animation"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Bounce", value: "bounce" },
-                            { name: "Fade Up", value: "fadeUp" },
-                          ]}
-                          containerStyle="min-w-[10rem] mb-3"
-                          selectStyle="text-primary-main"
-                          name="designCustomization.toggle.animation"
-                          register={register}
-                        />
-
-                        <SelectBox
-                          labelTitle="Show Play Icon"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Show", value: "true" },
-                            { name: "Hide", value: "false" },
-                          ]}
-                          containerStyle="min-w-[10rem] mb-3"
-                          selectStyle="text-primary-main"
-                          name="designCustomization.toggle.showPlayIcon"
-                          register={register}
-                        />
-
-                        <SelectBox
-                          labelTitle="Show Close Icon"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Show", value: "true" },
-                            { name: "Hide", value: "false" },
-                          ]}
-                          containerStyle="min-w-[10rem] mb-3"
-                          selectStyle="text-primary-main"
-                          name="designCustomization.toggle.showCloseIcon"
-                          register={register}
-                        />
-                      </div>
-
-                      <div className="flex flex-col px-4">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Player
-                        </h4>
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Size"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.player.size"
-                          register={register}
-                          rightText="px"
-                        />
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Height"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="designCustomization.player.height"
-                          register={register}
-                          rightText="px"
-                        />
-
-                        <SelectBox
-                          labelTitle="On mobile devices"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Full screen", value: "fullScreen" },
-                            { name: "Half screen", value: "halfScreen" },
-                          ]}
-                          containerStyle="min-w-[10rem] mb-3"
-                          selectStyle="text-primary-main"
-                          name="designCustomization.player.onMobileDevices"
-                          register={register}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <DesignCustomization register={register} />
               </li>
 
               <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={4}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Color Studio
-                    </div>
-                    <div className="collapse-content p-0">
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <h5 className="text-primary-main text-base font-semibold py-2">
-                          Templates
-                        </h5>
-
-                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                          <label className="label cursor-pointer py-[12px] px-4">
-                            <span className="label-text text-base text-primary-main">
-                              Red
-                            </span>
-                            <input
-                              type="radio"
-                              name="colorStudio.templates"
-                              {...register("colorStudio.templates")}
-                              value="#FF0056"
-                              className="radio bg-[#FF0056] checked:bg-[#FF0056] checked:!shadow-none checked:!border-4 checked:!border-black/50"
-                              checked
-                            />
-                          </label>
-                        </div>
-
-                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                          <label className="label cursor-pointer py-[12px] px-4">
-                            <span className="label-text text-base text-primary-main">
-                              Blue
-                            </span>
-                            <input
-                              type="radio"
-                              name="colorStudio.templates"
-                              {...register("colorStudio.templates")}
-                              value="#00A3FF"
-                              className="radio bg-[#00A3FF] checked:bg-[#00A3FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
-                              checked
-                            />
-                          </label>
-                        </div>
-
-                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                          <label className="label cursor-pointer py-[12px] px-4">
-                            <span className="label-text text-base text-primary-main">
-                              Green
-                            </span>
-                            <input
-                              type="radio"
-                              name="colorStudio.templates"
-                              {...register("colorStudio.templates")}
-                              value="#24CB3F"
-                              className="radio bg-[#24CB3F] checked:bg-[#24CB3F] checked:!shadow-none checked:!border-4 checked:!border-black/50"
-                              checked
-                            />
-                          </label>
-                        </div>
-
-                        <div className="form-control border border-borderColor-main rounded-lg mb-2">
-                          <label className="label cursor-pointer py-[12px] px-4">
-                            <span className="label-text text-base text-primary-main">
-                              Orange
-                            </span>
-                            <input
-                              type="radio"
-                              name="colorStudio.templates"
-                              {...register("colorStudio.templates")}
-                              value="#FFBB0E"
-                              className="radio bg-[#FFBB0E] checked:bg-[#FFBB0E] checked:!shadow-none checked:!border-4 checked:!border-black/50"
-                              checked
-                            />
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          General
-                        </h4>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Video Title
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.general.videoTitle"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.general.videoTitle}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Video Description
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.general.videoDescription"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.general.videoDescription
-                            }
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Gradient Overlay
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.general.gradientOverlay"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.general.gradientOverlay
-                            }
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Call To Action
-                        </h4>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Button Text
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.callToAction.buttonText"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.callToAction.buttonText
-                            }
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Button Background
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.callToAction.buttonBackground"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.callToAction
-                                .buttonBackground
-                            }
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Button Outline
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.callToAction.buttonOutline"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.callToAction.buttonOutline
-                            }
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Player
-                        </h4>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Controls
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.player.controls"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.player.controls}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Seeker
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.player.seeker"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.player.seeker}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Author Name
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.player.authorName"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.player.authorName}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col px-4 pb-3">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Toggle
-                        </h4>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Play Icon
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.toggle.playIcon"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={pickColor.colorStudio.toggle.playIcon}
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Close Background
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.toggle.closeBackground"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.toggle.closeBackground
-                            }
-                          />
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2">
-                            Close Icon Color
-                          </h5>
-                          <ColorPickerInput
-                            name="colorStudio.toggle.closeIconColor"
-                            register={register}
-                            colorHandler={(e) => colorHandler(e)}
-                            pickColor={
-                              pickColor.colorStudio.toggle.closeIconColor
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ColorStudio register={register} watch={watch} />
               </li>
 
               <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={5}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Font Studio
-                    </div>
-                    <div className="collapse-content">
-                      <div className="flex flex-col">
-                        <SelectBox
-                          labelTitle="Font Family"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          options={[
-                            { name: "Poppins", value: "poppins" },
-                            { name: "Roboto", value: "roboto" },
-                          ]}
-                          containerStyle="min-w-[10rem] mb-3"
-                          selectStyle="text-primary-main"
-                          name="fontStudio.fontFamily"
-                          register={register}
-                        />
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Video Title"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="fontStudio.videoTitle"
-                          register={register}
-                          rightText="px"
-                        />
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Video Description"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="fontStudio.videoDescription"
-                          register={register}
-                          rightText="px"
-                        />
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="CTA Button"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="fontStudio.ctaButton"
-                          register={register}
-                          rightText="px"
-                        />
-
-                        <InputWithIcon
-                          type="number"
-                          labelTitle="Author Name"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="fontStudio.authorName"
-                          register={register}
-                          rightText="px"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <FontStudio register={register} />
               </li>
 
               <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={11}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Preview
-                    </div>
-
-                    <div className="collapse-content">
-                      <div className="flex flex-col">
-                        <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
-                          <OpenEye />
-
-                          <p className="text-sm text-secondary-main font-bold ml-3">
-                            Preview how this PopMe widget will look on your
-                            website without embedding it.
-                          </p>
-                        </div>
-
-                        <div className="flex p-3 bg-[#F2F6F0]">
-                          <MouseSvg width="60" height="30" stroke="#4A8A37" />
-
-                          <p className="text-sm text-[#4A8A37] font-bold ml-3">
-                            Preview how this PopMe widget will look on your
-                            website without embedding it.
-                          </p>
-                        </div>
-
-                        <NewInputText
-                          type="text"
-                          labelTitle="Your website"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="mb-3 !bg-transparent"
-                          name="Preview.yourWebsite"
-                          placeholder="example.com"
-                          register={register}
-                        />
-
-                        <div className="flex items-center mb-6">
-                          <ShareSvg height="16" width="16" stroke="#3A6FFA" />
-                          <p className="text-base text-secondary-main font-bold ml-2">
-                            popme.io/preview?example.com
-                          </p>
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h5 className="text-primary-main text-base font-semibold py-2 mb-1">
-                            Preview via custom domain
-                          </h5>
-
-                          <Button
-                            text="Add custom domain"
-                            buttonClass="w-full text-base"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Preview register={register} />
               </li>
 
               <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={6}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Get Link
-                    </div>
-                    <div className="collapse-content">
-                      <div className="flex flex-col">
-                        <h4 className="text-xl font-bold text-primary-normal py-4">
-                          Share Link
-                        </h4>
-
-                        <div className="flex">
-                          <ClipBoardSvg width="60" />
-
-                          <p className="text-base text-[#202223] ml-3">
-                            You can share your facepop widget through a direct
-                            link without embedding it on your website.
-                          </p>
-                        </div>
-
-                        <InputWithIcon
-                          type="text"
-                          labelTitle="PopMe Custom Link"
-                          labelStyle="text-primary-main text-base font-semibold"
-                          inputStyle="!bg-transparent"
-                          name="getLink.popMeCustomLink"
-                          register={register}
-                          rightIcon={<ShareSvg />}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <GetLink register={register} />
               </li>
 
               <li>
-                <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-                  <div
-                    tabIndex={7}
-                    className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-                  >
-                    <input type="checkbox" />
-
-                    <div className="collapse-title text-xl font-bold text-primary-normal">
-                      Instant Embed
-                    </div>
-
-                    <div className="collapse-content">
-                      <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-14 h-7 text-secondary-main"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                          />
-                        </svg>
-
-                        <p className="text-sm text-secondary-main font-bold ml-3">
-                          Connect your website with Answerly and embed any
-                          widget with one click.
-                        </p>
-                      </div>
-
-                      <div className="flex p-3 bg-[#F2F6F0] mb-4">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-12 h-7 text-[#4A8A37]"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-
-                        <p className="text-sm text-[#4A8A37] font-bold ml-3">
-                          The process takes one minute by putting a code on your
-                          website.
-                        </p>
-                      </div>
-
-                      <ModalButton
-                        text="Connect a Website"
-                        id="connect-website"
-                        buttonClass="mb-4"
-                        clickHandler={() =>
-                          modalClickHandler({
-                            id: "connect-website",
-                            children: <ConnectWebsiteModal />,
-                          })
-                        }
-                      />
-
-                      <div
-                        tabIndex={8}
-                        className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
-                      >
-                        <input type="checkbox" />
-
-                        <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
-                          www.mywebsite.com
-                        </div>
-                        <div className="collapse-content">
-                          <div className="inline-block w-full">
-                            <SelectBox
-                              labelTitle="In this website"
-                              labelStyle="text-primary-main text-base font-semibold"
-                              options={[
-                                {
-                                  name: "Show in some pages",
-                                  value: "some pages",
-                                },
-                                { name: "Option 2", value: "option2" },
-                              ]}
-                              containerStyle="mt-2 mb-3 w-full"
-                              selectStyle="text-primary-main"
-                              name="instantEmbed.inThisWebsite"
-                              register={register}
-                            />
-                          </div>
-
-                          <div className="flex mb-3">
-                            <ClipBoardSvg width="60" />
-                            <p className="text-base text-[#202223] ml-3">
-                              This widget will show only in the pages/URLs
-                              selected below.
-                            </p>
-                          </div>
-
-                          <div className="inline-block w-full mb-3">
-                            <Button
-                              text="Select pages"
-                              buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                            />
-                          </div>
-
-                          <div className="inline-block w-full mb-3">
-                            <Button
-                              text="Add conditions"
-                              buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        tabIndex={9}
-                        className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
-                      >
-                        <input type="checkbox" />
-
-                        <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
-                          www.mywebsite#2.com
-                        </div>
-                        <div className="collapse-content">
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div
-                        tabIndex={10}
-                        className="collapse collapse-arrow border border-borderColor-main rounded-lg"
-                      >
-                        <input type="checkbox" />
-
-                        <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
-                          www.mywebsite#3.com
-                        </div>
-                        <div className="collapse-content">
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <InstantEmbed register={register} />
               </li>
             </ul>
           </div>

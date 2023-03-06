@@ -44,7 +44,6 @@ const UploadFile = ({
             //     ].includes(files[0]?.type) || "Unsupported video format",
             // },
           })}
-          // accept="video/mp4,video/x-m4v,video/*"
         />
 
         <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">

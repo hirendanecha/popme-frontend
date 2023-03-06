@@ -61,16 +61,22 @@ function SelectBox(props) {
           className={`select select-bordered w-full text-primary-main bg-[#F9FAFB] text-base border-borderColor-main focus:outline-none ${selectStyle}`}
           {...register(name, { required: false })}
         >
-          {placeholder && (
+          {/* {placeholder && (
             <option disabled selected>
               {placeholder}
+            </option>
+          )} */}
+
+          {placeholder && (
+            <option value="" disabled defaultValue>
+              Select your option
             </option>
           )}
 
           {options.map((o, k) => {
             return (
-              <option value={o.value || o.name} key={k}>
-                {o.name}
+              <option value={o.value ? o.value : o.name} key={k}>
+                {o.label ? o.label : o.name}
               </option>
             );
           })}

@@ -46,7 +46,7 @@ const AddVideo = ({ register, errors }) => {
               <div className="flex">
                 <NewTextArea
                   labelTitle="Video Description"
-                  labelStyle="text-primary-main text-base font-semibold"
+                  labelStyle="text-primary-main !text-base font-semibold"
                   inputStyle="!bg-transparent"
                   name="addVideo.videoDescription"
                   register={register}
