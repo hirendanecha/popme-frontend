@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  addWebsite,
   addWorkspace,
   getDropdownValues,
   getWorkspaceById,
+  updateWorkspaceOptions,
   worksapceList,
 } from "../action";
 
@@ -12,11 +14,21 @@ const initialState = {
   error: null,
   success: false,
   masterWorkspaceOptions: null,
+  activeWorkspaceData: null,
+  currentWebsiteUrl: "",
 };
 
 const workspaceSlice = createSlice({
   name: "workspace",
   initialState,
+  reducers: {
+    setActiveWorkspaceData: (state, action) => {
+      state.activeWorkspaceData = action.payload;
+    },
+    setCurrentWebsiteUrl: (state, action) => {
+      state.currentWebsiteUrl = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     // worksapceList
     builder.addCase(worksapceList.pending, (state, { payload }) => {
@@ -89,7 +101,46 @@ const workspaceSlice = createSlice({
       state.error = payload;
       state.success = false;
     });
+
+    // update workspace options
+    builder.addCase(updateWorkspaceOptions.pending, (state, { payload }) => {
+      state.loading = true;
+      state.data = null;
+    });
+
+    builder.addCase(updateWorkspaceOptions.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.success = true;
+    });
+
+    builder.addCase(updateWorkspaceOptions.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+      state.success = false;
+    });
+
+    // add website
+    builder.addCase(addWebsite.pending, (state, { payload }) => {
+      state.loading = true;
+      state.data = null;
+    });
+
+    builder.addCase(addWebsite.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.success = true;
+    });
+
+    builder.addCase(addWebsite.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+      state.success = false;
+    });
   },
 });
+
+export const { setActiveWorkspaceData, setCurrentWebsiteUrl } =
+  workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

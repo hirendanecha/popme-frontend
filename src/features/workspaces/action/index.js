@@ -68,3 +68,37 @@ export const getDropdownValues = createAsyncThunk(
     }
   }
 );
+
+// update workspace options
+export const updateWorkspaceOptions = createAsyncThunk(
+  "workspace/updateWorkspaceOptions",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await workSpaceAPI.updateWorkspaceApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+// add website
+export const addWebsite = createAsyncThunk(
+  "workspace/addWebsite",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await workSpaceAPI.addWebsiteApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

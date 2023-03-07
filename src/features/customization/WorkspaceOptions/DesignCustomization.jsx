@@ -7,7 +7,7 @@ import SelectBox from "../../../components/Input/SelectBox";
 const DesignCustomization = ({ register }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
 
-  //   console.log("masterWorkspaceOptions", masterWorkspaceOptions);
+  // console.log("masterWorkspaceOptions", masterWorkspaceOptions);
 
   return (
     <>
@@ -73,10 +73,14 @@ const DesignCustomization = ({ register }) => {
               <SelectBox
                 labelTitle="Animation"
                 labelStyle="text-primary-main text-base font-semibold"
-                options={[
-                  { label: "Bounce", value: "Bounce" },
-                  { label: "Fade Up", value: "fadeUp" },
-                ]}
+                options={
+                  masterWorkspaceOptions !== null &&
+                  masterWorkspaceOptions?.data?.toggleAnimation
+                    ? masterWorkspaceOptions?.data?.toggleAnimation.filter(
+                        (item) => item?.value !== ""
+                      )
+                    : []
+                }
                 containerStyle="min-w-[10rem] mb-3"
                 selectStyle="text-primary-main"
                 name="designCustomization.toggle.animation"
@@ -142,8 +146,8 @@ const DesignCustomization = ({ register }) => {
                 labelTitle="On mobile devices"
                 labelStyle="text-primary-main text-base font-semibold"
                 options={[
-                  { label: "Full screen", value: "Full Screen" },
-                  { label: "Half screen", value: "halfScreen" },
+                  { label: "Full screen", value: "full_screen" },
+                  { label: "Actual Size", value: "actual_size" },
                 ]}
                 containerStyle="min-w-[10rem] mb-3"
                 selectStyle="text-primary-main"

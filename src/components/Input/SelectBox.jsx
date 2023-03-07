@@ -87,11 +87,11 @@ function SelectBox(props) {
           onChange={(e) => updateValue(e.target.value, e)}
           value={defaultValue ? defaultValue : value}
         >
-          {placeholder && (
+          {/* {placeholder && (
             <option value="" disabled defaultValue>
               Select your option
             </option>
-          )}
+          )} */}
 
           {options &&
             options?.length > 0 &&

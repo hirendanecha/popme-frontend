@@ -3,14 +3,38 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../components/Button/Button";
 import ModalButton from "../../components/Button/ModalButton";
 import { openNewModal } from "../../redux/slices/newModalSlice";
+import { getWorkspaceById } from "../workspaces/action";
 import VerifyYourWebsiteModal from "./VerifyYourWebsiteModal";
 
 const AddInstantEmbedModal = () => {
   const dispatch = useDispatch();
   const { id } = useSelector((state) => state.modal);
+  const { activeWorkspaceData, currentWebsiteUrl } = useSelector(
+    (state) => state.workspace
+  );
+
+  // console.log("activeWorkspaceData", activeWorkspaceData);
+  // console.log("currentWebsiteUrl", currentWebsiteUrl);
 
   const modalClickHandler = (props) => {
-    dispatch(openNewModal(props));
+    // dispatch(openNewModal(props));
+
+    if (activeWorkspaceData !== null) {
+      dispatch(getWorkspaceById(activeWorkspaceData?._id))
+        .unwrap()
+        .then((res) => {
+          // console.log("AddInstantEmbedModal-res", res);
+          // if (res?.success) {
+          // }
+        })
+        .catch((err) => {
+          if (err) {
+            toast(err, {
+              type: "error",
+            });
+          }
+        });
+    }
   };
 
   return (
@@ -22,11 +46,11 @@ const AddInstantEmbedModal = () => {
         Add the Instant Embed code below into the footer of your website:
       </p>
       <div className="flex w-full mb-6">
-        <p className="py-1 px-2 bg-[#F6F6F6] text-primary-main text-sm overflow-x-scroll whitespace-nowrap rounded-md [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown
-        </p>
+        {activeWorkspaceData !== null && (
+          <p className="py-1 px-2 bg-[#F6F6F6] text-primary-main text-sm overflow-x-scroll whitespace-nowrap rounded-md [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl">
+            {`<script type="text/javascript" src="https://popme-api.opash.in/scripts/fn.js?org=${activeWorkspaceData?.identity}"></script>`}
+          </p>
+        )}
       </div>
 
       <div className="flex gap-3">

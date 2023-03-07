@@ -40,6 +40,7 @@ import {
   addWorkspace,
   getDropdownValues,
   getWorkspaceById,
+  updateWorkspaceOptions,
   worksapceList,
 } from "../workspaces/action";
 import BasicSetup from "./WorkspaceOptions/BasicSetup";
@@ -51,6 +52,7 @@ import FontStudio from "./WorkspaceOptions/FontStudio";
 import Preview from "./WorkspaceOptions/Preview";
 import GetLink from "./WorkspaceOptions/GetLink";
 import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
+import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 
 const Customization = () => {
   const dispatch = useDispatch();
@@ -94,14 +96,9 @@ const Customization = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      basicSetup: {
+      basicSetUp: {
         previewStyle: "",
         videoPosition: "",
-      },
-      addVideo: {
-        addVideo: null,
-        videoDescription: "",
-        videoTitle: "",
       },
       callToAction: {
         buttonCorners: "",
@@ -156,13 +153,16 @@ const Customization = () => {
         videoDescription: "",
         videoTitle: "",
       },
+      title: "",
+      description: "",
+      addVideo: null,
     },
   });
 
   useEffect(() => {
     if (data !== null) {
       reset({
-        basicSetup: {
+        basicSetUp: {
           previewStyle: data?.data?.basicSetUp?.previewStyle
             ? data?.data?.basicSetUp?.previewStyle
             : "",
@@ -170,16 +170,13 @@ const Customization = () => {
             ? data?.data?.basicSetUp?.videoPosition
             : "",
         },
-        addVideo: {
-          addVideo: null,
-          videoDescription: data?.data?.title ? data?.data?.title : "",
-          videoTitle: data?.data?.description ? data?.data?.description : "",
-        },
         callToAction: {
           buttonCorners: data?.data?.callToAction?.buttonCorner
             ? data?.data?.callToAction?.buttonCorner
             : "",
-          buttonIcon: null,
+          buttonIcon: data?.data?.callToAction?.buttonIcon
+            ? data?.data?.callToAction?.buttonIcon
+            : null,
           buttonStyle: data?.data?.callToAction?.buttonStyle
             ? data?.data?.callToAction?.buttonStyle
             : "",
@@ -196,29 +193,23 @@ const Customization = () => {
             : "",
 
           horizontalMargin: data?.data?.designCustomization?.horizontalMargin
-            ? data?.data?.designCustomization?.horizontalMargin.replace(
-                "px",
-                ""
-              )
+            ? data?.data?.designCustomization?.horizontalMargin
             : "",
 
           verticalMargin: data?.data?.designCustomization?.verticalMargin
-            ? data?.data?.designCustomization?.verticalMargin.replace("px", "")
+            ? data?.data?.designCustomization?.verticalMargin
             : "",
 
           player: {
             height: data?.data?.designCustomization?.player?.height
-              ? data?.data?.designCustomization?.player?.height.replace(
-                  "px",
-                  ""
-                )
+              ? data?.data?.designCustomization?.player?.height
               : "",
             onMobileDevices: data?.data?.designCustomization?.player
               ?.onMobileDevice
               ? data?.data?.designCustomization?.player?.onMobileDevice
               : "",
             size: data?.data?.designCustomization?.player?.size
-              ? data?.data?.designCustomization?.player?.size.replace("%", "")
+              ? data?.data?.designCustomization?.player?.size
               : "",
           },
           toggle: {
@@ -239,7 +230,7 @@ const Customization = () => {
                 : "",
 
             size: data?.data?.designCustomization?.toggle?.size
-              ? data?.data?.designCustomization?.toggle?.size.replace("%", "")
+              ? data?.data?.designCustomization?.toggle?.size
               : "",
           },
         },
@@ -298,27 +289,70 @@ const Customization = () => {
         },
         fontStudio: {
           authorName: data?.data?.fontStudio?.authorName
-            ? data?.data?.fontStudio?.authorName.replace("px", "")
+            ? data?.data?.fontStudio?.authorName
             : "",
           ctaButton: data?.data?.fontStudio?.ctaButton
-            ? data?.data?.fontStudio?.ctaButton.replace("px", "")
+            ? data?.data?.fontStudio?.ctaButton
             : "",
           fontFamily: data?.data?.fontStudio?.fontFamily
             ? data?.data?.fontStudio?.fontFamily
             : "",
           videoDescription: data?.data?.fontStudio?.videoDescription
-            ? data?.data?.fontStudio?.videoDescription.replace("px", "")
+            ? data?.data?.fontStudio?.videoDescription
             : "",
           videoTitle: data?.data?.fontStudio?.videoTitle
-            ? data?.data?.fontStudio?.videoTitle.replace("px", "")
+            ? data?.data?.fontStudio?.videoTitle
             : "",
         },
+        title: data?.data?.title ? data?.data?.title : "",
+        description: data?.data?.description ? data?.data?.description : "",
+        addVideo: null,
       });
     }
   }, [data]);
 
+  function buildFormData(formData, data, parentKey) {
+    if (
+      data &&
+      typeof data === "object" &&
+      !(data instanceof Date) &&
+      !(data instanceof File)
+    ) {
+      Object.keys(data).forEach((key) => {
+        buildFormData(
+          formData,
+          data[key],
+          parentKey ? `${parentKey}[${key}]` : key
+        );
+      });
+    } else {
+      const value = data == null ? "" : data;
+
+      formData.append(parentKey, value);
+    }
+  }
+
+  function jsonToFormData(data) {
+    const formData = new FormData();
+
+    buildFormData(formData, data);
+
+    return formData;
+  }
+
   const onSubmit = (data) => {
-    console.log("onSubmit", data);
+    // console.log("onSubmit", data);
+
+    let formData = jsonToFormData(data);
+
+    dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
+      .unwrap()
+      .then((res) => {
+        // console.log("res", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
 
   const updateValue = (data) => {
@@ -338,6 +372,12 @@ const Customization = () => {
               value: val?._id,
             }));
 
+          // console.log("filterData", filterData);
+
+          if (filterData?.length > 0 && activeWorkspace === "") {
+            setActiveWorkspace(filterData[0]?.value);
+          }
+
           setSelectWorkspaceOptions(filterData);
         }
       })
@@ -348,7 +388,7 @@ const Customization = () => {
           });
         }
       });
-  }, []);
+  }, [activeWorkspace]);
 
   const newWorkspaceHandler = () => {
     dispatch(addWorkspace())
@@ -375,7 +415,9 @@ const Customization = () => {
     dispatch(getWorkspaceById(id))
       .unwrap()
       .then((res) => {
-        // console.log("res", res);
+        if (res?.success) {
+          dispatch(setActiveWorkspaceData(res?.data));
+        }
       })
       .catch((err) => {
         if (err) {

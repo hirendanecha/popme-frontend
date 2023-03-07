@@ -31,20 +31,11 @@ const CallToActionModal = ({ register }) => {
     },
   ];
 
-  // function decodeHTMLEntities(text) {
-  //   let textArea = document.createElement("textarea");
-  //   textArea.innerHTML = text;
-  //   return textArea.value;
-  // }
-
-  // const appendSVG = (id, xml_string) => {
-  //   let el = React.createElement("div");
-  //   el.key = id;
-  //   el.innerHTML = xml_string;
-  //   return el;
-  // };
-
-  // appendSVG("id", dec);
+  const conv = (svg) => {
+    const decodedString = document.createElement("textarea");
+    decodedString.innerHTML = svg;
+    return decodedString.value;
+  };
 
   return (
     <>
@@ -84,7 +75,7 @@ const CallToActionModal = ({ register }) => {
                 </h5>
 
                 <div className="flex flex-wrap gap-3">
-                  {/* {masterWorkspaceOptions !== null &&
+                  {masterWorkspaceOptions !== null &&
                     masterWorkspaceOptions?.data?.buttonIcons?.map(
                       (item, index) => (
                         <div className="inline-block" key={index}>
@@ -103,16 +94,17 @@ const CallToActionModal = ({ register }) => {
                             className="peer-checked:border-secondary-main flex items-center justify-center h-6 w-6 border border-borderColor-main"
                           >
                             <div
-                              dangerouslySetInnerHTML={{ __html: item?.svg }}
+                              dangerouslySetInnerHTML={{
+                                __html: conv(item?.svg),
+                              }}
+                              className="flex items-center justify-center"
                             />
-
-                            {appendSVG("icon" + index, item?.svg)}
                           </label>
                         </div>
                       )
-                    )} */}
+                    )}
 
-                  {IconList.map((item, index) => (
+                  {/* {IconList.map((item, index) => (
                     <div className="inline-block" key={index}>
                       <input
                         type="radio"
@@ -121,8 +113,7 @@ const CallToActionModal = ({ register }) => {
                         {...register("callToAction.buttonIcon")}
                         value={item?.name}
                         className="hidden peer"
-                        // required
-                      ></input>
+                      />
 
                       <label
                         htmlFor={item?.name}
@@ -131,7 +122,7 @@ const CallToActionModal = ({ register }) => {
                         {item?.icon}
                       </label>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
 

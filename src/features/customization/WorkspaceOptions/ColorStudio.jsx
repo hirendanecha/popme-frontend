@@ -54,7 +54,7 @@ const ColorStudio = ({ register, watch }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates")}
-                    value="Red"
+                    value="red"
                     className="radio bg-[#FF0056] checked:bg-[#FF0056] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
@@ -69,7 +69,7 @@ const ColorStudio = ({ register, watch }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates")}
-                    value="Blue"
+                    value="blue"
                     className="radio bg-[#00A3FF] checked:bg-[#00A3FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
@@ -84,7 +84,7 @@ const ColorStudio = ({ register, watch }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates")}
-                    value="Green"
+                    value="green"
                     className="radio bg-[#24CB3F] checked:bg-[#24CB3F] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
@@ -99,7 +99,7 @@ const ColorStudio = ({ register, watch }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates")}
-                    value="Orange"
+                    value="orange"
                     className="radio bg-[#FFBB0E] checked:bg-[#FFBB0E] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>

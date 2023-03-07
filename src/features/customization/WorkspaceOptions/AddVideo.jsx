@@ -20,11 +20,10 @@ const AddVideo = ({ register, errors }) => {
             <div className="flex flex-col">
               <div className="flex">
                 <UploadFile
-                  name="addVideo.addVideo"
+                  name="addVideo"
                   register={register}
                   errorMessage={
-                    errors?.addVideo?.addVideo?.message &&
-                    errors?.addVideo?.addVideo?.message
+                    errors?.addVideo?.message && errors?.addVideo?.message
                   }
                   // handleFile={handleFile}
                   // removeImage={removeImage}
@@ -38,7 +37,7 @@ const AddVideo = ({ register, errors }) => {
                   labelTitle="Video Title"
                   labelStyle="text-primary-main text-base font-semibold"
                   inputStyle="mb-3 !bg-transparent"
-                  name="addVideo.videoTitle"
+                  name="title"
                   register={register}
                 />
               </div>
@@ -48,7 +47,7 @@ const AddVideo = ({ register, errors }) => {
                   labelTitle="Video Description"
                   labelStyle="text-primary-main !text-base font-semibold"
                   inputStyle="!bg-transparent"
-                  name="addVideo.videoDescription"
+                  name="description"
                   register={register}
                 />
               </div>

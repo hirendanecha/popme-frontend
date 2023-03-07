@@ -32,8 +32,8 @@ const BasicSetup = ({ register }) => {
                           <input
                             type="radio"
                             id={item?._id}
-                            name="basicSetup.videoPosition"
-                            {...register("basicSetup.videoPosition")}
+                            name="basicSetUp.videoPosition"
+                            {...register("basicSetUp.videoPosition")}
                             value={item?.value}
                             className="hidden peer"
                           ></input>
@@ -64,8 +64,8 @@ const BasicSetup = ({ register }) => {
                             <input
                               type="radio"
                               id={item?._id}
-                              name="basicSetup.previewStyle"
-                              {...register("basicSetup.previewStyle")}
+                              name="basicSetUp.previewStyle"
+                              {...register("basicSetUp.previewStyle")}
                               value={item?.value}
                               className="hidden peer"
                             ></input>

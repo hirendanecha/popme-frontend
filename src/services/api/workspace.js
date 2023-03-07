@@ -20,6 +20,18 @@ const workSpaceAPI = {
   getDropdownValuesApi() {
     return axios.get("/api/workspace/values");
   },
+
+  // update workspace options
+  updateWorkspaceApi({ data, id }) {
+    return axios.put(`/api/workspace/${id}`, data);
+  },
+
+  // add website
+  addWebsiteApi({ data, id }) {
+    // console.log("data", data);
+    // console.log("id", id);
+    return axios.put(`/api/workspace/website/${id}`, data);
+  },
 };
 
 export default workSpaceAPI;
