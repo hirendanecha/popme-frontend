@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ClipBoardSvg from "../../../assets/svgs/ClipBoardSvg";
 import ShareSvg from "../../../assets/svgs/ShareSvg";
 import InputWithIcon from "../../../components/Input/InputWithIcon";
 
 const GetLink = ({ register }) => {
+  const { activeWorkspaceData } = useSelector((state) => state.workspace);
+
+  console.log("activeWorkspaceData", activeWorkspaceData);
+
+  const [customLink, setCustomLink] = useState("");
+
+  useEffect(() => {
+    if (activeWorkspaceData !== null) {
+      setCustomLink(`http://localhost:5173/share/${activeWorkspaceData?._id}`);
+    }
+  }, [activeWorkspaceData]);
+
+  // console.log("customLink", customLink);
+
+  const updateValue = (data) => {
+    // console.log("updateValue", data);
+    setCustomLink(data?.value);
+  };
+
   return (
     <>
       <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
@@ -36,9 +56,12 @@ const GetLink = ({ register }) => {
                 labelTitle="PopMe Custom Link"
                 labelStyle="text-primary-main text-base font-semibold"
                 inputStyle="!bg-transparent"
-                name="getLink.popMeCustomLink"
-                register={register}
+                name="getLink"
+                updateFormValue={updateValue}
+                defaultValue={customLink}
+                // register={register}
                 rightIcon={<ShareSvg />}
+                disabled
               />
             </div>
           </div>

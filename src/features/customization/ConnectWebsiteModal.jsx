@@ -28,8 +28,8 @@ const ConnectWebsiteModal = () => {
         .unwrap()
         .then((res) => {
           if (res?.success) {
-            // console.log("ConnectWebsiteModal-res", res);
             dispatch(setCurrentWebsiteUrl(webUrl));
+            // dispatch(setActiveWorkspaceData(res?.data));
             dispatch(openNewModal(props));
           }
         })

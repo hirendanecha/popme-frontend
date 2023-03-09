@@ -101,7 +101,7 @@ const Customization = () => {
         videoPosition: "",
       },
       callToAction: {
-        buttonCorners: "",
+        buttonCorner: "",
         buttonIcon: null,
         buttonStyle: "",
         buttonText: "",
@@ -113,7 +113,7 @@ const Customization = () => {
         verticalMargin: "",
         player: {
           height: "",
-          onMobileDevices: "",
+          onMobileDevice: "",
           size: "",
         },
         toggle: {
@@ -137,7 +137,7 @@ const Customization = () => {
         },
         player: {
           authorName: "",
-          controls: "",
+          control: "",
           seeker: "",
         },
         toggle: {
@@ -155,7 +155,7 @@ const Customization = () => {
       },
       title: "",
       description: "",
-      addVideo: null,
+      video: null,
     },
   });
 
@@ -171,7 +171,7 @@ const Customization = () => {
             : "",
         },
         callToAction: {
-          buttonCorners: data?.data?.callToAction?.buttonCorner
+          buttonCorner: data?.data?.callToAction?.buttonCorner
             ? data?.data?.callToAction?.buttonCorner
             : "",
           buttonIcon: data?.data?.callToAction?.buttonIcon
@@ -204,7 +204,7 @@ const Customization = () => {
             height: data?.data?.designCustomization?.player?.height
               ? data?.data?.designCustomization?.player?.height
               : "",
-            onMobileDevices: data?.data?.designCustomization?.player
+            onMobileDevice: data?.data?.designCustomization?.player
               ?.onMobileDevice
               ? data?.data?.designCustomization?.player?.onMobileDevice
               : "",
@@ -268,7 +268,7 @@ const Customization = () => {
             authorName: data?.data?.colorStudio?.player?.authorName
               ? data?.data?.colorStudio?.player?.authorName
               : "#FFFFFF",
-            controls: data?.data?.colorStudio?.player?.control
+            control: data?.data?.colorStudio?.player?.control
               ? data?.data?.colorStudio?.player?.control
               : "#FFFFFF",
             seeker: data?.data?.colorStudio?.player?.seeker
@@ -306,7 +306,7 @@ const Customization = () => {
         },
         title: data?.data?.title ? data?.data?.title : "",
         description: data?.data?.description ? data?.data?.description : "",
-        addVideo: null,
+        // addVideo: null,
       });
     }
   }, [data]);
@@ -319,14 +319,21 @@ const Customization = () => {
       !(data instanceof File)
     ) {
       Object.keys(data).forEach((key) => {
-        buildFormData(
-          formData,
-          data[key],
-          parentKey ? `${parentKey}[${key}]` : key
-        );
+        if (key === "video") {
+          formData.append(key, data[key][0]);
+        } else {
+          buildFormData(
+            formData,
+            data[key],
+            parentKey ? `${parentKey}[${key}]` : key
+          );
+        }
       });
     } else {
       const value = data == null ? "" : data;
+
+      // console.log("data", data);
+      // console.log("parentKey", parentKey);
 
       formData.append(parentKey, value);
     }

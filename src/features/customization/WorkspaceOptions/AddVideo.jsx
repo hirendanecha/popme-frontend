@@ -20,10 +20,10 @@ const AddVideo = ({ register, errors }) => {
             <div className="flex flex-col">
               <div className="flex">
                 <UploadFile
-                  name="addVideo"
+                  name="video"
                   register={register}
                   errorMessage={
-                    errors?.addVideo?.message && errors?.addVideo?.message
+                    errors?.video?.message && errors?.video?.message
                   }
                   // handleFile={handleFile}
                   // removeImage={removeImage}

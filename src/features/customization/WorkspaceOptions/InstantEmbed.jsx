@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ClipBoardSvg from "../../../assets/svgs/ClipBoardSvg";
 import Button from "../../../components/Button/Button";
 import ModalButton from "../../../components/Button/ModalButton";
@@ -9,6 +9,9 @@ import ConnectWebsiteModal from "../ConnectWebsiteModal";
 
 const InstantEmbed = ({ register }) => {
   const dispatch = useDispatch();
+  const { activeWorkspaceData } = useSelector((state) => state.workspace);
+
+  // console.log("activeWorkspaceData", activeWorkspaceData);
 
   const modalClickHandler = (props) => {
     dispatch(openNewModal(props));
@@ -83,7 +86,65 @@ const InstantEmbed = ({ register }) => {
               }
             />
 
-            <div
+            {activeWorkspaceData !== null &&
+              activeWorkspaceData?.website
+                ?.filter((web) => web?.isVerfied === true)
+                ?.map((item, index) => (
+                  <div
+                    tabIndex={item?._id}
+                    className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
+                    key={index}
+                  >
+                    <input type="checkbox" />
+
+                    <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
+                      {`www.${item?.url}`}
+                    </div>
+                    <div className="collapse-content">
+                      <div className="inline-block w-full">
+                        <SelectBox
+                          labelTitle="In this website"
+                          labelStyle="text-primary-main text-base font-semibold"
+                          options={[
+                            {
+                              name: "Show in some pages",
+                              value: "some pages",
+                            },
+                            { name: "Option 2", value: "option2" },
+                          ]}
+                          containerStyle="mt-2 mb-3 w-full"
+                          selectStyle="text-primary-main"
+                          name="instantEmbed.inThisWebsite"
+                          // register={register}
+                        />
+                      </div>
+
+                      <div className="flex mb-3">
+                        <ClipBoardSvg width="60" />
+                        <p className="text-base text-[#202223] ml-3">
+                          This widget will show only in the pages/URLs selected
+                          below.
+                        </p>
+                      </div>
+
+                      <div className="inline-block w-full mb-3">
+                        <Button
+                          text="Select pages"
+                          buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                        />
+                      </div>
+
+                      <div className="inline-block w-full mb-3">
+                        <Button
+                          text="Add conditions"
+                          buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+            {/* <div
               tabIndex={8}
               className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
             >
@@ -132,9 +193,9 @@ const InstantEmbed = ({ register }) => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div
+            {/* <div
               tabIndex={9}
               className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
             >
@@ -146,9 +207,9 @@ const InstantEmbed = ({ register }) => {
               <div className="collapse-content">
                 <p>Lorem Ipsum is simply dummy text of the printing.</p>
               </div>
-            </div>
+            </div> */}
 
-            <div
+            {/* <div
               tabIndex={10}
               className="collapse collapse-arrow border border-borderColor-main rounded-lg"
             >
@@ -160,7 +221,7 @@ const InstantEmbed = ({ register }) => {
               <div className="collapse-content">
                 <p>Lorem Ipsum is simply dummy text of the printing.</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

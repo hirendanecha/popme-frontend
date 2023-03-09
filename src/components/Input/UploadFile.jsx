@@ -25,6 +25,7 @@ const UploadFile = ({
         <input
           type="file"
           accept="video/*"
+          multiple={false}
           className="h-full w-full opacity-0 z-10 absolute p-3"
           {...register(name, {
             required: false,

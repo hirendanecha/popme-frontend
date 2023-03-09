@@ -151,7 +151,7 @@ const CallToActionModal = ({ register }) => {
                 }
                 containerStyle="min-w-[10rem] mb-3"
                 selectStyle="text-primary-main"
-                name="callToAction.buttonCorners"
+                name="callToAction.buttonCorner"
                 register={register}
                 placeholder
               />

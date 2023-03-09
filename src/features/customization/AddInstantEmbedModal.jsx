@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../components/Button/Button";
 import ModalButton from "../../components/Button/ModalButton";
 import { openNewModal } from "../../redux/slices/newModalSlice";
 import { getWorkspaceById } from "../workspaces/action";
+import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 import VerifyYourWebsiteModal from "./VerifyYourWebsiteModal";
+import WebsiteConnectedModal from "./WebsiteConnectedModal";
 
 const AddInstantEmbedModal = () => {
   const dispatch = useDispatch();
@@ -17,24 +19,42 @@ const AddInstantEmbedModal = () => {
   // console.log("currentWebsiteUrl", currentWebsiteUrl);
 
   const modalClickHandler = (props) => {
-    // dispatch(openNewModal(props));
+    dispatch(openNewModal(props));
+    // console.log("isVerify", isVerify);
+  };
 
-    if (activeWorkspaceData !== null) {
-      dispatch(getWorkspaceById(activeWorkspaceData?._id))
-        .unwrap()
-        .then((res) => {
-          // console.log("AddInstantEmbedModal-res", res);
-          // if (res?.success) {
-          // }
-        })
-        .catch((err) => {
-          if (err) {
-            toast(err, {
-              type: "error",
+  const getWorkspaceHandler = () => {
+    dispatch(getWorkspaceById(activeWorkspaceData._id))
+      .unwrap()
+      .then((res) => {
+        // console.log("res", res);
+
+        if (res?.success) {
+          const checkData = res?.data?.website?.find(
+            (item) =>
+              item?.url === currentWebsiteUrl && item?.isVerfied === true
+          );
+
+          if (checkData !== undefined) {
+            dispatch(setActiveWorkspaceData(res?.data));
+
+            modalClickHandler({
+              id: "website-connected",
+              children: <WebsiteConnectedModal />,
+            });
+          } else {
+            modalClickHandler({
+              id: "verify-your-website",
+              children: <VerifyYourWebsiteModal />,
             });
           }
-        });
-    }
+
+          // console.log("checkData", checkData);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -59,12 +79,7 @@ const AddInstantEmbedModal = () => {
             text="I have added the code"
             id="verify-your-website"
             buttonClass="mb-4"
-            clickHandler={() =>
-              modalClickHandler({
-                id: "verify-your-website",
-                children: <VerifyYourWebsiteModal />,
-              })
-            }
+            clickHandler={() => getWorkspaceHandler()}
           />
         </div>
 

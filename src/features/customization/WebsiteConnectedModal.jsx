@@ -33,8 +33,7 @@ const WebsiteConnectedModal = () => {
 
       <p className="mb-6 text-base text-primary-normal font-semibold">
         You can now seamless embed any of our widgets through the{" "}
-        <span className="font-bold">Instant Embed</span>
-        page.
+        <span className="font-bold">Instant Embed</span> page.
       </p>
 
       <p className="mb-8 text-base text-primary-normal font-semibold">

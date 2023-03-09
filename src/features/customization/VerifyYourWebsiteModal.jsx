@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ModalButton from "../../components/Button/ModalButton";
 import { openNewModal } from "../../redux/slices/newModalSlice";
+import AddInstantEmbedModal from "./AddInstantEmbedModal";
 import WebsiteConnectedModal from "./WebsiteConnectedModal";
 
 const VerifyYourWebsiteModal = () => {
@@ -32,10 +33,17 @@ const VerifyYourWebsiteModal = () => {
             text="Show me the code again"
             id="website-connected"
             buttonClass="mb-2 !bg-white !text-primary-main hover:bg-white !border border-borderColor-main hover:border-borderColor-main w-max"
+            // clickHandler={() =>
+            //   modalClickHandler({
+            //     id: "website-connected",
+            //     children: <WebsiteConnectedModal />,
+            //   })
+            // }
+
             clickHandler={() =>
               modalClickHandler({
-                id: "website-connected",
-                children: <WebsiteConnectedModal />,
+                id: "add-instant-embed",
+                children: <AddInstantEmbedModal />,
               })
             }
           />

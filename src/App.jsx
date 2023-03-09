@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
+import ShareLayout from "./containers/ShareLayout";
 import "./css/style.css";
 
 // Importing pages
@@ -50,6 +51,7 @@ function App() {
 
         {/* Place new routes over this */}
         <Route path="/app/*" element={<Layout />} />
+        <Route path="/share/*" element={<ShareLayout />} />
 
         <Route
           path="*"

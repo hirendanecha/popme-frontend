@@ -194,7 +194,7 @@ const ColorStudio = ({ register, watch }) => {
                   Controls
                 </h5>
                 <ColorPickerInput
-                  name="colorStudio.player.controls"
+                  name="colorStudio.player.control"
                   register={register}
                   watch={watch}
                 />

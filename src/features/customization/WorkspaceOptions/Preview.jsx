@@ -46,7 +46,7 @@ const Preview = ({ register }) => {
                 inputStyle="mb-3 !bg-transparent"
                 name="Preview.yourWebsite"
                 placeholder="example.com"
-                register={register}
+                // register={register}
               />
 
               <div className="flex items-center mb-6">

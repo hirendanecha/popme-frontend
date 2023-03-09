@@ -151,7 +151,7 @@ const DesignCustomization = ({ register }) => {
                 ]}
                 containerStyle="min-w-[10rem] mb-3"
                 selectStyle="text-primary-main"
-                name="designCustomization.player.onMobileDevices"
+                name="designCustomization.player.onMobileDevice"
                 register={register}
                 placeholder
               />
