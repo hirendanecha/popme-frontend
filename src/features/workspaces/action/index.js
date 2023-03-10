@@ -4,9 +4,9 @@ import workSpaceAPI from "../../../services/api/workspace";
 // get list of all worksapce with pagination
 export const worksapceList = createAsyncThunk(
   "workspace/worksapceList",
-  async (data, { rejectWithValue }) => {
+  async (data = "", { rejectWithValue }) => {
     try {
-      const response = await workSpaceAPI.workspaceListApi();
+      const response = await workSpaceAPI.workspaceListApi(data);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {

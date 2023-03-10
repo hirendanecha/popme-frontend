@@ -2,8 +2,12 @@ import axios from "./";
 
 const workSpaceAPI = {
   // get list of all worksapce with pagination
-  workspaceListApi() {
-    return axios.get("/api/workspace");
+  workspaceListApi({ page, size }) {
+    if (page && size) {
+      return axios.get(`/api/workspace?page=${page}&size=${size}`);
+    } else {
+      return axios.get("/api/workspace");
+    }
   },
 
   // add new worksoace

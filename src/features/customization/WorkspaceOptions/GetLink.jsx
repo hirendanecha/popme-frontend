@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import ClipBoardSvg from "../../../assets/svgs/ClipBoardSvg";
 import ShareSvg from "../../../assets/svgs/ShareSvg";
 import InputWithIcon from "../../../components/Input/InputWithIcon";
@@ -7,7 +8,7 @@ import InputWithIcon from "../../../components/Input/InputWithIcon";
 const GetLink = ({ register }) => {
   const { activeWorkspaceData } = useSelector((state) => state.workspace);
 
-  console.log("activeWorkspaceData", activeWorkspaceData);
+  // console.log("activeWorkspaceData", activeWorkspaceData);
 
   const [customLink, setCustomLink] = useState("");
 
@@ -19,10 +20,9 @@ const GetLink = ({ register }) => {
 
   // console.log("customLink", customLink);
 
-  const updateValue = (data) => {
-    // console.log("updateValue", data);
-    setCustomLink(data?.value);
-  };
+  // const updateValue = (data) => {
+  //   setCustomLink(data?.value);
+  // };
 
   return (
     <>
@@ -41,8 +41,7 @@ const GetLink = ({ register }) => {
               <h4 className="text-xl font-bold text-primary-normal py-4">
                 Share Link
               </h4>
-
-              <div className="flex">
+              <div className="flex mb-6">
                 <ClipBoardSvg width="60" />
 
                 <p className="text-base text-[#202223] ml-3">
@@ -50,19 +49,25 @@ const GetLink = ({ register }) => {
                   without embedding it on your website.
                 </p>
               </div>
+              <span className={`text-lg text-primary-normal font-bold mb-2`}>
+                PopMe Custom Link
+              </span>
 
-              <InputWithIcon
-                type="text"
-                labelTitle="PopMe Custom Link"
-                labelStyle="text-primary-main text-base font-semibold"
-                inputStyle="!bg-transparent"
-                name="getLink"
-                updateFormValue={updateValue}
-                defaultValue={customLink}
-                // register={register}
-                rightIcon={<ShareSvg />}
-                disabled
-              />
+              <div className="flex w-full justify-between p-3 rounded-lg border border-borderColor-main text-primary-main">
+                <p
+                  id="a"
+                  onClick={() => navigator.clipboard.writeText(customLink)}
+                  className="w-[calc(100%-80px)] inline-block whitespace-nowrap overflow-hidden text-ellipsis"
+                >
+                  {customLink}
+                </p>
+
+                <div className="flex justify-end">
+                  <Link to={customLink} target="_blank">
+                    <ShareSvg />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setPageTitle } from "../../redux/slices/headerSlice";
 import workspace1 from "../../assets/images/workspace-1.png";
@@ -8,43 +8,95 @@ import ThreeDotSvg from "../../assets/svgs/ThreeDotSvg";
 import GroupSvg from "../../assets/svgs/GroupSvg";
 import ClockSvg from "../../assets/svgs/ClockSvg";
 import MouseSvg from "../../assets/svgs/MouseSvg";
+import WorkspacePost from "./WorkspacePost";
+import { worksapceList } from "./action";
+import Button from "../../components/Button/Button";
 
 const Workspaces = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setPageTitle({ title: "Workspaces" }));
+  const [workspacePosts, setWorkspacePosts] = useState([]);
+
+  const [totalPage, setTotalPage] = useState("");
+  const [currentPage, setCurrentPage] = useState("");
+  const [page, setPage] = useState(1);
+
+  const workspaceListApi = useCallback((props, options = { merge: false }) => {
+    dispatch(worksapceList(props))
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          // setWorkspacePosts((prev) => [...prev, ...res?.data]);
+          if (options?.merge) {
+            setWorkspacePosts((prev) => [...prev, ...res?.data]);
+          } else {
+            setWorkspacePosts(() => [...res?.data]);
+          }
+          setTotalPage(res?.pagination?.totalPages);
+          setCurrentPage(res?.pagination?.currentPage);
+        }
+
+        // console.log("res", res);
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
   }, []);
 
-  const Data = [
-    {
-      id: 1,
-      name: "Workspace #1",
-      description: "Uploaded 19 hours ago",
-      totalViews: 9843,
-      totalMinWatch: 543,
-      totalClickedCTA: 346,
-      img: workspace1,
-    },
-    {
-      id: 2,
-      name: "Workspace #2",
-      description: "Uploaded 3 days ago",
-      totalViews: 253,
-      totalMinWatch: 129,
-      totalClickedCTA: 25,
-      img: workspace2,
-    },
-    {
-      id: 3,
-      name: "Workspace #3",
-      description: "Uploaded 15 days ago",
-      totalViews: 253,
-      totalMinWatch: 129,
-      totalClickedCTA: 25,
-      img: workspace3,
-    },
-  ];
+  useEffect(() => {
+    dispatch(setPageTitle({ title: "Workspaces" }));
+    workspaceListApi({ page: page, size: 2 });
+
+    return () => {
+      setWorkspacePosts((prev) => [...prev]);
+    };
+  }, []);
+
+  const loadmoreHandler = () => {
+    setPage((prev) => prev + 1);
+    workspaceListApi(
+      { page: page + 1, size: 2 },
+      {
+        merge: true,
+      }
+    );
+  };
+
+  // console.log("workspacePosts", workspacePosts);
+
+  // const Data = [
+  //   {
+  //     id: 1,
+  //     name: "Workspace #1",
+  //     description: "Uploaded 19 hours ago",
+  //     totalViews: 9843,
+  //     totalMinWatch: 543,
+  //     totalClickedCTA: 346,
+  //     img: workspace1,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Workspace #2",
+  //     description: "Uploaded 3 days ago",
+  //     totalViews: 253,
+  //     totalMinWatch: 129,
+  //     totalClickedCTA: 25,
+  //     img: workspace2,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Workspace #3",
+  //     description: "Uploaded 15 days ago",
+  //     totalViews: 253,
+  //     totalMinWatch: 129,
+  //     totalClickedCTA: 25,
+  //     img: workspace3,
+  //   },
+  // ];
 
   const PlusIcon = () => (
     <svg
@@ -67,7 +119,13 @@ const Workspaces = () => {
     <div className="min-h-screen py-8 px-4 lg:px-6">
       <div className="inline-block w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {Data &&
+          {workspacePosts &&
+            workspacePosts?.length > 0 &&
+            workspacePosts?.map((item, index) => (
+              <WorkspacePost key={index} item={item} index={index} />
+            ))}
+
+          {/* {Data &&
             Data.map((item, index) => (
               <div
                 className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl"
@@ -164,7 +222,7 @@ const Workspaces = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
 
           <div className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl h-fit cursor-pointer">
             <div className="flex flex-col">
@@ -182,7 +240,9 @@ const Workspaces = () => {
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col">
                     <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
-                      Data.length + 1
+                      workspacePosts &&
+                      workspacePosts?.length > 0 &&
+                      workspacePosts?.length + 1
                     }`}</h4>
                     <p className="text-primary-normal text-sm">
                       Create a new Workspace
@@ -210,6 +270,16 @@ const Workspaces = () => {
             </div>
           </div>
         </div>
+
+        {totalPage != currentPage && (
+          <div className="flex justify-center mt-8">
+            <Button
+              text="Load More"
+              buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
+              clickHandler={loadmoreHandler}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
