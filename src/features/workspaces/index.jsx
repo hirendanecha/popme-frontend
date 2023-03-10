@@ -21,6 +21,8 @@ const Workspaces = () => {
   const [currentPage, setCurrentPage] = useState("");
   const [page, setPage] = useState(1);
 
+  const perPageSize = 2;
+
   const workspaceListApi = useCallback((props, options = { merge: false }) => {
     dispatch(worksapceList(props))
       .unwrap()
@@ -49,7 +51,7 @@ const Workspaces = () => {
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Workspaces" }));
-    workspaceListApi({ page: page, size: 2 });
+    workspaceListApi({ page: page, size: perPageSize });
 
     return () => {
       setWorkspacePosts((prev) => [...prev]);
@@ -59,7 +61,7 @@ const Workspaces = () => {
   const loadmoreHandler = () => {
     setPage((prev) => prev + 1);
     workspaceListApi(
-      { page: page + 1, size: 2 },
+      { page: page + 1, size: perPageSize },
       {
         merge: true,
       }
@@ -271,15 +273,16 @@ const Workspaces = () => {
           </div>
         </div>
 
-        {totalPage != currentPage && (
-          <div className="flex justify-center mt-8">
-            <Button
-              text="Load More"
-              buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
-              clickHandler={loadmoreHandler}
-            />
-          </div>
-        )}
+        {workspacePosts?.length <= 0 ||
+          (totalPage != currentPage && (
+            <div className="flex justify-center mt-8">
+              <Button
+                text="Load More"
+                buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
+                clickHandler={loadmoreHandler}
+              />
+            </div>
+          ))}
       </div>
     </div>
   );
