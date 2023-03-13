@@ -9,7 +9,13 @@ import playVideoIcon from "../../assets/images/playVideoIcon.png";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-const WorkspacePost = ({ item, index }) => {
+const WorkspacePost = ({
+  item,
+  index,
+  onDeleteHandler,
+  onEditHandler,
+  onDuplicateHandler,
+}) => {
   //   console.log(
   //     "video",
   //     baseURL + item?.video?.thumbnailDestination + item?.video?.thumbnail
@@ -35,12 +41,16 @@ const WorkspacePost = ({ item, index }) => {
       : defaultWorkspaceImage
   );
 
+  const [playIcon, setPlayIcon] = useState(false);
+
   const mouseOver = () => {
     setDefaultWorkspaceImg(
       item?.video?.animatedImage
         ? baseURL + item?.video?.animatedImage
         : defaultWorkspaceWebp
     );
+
+    setPlayIcon(true);
   };
 
   const mouseOut = () => {
@@ -52,106 +62,52 @@ const WorkspacePost = ({ item, index }) => {
             item?.video?.thumbnail
         : defaultWorkspaceImage
     );
+
+    setPlayIcon(false);
   };
 
-  const ClapprComponent = ({ id, source, height }) => {
-    let playerr = useRef();
+  const editWorkspaceHandler = () => {
+    // console.log(item._id, "item");
+    onEditHandler(item._id);
+  };
 
-    useEffect(() => {
-      playerr.current = new Clappr.Player({
-        source: "https://www.w3schools.com/tags/movie.ogg",
-        // poster: "http://clappr.io/poster.png",
-        parentId: "#image_player",
-        height,
-        width: "100%",
-        // autoPlay: true,
-        loop: true,
+  const deleteWorkspaceHandler = () => {
+    // console.log(item._id, "item");
+    onDeleteHandler(item._id);
+  };
 
-        // playback: {
-        //   controls: false,
-        // },
-      });
-
-      //   player.current.on(window.Clappr.Events.PLAYER_PLAY, function () {
-      //     player.current.core.mediaControl.disable();
-      //   });
-
-      // hide play button
-      playerr.current.getPlugin("poster").$playWrapper.hide();
-
-      let imgPlayIcon = document.querySelector(".img_play_buttonn");
-      imgPlayIcon.addEventListener("click", function (event) {
-        if (document.getElementById(id).classList.contains("hidden")) {
-          document.getElementById(id).classList.remove("hidden");
-          document.getElementById(id).classList.add("block");
-
-          document.querySelector(".poster_img").classList.remove("block");
-          document.querySelector(".poster_img").classList.add("hidden");
-
-          playerr.current.play();
-        }
-      });
-
-      let workspaceWraper = document.querySelector(".workspace_wraper");
-
-      workspaceWraper.addEventListener("mouseleave", function (event) {
-        // console.log("start");
-
-        if (document.getElementById(id).classList.contains("block")) {
-          //   console.log("end");
-          playerr.current.pause();
-          document.getElementById(id).classList.remove("block");
-          document.getElementById(id).classList.add("hidden");
-
-          if (
-            document.querySelector(".poster_img").classList.contains("hidden")
-          ) {
-            document.querySelector(".poster_img").classList.remove("hidden");
-            document.querySelector(".poster_img").classList.add("block");
-          }
-        }
-      });
-    }, []);
-
-    return (
-      <>
-        <div ref={playerr} id={id} className="w-full hidden"></div>
-      </>
-    );
+  const duplicateWorkspaceHandler = () => {
+    console.log(item._id, "duplicate item id");
+    onDuplicateHandler(item._id);
   };
 
   return (
     <>
       <div
-        className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl"
-        key={index}
+        className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-2xl"
+        key={item._id}
       >
-        <div
-          className="flex flex-col workspace_wraper"
-          onMouseOver={mouseOver}
-          //   onMouseOut={mouseOut}
-          onMouseLeave={mouseOut}
-        >
-          <div className="flex p-4 relative">
+        <div className="flex flex-col workspace_wraper">
+          <div
+            className="flex relative"
+            onMouseOver={mouseOver}
+            onMouseLeave={mouseOut}
+          >
             <img
               src={defaultWorkspaceImg}
               alt={item?.name}
-              className="h-[340px] w-full object-cover block poster_img"
+              className="h-[340px] w-full object-cover rounded-t-2xl block poster_img"
             />
 
-            <ClapprComponent
-              id="image_player"
-              source="https://www.w3schools.com/tags/movie.ogg"
-              height={340}
-            />
-
-            <img
-              src={playVideoIcon}
-              className="absolute left-0 right-0 top-0 bottom-0 m-auto cursor-pointer img_play_buttonn"
-            />
+            {!playIcon && (
+              <img
+                src={playVideoIcon}
+                className="absolute left-0 right-0 top-0 bottom-0 m-auto cursor-pointer"
+              />
+            )}
           </div>
 
-          <div className="inline-block w-full p-4 bg-white rounded-xl mt-2">
+          <div className="inline-block w-full p-4 bg-white rounded-b-2xl">
             <div className="flex justify-between items-baseline mb-5">
               <div className="flex flex-col">
                 <h4 className=" text-primary-normal text-lg font-bold">
@@ -165,22 +121,22 @@ const WorkspacePost = ({ item, index }) => {
 
               <div className="flex">
                 <div className="dropdown dropdown-bottom dropdown-end">
-                  <label tabIndex={index} className="cursor-pointer">
+                  <label tabIndex={item._id} className="cursor-pointer">
                     <ThreeDotSvg />
                   </label>
 
                   <ul
-                    tabIndex={index}
+                    tabIndex={item._id}
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
-                      <a>Edit</a>
+                      <a onClick={editWorkspaceHandler}>Edit</a>
                     </li>
                     <li>
-                      <a>Duplicate</a>
+                      <a onClick={duplicateWorkspaceHandler}>Duplicate</a>
                     </li>
                     <li>
-                      <a>Delete</a>
+                      <a onClick={deleteWorkspaceHandler}>Delete</a>
                     </li>
                   </ul>
                 </div>

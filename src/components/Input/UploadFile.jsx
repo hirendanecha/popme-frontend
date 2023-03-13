@@ -9,8 +9,11 @@ const UploadFile = ({
   // files,
   inputStyle,
   errorMessage,
+  watch,
 }) => {
   const [fileName, setFileName] = useState("");
+
+  // console.log("watch", watch(name));
 
   const handleFile = (e) => {
     let file = e.target.files;
@@ -67,8 +70,10 @@ const UploadFile = ({
         <p className="mt-3 text-sm text-[#991B1B]">{errorMessage}</p>
       )}
 
-      {fileName && (
-        <p className="mt-3 text-sm text-primary-normal">{fileName}</p>
+      {(fileName || watch(name)) && (
+        <p className="mt-3 text-sm text-primary-normal">
+          {fileName ? fileName : watch(name)}
+        </p>
       )}
 
       {/* {console.log("files", files)} */}
