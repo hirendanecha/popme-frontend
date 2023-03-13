@@ -32,7 +32,7 @@ const Workspaces = () => {
   const [currentPage, setCurrentPage] = useState("");
   const [page, setPage] = useState(1);
 
-  const perPageSize = 2;
+  const perPageSize = 4;
 
   const workspaceListApi = useCallback((props, options = { merge: false }) => {
     dispatch(worksapceList(props))
