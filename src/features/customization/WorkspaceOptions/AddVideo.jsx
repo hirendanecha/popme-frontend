@@ -3,7 +3,7 @@ import NewInputText from "../../../components/Input/NewInputText";
 import NewTextArea from "../../../components/Input/NewTextArea";
 import UploadFile from "../../../components/Input/UploadFile";
 
-const AddVideo = ({ register, errors }) => {
+const AddVideo = ({ register, errors, watch }) => {
   return (
     <>
       <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
@@ -25,6 +25,7 @@ const AddVideo = ({ register, errors }) => {
                   errorMessage={
                     errors?.video?.message && errors?.video?.message
                   }
+                  watch={watch}
                   // handleFile={handleFile}
                   // removeImage={removeImage}
                   // files={files}

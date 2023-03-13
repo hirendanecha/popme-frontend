@@ -58,16 +58,32 @@ import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 import { useLocation } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 const Customization = () => {
   const dispatch = useDispatch();
-  const location = useLocation()
-  const { data, error } = useSelector((state) => state.workspace);
+  const location = useLocation();
+  const { data, error, activeWorkspaceData } = useSelector(
+    (state) => state.workspace
+  );
 
-  console.log("location?.state", location?.state);
+  // console.log("location?.state", location?.state);
+
+  // console.log("activeWorkspaceData", activeWorkspaceData);
+
+  // console.log(
+  //   "video",
+  //   baseURL +
+  //     activeWorkspaceData?.video?.thumbnailDestination +
+  //     "/" +
+  //     activeWorkspaceData?.video?.thumbnail
+  // );
 
   const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
-  const [activeWorkspace, setActiveWorkspace] = useState(location?.state?.id || "");
-  
+  const [activeWorkspace, setActiveWorkspace] = useState(
+    location?.state?.id || ""
+  );
+
   // console.log("data", data);
 
   // for upload video delete
@@ -313,6 +329,7 @@ const Customization = () => {
         },
         title: data?.data?.title ? data?.data?.title : "",
         description: data?.data?.description ? data?.data?.description : "",
+        video: data?.data?.video ? data?.data?.video?.originalname : "",
         // addVideo: null,
       });
     }
@@ -338,9 +355,6 @@ const Customization = () => {
       });
     } else {
       const value = data == null ? "" : data;
-
-      // console.log("data", data);
-      // console.log("parentKey", parentKey);
 
       formData.append(parentKey, value);
     }
@@ -852,6 +866,7 @@ const Customization = () => {
                 <AddVideo
                   register={register}
                   errors={errors && errors}
+                  watch={watch}
                   // files={files}
                   // handleFile={(e) => handleFile(e)}
                   // removeImage={(e) => removeImage(e)}
