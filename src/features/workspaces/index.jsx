@@ -9,15 +9,19 @@ import GroupSvg from "../../assets/svgs/GroupSvg";
 import ClockSvg from "../../assets/svgs/ClockSvg";
 import MouseSvg from "../../assets/svgs/MouseSvg";
 import WorkspacePost from "./WorkspacePost";
-import { worksapceList } from "./action";
+import { addWorkspace, deleteWorkspaceById, getWorkspaceById, updateWorkspaceOptions, worksapceList } from "./action";
 import Button from "../../components/Button/Button";
+import { setActiveWorkspaceData } from "./reducer/workspaceSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Workspaces = () => {
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate();
 
   const [workspacePosts, setWorkspacePosts] = useState([]);
 
+  const [newWorkspaceNum, setNewWorkspaceNum] = useState("");
   const [totalPage, setTotalPage] = useState("");
   const [currentPage, setCurrentPage] = useState("");
   const [page, setPage] = useState(1);
@@ -27,7 +31,7 @@ const Workspaces = () => {
       .unwrap()
       .then((res) => {
         if (res?.success) {
-          // setWorkspacePosts((prev) => [...prev, ...res?.data]);
+          
           if (options?.merge) {
             setWorkspacePosts((prev) => [...prev, ...res?.data]);
           } else {
@@ -35,6 +39,7 @@ const Workspaces = () => {
           }
           setTotalPage(res?.pagination?.totalPages);
           setCurrentPage(res?.pagination?.currentPage);
+          setNewWorkspaceNum(res?.pagination?.totalItems);
         }
 
         // console.log("res", res);
@@ -50,22 +55,95 @@ const Workspaces = () => {
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Workspaces" }));
-    workspaceListApi({ page: page, size: 2 });
-
-    return () => {
-      setWorkspacePosts((prev) => [...prev]);
-    };
+    workspaceListApi({ page: page, size: 4 });
   }, []);
 
   const loadmoreHandler = () => {
     setPage((prev) => prev + 1);
     workspaceListApi(
-      { page: page + 1, size: 2 },
+      { page: page + 1, size: 4 },
       {
         merge: true,
       }
     );
   };
+
+  const createNewWorkspaceHandler = () => {
+    dispatch(addWorkspace())
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          dispatch(setActiveWorkspaceData(res?.data));
+          navigate("/app/customization",{state:{id:res?.data?._id}});
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  };
+
+  const onDuplicateHandler = (id)=>{
+    // console.log(id,"duplicate id")
+  }
+
+  const deleteWorkspaceByIdApi = useCallback((id) => {
+
+    dispatch(deleteWorkspaceById(id))
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          // console.log(res, "res of delete");
+          let filterData = workspacePosts && workspacePosts?.filter((item) => item?._id !== id);
+          setWorkspacePosts(() => [...filterData]);
+          // workspaceListApi({ page: page, size: 4 });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, [workspacePosts]);
+
+  // console.log("workspacePosts", workspacePosts);
+
+  const onDeleteHandler = (id) => {
+    // console.log(id,"id of deleted item")
+    deleteWorkspaceByIdApi(id);
+  };
+
+  
+
+  const getWorkspaceByIdApi = useCallback((id) => {
+    dispatch(getWorkspaceById(id))
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          dispatch(setActiveWorkspaceData(res?.data));
+          navigate("/app/customization",{state:{id:res?.data?._id}});
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, []);
+
+  const onEditHandler = (id) => {
+    // console.log(id,"edit item id")
+    getWorkspaceByIdApi(id);
+  };
+
+ 
 
   // console.log("workspacePosts", workspacePosts);
 
@@ -123,112 +201,24 @@ const Workspaces = () => {
           {workspacePosts &&
             workspacePosts?.length > 0 &&
             workspacePosts?.map((item, index) => (
-              <WorkspacePost key={index} item={item} index={index} />
-            ))}
-
-          {/* {Data &&
-            Data.map((item, index) => (
-              <div
-                className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl"
+              <WorkspacePost
                 key={index}
-              >
-                <div className="flex flex-col">
-                  <div className="flex p-4">
-                    <img
-                      src={item.img}
-                      alt={item.name}
-                      className="h-[340px] w-full object-cover"
-                    />
-                  </div>
-
-                  <div className="inline-block w-full p-4 bg-white rounded-xl mt-2">
-                    <div className="flex justify-between items-center mb-5">
-                      <div className="flex flex-col">
-                        <h4 className=" text-primary-normal text-lg font-bold">
-                          {item.name}
-                        </h4>
-                        <p className="text-primary-normal text-sm">
-                          {item.description}
-                        </p>
-                      </div>
-
-                      <div className="flex">
-                        <div className="dropdown dropdown-bottom dropdown-end">
-                          <label tabIndex={index} className="cursor-pointer">
-                            <ThreeDotSvg />
-                          </label>
-
-                          <ul
-                            tabIndex={index}
-                            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                          >
-                            <li>
-                              <a>Edit</a>
-                            </li>
-                            <li>
-                              <a>Duplicate</a>
-                            </li>
-                            <li>
-                              <a>Delete</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex mb-5">
-                      <div className="flex items-center justify-center w-11 h-11 bg-secondary-light/30 rounded-full mr-2">
-                        <GroupSvg />
-                      </div>
-
-                      <div className="flex flex-col">
-                        <p className="text-primary-normal text-sm">
-                          Total Views
-                        </p>
-                        <h4 className="text-primary-main text-base font-bold">
-                          {item.totalViews}
-                        </h4>
-                      </div>
-                    </div>
-
-                    <div className="flex mb-5">
-                      <div className="flex items-center justify-center w-11 h-11 bg-secondary-light/30 rounded-full mr-2">
-                        <ClockSvg />
-                      </div>
-
-                      <div className="flex flex-col">
-                        <p className="text-primary-normal text-sm">
-                          Total Minutes Watchtime
-                        </p>
-                        <h4 className="text-primary-main text-base font-bold">
-                          {item.totalMinWatch}
-                        </h4>
-                      </div>
-                    </div>
-
-                    <div className="flex">
-                      <div className="flex items-center justify-center w-11 h-11 bg-secondary-light/30 rounded-full mr-2">
-                        <MouseSvg />
-                      </div>
-
-                      <div className="flex flex-col">
-                        <p className="text-primary-normal text-sm">
-                          Total Clicked CTA
-                        </p>
-                        <h4 className="text-primary-main text-base font-bold">
-                          {item.totalClickedCTA}
-                        </h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))} */}
+                item={item}
+                index={index}
+                onDeleteHandler={onDeleteHandler}
+                onEditHandler={onEditHandler}
+                onDuplicateHandler={onDuplicateHandler}
+              />
+            ))}
+          
 
           <div className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl h-fit cursor-pointer">
             <div className="flex flex-col">
               <div className="inline-block w-full p-4">
-                <div className="flex flex-col justify-center items-center border-4 border-dashed border-borderColor-main h-[340px]">
+                <div
+                  onClick={createNewWorkspaceHandler}
+                  className="flex flex-col justify-center items-center border-4 border-dashed border-borderColor-main h-[340px]"
+                >
                   {PlusIcon()}
                   <h3 className="text-lg text-primary-normal">
                     <span className="text-secondary-main">Create</span> a new
@@ -241,16 +231,22 @@ const Workspaces = () => {
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col">
                     <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
-                      workspacePosts &&
-                      workspacePosts?.length > 0 &&
-                      workspacePosts?.length + 1
+                      // workspacePosts &&
+                      // workspacePosts?.length > 0 &&
+                      // workspacePosts?.length + 1
+                      newWorkspaceNum &&
+                      newWorkspaceNum > 0 &&
+                      newWorkspaceNum + 1
                     }`}</h4>
                     <p className="text-primary-normal text-sm">
                       Create a new Workspace
                     </p>
                   </div>
 
-                  <div className="flex justify-center items-center h-8 w-8 rounded-full bg-secondary-main">
+                  <div
+                    onClick={createNewWorkspaceHandler}
+                    className="flex justify-center items-center h-8 w-8 rounded-full bg-secondary-main"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -272,15 +268,16 @@ const Workspaces = () => {
           </div>
         </div>
 
-        {totalPage != currentPage && (
-          <div className="flex justify-center mt-8">
-            <Button
-              text="Load More"
-              buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
-              clickHandler={loadmoreHandler}
-            />
-          </div>
-        )}
+        {workspacePosts?.length <= 0 ||
+          (totalPage != currentPage && (
+            <div className="flex justify-center mt-8">
+              <Button
+                text="Load More"
+                buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
+                clickHandler={loadmoreHandler}
+              />
+            </div>
+          ))}
       </div>
     </div>
   );

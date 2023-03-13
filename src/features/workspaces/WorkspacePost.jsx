@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import defaultWorkspaceImage from "../../assets/images/defaultWorkspaceImage.png";
 import defaultWorkspaceWebp from "../../assets/images/defaultWorkspaceWebp.webp";
 import ClockSvg from "../../assets/svgs/ClockSvg";
 import GroupSvg from "../../assets/svgs/GroupSvg";
 import MouseSvg from "../../assets/svgs/MouseSvg";
 import ThreeDotSvg from "../../assets/svgs/ThreeDotSvg";
+import { deleteWorkspaceById, getWorkspaceById, worksapceList } from "./action";
+import { setActiveWorkspaceData } from "./reducer/workspaceSlice";
 
-const WorkspacePost = ({ item, index }) => {
+const WorkspacePost = ({ item, index, onDeleteHandler, onEditHandler, onDuplicateHandler }) => {
+  const dispatch = useDispatch();
   const [defaultWorkspaceImg, setDefaultWorkspaceImg] = useState(
     defaultWorkspaceImage
   );
@@ -19,18 +23,35 @@ const WorkspacePost = ({ item, index }) => {
     setDefaultWorkspaceImg(defaultWorkspaceImage);
   };
 
+  const editWorkspaceHandler = () => {
+    // console.log(item._id, "item");
+    onEditHandler(item._id);
+  };
+  
+  const deleteWorkspaceHandler = () => {
+    // console.log(item._id, "item");
+    onDeleteHandler(item._id);
+  };
+
+  const duplicateWorkspaceHandler = ()=>{
+    console.log(item._id,"duplicate item id")
+    onDuplicateHandler(item._id)
+  }
+
+  
+  
   return (
     <>
       <div
         className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl"
-        key={index}
+        key={item._id}
       >
-        <div
-          className="flex flex-col"
-          onMouseOver={mouseOver}
-          onMouseOut={mouseOut}
-        >
-          <div className="flex p-4">
+        <div className="flex flex-col">
+          <div
+            onMouseOver={mouseOver}
+            onMouseOut={mouseOut}
+            className="flex p-4"
+          >
             <img
               src={defaultWorkspaceImg}
               alt={item?.name}
@@ -52,22 +73,22 @@ const WorkspacePost = ({ item, index }) => {
 
               <div className="flex">
                 <div className="dropdown dropdown-bottom dropdown-end">
-                  <label tabIndex={index} className="cursor-pointer">
+                  <label tabIndex={item._id} className="cursor-pointer">
                     <ThreeDotSvg />
                   </label>
 
                   <ul
-                    tabIndex={index}
+                    tabIndex={item._id}
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
-                      <a>Edit</a>
+                      <a onClick={editWorkspaceHandler}>Edit</a>
                     </li>
                     <li>
-                      <a>Duplicate</a>
+                      <a onClick={duplicateWorkspaceHandler}>Duplicate</a>
                     </li>
                     <li>
-                      <a>Delete</a>
+                      <a onClick={deleteWorkspaceHandler}>Delete</a>
                     </li>
                   </ul>
                 </div>

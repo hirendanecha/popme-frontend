@@ -4,8 +4,10 @@ import {
   addWorkspace,
   getDropdownValues,
   getWorkspaceById,
+  deleteWorkspaceById,
   updateWorkspaceOptions,
   worksapceList,
+  worksapceListForDropdown,
 } from "../action";
 
 const initialState = {
@@ -48,6 +50,24 @@ const workspaceSlice = createSlice({
       state.success = false;
     });
 
+    // worksapceList for dropdown
+    builder.addCase(worksapceListForDropdown.pending, (state, { payload }) => {
+      state.loading = true;
+      state.data = null;
+    });
+
+    builder.addCase(worksapceListForDropdown.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.success = true;
+    });
+
+    builder.addCase(worksapceListForDropdown.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+      state.success = false;
+    });
+
     // addWorkspace
     builder.addCase(addWorkspace.pending, (state, { payload }) => {
       state.loading = true;
@@ -64,6 +84,24 @@ const workspaceSlice = createSlice({
       state.loading = false;
       state.error = payload;
       state.success = false;
+    });
+
+    // deleteWorkspaceById
+    builder.addCase(deleteWorkspaceById.pending, (state, { payload }) => {
+      state.loading = true;
+      state.data = null;
+    });
+
+    builder.addCase(deleteWorkspaceById.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.success = true;
+    });
+
+    builder.addCase(deleteWorkspaceById.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = payload;
     });
 
     // getWorkspaceById
