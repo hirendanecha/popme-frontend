@@ -35,6 +35,8 @@ import {
   MuteSvg,
   DashSvg,
   OpenEye,
+  PauseSvg,
+  PlayerPlaySvg,
 } from "./SvgComp";
 import {
   addWorkspace,
@@ -472,15 +474,18 @@ const Customization = () => {
         includeResetStyle: false,
 
         events: {
-          // onPlay: function () {
-          //     player.current.resize({ height: 360, width: 640 });
-          // }
-
           onTimeUpdate: function (e) {
-            let progressbar = document.getElementById("progress_bar");
+            // let progressbar = document.getElementById("progress_bar");
+            // if (progressbar) {
+            //   progressbar.value = e.current;
+            //   progressbar.max = isNaN(e.total) ? 0 : e.total;
+            // }
+
+            let progressbar = document.getElementById("progress_calc");
             if (progressbar) {
-              progressbar.value = e.current;
-              progressbar.max = isNaN(e.total) ? 0 : e.total;
+              let per = `${(e.current / e.total) * 100}%`;
+              progressbar.style.width = per;
+              progressbar.style.transition = `width .1s linear,height .2s`;
             }
           },
         },
@@ -494,6 +499,7 @@ const Customization = () => {
 
       let volumeIcon = document.querySelector(".volume_icon");
       volumeIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
         player.current.mute();
 
         const muteIcon = document.querySelector(".mute_icon");
@@ -506,6 +512,7 @@ const Customization = () => {
 
       let muteIcon = document.querySelector(".mute_icon");
       muteIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
         player.current.unmute();
 
         const volumeIcon = document.querySelector(".volume_icon");
@@ -518,8 +525,10 @@ const Customization = () => {
 
       let imgPlayIcon = document.querySelector(".img_play_button");
       imgPlayIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
         if (document.getElementById(id).classList.contains("hidden")) {
           player.current.play();
+          player.current.unmute();
 
           document.getElementById(id).classList.remove("hidden");
           document.getElementById(id).classList.add("block");
@@ -546,8 +555,54 @@ const Customization = () => {
         }
       });
 
+      let playIcon = document.querySelector(".play_icon");
+      playIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        player.current.play();
+
+        const pauseIcon = document.querySelector(".pause_icon");
+
+        if (pauseIcon.classList.contains("hidden")) {
+          pauseIcon.classList.remove("hidden");
+          document.querySelector(".play_icon").classList.add("hidden");
+        }
+      });
+
+      let pauseIcon = document.querySelector(".pause_icon");
+      pauseIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        player.current.pause();
+
+        const playIcon = document.querySelector(".play_icon");
+        if (playIcon.classList.contains("hidden")) {
+          playIcon.classList.remove("hidden");
+          document.querySelector(".pause_icon").classList.add("hidden");
+        }
+      });
+
+      let playAreaButton = document.querySelector(".play_area_button");
+      playAreaButton.addEventListener("click", function (event) {
+        const pauseIcon = document.querySelector(".pause_icon");
+        const playIcon = document.querySelector(".play_icon");
+
+        if (pauseIcon.classList.contains("hidden")) {
+          event.stopPropagation();
+          player.current.play();
+
+          pauseIcon.classList.remove("hidden");
+          document.querySelector(".play_icon").classList.add("hidden");
+        } else if (playIcon.classList.contains("hidden")) {
+          event.stopPropagation();
+          player.current.pause();
+
+          playIcon.classList.remove("hidden");
+          document.querySelector(".pause_icon").classList.add("hidden");
+        }
+      });
+
       let minimizeIcon = document.querySelector(".minimize_icon");
       minimizeIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
         player.current.pause();
 
         if (document.getElementById(id).classList.contains("block")) {
@@ -589,68 +644,79 @@ const Customization = () => {
           ></iframe>
         </div>
 
-        <div className="absolute bottom-0 left-3 rounded-2xl overflow-hidden">
+        <div className="absolute bottom-0 left-3 rounded-lg overflow-hidden ">
           <div className="relative player_wrap transform translate-y-[130%] translate-x-[-130%] opacity-0 transition duration-500 ease-in-out">
             <div ref={player} id={id} className="hidden"></div>
 
             <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50">
-              <div className="flex flex-col justify-between h-full px-3 pt-3">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <div className="avatar placeholder mr-2">
-                      <div className=" bg-secondary-main text-white text-xs rounded-lg w-8">
-                        <span>MX</span>
-                      </div>
-                    </div>
-
+              <div className="flex justify-between w-full p-4 h-[calc(100%-58px)]">
+                <div className="flex justify-between flex-col play_area_button z-20">
+                  <div className="flex justify-between">
                     <h5 className="text-white text-base">Elie MoreReels</h5>
-                  </div>
-
-                  <div className="flex">
-                    <div className="mr-3 inline-block volume_icon cursor-pointer">
-                      <VolumeSvg />
-                    </div>
-
-                    <div className="mr-3 mute_icon hidden cursor-pointer">
-                      <MuteSvg />
-                    </div>
-
                     <div className="minimize_icon cursor-pointer">
                       <DashSvg />
                     </div>
                   </div>
-                </div>
 
-                <div className="flex flex-col">
-                  <h4 className="text-2xl text-white mb-3">This is PopMe!</h4>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col pr-3">
+                      <h4 className="text-2xl text-white mb-3">
+                        This is PopMe!
+                      </h4>
 
-                  <p className="text-sm text-white mb-4">
-                    A widget you can use to upload videos and get personal with
-                    your customers to schedule meetings, ask for reviews, or
-                    share the latest features with its CTA functionnality.
-                  </p>
+                      <p className="text-sm text-white mb-4 line-clamp-5">
+                        A widget you can use to upload videos and get personal
+                        with your customers to schedule meetings, ask for
+                        reviews, or share the latest features with its CTA
+                        functionnality.
+                      </p>
+                    </div>
 
-                  <div className="flex mb-4">
-                    <Button
-                      text="Try for free"
-                      rightIcon={RightArrowSvg({
-                        w: "w-4",
-                        h: "h-4",
-                        color: "text-white",
-                      })}
-                      buttonClass="h-[2rem] min-h-[2rem] w-full"
-                    />
+                    <div className="flex flex-col">
+                      <div className="mb-6 inline-block volume_icon cursor-pointer z-30">
+                        <VolumeSvg />
+                      </div>
+
+                      <div className="mb-6 mute_icon hidden cursor-pointer z-30">
+                        <MuteSvg />
+                      </div>
+
+                      <div className="play_icon cursor-pointer hidden z-30">
+                        <PlayerPlaySvg />
+                      </div>
+
+                      <div className="pause_icon cursor-pointer z-30">
+                        <PauseSvg />
+                      </div>
+                    </div>
                   </div>
-
-                  <div className="flex w-full">
-                    <progress
-                      className="progress progress-accent bg-opacity-60 w-full"
-                      value="70"
-                      max="100"
-                      id="progress_bar"
-                    ></progress>
-                  </div>
                 </div>
+              </div>
+
+              <div className="flex px-4 mb-[26px]">
+                <Button
+                  text="Try for free"
+                  rightIcon={RightArrowSvg({
+                    w: "w-4",
+                    h: "h-4",
+                    color: "text-white",
+                  })}
+                  buttonClass="h-[2rem] min-h-[2rem] w-full rounded-full"
+                />
+              </div>
+
+              <div className="absolute bottom-0 flex w-full">
+                {/* <progress
+                  className="progress progress-accent bg-opacity-60 w-full"
+                  value="70"
+                  max="100"
+                  id="progress_bar"
+                ></progress> */}
+
+                <div
+                  className="flex bg-secondary-main h-[6px] rounded-tr-xl"
+                  id="progress_calc"
+                ></div>
               </div>
             </div>
           </div>
@@ -661,7 +727,7 @@ const Customization = () => {
             <img
               src={workspace1}
               alt="workspace1"
-              className="h-[200px] w-full object-cover rounded-xl"
+              className="h-[200px] w-full object-cover rounded-lg"
             />
             <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
               <PlayButtonSvg />
