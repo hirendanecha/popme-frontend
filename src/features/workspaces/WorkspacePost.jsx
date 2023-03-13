@@ -9,7 +9,13 @@ import playVideoIcon from "../../assets/images/playVideoIcon.png";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-const WorkspacePost = ({ item, index }) => {
+const WorkspacePost = ({
+  item,
+  index,
+  onDeleteHandler,
+  onEditHandler,
+  onDuplicateHandler,
+}) => {
   //   console.log(
   //     "video",
   //     baseURL + item?.video?.thumbnailDestination + item?.video?.thumbnail
@@ -60,11 +66,26 @@ const WorkspacePost = ({ item, index }) => {
     setPlayIcon(false);
   };
 
+  const editWorkspaceHandler = () => {
+    // console.log(item._id, "item");
+    onEditHandler(item._id);
+  };
+
+  const deleteWorkspaceHandler = () => {
+    // console.log(item._id, "item");
+    onDeleteHandler(item._id);
+  };
+
+  const duplicateWorkspaceHandler = () => {
+    console.log(item._id, "duplicate item id");
+    onDuplicateHandler(item._id);
+  };
+
   return (
     <>
       <div
         className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-2xl"
-        key={index}
+        key={item._id}
       >
         <div className="flex flex-col workspace_wraper">
           <div
@@ -100,22 +121,22 @@ const WorkspacePost = ({ item, index }) => {
 
               <div className="flex">
                 <div className="dropdown dropdown-bottom dropdown-end">
-                  <label tabIndex={index} className="cursor-pointer">
+                  <label tabIndex={item._id} className="cursor-pointer">
                     <ThreeDotSvg />
                   </label>
 
                   <ul
-                    tabIndex={index}
+                    tabIndex={item._id}
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
-                      <a>Edit</a>
+                      <a onClick={editWorkspaceHandler}>Edit</a>
                     </li>
                     <li>
-                      <a>Duplicate</a>
+                      <a onClick={duplicateWorkspaceHandler}>Duplicate</a>
                     </li>
                     <li>
-                      <a>Delete</a>
+                      <a onClick={deleteWorkspaceHandler}>Delete</a>
                     </li>
                   </ul>
                 </div>

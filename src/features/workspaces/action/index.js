@@ -18,6 +18,24 @@ export const worksapceList = createAsyncThunk(
   }
 );
 
+// workspace list for dropdown
+export const worksapceListForDropdown = createAsyncThunk(
+  "workspace/worksapceListDropDown",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await workSpaceAPI.workspaceListForDropdownApi();
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+
 // add new worksoace
 export const addWorkspace = createAsyncThunk(
   "workspace/addWorkspace",
@@ -41,6 +59,23 @@ export const getWorkspaceById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await workSpaceAPI.getWorkspaceByIdApi(id);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+// delete workspace by id
+export const deleteWorkspaceById = createAsyncThunk(
+  "workspace/deleteWorkspaceById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await workSpaceAPI.deleteWorkspaceByIdApi(id);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {

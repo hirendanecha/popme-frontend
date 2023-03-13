@@ -85,7 +85,7 @@ function SelectBox(props) {
         <select
           className={`select select-bordered w-full text-primary-main bg-[#F9FAFB] text-base border-borderColor-main focus:outline-none ${selectStyle}`}
           onChange={(e) => updateValue(e.target.value, e)}
-          value={defaultValue ? defaultValue : value}
+          value={defaultValue || value}
         >
           {/* {placeholder && (
             <option value="" disabled defaultValue>

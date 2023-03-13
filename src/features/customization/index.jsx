@@ -44,6 +44,7 @@ import {
   getWorkspaceById,
   updateWorkspaceOptions,
   worksapceList,
+  worksapceListForDropdown,
 } from "../workspaces/action";
 import BasicSetup from "./WorkspaceOptions/BasicSetup";
 import AddVideo from "./WorkspaceOptions/AddVideo";
@@ -55,14 +56,18 @@ import Preview from "./WorkspaceOptions/Preview";
 import GetLink from "./WorkspaceOptions/GetLink";
 import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
+import { useLocation } from "react-router-dom";
 
 const Customization = () => {
   const dispatch = useDispatch();
+  const location = useLocation()
   const { data, error } = useSelector((state) => state.workspace);
 
-  const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
-  const [activeWorkspace, setActiveWorkspace] = useState("");
+  console.log("location?.state", location?.state);
 
+  const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
+  const [activeWorkspace, setActiveWorkspace] = useState(location?.state?.id || "");
+  
   // console.log("data", data);
 
   // for upload video delete
@@ -370,7 +375,7 @@ const Customization = () => {
   };
 
   const workspaceListHandlerApi = useCallback(() => {
-    dispatch(worksapceList())
+    dispatch(worksapceListForDropdown())
       .unwrap()
       .then((res) => {
         if (res?.success) {

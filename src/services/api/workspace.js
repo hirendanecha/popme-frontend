@@ -3,16 +3,23 @@ import axios from "./";
 const workSpaceAPI = {
   // get list of all worksapce with pagination
   workspaceListApi({ page, size }) {
-    if (page && size) {
-      return axios.get(`/api/workspace?page=${page}&size=${size}`);
-    } else {
-      return axios.get("/api/workspace");
-    }
+    return axios.get(`/api/workspace?page=${page}&size=${size}`);
   },
+
+  // get all list for dropdown
+  workspaceListForDropdownApi() {
+    return axios.get(`/api/workspace?page=1&size=0`);
+  },
+ 
 
   // add new worksoace
   addWorkspaceApi() {
     return axios.post("/api/workspace");
+  },
+
+  // delete workspace by id
+  deleteWorkspaceByIdApi(id) {
+    return axios.delete(`/api/workspace/${id}`);
   },
 
   // get workspace by id
