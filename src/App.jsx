@@ -51,7 +51,8 @@ function App() {
 
         {/* Place new routes over this */}
         <Route path="/app/*" element={<Layout />} />
-        <Route path="/share/*" element={<ShareLayout />} />
+        {/* <Route path="/share/*" element={<ShareLayout />} /> */}
+        <Route path="/*" element={<ShareLayout />} />
 
         <Route
           path="*"
