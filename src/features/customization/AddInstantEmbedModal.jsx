@@ -8,6 +8,8 @@ import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 import VerifyYourWebsiteModal from "./VerifyYourWebsiteModal";
 import WebsiteConnectedModal from "./WebsiteConnectedModal";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 const AddInstantEmbedModal = () => {
   const dispatch = useDispatch();
   const { id } = useSelector((state) => state.modal);
@@ -65,14 +67,14 @@ const AddInstantEmbedModal = () => {
       <p className="mb-5 text-base text-primary-normal font-semibold">
         Add the Instant Embed code below into the footer of your website:
       </p>
+
       <div className="flex w-full mb-6">
         {activeWorkspaceData !== null && (
           <p className="py-1 px-2 bg-[#F6F6F6] text-primary-main text-sm overflow-x-scroll whitespace-nowrap rounded-md [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl">
-            {`<script type="text/javascript" src="https://popme-api.opash.in/scripts/fn.js?org=${activeWorkspaceData?.identity}"></script>`}
+            {`<script type="text/javascript" src="${baseURL}scripts/fn.js?org=${activeWorkspaceData?.identity}"></script>`}
           </p>
         )}
       </div>
-
       <div className="flex gap-3">
         <div className="inline-block">
           <ModalButton

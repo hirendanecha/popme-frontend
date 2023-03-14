@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import MouseSvg from "../../../assets/svgs/MouseSvg";
 import ShareSvg from "../../../assets/svgs/ShareSvg";
 import Button from "../../../components/Button/Button";
@@ -6,6 +8,18 @@ import NewInputText from "../../../components/Input/NewInputText";
 import { OpenEye } from "../SvgComp";
 
 const Preview = ({ register }) => {
+  const { activeWorkspaceData } = useSelector((state) => state.workspace);
+
+  // console.log("activeWorkspaceData", activeWorkspaceData);
+
+  const [userWebsite, setUserWebsite] = useState("");
+
+  const updateValue = (data) => {
+    setUserWebsite(data?.value);
+  };
+
+  // console.log("userWebsite", userWebsite);
+
   return (
     <>
       <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
@@ -47,16 +61,30 @@ const Preview = ({ register }) => {
                 name="Preview.yourWebsite"
                 placeholder="example.com"
                 // register={register}
+                defaultValue={userWebsite}
+                updateFormValue={updateValue}
               />
 
               <div className="flex items-center mb-6">
                 <ShareSvg height="16" width="16" stroke="#3A6FFA" />
-                <p className="text-base text-secondary-main font-bold ml-2">
-                  popme.io/preview?example.com
-                </p>
+
+                {activeWorkspaceData !== null && (
+                  <Link
+                    to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}?site=https://${userWebsite}`}
+                    target="_blank"
+
+                    // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}
+                  >
+                    <p className="text-base text-secondary-main font-bold ml-2">
+                      {/* popme.io/preview?example.com */}
+                      {/* https://popme-frontend.vercel.app/app/preview?site=https://opash.in */}
+                      {`${window?.location?.origin}/preview?${userWebsite}`}
+                    </p>
+                  </Link>
+                )}
               </div>
 
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <h5 className="text-primary-main text-base font-semibold py-2 mb-1">
                   Preview via custom domain
                 </h5>
@@ -65,7 +93,7 @@ const Preview = ({ register }) => {
                   text="Add custom domain"
                   buttonClass="w-full text-base"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
