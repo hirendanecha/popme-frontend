@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from "react";
+import Button from "../components/Button/Button";
 import {
   DashSvg,
   MuteSvg,
   PauseSvg,
   PlayerPlaySvg,
+  RightArrowSvg,
   VolumeSvg,
 } from "../features/customization/SvgComp";
 // import workspace1 from "../assets/images/workspace-1.png";
@@ -171,36 +173,50 @@ const WidgetShare = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col pr-3">
-                      <h4 className="text-2xl text-white mb-3">
-                        This is PopMe!
-                      </h4>
+                  <div className="flex flex-col">
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col pr-3">
+                        <h4 className="text-2xl text-white mb-3">
+                          This is PopMe!
+                        </h4>
 
-                      <p className="text-sm text-white mb-4 line-clamp-5">
-                        A widget you can use to upload videos and get personal
-                        with your customers to schedule meetings, ask for
-                        reviews, or share the latest features with its CTA
-                        functionnality.
-                      </p>
+                        <p className="text-sm text-white mb-4 line-clamp-5">
+                          A widget you can use to upload videos and get personal
+                          with your customers to schedule meetings, ask for
+                          reviews, or share the latest features with its CTA
+                          functionnality.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <div className="mb-6 inline-block volume_icon cursor-pointer z-30">
+                          <VolumeSvg />
+                        </div>
+
+                        <div className="mb-6 mute_icon hidden cursor-pointer z-30">
+                          <MuteSvg />
+                        </div>
+
+                        <div className="play_icon cursor-pointer hidden z-30">
+                          <PlayerPlaySvg />
+                        </div>
+
+                        <div className="pause_icon cursor-pointer z-30">
+                          <PauseSvg />
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="flex flex-col">
-                      <div className="mb-6 inline-block volume_icon cursor-pointer z-30">
-                        <VolumeSvg />
-                      </div>
-
-                      <div className="mb-6 mute_icon hidden cursor-pointer z-30">
-                        <MuteSvg />
-                      </div>
-
-                      <div className="play_icon cursor-pointer hidden z-30">
-                        <PlayerPlaySvg />
-                      </div>
-
-                      <div className="pause_icon cursor-pointer z-30">
-                        <PauseSvg />
-                      </div>
+                    <div className="flex mb-[26px]">
+                      <Button
+                        text="Try for free"
+                        rightIcon={RightArrowSvg({
+                          w: "w-4",
+                          h: "h-4",
+                          color: "text-white",
+                        })}
+                        buttonClass="h-[2rem] min-h-[2rem] w-full rounded-full"
+                      />
                     </div>
                   </div>
                 </div>

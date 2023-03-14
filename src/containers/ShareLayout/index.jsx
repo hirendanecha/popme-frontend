@@ -15,15 +15,8 @@ const ShareLayout = () => {
     <>
       <Suspense fallback={<SuspenseContent />}>
         <Routes>
-          {token && <Route path="/share/:id" element={<WidgetShare />} />}
-          {token && <Route path="/preview/:id" element={<PreviewPage />} />}
-
-          {/* Redirecting unknown url to 404 page */}
-          <Route path="/not-found" element={<NotFound />} />
-          <Route
-            path="*"
-            element={<Navigate to={token ? "/not-found" : "/login"} replace />}
-          />
+          <Route path="/share/:id" element={<WidgetShare />} />
+          <Route path="/preview/:id" element={<PreviewPage />} />
         </Routes>
       </Suspense>
     </>

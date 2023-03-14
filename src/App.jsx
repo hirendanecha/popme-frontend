@@ -49,13 +49,19 @@ function App() {
             <Route path={path} element={<E />} {...props} key={index} />
           ))}
 
+        <Route path="/*" element={<ShareLayout />} />
         {/* Place new routes over this */}
         <Route path="/app/*" element={<Layout />} />
         {/* <Route path="/share/*" element={<ShareLayout />} /> */}
-        <Route path="/*" element={<ShareLayout />} />
 
         <Route
-          path="*"
+          path="/*"
+          element={
+            <Navigate to={token ? "/app/dashboard" : "/login"} replace />
+          }
+        />
+        <Route
+          path="/"
           element={
             <Navigate to={token ? "/app/dashboard" : "/login"} replace />
           }
