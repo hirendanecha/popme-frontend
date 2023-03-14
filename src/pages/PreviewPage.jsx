@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getWorkspaceById } from "../features/workspaces/action";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
 const PreviewPage = () => {
   const dispatch = useDispatch();
 
@@ -33,7 +34,7 @@ const PreviewPage = () => {
           if (success) {
             const scriptTag = document.createElement("script");
             scriptTag.id = "popme-preview-scr";
-            scriptTag.src = `http://3.76.141.173:8080/scripts/fn.js?org=${data?.identity}`;
+            scriptTag.src = `${baseURL}/scripts/fn.js?org=${data?.identity}`;
             scriptTag.addEventListener("load", () => setLoaded(true));
             document.body.appendChild(scriptTag);
           }
