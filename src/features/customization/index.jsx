@@ -64,9 +64,10 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 const Customization = () => {
     const dispatch = useDispatch();
   const location = useLocation();
-  const { data, error, activeWorkspaceData } = useSelector(
+  const { data, dataDD, error, activeWorkspaceData } = useSelector(
     (state) => state.workspace
   );
+  // console.log(data,"data")
 
   // console.log("location?.state", location?.state);
 
@@ -85,7 +86,7 @@ const Customization = () => {
     location?.state?.id || ""
   );
 
-  // console.log("data", data);
+  console.log("data", data);
 
   // for upload video delete
 
@@ -123,72 +124,72 @@ const Customization = () => {
       basicSetUp: {
 
 
-        previewStyle: "",
-        videoPosition: "",
-      },
-      callToAction: {
-        buttonCorner: "",
-        buttonIcon: null,
-        buttonStyle: "",
-        buttonText: "",
-        destinationUrl: "",
-      },
-      designCustomization: {
-        authorName: "",
-        horizontalMargin: "",
-        verticalMargin: "",
-        player: {
-          height: "",
-          onMobileDevice: "",
-          size: "",
-        },
-        toggle: {
-          animation: "",
-          showPlayIcon: "",
-          showCloseIcon: "",
-          size: "",
-        },
-      },
-      colorStudio: {
-        templates: "",
-        general: {
-          gradientOverlay: "",
-          videoDescription: "",
-          videoTitle: "",
-        },
-        callToAction: {
-          buttonBackground: "",
-          buttonOutline: "",
-          buttonText: "",
-        },
-        player: {
-          authorName: "",
-          control: "",
-          seeker: "",
-        },
-        toggle: {
-          closeBackground: "",
-          closeIconColor: "",
-          playIcon: "",
-        },
-      },
-      fontStudio: {
-        authorName: "",
-        ctaButton: "",
-        fontFamily: "",
-        videoDescription: "",
-        videoTitle: "",
-      },
-      title: "",
-      description: "",
-      video: null,
-    },
-  });
+  //       previewStyle: "",
+  //       videoPosition: "",
+  //     },
+  //     callToAction: {
+  //       buttonCorner: "",
+  //       buttonIcon: null,
+  //       buttonStyle: "",
+  //       buttonText: "",
+  //       destinationUrl: "",
+  //     },
+  //     designCustomization: {
+  //       authorName: "",
+  //       horizontalMargin: "",
+  //       verticalMargin: "",
+  //       player: {
+  //         height: "",
+  //         onMobileDevice: "",
+  //         size: "",
+  //       },
+  //       toggle: {
+  //         animation: "",
+  //         showPlayIcon: "",
+  //         showCloseIcon: "",
+  //         size: "",
+  //       },
+  //     },
+  //     colorStudio: {
+  //       templates: "",
+  //       general: {
+  //         gradientOverlay: "",
+  //         videoDescription: "",
+  //         videoTitle: "",
+  //       },
+  //       callToAction: {
+  //         buttonBackground: "",
+  //         buttonOutline: "",
+  //         buttonText: "",
+  //       },
+  //       player: {
+  //         authorName: "",
+  //         control: "",
+  //         seeker: "",
+  //       },
+  //       toggle: {
+  //         closeBackground: "",
+  //         closeIconColor: "",
+  //         playIcon: "",
+  //       },
+  //     },
+  //     fontStudio: {
+  //       authorName: "",
+  //       ctaButton: "",
+  //       fontFamily: "",
+  //       videoDescription: "",
+  //       videoTitle: "",
+  //     },
+  //     title: "",
+  //     description: "",
+  //     video: null,
+  //   },
+  // });
 
-  useEffect(() => {
-    if (data !== null) {
-      reset({
-        basicSetUp: {
+  // useEffect(() => {
+  //   if (data !== null) {
+  //     reset({
+  //       basicSetUp: {
 
 
 
@@ -337,10 +338,168 @@ const Customization = () => {
       description: data?.data?.description ? data?.data?.description : "",
       video: data?.data?.video ? data?.data?.video?.originalname : "",
       // addVideo: null,
-    
+    }
   });
-}
+// }
+// }, [data]);
+
+//*** */
+
+useEffect(() => {
+  if (data) {
+      console.log(data?.data,"nhj");
+      console.log("useEffect for data")
+      reset({
+        basicSetUp: {
+          previewStyle: data?.data?.basicSetUp?.previewStyle
+          ? data.data.basicSetUp.previewStyle
+          : "",
+        videoPosition: data?.data?.basicSetUp?.videoPosition
+          ? data?.data?.basicSetUp?.videoPosition
+          : "",
+        },
+        callToAction: {
+          buttonCorner: data?.data?.callToAction?.buttonCorner
+            ? data?.data?.callToAction?.buttonCorner
+            : "",
+          buttonIcon: data?.data?.callToAction?.buttonIcon
+            ? data?.data?.callToAction?.buttonIcon
+            : null,
+          buttonStyle: data?.data?.callToAction?.buttonStyle
+            ? data?.data?.callToAction?.buttonStyle
+            : "",
+          buttonText: data?.data?.callToAction?.buttonText
+            ? data?.data?.callToAction?.buttonText
+            : "",
+          destinationUrl: data?.data?.callToAction?.destinationUrl
+            ? data?.data?.callToAction?.destinationUrl
+            : "",
+        },
+        designCustomization: {
+          authorName: data?.data?.designCustomization?.authorName
+            ? data?.data?.designCustomization?.authorName
+            : "",
+  
+          horizontalMargin: data?.data?.designCustomization?.horizontalMargin
+            ? data?.data?.designCustomization?.horizontalMargin
+            : "",
+  
+          verticalMargin: data?.data?.designCustomization?.verticalMargin
+            ? data?.data?.designCustomization?.verticalMargin
+            : "",
+  
+          player: {
+            height: data?.data?.designCustomization?.player?.height
+              ? data?.data?.designCustomization?.player?.height
+              : "",
+            onMobileDevice: data?.data?.designCustomization?.player
+              ?.onMobileDevice
+              ? data?.data?.designCustomization?.player?.onMobileDevice
+              : "",
+            size: data?.data?.designCustomization?.player?.size
+              ? data?.data?.designCustomization?.player?.size
+              : "",
+          },
+          toggle: {
+            animation: data?.data?.designCustomization?.toggle?.animation
+              ? data?.data?.designCustomization?.toggle?.animation
+              : "",
+  
+            showPlayIcon:
+              typeof data?.data?.designCustomization?.toggle?.showPlayIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showPlayIcon
+                : "",
+  
+            showCloseIcon:
+              typeof data?.data?.designCustomization?.toggle?.showCloseIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showCloseIcon
+                : "",
+  
+            size: data?.data?.designCustomization?.toggle?.size
+              ? data?.data?.designCustomization?.toggle?.size
+              : "",
+          },
+        },
+        colorStudio: {
+          templates: data?.data?.colorStudio?.templates
+            ? data?.data?.colorStudio?.templates
+            : "",
+  
+          general: {
+            gradientOverlay: data?.data?.colorStudio?.general?.gradientOverlay
+              ? data?.data?.colorStudio?.general?.gradientOverlay
+              : "#273149",
+            videoDescription: data?.data?.colorStudio?.general?.videoDescription
+              ? data?.data?.colorStudio?.general?.videoDescription
+              : "#FFFFFF",
+            videoTitle: data?.data?.colorStudio?.general?.videoTitle
+              ? data?.data?.colorStudio?.general?.videoTitle
+              : "#FFFFFF",
+          },
+          callToAction: {
+            buttonBackground: data?.data?.colorStudio?.callToAction
+              ?.buttonBackground
+              ? data?.data?.colorStudio?.callToAction?.buttonBackground
+              : "#1B5CF3",
+  
+            buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
+              ? data?.data?.colorStudio?.callToAction?.buttonOutline
+              : "#FFFFFF",
+  
+            buttonText: data?.data?.colorStudio?.callToAction?.buttonText
+              ? data?.data?.colorStudio?.callToAction?.buttonText
+              : "#FFFFFF",
+          },
+          player: {
+            authorName: data?.data?.colorStudio?.player?.authorName
+              ? data?.data?.colorStudio?.player?.authorName
+              : "#FFFFFF",
+            control: data?.data?.colorStudio?.player?.control
+              ? data?.data?.colorStudio?.player?.control
+              : "#FFFFFF",
+            seeker: data?.data?.colorStudio?.player?.seeker
+              ? data?.data?.colorStudio?.player?.seeker
+              : "#FFFFFF",
+          },
+          toggle: {
+            closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
+              ? data?.data?.colorStudio?.toggle?.closeBackground
+              : "#FFFFFF",
+            closeIconColor: data?.data?.colorStudio?.toggle?.closeIconColor
+              ? data?.data?.colorStudio?.toggle?.closeIconColor
+              : "#FFFFFF",
+            playIcon: data?.data?.colorStudio?.toggle?.playIcon
+              ? data?.data?.colorStudio?.toggle?.playIcon
+              : "#FFFFFF",
+          },
+        },
+        fontStudio: {
+          authorName: data?.data?.fontStudio?.authorName
+            ? data?.data?.fontStudio?.authorName
+            : "",
+          ctaButton: data?.data?.fontStudio?.ctaButton
+            ? data?.data?.fontStudio?.ctaButton
+            : "",
+          fontFamily: data?.data?.fontStudio?.fontFamily
+            ? data?.data?.fontStudio?.fontFamily
+            : "",
+          videoDescription: data?.data?.fontStudio?.videoDescription
+            ? data?.data?.fontStudio?.videoDescription
+            : "",
+          videoTitle: data?.data?.fontStudio?.videoTitle
+            ? data?.data?.fontStudio?.videoTitle
+            : "",
+        },
+        title: data?.data?.title ? data?.data?.title : "",
+      description: data?.data?.description ? data?.data?.description : "",
+      video: data?.data?.video ? data?.data?.video?.originalname : "",
+      })}
 }, [data]);
+
+//****** */
+
 
   function buildFormData(formData, data, parentKey) {
     if (
