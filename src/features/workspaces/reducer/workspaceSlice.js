@@ -12,7 +12,8 @@ import {
 
 const initialState = {
   loading: false,
-  data: null,
+  data: [],
+  dataDD: [],
   error: null,
   success: false,
   masterWorkspaceOptions: null,
@@ -53,12 +54,12 @@ const workspaceSlice = createSlice({
     // worksapceList for dropdown
     builder.addCase(worksapceListForDropdown.pending, (state, { payload }) => {
       state.loading = true;
-      state.data = null;
+      state.dataDD = [];
     });
 
     builder.addCase(worksapceListForDropdown.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.data = payload;
+      state.dataDD = payload;
       state.success = true;
     });
 

@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import ClockSvg from "../../assets/svgs/ClockSvg";
 import CustomersStoriesSvg from "../../assets/svgs/CustomersStoriesSvg";
 import FrequentlyAskedSvg from "../../assets/svgs/FrequentlyAskedSvg";
@@ -12,13 +14,35 @@ import SetupWorkspaceSvg from "../../assets/svgs/SetupWorkspaceSvg";
 import Button from "../../components/Button/Button";
 import SelectBox from "../../components/Input/SelectBox";
 import { setPageTitle } from "../../redux/slices/headerSlice";
+import { addWorkspace } from "../workspaces/action";
+import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Dashboard" }));
   }, []);
+
+  const createNewWorkspaceHandler = () => {
+    // console.log("new workspace")
+    dispatch(addWorkspace())
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          dispatch(setActiveWorkspaceData(res?.data));
+          navigate("/app/customization", { state: { id: res?.data?._id } });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  };
 
   const PlusIcon = () => (
     <svg
@@ -59,7 +83,11 @@ const Dashboard = () => {
               containerStyle="min-w-[10rem]"
               selectStyle="text-primary-main"
             />
-            <Button text="New Workspace" leftIcon={PlusIcon()} />
+            <Button
+              clickHandler={createNewWorkspaceHandler}
+              text="New Workspace"
+              leftIcon={PlusIcon()}
+            />
           </div>
         </div>
 
@@ -117,7 +145,11 @@ const Dashboard = () => {
               </div>
 
               <div className="flex justify-center items-center h-full">
-                <Button text="New Workspace" leftIcon={PlusIcon()} />
+                <Button
+                  clickHandler={createNewWorkspaceHandler}
+                  text="New Workspace"
+                  leftIcon={PlusIcon()}
+                />
               </div>
             </div>
 
@@ -132,7 +164,11 @@ const Dashboard = () => {
               </div>
 
               <div className="flex justify-center items-center h-full">
-                <Button text="New Workspace" leftIcon={PlusIcon()} />
+                <Button
+                  clickHandler={createNewWorkspaceHandler}
+                  text="New Workspace"
+                  leftIcon={PlusIcon()}
+                />
               </div>
             </div>
           </div>

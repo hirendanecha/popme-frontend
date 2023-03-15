@@ -5,7 +5,7 @@ const ThreeDotSvg = () => {
     <>
       <svg
         width="18"
-        height="4"
+        height="20"
         viewBox="0 0 18 4"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
