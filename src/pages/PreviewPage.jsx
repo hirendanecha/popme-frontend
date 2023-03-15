@@ -7,15 +7,18 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 const PreviewPage = () => {
   const dispatch = useDispatch();
 
-  const location = useLocation();
+  // const location = useLocation();
   const { id } = useParams();
   const [loaded, setLoaded] = useState(false);
+
+  let decodedStringAtoB = atob(id);
 
   // const { state } = useLocation();
   // const { questions } = state || {};
 
   // console.log("location", location);
   // console.log("id", id);
+  // console.log("decodedStringAtoB", decodedStringAtoB);
 
   // console.log("dfhfdfdhfdh", window.location.origin);
   // console.log("hostname", window.location.hostname);
@@ -26,37 +29,46 @@ const PreviewPage = () => {
   // https://popme-api.opash.in/scripts/fn.js?org=C7A29agd9fuv
 
   const workspaceChangeHandlerApi = useCallback((id) => {
-    dispatch(getWorkspaceById(id))
-      .unwrap()
-      .then(({ success, data }) => {
-        if (success) {
-          // console.log("res", res);
-          if (success) {
-            const scriptTag = document.createElement("script");
-            scriptTag.id = "popme-preview-scr";
-            scriptTag.src = `${baseURL}/scripts/fn.js?org=${data?.identity}`;
-            scriptTag.addEventListener("load", () => setLoaded(true));
-            document.body.appendChild(scriptTag);
-          }
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
-      });
+    const splitId = id.split(":");
+    // console.log("splitId", splitId);
+
+    const scriptTag = document.createElement("script");
+    scriptTag.id = "popme-preview-scr";
+    scriptTag.src = `${baseURL}/scripts/fn.js?org=${splitId[1]}`;
+    scriptTag.addEventListener("load", () => setLoaded(true));
+    document.body.appendChild(scriptTag);
+
+    // dispatch(getWorkspaceById(id))
+    //   .unwrap()
+    //   .then(({ success, data }) => {
+    //     if (success) {
+    //       // console.log("res", res);
+    //       if (success) {
+    //         const scriptTag = document.createElement("script");
+    //         scriptTag.id = "popme-preview-scr";
+    //         scriptTag.src = `${baseURL}/scripts/fn.js?org=${data?.identity}`;
+    //         scriptTag.addEventListener("load", () => setLoaded(true));
+    //         document.body.appendChild(scriptTag);
+    //       }
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     if (err) {
+    //       toast(err, {
+    //         type: "error",
+    //       });
+    //     }
+    //   });
   }, []);
 
   useEffect(() => {
-    if (id) {
-      workspaceChangeHandlerApi(id);
+    if (decodedStringAtoB) {
+      workspaceChangeHandlerApi(decodedStringAtoB);
     }
     return () => {
       // script already loaded then remove
     };
-  }, [id]);
+  }, [decodedStringAtoB]);
 
   // useEffect(() => {
   //   const scriptTag = document.createElement("script");

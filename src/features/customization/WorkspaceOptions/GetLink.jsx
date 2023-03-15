@@ -15,7 +15,9 @@ const GetLink = ({ register }) => {
   useEffect(() => {
     if (activeWorkspaceData !== null) {
       setCustomLink(
-        `${window?.location?.origin}/share/${activeWorkspaceData?._id}`
+        `${window?.location?.origin}/share/${btoa(
+          `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
+        )}`
       );
     }
   }, [activeWorkspaceData]);

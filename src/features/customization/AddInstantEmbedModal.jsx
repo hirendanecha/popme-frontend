@@ -71,7 +71,7 @@ const AddInstantEmbedModal = () => {
       <div className="flex w-full mb-6">
         {activeWorkspaceData !== null && (
           <p className="py-1 px-2 bg-[#F6F6F6] text-primary-main text-sm overflow-x-scroll whitespace-nowrap rounded-md [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl">
-            {`<script type="text/javascript" src="${baseURL}scripts/fn.js?org=${activeWorkspaceData?.identity}"></script>`}
+            {`<script type="text/javascript" src="${baseURL}/scripts/fn.js?org=${activeWorkspaceData?.identity}"></script>`}
           </p>
         )}
       </div>

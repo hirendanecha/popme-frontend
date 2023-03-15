@@ -10,6 +10,7 @@ const UploadFile = ({
   inputStyle,
   errorMessage,
   watch,
+  valueChangeHandler,
 }) => {
   const [fileName, setFileName] = useState("");
 
@@ -20,6 +21,8 @@ const UploadFile = ({
 
     setFileName(file[0]?.name);
     // console.log("file", file);
+
+    valueChangeHandler("video");
   };
 
   return (

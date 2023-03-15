@@ -4,7 +4,7 @@ import InputWithIcon from "../../../components/Input/InputWithIcon";
 import NewInputText from "../../../components/Input/NewInputText";
 import SelectBox from "../../../components/Input/SelectBox";
 
-const DesignCustomization = ({ register }) => {
+const DesignCustomization = ({ register, valueChangeHandler }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
 
   // console.log("masterWorkspaceOptions", masterWorkspaceOptions);
@@ -31,6 +31,7 @@ const DesignCustomization = ({ register }) => {
                 inputStyle="mb-3 !bg-transparent"
                 name="designCustomization.authorName"
                 register={register}
+                valueChangeHandler={valueChangeHandler}
               />
 
               <InputWithIcon
@@ -41,6 +42,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.verticalMargin"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
 
               <InputWithIcon
@@ -51,6 +53,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.horizontalMargin"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
             </div>
 
@@ -68,6 +71,7 @@ const DesignCustomization = ({ register }) => {
                 register={register}
                 rightText="%"
                 max="100"
+                valueChangeHandler={valueChangeHandler}
               />
 
               <SelectBox
@@ -86,6 +90,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.toggle.animation"
                 register={register}
                 placeholder
+                valueChangeHandler={valueChangeHandler}
               />
 
               <SelectBox
@@ -100,6 +105,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.toggle.showPlayIcon"
                 register={register}
                 placeholder
+                valueChangeHandler={valueChangeHandler}
               />
 
               <SelectBox
@@ -114,6 +120,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.toggle.showCloseIcon"
                 register={register}
                 placeholder
+                valueChangeHandler={valueChangeHandler}
               />
             </div>
 
@@ -130,6 +137,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.player.size"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
 
               <InputWithIcon
@@ -140,6 +148,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.player.height"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
 
               <SelectBox
@@ -154,6 +163,7 @@ const DesignCustomization = ({ register }) => {
                 name="designCustomization.player.onMobileDevice"
                 register={register}
                 placeholder
+                valueChangeHandler={valueChangeHandler}
               />
             </div>
           </div>

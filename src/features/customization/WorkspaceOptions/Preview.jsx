@@ -20,6 +20,12 @@ const Preview = ({ register }) => {
 
   // console.log("userWebsite", userWebsite);
 
+  // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
+
+  // let decodedStringBtoA = `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`;
+  // let encodedStringBtoA = btoa(decodedStringBtoA);
+  // console.log("encodedStringBtoA", encodedStringBtoA);
+
   return (
     <>
       <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
@@ -70,7 +76,10 @@ const Preview = ({ register }) => {
 
                 {activeWorkspaceData !== null && (
                   <Link
-                    to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}?site=https://${userWebsite}`}
+                    // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
+                    to={`${window?.location?.origin}/preview/${btoa(
+                      `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
+                    )}?site=https://${userWebsite}`}
                     target="_blank"
 
                     // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}

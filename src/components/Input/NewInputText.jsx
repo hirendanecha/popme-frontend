@@ -12,6 +12,7 @@ const NewInputText = ({
   containerStyle,
   register,
   errorMessage,
+  valueChangeHandler,
 }) => {
   const [value, setValue] = useState(defaultValue);
 
@@ -34,7 +35,12 @@ const NewInputText = ({
             <input
               type={type || "text"}
               placeholder={placeholder || ""}
-              {...register(name, { required: false })}
+              {...register(name, {
+                required: false,
+                onBlur: () => {
+                  valueChangeHandler && valueChangeHandler();
+                },
+              })}
               className={`input input-bordered w-full bg-white text-primary-main text-base focus:outline-none border-borderColor-main ${inputStyle}`}
             />
           </>

@@ -15,6 +15,7 @@ function SelectBox(props) {
     updateFormValue,
     selectStyle,
     register,
+    valueChangeHandler,
   } = props;
 
   const [value, setValue] = useState(defaultValue || "");
@@ -59,7 +60,12 @@ function SelectBox(props) {
       {register ? (
         <select
           className={`select select-bordered w-full text-primary-main bg-[#F9FAFB] text-base border-borderColor-main focus:outline-none ${selectStyle}`}
-          {...register(name, { required: false })}
+          {...register(name, {
+            required: false,
+            onBlur: () => {
+              valueChangeHandler && valueChangeHandler();
+            },
+          })}
         >
           {/* {placeholder && (
             <option disabled selected>

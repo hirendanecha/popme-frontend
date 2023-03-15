@@ -16,10 +16,12 @@ const WorkspacePost = ({
   onEditHandler,
   onDuplicateHandler,
 }) => {
-  //   console.log(
-  //     "video",
-  //     baseURL + item?.video?.thumbnailDestination + item?.video?.thumbnail
-  //   );
+  // console.log("item", item);
+
+  // console.log(
+  //   "video",
+  //   baseURL + item?.video?.thumbnailDestination + item?.video?.thumbnail
+  // );
 
   //   console.log("video", `${baseURL + item?.video?.animatedImage}`);
 
@@ -35,6 +37,7 @@ const WorkspacePost = ({
   const [defaultWorkspaceImg, setDefaultWorkspaceImg] = useState(
     item?.video?.thumbnail
       ? baseURL +
+          "/" +
           item?.video?.thumbnailDestination +
           "/" +
           item?.video?.thumbnail
@@ -46,7 +49,7 @@ const WorkspacePost = ({
   const mouseOver = () => {
     setDefaultWorkspaceImg(
       item?.video?.animatedImage
-        ? baseURL + item?.video?.animatedImage
+        ? baseURL + "/" + item?.video?.animatedImage
         : defaultWorkspaceWebp
     );
 
@@ -57,6 +60,7 @@ const WorkspacePost = ({
     setDefaultWorkspaceImg(
       item?.video?.thumbnail
         ? baseURL +
+            "/" +
             item?.video?.thumbnailDestination +
             "/" +
             item?.video?.thumbnail

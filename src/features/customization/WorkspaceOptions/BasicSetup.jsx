@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-const BasicSetup = ({ register }) => {
+const BasicSetup = ({ register, valueChangeHandler }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
 
   return (
@@ -33,7 +33,11 @@ const BasicSetup = ({ register }) => {
                             type="radio"
                             id={item?._id}
                             name="basicSetUp.videoPosition"
-                            {...register("basicSetUp.videoPosition")}
+                            {...register("basicSetUp.videoPosition", {
+                              onChange: () => {
+                                valueChangeHandler();
+                              },
+                            })}
                             value={item?.value}
                             className="hidden peer"
                           ></input>
@@ -65,7 +69,11 @@ const BasicSetup = ({ register }) => {
                               type="radio"
                               id={item?._id}
                               name="basicSetUp.previewStyle"
-                              {...register("basicSetUp.previewStyle")}
+                              {...register("basicSetUp.previewStyle", {
+                                onChange: () => {
+                                  valueChangeHandler();
+                                },
+                              })}
                               value={item?.value}
                               className="hidden peer"
                             ></input>
