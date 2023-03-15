@@ -14,12 +14,13 @@ const GetLink = ({ register }) => {
 
   useEffect(() => {
     if (activeWorkspaceData !== null) {
-      setCustomLink(`http://localhost:5173/share/${activeWorkspaceData?._id}`);
+      setCustomLink(
+        `${window?.location?.origin}/share/${activeWorkspaceData?._id}`
+      );
     }
   }, [activeWorkspaceData]);
 
   // console.log("customLink", customLink);
-
   // const updateValue = (data) => {
   //   setCustomLink(data?.value);
   // };
