@@ -1,11 +1,11 @@
-/* temp */
-.custom-class {
-  color: #ff0000;
-}
-
 html,
 body {
   padding: 0;
   margin: 0;
   background-color: #f9fafb;
+}
+
+.color_pick_comp #rc-editable-input-1 {
+  color: white !important;
+  outline: none !important;
 }

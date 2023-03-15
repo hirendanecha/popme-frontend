@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import InputWithIcon from "../../../components/Input/InputWithIcon";
 import SelectBox from "../../../components/Input/SelectBox";
 
-const FontStudio = ({ register }) => {
+const FontStudio = ({ register, valueChangeHandler }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
 
   //   console.log("masterWorkspaceOptions", masterWorkspaceOptions);
@@ -35,6 +35,7 @@ const FontStudio = ({ register }) => {
                 name="fontStudio.fontFamily"
                 register={register}
                 placeholder
+                valueChangeHandler={valueChangeHandler}
               />
 
               <InputWithIcon
@@ -45,6 +46,7 @@ const FontStudio = ({ register }) => {
                 name="fontStudio.videoTitle"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
 
               <InputWithIcon
@@ -55,6 +57,7 @@ const FontStudio = ({ register }) => {
                 name="fontStudio.videoDescription"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
 
               <InputWithIcon
@@ -65,6 +68,7 @@ const FontStudio = ({ register }) => {
                 name="fontStudio.ctaButton"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
 
               <InputWithIcon
@@ -75,6 +79,7 @@ const FontStudio = ({ register }) => {
                 name="fontStudio.authorName"
                 register={register}
                 rightText="px"
+                valueChangeHandler={valueChangeHandler}
               />
             </div>
           </div>
