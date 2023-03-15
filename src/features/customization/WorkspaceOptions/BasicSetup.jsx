@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 
 const BasicSetup = ({ register, valueChangeHandler }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
-
-  return (
+  
+   return (
     <>
       <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
         <div

@@ -169,6 +169,7 @@ const SettingsCom = () => {
     dispatch(logoutUser())
       .unwrap()
       .then((res) => {
+        console.log(res,"rrr")
         if (res.success === true) {
           setTimeout(() => {
             navigate("/login");
@@ -176,6 +177,7 @@ const SettingsCom = () => {
         }
       })
       .catch((err) => {
+        console.log(err,"errr")
         if (err) {
           toast(err, {
             type: "error",
