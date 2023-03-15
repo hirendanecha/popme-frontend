@@ -71,12 +71,22 @@ const Customization = () => {
 
   // console.log("activeWorkspaceData", activeWorkspaceData);
 
+  // base api + video.path
+
   // console.log(
-  //   "video",
+  //   "image",
   //   baseURL +
+  //     "/" +
   //     activeWorkspaceData?.video?.thumbnailDestination +
   //     "/" +
   //     activeWorkspaceData?.video?.thumbnail
+  // );
+
+  // console.log("video", baseURL + "/" + activeWorkspaceData?.video?.path);
+
+  // console.log(
+  //   "animatedImage",
+  //   `${baseURL + "/" + activeWorkspaceData?.video?.animatedImage}`
   // );
 
   const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
@@ -116,6 +126,7 @@ const Customization = () => {
     handleSubmit,
     reset,
     watch,
+    control,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -369,18 +380,36 @@ const Customization = () => {
   }
 
   const onSubmit = (data) => {
-    // console.log("onSubmit", data);
+    console.log("onSubmit", data);
 
-    let formData = jsonToFormData(data);
+    if (data) {
+      let formData = jsonToFormData(data);
 
-    dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
-      .unwrap()
-      .then((res) => {
-        // console.log("res", res);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
+      dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
+        .unwrap()
+        .then((res) => {
+          // console.log("res", res);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    }
+  };
+
+  const valueChangeHandler = (name) => {
+    // handleSubmit(onSubmit);
+
+    // console.log("name", name);
+
+    if (name === "video") {
+      handleSubmit((data) => {
+        onSubmit(data);
+      })();
+    } else {
+      handleSubmit(({ video, ...data }) => {
+        onSubmit(data);
+      })();
+    }
   };
 
   const updateValue = (data) => {
@@ -475,13 +504,20 @@ const Customization = () => {
   // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
   // console.log("activeWorkspace", activeWorkspace);
 
-  const ClapprComponent = ({ id, source, height, width }) => {
+  const ClapprComponent = ({
+    id,
+    source,
+    height,
+    width,
+    poster,
+    animatedImage,
+  }) => {
     let player = useRef();
 
     useEffect(() => {
       player.current = new Clappr.Player({
-        source: "https://www.w3schools.com/tags/movie.ogg",
-        // poster: "http://clappr.io/poster.png",
+        source: source,
+        // poster: { poster },
         parentId: "#player",
         height,
         width,
@@ -744,7 +780,8 @@ const Customization = () => {
         <div className="absolute bottom-0 left-3">
           <div className="relative">
             <img
-              src={workspace1}
+              src={poster ? poster : workspace1}
+              // src={animatedImage ? animatedImage : workspace1}
               alt="workspace1"
               className="h-[200px] w-full object-cover rounded-lg"
             />
@@ -754,9 +791,9 @@ const Customization = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-0 right-3">
+        {/* <div className="absolute bottom-0 right-3">
           <img
-            src={workspace1}
+            src={poster ? poster : workspace1}
             alt="workspace1"
             className="h-[178px] w-[178px] object-cover rounded-full"
           />
@@ -764,7 +801,7 @@ const Customization = () => {
           <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer">
             <PlayButtonSvg />
           </div>
-        </div>
+        </div> */}
       </>
     );
   };
@@ -815,9 +852,24 @@ const Customization = () => {
               <div className="inline-block w-full h-[calc(100vh-183px)] relative">
                 <ClapprComponent
                   id="player"
-                  source="https://www.w3schools.com/tags/movie.ogg"
+                  source={
+                    activeWorkspaceData !== null &&
+                    baseURL + "/" + activeWorkspaceData?.video?.path
+                  }
+                  // base api + video.path
                   height={461}
                   width={261}
+                  poster={
+                    activeWorkspaceData !== null &&
+                    baseURL +
+                      "/" +
+                      activeWorkspaceData?.video?.thumbnailDestination +
+                      "/" +
+                      activeWorkspaceData?.video?.thumbnail
+                  }
+                  animatedImage={
+                    baseURL + "/" + activeWorkspaceData?.video?.animatedImage
+                  }
                 />
               </div>
             </div>
@@ -859,7 +911,10 @@ const Customization = () => {
               </li>
 
               <li>
-                <BasicSetup register={register} />
+                <BasicSetup
+                  register={register}
+                  valueChangeHandler={valueChangeHandler}
+                />
               </li>
 
               <li>
@@ -867,6 +922,7 @@ const Customization = () => {
                   register={register}
                   errors={errors && errors}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
                   // files={files}
                   // handleFile={(e) => handleFile(e)}
                   // removeImage={(e) => removeImage(e)}
@@ -874,19 +930,33 @@ const Customization = () => {
               </li>
 
               <li>
-                <CallToActionModal register={register} />
+                <CallToActionModal
+                  register={register}
+                  valueChangeHandler={valueChangeHandler}
+                />
               </li>
 
               <li>
-                <DesignCustomization register={register} />
+                <DesignCustomization
+                  register={register}
+                  valueChangeHandler={valueChangeHandler}
+                />
               </li>
 
               <li>
-                <ColorStudio register={register} watch={watch} />
+                <ColorStudio
+                  register={register}
+                  watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
+                />
               </li>
 
               <li>
-                <FontStudio register={register} />
+                <FontStudio
+                  register={register}
+                  valueChangeHandler={valueChangeHandler}
+                />
               </li>
 
               <li>

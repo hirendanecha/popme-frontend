@@ -16,6 +16,7 @@ const InputWithIcon = ({
   defaultValue,
   updateFormValue,
   disabled,
+  valueChangeHandler,
 }) => {
   const [value, setValue] = useState(defaultValue);
 
@@ -47,7 +48,12 @@ const InputWithIcon = ({
               <input
                 type={type || "text"}
                 placeholder={placeholder || ""}
-                {...register(name, { required: false })}
+                {...register(name, {
+                  required: false,
+                  onBlur: () => {
+                    valueChangeHandler && valueChangeHandler();
+                  },
+                })}
                 className={`form-input w-full bg-white text-primary-main text-base focus:outline-none border border-borderColor-main rounded-lg appearance-none block ${
                   rightIcon ? "pr-14" : "pl-14"
                 } ${

@@ -5,7 +5,7 @@ import NewInputText from "../../../components/Input/NewInputText";
 import SelectBox from "../../../components/Input/SelectBox";
 import { CloseSvg, PhoneSvg, RightArrowSvg, RightExitSvg } from "../SvgComp";
 
-const CallToActionModal = ({ register }) => {
+const CallToActionModal = ({ register, valueChangeHandler }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
 
   const IconList = [
@@ -58,6 +58,7 @@ const CallToActionModal = ({ register }) => {
                 inputStyle="mb-3 !bg-transparent"
                 name="callToAction.buttonText"
                 register={register}
+                valueChangeHandler={valueChangeHandler}
               />
 
               <NewInputText
@@ -67,6 +68,7 @@ const CallToActionModal = ({ register }) => {
                 inputStyle="mb-3 !bg-transparent"
                 name="callToAction.destinationUrl"
                 register={register}
+                valueChangeHandler={valueChangeHandler}
               />
 
               <div className="flex flex-col mb-3">
@@ -83,7 +85,11 @@ const CallToActionModal = ({ register }) => {
                             type="radio"
                             id={item?._id}
                             name="callToAction.buttonIcon"
-                            {...register("callToAction.buttonIcon")}
+                            {...register("callToAction.buttonIcon", {
+                              onChange: () => {
+                                valueChangeHandler();
+                              },
+                            })}
                             value={item?.name}
                             className="hidden peer"
                             // required
@@ -139,6 +145,7 @@ const CallToActionModal = ({ register }) => {
                 name="callToAction.buttonStyle"
                 register={register}
                 placeholder
+                valueChangeHandler={valueChangeHandler}
               />
 
               <SelectBox
@@ -154,6 +161,7 @@ const CallToActionModal = ({ register }) => {
                 name="callToAction.buttonCorner"
                 register={register}
                 placeholder
+                valueChangeHandler={valueChangeHandler}
               />
             </div>
           </div>

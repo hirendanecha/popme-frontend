@@ -26,7 +26,7 @@ export const ColorObj = {
   },
 };
 
-const ColorStudio = ({ register, watch }) => {
+const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
   return (
     <>
       <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
@@ -53,7 +53,11 @@ const ColorStudio = ({ register, watch }) => {
                   <input
                     type="radio"
                     name="colorStudio.templates"
-                    {...register("colorStudio.templates")}
+                    {...register("colorStudio.templates", {
+                      onChange: () => {
+                        valueChangeHandler();
+                      },
+                    })}
                     value="red"
                     className="radio bg-[#FF0056] checked:bg-[#FF0056] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
@@ -68,7 +72,11 @@ const ColorStudio = ({ register, watch }) => {
                   <input
                     type="radio"
                     name="colorStudio.templates"
-                    {...register("colorStudio.templates")}
+                    {...register("colorStudio.templates", {
+                      onChange: () => {
+                        valueChangeHandler();
+                      },
+                    })}
                     value="blue"
                     className="radio bg-[#00A3FF] checked:bg-[#00A3FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
@@ -83,7 +91,11 @@ const ColorStudio = ({ register, watch }) => {
                   <input
                     type="radio"
                     name="colorStudio.templates"
-                    {...register("colorStudio.templates")}
+                    {...register("colorStudio.templates", {
+                      onChange: () => {
+                        valueChangeHandler();
+                      },
+                    })}
                     value="green"
                     className="radio bg-[#24CB3F] checked:bg-[#24CB3F] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
@@ -98,7 +110,11 @@ const ColorStudio = ({ register, watch }) => {
                   <input
                     type="radio"
                     name="colorStudio.templates"
-                    {...register("colorStudio.templates")}
+                    {...register("colorStudio.templates", {
+                      onChange: () => {
+                        valueChangeHandler();
+                      },
+                    })}
                     value="orange"
                     className="radio bg-[#FFBB0E] checked:bg-[#FFBB0E] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
@@ -119,6 +135,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.general.videoTitle"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -130,6 +148,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.general.videoDescription"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -141,6 +161,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.general.gradientOverlay"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
             </div>
@@ -158,6 +180,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.callToAction.buttonText"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -169,6 +193,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.callToAction.buttonBackground"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -180,6 +206,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.callToAction.buttonOutline"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
             </div>
@@ -197,6 +225,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.player.control"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -208,6 +238,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.player.seeker"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -219,6 +251,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.player.authorName"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
             </div>
@@ -236,6 +270,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.toggle.playIcon"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -247,6 +283,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.toggle.closeBackground"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
 
@@ -258,6 +296,8 @@ const ColorStudio = ({ register, watch }) => {
                   name="colorStudio.toggle.closeIconColor"
                   register={register}
                   watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
                 />
               </div>
             </div>

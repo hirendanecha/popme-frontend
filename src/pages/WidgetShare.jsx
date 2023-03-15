@@ -1,4 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import Button from "../components/Button/Button";
 import {
   DashSvg,
@@ -8,16 +11,59 @@ import {
   RightArrowSvg,
   VolumeSvg,
 } from "../features/customization/SvgComp";
+import { getWorkspaceById } from "../features/workspaces/action";
 // import workspace1 from "../assets/images/workspace-1.png";
 // import PlayButtonSvg from "../assets/svgs/PlayButtonSvg";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 const WidgetShare = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const [workspaceData, setWorkspaceData] = useState(null);
+
+  // console.log("id", id);
+  let decodedStringAtoB = atob(id);
+  console.log("decodedStringAtoB", decodedStringAtoB);
+
+  const workspaceChangeHandlerApi = useCallback((id) => {
+    const splitId = id.split(":");
+
+    dispatch(getWorkspaceById(splitId[0]))
+      .unwrap()
+      .then(({ success, data }) => {
+        if (success) {
+          // console.log("res", res);
+          if (success) {
+            // console.log("data", data);
+            setWorkspaceData(data);
+          }
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    if (decodedStringAtoB) {
+      workspaceChangeHandlerApi(decodedStringAtoB);
+    }
+  }, [decodedStringAtoB]);
+
+  // console.log("workspaceData", workspaceData);
+
   const ClapprComponent = ({ id, source, height, width }) => {
     let player = useRef();
 
     useEffect(() => {
       player.current = new Clappr.Player({
-        source: "https://www.w3schools.com/tags/movie.ogg",
+        source: source,
         // poster: "http://clappr.io/poster.png",
         parentId: "#share_player",
         height,
@@ -245,12 +291,14 @@ const WidgetShare = () => {
   return (
     <div className="min-h-screen flex items-center bg-[#E5E7EB]">
       <div className="mx-auto w-full max-w-xl">
-        <ClapprComponent
-          id="share_player"
-          source="https://www.w3schools.com/tags/movie.ogg"
-          height={500}
-          width={280}
-        />
+        {workspaceData !== null && (
+          <ClapprComponent
+            id="share_player"
+            source={baseURL + "/" + workspaceData?.video?.path}
+            height={500}
+            width={280}
+          />
+        )}
       </div>
     </div>
   );
