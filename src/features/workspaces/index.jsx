@@ -39,6 +39,7 @@ const Workspaces = () => {
       .unwrap()
       .then((res) => {
         if (res?.success) {
+          console.log(res,"ressss>>")
           if (options?.merge) {
             setWorkspacePosts((prev) => [...prev, ...res?.data]);
           } else {
