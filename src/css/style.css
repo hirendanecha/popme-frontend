@@ -9,3 +9,15 @@
 @import "tailwindcss/utilities";
 
 @import "react-toastify/dist/ReactToastify.css";
+
+/* @layer utilities {
+  .top_left {
+    top: 0;
+    left: 0.75rem;
+  }
+
+  .bottom_left {
+    bottom: 0;
+    left: 0.75rem;
+  }
+} */

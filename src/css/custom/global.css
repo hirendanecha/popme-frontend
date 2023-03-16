@@ -9,3 +9,46 @@ body {
   color: white !important;
   outline: none !important;
 }
+
+/* video position */
+.top_left {
+  top: 0;
+  left: 0.75rem;
+}
+
+.bottom_left {
+  bottom: 0;
+  left: 0.75rem;
+}
+
+.top_right {
+  top: 0;
+  right: 0.75rem;
+}
+
+.bottom_right {
+  bottom: 0;
+  right: 0.75rem;
+}
+
+/* video button style */
+.outlined {
+  background-color: transparent !important;
+}
+
+.ghost {
+  background-color: transparent !important;
+}
+
+.link {
+  text-decoration: underline;
+  background-color: transparent !important;
+}
+
+.round {
+  border-radius: 10px !important;
+}
+
+.square {
+  border-radius: 0px !important;
+}

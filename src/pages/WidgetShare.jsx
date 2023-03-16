@@ -11,7 +11,10 @@ import {
   RightArrowSvg,
   VolumeSvg,
 } from "../features/customization/SvgComp";
-import { getWorkspaceById } from "../features/workspaces/action";
+import {
+  getWorkspaceById,
+  getWorkspaceByIdentity,
+} from "../features/workspaces/action";
 // import workspace1 from "../assets/images/workspace-1.png";
 // import PlayButtonSvg from "../assets/svgs/PlayButtonSvg";
 
@@ -25,20 +28,18 @@ const WidgetShare = () => {
 
   // console.log("id", id);
   let decodedStringAtoB = atob(id);
-  console.log("decodedStringAtoB", decodedStringAtoB);
+  // console.log("decodedStringAtoB", decodedStringAtoB);
 
   const workspaceChangeHandlerApi = useCallback((id) => {
     const splitId = id.split(":");
 
-    dispatch(getWorkspaceById(splitId[0]))
+    dispatch(getWorkspaceByIdentity(splitId[1]))
       .unwrap()
-      .then(({ success, data }) => {
-        if (success) {
-          // console.log("res", res);
-          if (success) {
-            // console.log("data", data);
-            setWorkspaceData(data);
-          }
+      .then((res) => {
+        // console.log("res", res);
+
+        if (res) {
+          setWorkspaceData(res);
         }
       })
       .catch((err) => {

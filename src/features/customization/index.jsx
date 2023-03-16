@@ -7,43 +7,30 @@ import React, {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setPageTitle } from "../../redux/slices/headerSlice";
 import Button from "../../components/Button/Button";
-import ClipBoardSvg from "../../assets/svgs/ClipBoardSvg";
 import SelectBox from "../../components/Input/SelectBox";
-import InputWithIcon from "../../components/Input/InputWithIcon";
-import ShareSvg from "../../assets/svgs/ShareSvg";
-import UploadFile from "../../components/Input/UploadFile";
-import CalendarSvg from "../../assets/svgs/CalendarSvg";
-import ColorPickerInput from "../../components/Input/ColorPickerInput";
 import workspace1 from "../../assets/images/workspace-1.png";
 import PlayButtonSvg from "../../assets/svgs/PlayButtonSvg";
-import MouseSvg from "../../assets/svgs/MouseSvg";
-import NewInputText from "../../components/Input/NewInputText";
-import NewTextArea from "../../components/Input/NewTextArea";
-import ModalButton from "../../components/Button/ModalButton";
-import { openNewModal } from "../../redux/slices/newModalSlice";
-import ConnectWebsiteModal from "./ConnectWebsiteModal";
+
 import {
-  CloseSvg,
   RightArrowSvg,
-  RightExitSvg,
-  PhoneSvg,
-  leftIcon,
   VolumeSvg,
   MuteSvg,
   DashSvg,
-  OpenEye,
   PauseSvg,
   PlayerPlaySvg,
+  RightExitSvg,
+  CloseSvg,
+  CloseCircle,
 } from "./SvgComp";
 import {
   addWorkspace,
   getDropdownValues,
   getWorkspaceById,
   updateWorkspaceOptions,
-  worksapceList,
   worksapceListForDropdown,
 } from "../workspaces/action";
 import BasicSetup from "./WorkspaceOptions/BasicSetup";
@@ -57,6 +44,7 @@ import GetLink from "./WorkspaceOptions/GetLink";
 import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 import { useLocation } from "react-router-dom";
+import CalendarSvg from "../../assets/svgs/CalendarSvg";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -69,7 +57,7 @@ const Customization = () => {
 
   // console.log("location?.state", location?.state);
 
-  // console.log("activeWorkspaceData", activeWorkspaceData);
+  console.log("activeWorkspaceData", activeWorkspaceData);
 
   // base api + video.path
 
@@ -93,6 +81,8 @@ const Customization = () => {
   const [activeWorkspace, setActiveWorkspace] = useState(
     location?.state?.id || ""
   );
+
+  // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
 
   // console.log("data", data);
 
@@ -389,6 +379,7 @@ const Customization = () => {
         .unwrap()
         .then((res) => {
           // console.log("res", res);
+          dispatch(setActiveWorkspaceData(res?.data));
         })
         .catch((err) => {
           console.log("err", err);
@@ -504,6 +495,25 @@ const Customization = () => {
   // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
   // console.log("activeWorkspace", activeWorkspace);
 
+  const renderSwitch = (activeWorkspaceData) => {
+    switch (activeWorkspaceData !== null) {
+      case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
+        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
+        return <RightExitSvg w="w-4" h="h-4" color="text-white" />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
+        return <CalendarSvg w="13" h="13" color="#fff" />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
+        return <CloseSvg w="w-4" h="h-4" color="text-white" />;
+
+      default:
+        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+    }
+  };
+
   const ClapprComponent = ({
     id,
     source,
@@ -600,6 +610,9 @@ const Customization = () => {
           document.querySelector(".player_wrap").classList.add("translate-x-0");
           document.querySelector(".player_wrap").classList.add("opacity-100");
 
+          document.querySelector(".thumbnail_img").classList.remove("block");
+          document.querySelector(".thumbnail_img").classList.add("hidden");
+
           if (
             document.querySelector(".player_wrap").classList.contains("z-0")
           ) {
@@ -683,7 +696,17 @@ const Customization = () => {
             .querySelector(".player_wrap")
             .classList.add("translate-x-[-130%]");
           document.querySelector(".player_wrap").classList.add("opacity-0");
+
+          document.querySelector(".thumbnail_img").classList.remove("hidden");
+          document.querySelector(".thumbnail_img").classList.add("block");
         }
+      });
+
+      let closeThumbnailSvg = document.querySelector(".close_thumbnail_svg");
+      closeThumbnailSvg.addEventListener("click", function (event) {
+        event.stopPropagation();
+        document.querySelector(".thumbnail_img").classList.remove("block");
+        document.querySelector(".thumbnail_img").classList.add("hidden");
       });
     }, []);
 
@@ -699,7 +722,12 @@ const Customization = () => {
           ></iframe>
         </div>
 
-        <div className="absolute bottom-0 left-3 rounded-lg overflow-hidden ">
+        <div
+          // className={`absolute bottom-0 left-3 rounded-lg overflow-hidden`}
+          className={`absolute ${
+            activeWorkspaceData?.basicSetUp?.videoPosition || "bottom-0 left-3"
+          } rounded-lg overflow-hidden`}
+        >
           <div className="relative player_wrap transform translate-y-[130%] translate-x-[-130%] opacity-0 transition duration-500 ease-in-out">
             <div ref={player} id={id} className="hidden"></div>
 
@@ -707,7 +735,14 @@ const Customization = () => {
               <div className="flex justify-between w-full p-4 h-[calc(100%-58px)]">
                 <div className="flex justify-between flex-col play_area_button z-20">
                   <div className="flex justify-between">
-                    <h5 className="text-white text-base">Elie MoreReels</h5>
+                    <h5
+                      className="text-white text-base"
+                      style={{
+                        fontSize: `${activeWorkspaceData?.fontStudio?.authorName}px`,
+                      }}
+                    >
+                      {activeWorkspaceData?.designCustomization?.authorName}
+                    </h5>
                     <div className="minimize_icon cursor-pointer">
                       <DashSvg />
                     </div>
@@ -715,15 +750,23 @@ const Customization = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col pr-3">
-                      <h4 className="text-2xl text-white mb-3">
-                        This is PopMe!
+                      <h4
+                        className="text-2xl text-white mb-3 line-clamp-2"
+                        style={{
+                          fontSize: `${activeWorkspaceData?.fontStudio?.videoTitle}px`,
+                        }}
+                      >
+                        {activeWorkspaceData?.title || "This is PopMe!"}
                       </h4>
 
-                      <p className="text-sm text-white mb-4 line-clamp-5">
-                        A widget you can use to upload videos and get personal
-                        with your customers to schedule meetings, ask for
-                        reviews, or share the latest features with its CTA
-                        functionnality.
+                      <p
+                        className="text-sm text-white mb-4 line-clamp-5"
+                        style={{
+                          fontSize: `${activeWorkspaceData?.fontStudio?.videoDescription}px`,
+                        }}
+                      >
+                        {activeWorkspaceData?.description ||
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry."}
                       </p>
                     </div>
 
@@ -749,15 +792,30 @@ const Customization = () => {
               </div>
 
               <div className="flex px-4 mb-[26px]">
-                <Button
-                  text="Try for free"
-                  rightIcon={RightArrowSvg({
-                    w: "w-4",
-                    h: "h-4",
-                    color: "text-white",
-                  })}
-                  buttonClass="h-[2rem] min-h-[2rem] w-full rounded-full"
-                />
+                <Link
+                  to={activeWorkspaceData?.callToAction?.destinationUrl}
+                  target="_blank"
+                  className="w-full"
+                >
+                  <button
+                    type="button"
+                    className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
+                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate bg-secondary-main border-0 hover:bg-secondary-main capitalize text-white gap-2`}
+                    style={{
+                      backgroundColor:
+                        activeWorkspaceData?.colorStudio?.templates,
+                      fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
+                      border:
+                        activeWorkspaceData?.callToAction?.buttonStyle ===
+                          "outlined" &&
+                        `1px solid ${activeWorkspaceData?.colorStudio?.templates}`,
+                    }}
+                  >
+                    {activeWorkspaceData?.callToAction?.buttonText ||
+                      "Try for free"}
+                    {renderSwitch(activeWorkspaceData)}
+                  </button>
+                </Link>
               </div>
 
               <div className="absolute bottom-0 flex w-full">
@@ -771,37 +829,99 @@ const Customization = () => {
                 <div
                   className="flex bg-secondary-main h-[6px] rounded-tr-xl"
                   id="progress_calc"
+                  style={{
+                    background: activeWorkspaceData?.colorStudio?.templates,
+                  }}
                 ></div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-3">
-          <div className="relative">
-            <img
-              src={poster ? poster : workspace1}
-              // src={animatedImage ? animatedImage : workspace1}
-              alt="workspace1"
-              className="h-[200px] w-full object-cover rounded-lg"
-            />
-            <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
-              <PlayButtonSvg />
+        {activeWorkspaceData?.basicSetUp?.previewStyle === "rectangle" ? (
+          <div
+            className={`absolute ${
+              activeWorkspaceData?.basicSetUp?.videoPosition ||
+              "bottom-0 left-3"
+            } block thumbnail_img`}
+            style={{
+              marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
+              marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
+            }}
+          >
+            <div className="relative">
+              <img
+                src={poster && poster}
+                // src={animatedImage ? animatedImage : workspace1}
+                alt="workspace1"
+                className="h-[200px] w-full object-cover rounded-lg"
+              />
+
+              <div
+                className="absolute right-[-20px] top-[-20px] close_thumbnail_svg"
+                style={{
+                  display:
+                    !activeWorkspaceData?.designCustomization?.toggle
+                      ?.showCloseIcon && "none",
+                }}
+              >
+                <CloseCircle />
+              </div>
+
+              <div
+                className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button"
+                style={{
+                  display:
+                    !activeWorkspaceData?.designCustomization?.toggle
+                      ?.showPlayIcon && "none",
+                }}
+              >
+                <PlayButtonSvg />
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div
+            className={`absolute ${
+              activeWorkspaceData?.basicSetUp?.videoPosition ||
+              "bottom-0 left-3"
+            } block thumbnail_img`}
+            style={{
+              marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
+              marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
+            }}
+          >
+            <div className="relative">
+              <img
+                src={poster && poster}
+                alt="workspace1"
+                className="h-[178px] w-[178px] object-cover rounded-full"
+              />
 
-        {/* <div className="absolute bottom-0 right-3">
-          <img
-            src={poster ? poster : workspace1}
-            alt="workspace1"
-            className="h-[178px] w-[178px] object-cover rounded-full"
-          />
+              <div
+                className="absolute right-[-10px] top-[-10px] close_thumbnail_svg"
+                style={{
+                  display:
+                    !activeWorkspaceData?.designCustomization?.toggle
+                      ?.showCloseIcon && "none",
+                }}
+              >
+                <CloseCircle />
+              </div>
 
-          <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer">
-            <PlayButtonSvg />
+              <div
+                className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button"
+                style={{
+                  display:
+                    !activeWorkspaceData?.designCustomization?.toggle
+                      ?.showPlayIcon && "none",
+                }}
+              >
+                <PlayButtonSvg />
+              </div>
+            </div>
           </div>
-        </div> */}
+        )}
       </>
     );
   };
@@ -849,29 +969,38 @@ const Customization = () => {
                   />
                 </div>
               </div>
-              <div className="inline-block w-full h-[calc(100vh-183px)] relative">
-                <ClapprComponent
-                  id="player"
-                  source={
-                    activeWorkspaceData !== null &&
-                    baseURL + "/" + activeWorkspaceData?.video?.path
-                  }
-                  // base api + video.path
-                  height={461}
-                  width={261}
-                  poster={
-                    activeWorkspaceData !== null &&
-                    baseURL +
-                      "/" +
-                      activeWorkspaceData?.video?.thumbnailDestination +
-                      "/" +
-                      activeWorkspaceData?.video?.thumbnail
-                  }
-                  animatedImage={
-                    baseURL + "/" + activeWorkspaceData?.video?.animatedImage
-                  }
-                />
-              </div>
+
+              {activeWorkspaceData !== null && (
+                <div className="inline-block w-full h-[calc(100vh-183px)] relative">
+                  <ClapprComponent
+                    id="player"
+                    source={
+                      activeWorkspaceData !== null &&
+                      baseURL + "/" + activeWorkspaceData?.video?.path
+                    }
+                    // base api + video.path
+                    height={
+                      activeWorkspaceData?.designCustomization?.player
+                        ?.height || 461
+                    }
+                    width={
+                      activeWorkspaceData?.designCustomization?.player?.size ||
+                      261
+                    }
+                    poster={
+                      activeWorkspaceData !== null &&
+                      baseURL +
+                        "/" +
+                        activeWorkspaceData?.video?.thumbnailDestination +
+                        "/" +
+                        activeWorkspaceData?.video?.thumbnail
+                    }
+                    animatedImage={
+                      baseURL + "/" + activeWorkspaceData?.video?.animatedImage
+                    }
+                  />
+                </div>
+              )}
             </div>
           </div>
 
