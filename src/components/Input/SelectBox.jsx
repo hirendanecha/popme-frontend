@@ -62,7 +62,7 @@ function SelectBox(props) {
           className={`select select-bordered w-full text-primary-main bg-[#F9FAFB] text-base border-borderColor-main focus:outline-none ${selectStyle}`}
           {...register(name, {
             required: false,
-            onBlur: () => {
+            onChange: () => {
               valueChangeHandler && valueChangeHandler();
             },
           })}

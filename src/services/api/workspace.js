@@ -10,7 +10,6 @@ const workSpaceAPI = {
   workspaceListForDropdownApi() {
     return axios.get(`/api/workspace?page=1&size=0`);
   },
- 
 
   // add new worksoace
   addWorkspaceApi() {
@@ -42,6 +41,11 @@ const workSpaceAPI = {
     // console.log("data", data);
     // console.log("id", id);
     return axios.put(`/api/workspace/website/${id}`, data);
+  },
+
+  // get workspace by identity
+  getWorkspaceByIdentityApi(identity) {
+    return axios.get(`/api/workspaces/${identity}/data.json`);
   },
 };
 

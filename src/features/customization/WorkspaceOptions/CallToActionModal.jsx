@@ -8,28 +8,28 @@ import { CloseSvg, PhoneSvg, RightArrowSvg, RightExitSvg } from "../SvgComp";
 const CallToActionModal = ({ register, valueChangeHandler }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
 
-  const IconList = [
-    {
-      icon: <CloseSvg />,
-      name: "closeSvg",
-    },
-    {
-      icon: <RightArrowSvg />,
-      name: "rightArrowSvg",
-    },
-    {
-      icon: <RightExitSvg />,
-      name: "rightExitSvg",
-    },
-    {
-      icon: <CalendarSvg />,
-      name: "calendarSvg",
-    },
-    {
-      icon: <PhoneSvg />,
-      name: "phoneSvg",
-    },
-  ];
+  // const IconList = [
+  //   {
+  //     icon: <CloseSvg />,
+  //     name: "closeSvg",
+  //   },
+  //   {
+  //     icon: <RightArrowSvg />,
+  //     name: "rightArrowSvg",
+  //   },
+  //   {
+  //     icon: <RightExitSvg />,
+  //     name: "rightExitSvg",
+  //   },
+  //   {
+  //     icon: <CalendarSvg />,
+  //     name: "calendarSvg",
+  //   },
+  //   {
+  //     icon: <PhoneSvg />,
+  //     name: "phoneSvg",
+  //   },
+  // ];
 
   const conv = (svg) => {
     const decodedString = document.createElement("textarea");
