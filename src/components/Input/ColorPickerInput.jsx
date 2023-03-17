@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useMemo } from "react";
 // import { SketchPicker } from "react-color";
+import { useSelector } from "react-redux";
 import { PhotoshopPicker, ChromePicker } from "react-color";
 import { Controller } from "react-hook-form";
 
@@ -11,6 +12,8 @@ const ColorPickerInput = ({
   valueChangeHandler,
   control,
 }) => {
+  const { activeWorkspaceData } = useSelector((state) => state.workspace);
+
   const [pickColor, setPickColor] = useState(false);
   // const [colorValue, setColorValue] = useState("#ddd");
 
@@ -32,7 +35,7 @@ const ColorPickerInput = ({
     };
   };
 
-  const debounceFn = useCallback(debounce(closePicker), []);
+  const debounceFn = useCallback(debounce(closePicker), [activeWorkspaceData]);
 
   // const eventHandler = () => {
   //   valueChangeHandler && valueChangeHandler();
@@ -63,6 +66,8 @@ const ColorPickerInput = ({
     bottom: "0px",
     left: "0px",
   };
+
+  // console.log("watch(name)", watch(name));
 
   return (
     <>

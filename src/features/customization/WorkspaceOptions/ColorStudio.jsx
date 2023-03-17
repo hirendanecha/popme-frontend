@@ -59,7 +59,7 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                       },
                     })}
                     value="red"
-                    className="radio bg-[#FF0056] checked:bg-[#FF0056] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#FF0000] checked:bg-[#FF0000] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>
@@ -78,7 +78,7 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                       },
                     })}
                     value="blue"
-                    className="radio bg-[#00A3FF] checked:bg-[#00A3FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#0000FF] checked:bg-[#0000FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>
@@ -97,7 +97,7 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                       },
                     })}
                     value="green"
-                    className="radio bg-[#24CB3F] checked:bg-[#24CB3F] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#008000] checked:bg-[#008000] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>
@@ -116,7 +116,7 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                       },
                     })}
                     value="orange"
-                    className="radio bg-[#FFBB0E] checked:bg-[#FFBB0E] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#FFA500] checked:bg-[#FFA500] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>

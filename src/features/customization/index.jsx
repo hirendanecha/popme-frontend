@@ -52,14 +52,14 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 const Customization = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { data, dataDD, error, activeWorkspaceData } = useSelector(
+  const { data, error, activeWorkspaceData } = useSelector(
     (state) => state.workspace
   );
   // console.log(data,"data")
 
   // console.log("location?.state", location?.state);
 
-  console.log("activeWorkspaceData", activeWorkspaceData);
+  // console.log("activeWorkspaceData", activeWorkspaceData);
 
   // base api + video.path
 
@@ -112,6 +112,22 @@ const Customization = () => {
   // const removeImage = (i) => {
   //   setFile(files.filter((x) => x.name !== i));
   // };
+
+  const colorTheme = (color) => {
+    switch (color) {
+      case "green":
+        return "#008000";
+
+      case "orange":
+        return "#FFA500";
+
+      case "red":
+        return "#FF0000";
+
+      case "blue":
+        return "#0000FF";
+    }
+  };
 
   const {
     register,
@@ -342,8 +358,8 @@ const Customization = () => {
 
   //*** */
 
-useEffect(() => {
-  if (data) {
+  useEffect(() => {
+    if (data) {
       // console.log(data?.data,"nhj");
       // console.log("useEffect for data")
       reset({
@@ -436,10 +452,15 @@ useEffect(() => {
               : "#FFFFFF",
           },
           callToAction: {
-            buttonBackground: data?.data?.colorStudio?.callToAction
-              ?.buttonBackground
-              ? data?.data?.colorStudio?.callToAction?.buttonBackground
-              : "#1B5CF3",
+            // buttonBackground: data?.data?.colorStudio?.callToAction
+            //   ?.buttonBackground
+            //   ? data?.data?.colorStudio?.callToAction?.buttonBackground
+            //   : "#1B5CF3",
+
+            buttonBackground: data?.data?.colorStudio?.templates
+              ? colorTheme(data?.data?.colorStudio?.templates)
+              : data?.data?.colorStudio?.callToAction?.buttonBackground ||
+                "#1B5CF3",
 
             buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
               ? data?.data?.colorStudio?.callToAction?.buttonOutline
@@ -456,9 +477,10 @@ useEffect(() => {
             control: data?.data?.colorStudio?.player?.control
               ? data?.data?.colorStudio?.player?.control
               : "#FFFFFF",
-            seeker: data?.data?.colorStudio?.player?.seeker
-              ? data?.data?.colorStudio?.player?.seeker
-              : "#FFFFFF",
+
+            seeker: data?.data?.colorStudio?.templates
+              ? colorTheme(data?.data?.colorStudio?.templates)
+              : data?.data?.colorStudio?.player?.seeker || "#1B5CF3",
           },
           toggle: {
             closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
@@ -536,7 +558,6 @@ useEffect(() => {
 
     if (data) {
       let formData = jsonToFormData(data);
-
       dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
         .unwrap()
         .then((res) => {
@@ -553,6 +574,9 @@ useEffect(() => {
     // handleSubmit(onSubmit);
 
     // console.log("name", name);
+
+    // console.log("activeWorkspace", activeWorkspace);
+    // console.log("id", activeWorkspaceData?._id);
 
     if (name === "video") {
       handleSubmit((data) => {
@@ -937,11 +961,22 @@ useEffect(() => {
           className={`absolute ${
             activeWorkspaceData?.basicSetUp?.videoPosition || "bottom-0 left-3"
           } rounded-lg overflow-hidden`}
+          style={{
+            marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
+            marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
+          }}
         >
-          <div className="relative player_wrap transform translate-y-[130%] translate-x-[-130%] opacity-0 transition duration-500 ease-in-out">
+          <div
+            className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily} transform translate-y-[130%] translate-x-[-130%] opacity-0 transition duration-500 ease-in-out`}
+          >
             <div ref={player} id={id} className="hidden"></div>
 
-            <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50">
+            <div
+              className="absolute top-0 bottom-0 left-0 right-0"
+              style={{
+                background: `linear-gradient(180deg, transparent 60%, ${activeWorkspaceData?.colorStudio?.general?.gradientOverlay} 100%)`,
+              }}
+            >
               <div className="flex justify-between w-full p-4 h-[calc(100%-58px)]">
                 <div className="flex justify-between flex-col play_area_button z-20">
                   <div className="flex justify-between">
@@ -949,12 +984,18 @@ useEffect(() => {
                       className="text-white text-base"
                       style={{
                         fontSize: `${activeWorkspaceData?.fontStudio?.authorName}px`,
+                        color:
+                          activeWorkspaceData?.colorStudio?.player?.authorName,
                       }}
                     >
                       {activeWorkspaceData?.designCustomization?.authorName}
                     </h5>
                     <div className="minimize_icon cursor-pointer">
-                      <DashSvg />
+                      <DashSvg
+                        color={
+                          activeWorkspaceData?.colorStudio?.player?.control
+                        }
+                      />
                     </div>
                   </div>
 
@@ -964,6 +1005,9 @@ useEffect(() => {
                         className="text-2xl text-white mb-3 line-clamp-2"
                         style={{
                           fontSize: `${activeWorkspaceData?.fontStudio?.videoTitle}px`,
+                          color:
+                            activeWorkspaceData?.colorStudio?.general
+                              ?.videoTitle,
                         }}
                       >
                         {activeWorkspaceData?.title || "This is PopMe!"}
@@ -973,6 +1017,9 @@ useEffect(() => {
                         className="text-sm text-white mb-4 line-clamp-5"
                         style={{
                           fontSize: `${activeWorkspaceData?.fontStudio?.videoDescription}px`,
+                          color:
+                            activeWorkspaceData?.colorStudio?.general
+                              ?.videoDescription,
                         }}
                       >
                         {activeWorkspaceData?.description ||
@@ -982,19 +1029,35 @@ useEffect(() => {
 
                     <div className="flex flex-col">
                       <div className="mb-6 inline-block volume_icon cursor-pointer z-30">
-                        <VolumeSvg />
+                        <VolumeSvg
+                          color={
+                            activeWorkspaceData?.colorStudio?.player?.control
+                          }
+                        />
                       </div>
 
                       <div className="mb-6 mute_icon hidden cursor-pointer z-30">
-                        <MuteSvg />
+                        <MuteSvg
+                          color={
+                            activeWorkspaceData?.colorStudio?.player?.control
+                          }
+                        />
                       </div>
 
                       <div className="play_icon cursor-pointer hidden z-30">
-                        <PlayerPlaySvg />
+                        <PlayerPlaySvg
+                          color={
+                            activeWorkspaceData?.colorStudio?.player?.control
+                          }
+                        />
                       </div>
 
                       <div className="pause_icon cursor-pointer z-30">
-                        <PauseSvg />
+                        <PauseSvg
+                          color={
+                            activeWorkspaceData?.colorStudio?.player?.control
+                          }
+                        />
                       </div>
                     </div>
                   </div>
@@ -1007,24 +1070,52 @@ useEffect(() => {
                   target="_blank"
                   className="w-full"
                 >
-                  <button
-                    type="button"
-                    className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
-                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate bg-secondary-main border-0 hover:bg-secondary-main capitalize text-white gap-2`}
-                    style={{
-                      backgroundColor:
-                        activeWorkspaceData?.colorStudio?.templates,
-                      fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
-                      border:
-                        activeWorkspaceData?.callToAction?.buttonStyle ===
-                          "outlined" &&
-                        `1px solid ${activeWorkspaceData?.colorStudio?.templates}`,
-                    }}
-                  >
-                    {activeWorkspaceData?.callToAction?.buttonText ||
-                      "Try for free"}
-                    {renderSwitch(activeWorkspaceData)}
-                  </button>
+                  {activeWorkspaceData?.colorStudio?.templates === "none" ? (
+                    <button
+                      type="button"
+                      className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
+                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                      style={{
+                        backgroundColor:
+                          activeWorkspaceData?.colorStudio?.callToAction
+                            ?.buttonBackground,
+
+                        fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
+
+                        borderColor:
+                          activeWorkspaceData?.colorStudio?.callToAction
+                            ?.buttonOutline,
+
+                        color:
+                          activeWorkspaceData?.colorStudio?.callToAction
+                            ?.buttonText,
+                      }}
+                    >
+                      {activeWorkspaceData?.callToAction?.buttonText ||
+                        "Try for free"}
+                      {renderSwitch(activeWorkspaceData)}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
+                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                      style={{
+                        backgroundColor:
+                          activeWorkspaceData?.colorStudio?.templates,
+                        fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
+
+                        borderColor:
+                          activeWorkspaceData?.callToAction?.buttonStyle ===
+                            "outlined" &&
+                          activeWorkspaceData?.colorStudio?.templates,
+                      }}
+                    >
+                      {activeWorkspaceData?.callToAction?.buttonText ||
+                        "Try for free"}
+                      {renderSwitch(activeWorkspaceData)}
+                    </button>
+                  )}
                 </Link>
               </div>
 
@@ -1040,7 +1131,10 @@ useEffect(() => {
                   className="flex bg-secondary-main h-[6px] rounded-tr-xl"
                   id="progress_calc"
                   style={{
-                    background: activeWorkspaceData?.colorStudio?.templates,
+                    background:
+                      activeWorkspaceData?.colorStudio?.templates === "none"
+                        ? activeWorkspaceData?.colorStudio?.player?.seeker
+                        : activeWorkspaceData?.colorStudio?.templates,
                   }}
                 ></div>
               </div>
@@ -1053,7 +1147,9 @@ useEffect(() => {
             className={`absolute ${
               activeWorkspaceData?.basicSetUp?.videoPosition ||
               "bottom-0 left-3"
-            } block thumbnail_img`}
+            } block thumbnail_img ${
+              activeWorkspaceData?.designCustomization?.toggle?.animation
+            }`}
             style={{
               marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
               marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
@@ -1064,7 +1160,18 @@ useEffect(() => {
                 src={poster && poster}
                 // src={animatedImage ? animatedImage : workspace1}
                 alt="workspace1"
-                className="h-[200px] w-full object-cover rounded-lg"
+                className="object-cover rounded-lg"
+                style={{
+                  width:
+                    activeWorkspaceData?.designCustomization?.player?.size *
+                    (activeWorkspaceData?.designCustomization?.toggle?.size /
+                      100),
+
+                  height:
+                    activeWorkspaceData?.designCustomization?.player?.height *
+                    (activeWorkspaceData?.designCustomization?.toggle?.size /
+                      100),
+                }}
               />
 
               <div
@@ -1075,18 +1182,50 @@ useEffect(() => {
                       ?.showCloseIcon && "none",
                 }}
               >
-                <CloseCircle />
+                {/* <CloseCircle /> */}
+
+                <div
+                  className="p-1 rounded-full"
+                  style={{
+                    background:
+                      activeWorkspaceData?.colorStudio?.toggle?.closeBackground,
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                    style={{
+                      color:
+                        activeWorkspaceData?.colorStudio?.toggle
+                          ?.closeIconColor,
+                    }}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
               </div>
 
-              <div
-                className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button"
-                style={{
-                  display:
-                    !activeWorkspaceData?.designCustomization?.toggle
-                      ?.showPlayIcon && "none",
-                }}
-              >
-                <PlayButtonSvg />
+              <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
+                <div
+                  style={{
+                    display: !activeWorkspaceData?.designCustomization?.toggle
+                      ?.showPlayIcon
+                      ? "none"
+                      : "block",
+                  }}
+                >
+                  <PlayerPlaySvg
+                    color={activeWorkspaceData?.colorStudio?.toggle?.playIcon}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1095,7 +1234,9 @@ useEffect(() => {
             className={`absolute ${
               activeWorkspaceData?.basicSetUp?.videoPosition ||
               "bottom-0 left-3"
-            } block thumbnail_img`}
+            } block thumbnail_img ${
+              activeWorkspaceData?.designCustomization?.toggle?.animation
+            }`}
             style={{
               marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
               marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
@@ -1116,18 +1257,50 @@ useEffect(() => {
                       ?.showCloseIcon && "none",
                 }}
               >
-                <CloseCircle />
+                {/* <CloseCircle /> */}
+
+                <div
+                  className="p-1 rounded-full"
+                  style={{
+                    background:
+                      activeWorkspaceData?.colorStudio?.toggle?.closeBackground,
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                    style={{
+                      color:
+                        activeWorkspaceData?.colorStudio?.toggle
+                          ?.closeIconColor,
+                    }}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
               </div>
 
-              <div
-                className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button"
-                style={{
-                  display:
-                    !activeWorkspaceData?.designCustomization?.toggle
-                      ?.showPlayIcon && "none",
-                }}
-              >
-                <PlayButtonSvg />
+              <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
+                <div
+                  style={{
+                    display: !activeWorkspaceData?.designCustomization?.toggle
+                      ?.showPlayIcon
+                      ? "none"
+                      : "block",
+                  }}
+                >
+                  <PlayerPlaySvg
+                    color={activeWorkspaceData?.colorStudio?.toggle?.playIcon}
+                  />
+                </div>
               </div>
             </div>
           </div>
