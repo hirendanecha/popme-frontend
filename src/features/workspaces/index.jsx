@@ -12,6 +12,7 @@ import WorkspacePost from "./WorkspacePost";
 import {
   addWorkspace,
   deleteWorkspaceById,
+  duplicateWorkspaceById,
   getWorkspaceById,
   updateWorkspaceOptions,
   worksapceList,
@@ -39,7 +40,7 @@ const Workspaces = () => {
       .unwrap()
       .then((res) => {
         if (res?.success) {
-          console.log(res,"ressss>>")
+          // console.log(res, "ressss>>");
           if (options?.merge) {
             setWorkspacePosts((prev) => [...prev, ...res?.data]);
           } else {
@@ -94,8 +95,28 @@ const Workspaces = () => {
       });
   };
 
+  const duplicateWorkspaceByIdApi = useCallback((id) => {
+    dispatch(duplicateWorkspaceById(id))
+      .unwrap()
+      .then((res) => {
+        // console.log(res, "response of duplicate");
+        if (res?.success) {
+          dispatch(setActiveWorkspaceData(res?.data));
+          navigate("/app/customization", { state: { id: res?.data?._id } });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, []);
+
   const onDuplicateHandler = (id) => {
     // console.log(id,"duplicate id")
+    duplicateWorkspaceByIdApi(id);
   };
 
   const deleteWorkspaceByIdApi = useCallback(

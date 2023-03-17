@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useReducer } from "react";
+import { useSelector } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ShareLayout from "./containers/ShareLayout";
 import "./css/style.css";
@@ -11,8 +12,12 @@ const Register = lazy(() => import("./pages/Register"));
 const EmailVerify = lazy(() => import("./pages/EmailVerify"));
 
 function App() {
-  const token = localStorage.getItem("token");
-
+  const { userToken: token } = useSelector(
+    (state) => state.auth
+  );
+  // console.log({token});
+  // const token = localStorage.getItem("token");
+  // console.log("token",!token)
   const publicRoutes = [
     {
       path: "/login",
@@ -44,10 +49,10 @@ function App() {
   return (
     <Suspense fallback={<>Loading... </>}>
       <Routes>
-        {!token &&
+        {!token && 
           publicRoutes.map(({ path, element: E, ...props }, index) => (
             <Route path={path} element={<E />} {...props} key={index} />
-          ))}
+            ))}
 
         <Route path="/*" element={<ShareLayout />} />
         {/* Place new routes over this */}

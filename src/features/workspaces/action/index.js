@@ -86,6 +86,23 @@ export const deleteWorkspaceById = createAsyncThunk(
   }
 );
 
+// duplicate workspace by id
+export const duplicateWorkspaceById = createAsyncThunk(
+  "workspace/duplicateWorkspaceById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await workSpaceAPI.duplicateWorkspaceByIdApi(id);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
 // get dropdown values
 export const getDropdownValues = createAsyncThunk(
   "workspace/getDropdownValues",
