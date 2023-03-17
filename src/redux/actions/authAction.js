@@ -109,6 +109,7 @@ export const resetPassword = createAsyncThunk(
 export const logoutUser = createAsyncThunk("user/logout", async () => {
   try {
     const response = await userAPI.logoutApi();
+    localStorage.clear();
     return response.data;
   } catch (error) {
     if (error.response && error.response.data.message) {

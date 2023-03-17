@@ -8,6 +8,7 @@ import {
   updateWorkspaceOptions,
   worksapceList,
   worksapceListForDropdown,
+  duplicateWorkspaceById,
 } from "../action";
 
 const initialState = {
@@ -100,6 +101,24 @@ const workspaceSlice = createSlice({
     });
 
     builder.addCase(deleteWorkspaceById.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = payload;
+    });
+
+    // duplicateWorkspaceById
+    builder.addCase(duplicateWorkspaceById.pending, (state, { payload }) => {
+      state.loading = true;
+      state.data = null;
+    });
+
+    builder.addCase(duplicateWorkspaceById.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.success = true;
+    });
+
+    builder.addCase(duplicateWorkspaceById.rejected, (state, { payload }) => {
       state.loading = false;
       state.success = false;
       state.error = payload;

@@ -96,7 +96,7 @@ const Customization = () => {
     location?.state?.id || ""
   );
 
-  console.log("data", data);
+  // console.log("data", data);
 
   // for upload video delete
 
@@ -358,8 +358,8 @@ const Customization = () => {
 
 useEffect(() => {
   if (data) {
-      console.log(data?.data,"nhj");
-      console.log("useEffect for data")
+      // console.log(data?.data,"nhj");
+      // console.log("useEffect for data")
       reset({
         basicSetUp: {
           previewStyle: data?.data?.basicSetUp?.previewStyle
@@ -546,7 +546,7 @@ useEffect(() => {
   }
 
   const onSubmit = (data) => {
-    console.log("onSubmit", data);
+    // console.log("onSubmit", data);
 
     if (data) {
       let formData = jsonToFormData(data);

@@ -12,7 +12,7 @@ import {
 const initialState = {
   loading: false,
   data: null,
-  userToken: null,
+  userToken: localStorage.getItem('token') || null,
   error: null,
   success: false,
 };
@@ -20,6 +20,10 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  // reducers: {
+  //   setToken(state, action) {
+  //     state.token = action.payload;
+  //   }},
   extraReducers: (builder) => {
     // registerUser
     builder.addCase(registerUser.pending, (state, { payload }) => {
@@ -43,6 +47,7 @@ const authSlice = createSlice({
     // loginUser
     builder.addCase(loginUser.pending, (state, { payload }) => {
       state.loading = true;
+      state.data = payload;
     });
 
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
@@ -118,7 +123,8 @@ const authSlice = createSlice({
     builder.addCase(logoutUser.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.success = true;
-      state.data = payload;
+      state.data = null;
+      state.userToken = null;
     });
 
     builder.addCase(logoutUser.rejected, (state, { payload }) => {
@@ -153,3 +159,5 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
+// export const authSliceActions = authSlice.actions; 

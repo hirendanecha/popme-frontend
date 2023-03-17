@@ -163,21 +163,21 @@ const SettingsCom = () => {
     </svg>
   );
 
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
-
     dispatch(logoutUser())
-      .unwrap()
-      .then((res) => {
-        console.log(res,"rrr")
-        if (res.success === true) {
-          setTimeout(() => {
-            navigate("/login");
-          }, 100);
+    .unwrap()
+    .then((res) => {
+      if (res.success === true) {
+        // console.log(res,"rrr<>")
+        setTimeout(() => {
+          navigate("/login");
+        }, 100);
         }
       })
       .catch((err) => {
-        console.log(err,"errr")
+        // console.log(err,"er")
         if (err) {
           toast(err, {
             type: "error",

@@ -81,7 +81,7 @@ const WorkspacePost = ({
   };
 
   const duplicateWorkspaceHandler = () => {
-    console.log(item._id, "duplicate item id");
+    // console.log(item._id, "duplicate item id");
     onDuplicateHandler(item._id);
   };
 
