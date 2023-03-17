@@ -1,20 +1,24 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Button from "../components/Button/Button";
 import {
+  CloseSvg,
   DashSvg,
   MuteSvg,
   PauseSvg,
   PlayerPlaySvg,
   RightArrowSvg,
+  RightExitSvg,
   VolumeSvg,
 } from "../features/customization/SvgComp";
 import {
   getWorkspaceById,
   getWorkspaceByIdentity,
 } from "../features/workspaces/action";
+import CalendarSvg from "../assets/svgs/CalendarSvg";
 // import workspace1 from "../assets/images/workspace-1.png";
 // import PlayButtonSvg from "../assets/svgs/PlayButtonSvg";
 
@@ -57,7 +61,26 @@ const WidgetShare = () => {
     }
   }, [decodedStringAtoB]);
 
-  // console.log("workspaceData", workspaceData);
+  console.log("workspaceData", workspaceData);
+
+  const renderSwitch = (activeWorkspaceData) => {
+    switch (activeWorkspaceData !== null) {
+      case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
+        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
+        return <RightExitSvg w="w-4" h="h-4" color="text-white" />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
+        return <CalendarSvg w="13" h="13" color="#fff" />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
+        return <CloseSvg w="w-4" h="h-4" color="text-white" />;
+
+      default:
+        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+    }
+  };
 
   const ClapprComponent = ({ id, source, height, width }) => {
     let player = useRef();
@@ -185,17 +208,16 @@ const WidgetShare = () => {
 
       let playAreaButton = document.querySelector(".play_area_button");
       playAreaButton.addEventListener("click", function (event) {
+        event.stopPropagation();
         const pauseIcon = document.querySelector(".pause_icon");
         const playIcon = document.querySelector(".play_icon");
 
         if (pauseIcon.classList.contains("hidden")) {
-          event.stopPropagation();
           player.current.play();
 
           pauseIcon.classList.remove("hidden");
           document.querySelector(".play_icon").classList.add("hidden");
         } else if (playIcon.classList.contains("hidden")) {
-          event.stopPropagation();
           player.current.pause();
 
           playIcon.classList.remove("hidden");
@@ -207,55 +229,93 @@ const WidgetShare = () => {
     return (
       <div className="flex justify-center">
         <div className="inline-block rounded-2xl overflow-hidden shadow-[0_10px_36px_0px_rgba(51,60,82,1)]">
-          <div className="relative player_wrap transform translate-y-0 translate-x-0 opacity-100 transition duration-500 ease-in-out">
+          <div
+            className={`relative player_wrap ${workspaceData?.fontStudio?.fontFamily} transform translate-y-0 translate-x-0 opacity-100 transition duration-500 ease-in-out`}
+          >
             <div ref={player} id={id} className="block"></div>
 
-            <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50">
+            <div
+              className="absolute top-0 bottom-0 left-0 right-0"
+              style={{
+                background: `linear-gradient(180deg, transparent 60%, ${workspaceData?.colorStudio?.general?.gradientOverlay} 100%)`,
+              }}
+            >
               <div className="flex justify-between w-full p-4 h-full">
                 <div className="flex justify-between play_area_button flex-col z-20">
                   <div className="flex justify-between">
-                    <h5 className="text-white text-base">Elie MoreReels</h5>
+                    <h5
+                      className="text-white text-base"
+                      style={{
+                        fontSize: `${workspaceData?.fontStudio?.authorName}px`,
+                        color: workspaceData?.colorStudio?.player?.authorName,
+                      }}
+                    >
+                      {workspaceData?.designCustomization?.authorName}
+                    </h5>
                     <div className="minimize_icon cursor-pointer">
-                      <DashSvg />
+                      <DashSvg
+                        color={workspaceData?.colorStudio?.player?.control}
+                      />
                     </div>
                   </div>
 
                   <div className="flex flex-col">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col pr-3">
-                        <h4 className="text-2xl text-white mb-3">
-                          This is PopMe!
+                        <h4
+                          className="text-2xl text-white mb-3"
+                          style={{
+                            fontSize: `${workspaceData?.fontStudio?.videoTitle}px`,
+                            color:
+                              workspaceData?.colorStudio?.general?.videoTitle,
+                          }}
+                        >
+                          {workspaceData?.title || "This is PopMe!"}
                         </h4>
 
-                        <p className="text-sm text-white mb-4 line-clamp-5">
-                          A widget you can use to upload videos and get personal
-                          with your customers to schedule meetings, ask for
-                          reviews, or share the latest features with its CTA
-                          functionnality.
+                        <p
+                          className="text-sm text-white mb-4 line-clamp-5"
+                          style={{
+                            fontSize: `${workspaceData?.fontStudio?.videoDescription}px`,
+                            color:
+                              workspaceData?.colorStudio?.general
+                                ?.videoDescription,
+                          }}
+                        >
+                          {workspaceData?.description ||
+                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry."}
                         </p>
                       </div>
 
                       <div className="flex flex-col">
                         <div className="mb-6 inline-block volume_icon cursor-pointer z-30">
-                          <VolumeSvg />
+                          <VolumeSvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
                         </div>
 
                         <div className="mb-6 mute_icon hidden cursor-pointer z-30">
-                          <MuteSvg />
+                          <MuteSvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
                         </div>
 
                         <div className="play_icon cursor-pointer hidden z-30">
-                          <PlayerPlaySvg />
+                          <PlayerPlaySvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
                         </div>
 
                         <div className="pause_icon cursor-pointer z-30">
-                          <PauseSvg />
+                          <PauseSvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
                         </div>
                       </div>
                     </div>
 
                     <div className="flex mb-[26px]">
-                      <Button
+                      {/* <Button
                         text="Try for free"
                         rightIcon={RightArrowSvg({
                           w: "w-4",
@@ -263,7 +323,60 @@ const WidgetShare = () => {
                           color: "text-white",
                         })}
                         buttonClass="h-[2rem] min-h-[2rem] w-full rounded-full"
-                      />
+                      /> */}
+
+                      <Link
+                        to={workspaceData?.callToAction?.destinationUrl}
+                        target="_blank"
+                        className="w-full"
+                      >
+                        {workspaceData?.colorStudio?.templates === "none" ? (
+                          <button
+                            type="button"
+                            className={`btn h-auto ${workspaceData?.callToAction?.buttonStyle}
+                    ${workspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                            style={{
+                              backgroundColor:
+                                workspaceData?.colorStudio?.callToAction
+                                  ?.buttonBackground,
+
+                              fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
+
+                              borderColor:
+                                workspaceData?.colorStudio?.callToAction
+                                  ?.buttonOutline,
+
+                              color:
+                                workspaceData?.colorStudio?.callToAction
+                                  ?.buttonText,
+                            }}
+                          >
+                            {workspaceData?.callToAction?.buttonText ||
+                              "Try for free"}
+                            {renderSwitch(workspaceData)}
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className={`btn h-auto ${workspaceData?.callToAction?.buttonStyle}
+                    ${workspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                            style={{
+                              backgroundColor:
+                                workspaceData?.colorStudio?.templates,
+                              fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
+
+                              borderColor:
+                                workspaceData?.callToAction?.buttonStyle ===
+                                  "outlined" &&
+                                workspaceData?.colorStudio?.templates,
+                            }}
+                          >
+                            {workspaceData?.callToAction?.buttonText ||
+                              "Try for free"}
+                            {renderSwitch(workspaceData)}
+                          </button>
+                        )}
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -280,6 +393,12 @@ const WidgetShare = () => {
                 <div
                   className="flex bg-secondary-main h-[6px] rounded-tr-xl"
                   id="progress_calcc"
+                  style={{
+                    background:
+                      workspaceData?.colorStudio?.templates === "none"
+                        ? workspaceData?.colorStudio?.player?.seeker
+                        : workspaceData?.colorStudio?.templates,
+                  }}
                 ></div>
               </div>
             </div>

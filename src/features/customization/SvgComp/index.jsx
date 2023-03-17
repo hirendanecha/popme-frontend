@@ -126,8 +126,8 @@ export const PlayerPlaySvg = ({ color = "#fff" }) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill={color}
-    height="28px"
-    width="28px"
+    height="24px"
+    width="24px"
   >
     <path d="M8 5v14l11-7z"></path>
   </svg>
