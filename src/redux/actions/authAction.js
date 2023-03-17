@@ -42,6 +42,25 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// current user action
+export const currentUser = createAsyncThunk(
+  "user/currentUser",
+  async (userData, {rejectWithValue})=>{
+    try {
+      const { data } = await authAPI.currentUserApi();
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message)
+      }
+    }
+  }
+);
+
+
+
 export const verifyRegiterEmail = createAsyncThunk(
   "user/verify",
   async (token, { rejectWithValue }) => {

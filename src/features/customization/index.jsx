@@ -59,7 +59,7 @@ const Customization = () => {
 
   // console.log("location?.state", location?.state);
 
-  console.log("activeWorkspaceData", activeWorkspaceData);
+  // console.log("activeWorkspaceData", activeWorkspaceData);
 
   // base api + video.path
 

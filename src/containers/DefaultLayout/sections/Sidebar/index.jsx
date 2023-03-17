@@ -9,6 +9,8 @@ import sidebarLogo from "../../../../assets/images/sidebar-logo.png";
 import SmallSidebarLogo from "../../../../assets/svgs/SmallSidebarLogo";
 import CakeSvg from "../../../../assets/svgs/CakeSvg";
 import Button from "../../../../components/Button/Button";
+import { useSelector, useDispatch } from "react-redux";
+import {currentUser} from "../../../../redux/actions/authAction"
 // import SidebarLinkGroup from "./SidebarLinkGroup";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -18,10 +20,23 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const trigger = useRef(null);
   const sidebar = useRef(null);
 
+  const dispatch = useDispatch()
+
+  const { data } = useSelector(
+    (state) => state.auth
+  );
+
+  console.log(data?.data,"datasss")
+
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
+
+  //get data of currentUser
+  useEffect(()=>{
+    dispatch(currentUser())
+  },[])
 
   // close on click outside
   useEffect(() => {
@@ -320,13 +335,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <div className="flex">
               <div className="flex items-center justify-center rounded-lg h-11 w-11 bg-indigo-500 mr-3">
                 <div className="flex items-center justify-center rounded-lg border-2 h-10 w-10 bg-[#EC407A]">
-                  <span className="text-sm text-white">E</span>
+                  {/* <span className="text-sm text-white">E</span> */}
+                  <span className="text-sm text-white">{`${data?.data?.firstName.charAt(0)}${data?.data?.lastName.charAt(0)}`}</span>
                 </div>
               </div>
 
               <div className="flex flex-col lg:hidden sidebar-expanded:block">
-                <h6 className="text-base text-white">Elie MoreReels</h6>
-                <h6 className="text-sm text-[#CBCBCB]">elie@morereels.com</h6>
+                {/* <h6 className="text-base text-white">Elie MoreReels</h6> */}
+                <h6 className="text-base text-white">{`${data?.data?.firstName} ${data?.data?.lastName}`}</h6>
+                {/* <h6 className="text-sm text-[#CBCBCB]">elie@morereels.com</h6> */}
+                <h6 className="text-sm text-[#CBCBCB]">{`${data?.data?.email}`}</h6>
+
               </div>
             </div>
 
