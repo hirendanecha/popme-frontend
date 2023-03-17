@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  currentUser,
   forgotPassword,
   loginUser,
   logoutUser,
@@ -12,7 +13,7 @@ import {
 const initialState = {
   loading: false,
   data: null,
-  userToken: localStorage.getItem('token') || null,
+  userToken: localStorage.getItem('token'),
   error: null,
   success: false,
 };
@@ -62,6 +63,24 @@ const authSlice = createSlice({
       state.success = false;
       state.error = payload;
     });
+
+      // currentUser
+      builder.addCase(currentUser.pending, (state, { payload }) => {
+        state.loading = true;
+        state.data = payload;
+      });
+  
+      builder.addCase(currentUser.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+        state.data = payload;
+      });
+  
+      builder.addCase(currentUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.success = false;
+        state.error = payload;
+      });
 
     // verifyRegiterEmail
     builder.addCase(verifyRegiterEmail.pending, (state, { payload }) => {

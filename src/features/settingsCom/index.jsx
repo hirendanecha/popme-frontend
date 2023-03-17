@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setPageTitle } from "../../redux/slices/headerSlice";
@@ -81,6 +81,10 @@ const SettingsCom = () => {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState(1);
+
+  const { data } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Settings" }));
@@ -303,7 +307,8 @@ const SettingsCom = () => {
                 </div>
                 <div className="col-start-3 col-end-9">
                   <h6 className="text-base text-[#121827] font-semibold">
-                    elie@morereels.com
+                    {/* elie@morereels.com */}
+                    {`${data?.data?.email}`}
                   </h6>
                 </div>
               </div>
@@ -329,7 +334,8 @@ const SettingsCom = () => {
                 </div>
                 <div className="col-start-3 col-end-9">
                   <h6 className="text-base text-[#121827] font-semibold">
-                    Elie
+                    {/* Elie */}
+                    {`${data?.data?.firstName}`}
                   </h6>
                 </div>
               </div>
@@ -342,7 +348,8 @@ const SettingsCom = () => {
                 </div>
                 <div className="col-start-3 col-end-9">
                   <h6 className="text-base text-[#121827] font-semibold">
-                    MoreReels
+                    {/* MoreReels */}
+                    {`${data?.data?.lastName}`}
                   </h6>
                 </div>
               </div>
