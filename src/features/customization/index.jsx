@@ -1074,7 +1074,7 @@ const Customization = () => {
                     <button
                       type="button"
                       className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
-                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
                       style={{
                         backgroundColor:
                           activeWorkspaceData?.colorStudio?.callToAction
@@ -1099,7 +1099,7 @@ const Customization = () => {
                     <button
                       type="button"
                       className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
-                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
                       style={{
                         backgroundColor:
                           activeWorkspaceData?.colorStudio?.templates,
