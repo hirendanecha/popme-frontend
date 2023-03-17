@@ -9,7 +9,7 @@ import NewInputText from "../../components/Input/NewInputText";
 import logo from "../../assets/images/logo.png";
 import LockSvg from "../../assets/svgs/LockSvg";
 import google from "../../assets/images/google.png";
-import { loginUser } from "../../redux/actions/authAction";
+import { loginUser, logoutUser } from "../../redux/actions/authAction";
 
 const schema = yup.object({
   email: yup.string().required("Email is required"),
@@ -18,6 +18,8 @@ const schema = yup.object({
 const LoginComp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { userToken } = useSelector((state) => state.auth);
 
   // const { loading, error, success, userToken, data } = useSelector(
   //   (state) => state.auth
@@ -44,6 +46,7 @@ const LoginComp = () => {
       .unwrap()
       .then((res) => {
         if (res.success === true) {
+          console.log(res, "response");
           navigate("/app/dashboard");
         }
       })
