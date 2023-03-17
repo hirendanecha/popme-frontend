@@ -360,6 +360,8 @@ const Customization = () => {
 
   useEffect(() => {
     if (data) {
+      // console.log(data?.data,"nhj");
+      // console.log("useEffect for data")
       reset({
         basicSetUp: {
           previewStyle: data?.data?.basicSetUp?.previewStyle
@@ -553,9 +555,6 @@ const Customization = () => {
 
   const onSubmit = (data) => {
     // console.log("onSubmit", data);
-
-    // console.log("activeWorkspace", activeWorkspace);
-    // console.log("id", activeWorkspaceData?._id);
 
     if (data) {
       let formData = jsonToFormData(data);

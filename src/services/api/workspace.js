@@ -21,6 +21,11 @@ const workSpaceAPI = {
     return axios.delete(`/api/workspace/${id}`);
   },
 
+  // dusplicate workspace by id
+  duplicateWorkspaceByIdApi(id) {
+    return axios.post(`/api/workspace/${id}/duplicate`);
+  },
+
   // get workspace by id
   getWorkspaceByIdApi(id) {
     return axios.get(`/api/workspace/${id}`);
