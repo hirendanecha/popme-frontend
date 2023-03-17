@@ -125,12 +125,12 @@ const WorkspacePost = ({
 
               <div className="flex">
                 <div className="dropdown dropdown-bottom dropdown-end">
-                  <label tabIndex={item._id} className="cursor-pointer">
+                  <label tabIndex={index} className="cursor-pointer">
                     <ThreeDotSvg />
                   </label>
 
                   <ul
-                    tabIndex={item._id}
+                    tabIndex={index}
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
