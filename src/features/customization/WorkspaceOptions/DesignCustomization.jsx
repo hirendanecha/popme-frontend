@@ -43,6 +43,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 register={register}
                 rightText="px"
                 valueChangeHandler={valueChangeHandler}
+                max="500"
               />
 
               <InputWithIcon
@@ -54,6 +55,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 register={register}
                 rightText="px"
                 valueChangeHandler={valueChangeHandler}
+                max="500"
               />
             </div>
 
@@ -131,7 +133,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
 
               <InputWithIcon
                 type="number"
-                labelTitle="Size"
+                labelTitle="Width"
                 labelStyle="text-primary-main text-base font-semibold"
                 inputStyle="mb-3 !bg-transparent"
                 name="designCustomization.player.size"
