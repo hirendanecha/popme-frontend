@@ -49,567 +49,8 @@ import CalendarSvg from "../../assets/svgs/CalendarSvg";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-const Customization = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const { data, error, activeWorkspaceData } = useSelector(
-    (state) => state.workspace
-  );
-  // console.log(data, "data");
-
-  // console.log("location?.state", location?.state);
-
-  // console.log("activeWorkspaceData", activeWorkspaceData);
-
-  // base api + video.path
-
-  // console.log(
-  //   "image",
-  //   baseURL +
-  //     "/" +
-  //     activeWorkspaceData?.video?.thumbnailDestination +
-  //     "/" +
-  //     activeWorkspaceData?.video?.thumbnail
-  // );
-
-  // console.log("video", baseURL + "/" + activeWorkspaceData?.video?.path);
-
-  // console.log(
-  //   "animatedImage",
-  //   `${baseURL + "/" + activeWorkspaceData?.video?.animatedImage}`
-  // );
-
-  const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
-  const [activeWorkspace, setActiveWorkspace] = useState(
-    location?.state?.id || ""
-  );
-
-  // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
-
-  // console.log("data", data);
-
-  // for upload video delete
-
-  // const [files, setFile] = useState([]);
-  // const [message, setMessage] = useState();
-
-  // const handleFile = (e) => {
-  //   setMessage("");
-  //   let file = e.target.files;
-
-  //   for (let i = 0; i < file.length; i++) {
-  //     const fileType = file[i]["type"];
-  //     const validImageTypes = ["video/mp4", "video/x-m4v", "video/*"];
-  //     setFile([file[i]]);
-  //     if (validImageTypes.includes(fileType)) {
-  //       setFile([file[i]]);
-  //     } else {
-  //       setMessage("only images accepted");
-  //     }
-  //   }
-  // };
-
-  // const removeImage = (i) => {
-  //   setFile(files.filter((x) => x.name !== i));
-  // };
-
-  const colorTheme = (color) => {
-    switch (color) {
-      case "green":
-        return "#008000";
-
-      case "orange":
-        return "#FFA500";
-
-      case "red":
-        return "#FF0000";
-
-      case "blue":
-        return "#0000FF";
-    }
-  };
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      basicSetUp: {
-        previewStyle: "",
-        videoPosition: "",
-      },
-      callToAction: {
-        buttonCorner: "",
-        buttonIcon: null,
-        buttonStyle: "",
-        buttonText: "",
-        destinationUrl: "",
-      },
-      designCustomization: {
-        authorName: "",
-        horizontalMargin: "",
-        verticalMargin: "",
-        player: {
-          height: "",
-          onMobileDevice: "",
-          size: "",
-        },
-        toggle: {
-          animation: "",
-          showPlayIcon: "",
-          showCloseIcon: "",
-          size: "",
-        },
-      },
-      colorStudio: {
-        templates: "",
-        general: {
-          gradientOverlay: "",
-          videoDescription: "",
-          videoTitle: "",
-        },
-        callToAction: {
-          buttonBackground: "",
-          buttonOutline: "",
-          buttonText: "",
-        },
-        player: {
-          authorName: "",
-          control: "",
-          seeker: "",
-        },
-        toggle: {
-          closeBackground: "",
-          closeIconColor: "",
-          playIcon: "",
-        },
-      },
-      fontStudio: {
-        authorName: "",
-        ctaButton: "",
-        fontFamily: "",
-        videoDescription: "",
-        videoTitle: "",
-      },
-      title: "",
-      description: "",
-      video: null,
-    },
-  });
-
-  useEffect(() => {
-    if (data) {
-      // console.log(data, "nhj");
-
-      // setThemColorValue(
-      //   data?.data?.colorStudio?.callToAction?.buttonBackground
-      // );
-
-      // console.log("useEffect for data")
-      reset({
-        basicSetUp: {
-          previewStyle: data?.data?.basicSetUp?.previewStyle
-            ? data.data.basicSetUp.previewStyle
-            : "",
-          videoPosition: data?.data?.basicSetUp?.videoPosition
-            ? data?.data?.basicSetUp?.videoPosition
-            : "",
-        },
-        callToAction: {
-          buttonCorner: data?.data?.callToAction?.buttonCorner
-            ? data?.data?.callToAction?.buttonCorner
-            : "",
-          buttonIcon: data?.data?.callToAction?.buttonIcon
-            ? data?.data?.callToAction?.buttonIcon
-            : null,
-          buttonStyle: data?.data?.callToAction?.buttonStyle
-            ? data?.data?.callToAction?.buttonStyle
-            : "",
-          buttonText: data?.data?.callToAction?.buttonText
-            ? data?.data?.callToAction?.buttonText
-            : "",
-          destinationUrl: data?.data?.callToAction?.destinationUrl
-            ? data?.data?.callToAction?.destinationUrl
-            : "",
-        },
-        designCustomization: {
-          authorName: data?.data?.designCustomization?.authorName
-            ? data?.data?.designCustomization?.authorName
-            : "",
-
-          horizontalMargin: data?.data?.designCustomization?.horizontalMargin
-            ? data?.data?.designCustomization?.horizontalMargin
-            : "",
-
-          verticalMargin: data?.data?.designCustomization?.verticalMargin
-            ? data?.data?.designCustomization?.verticalMargin
-            : "",
-
-          player: {
-            height: data?.data?.designCustomization?.player?.height
-              ? data?.data?.designCustomization?.player?.height
-              : "",
-            onMobileDevice: data?.data?.designCustomization?.player
-              ?.onMobileDevice
-              ? data?.data?.designCustomization?.player?.onMobileDevice
-              : "",
-            size: data?.data?.designCustomization?.player?.size
-              ? data?.data?.designCustomization?.player?.size
-              : "",
-          },
-          toggle: {
-            animation: data?.data?.designCustomization?.toggle?.animation
-              ? data?.data?.designCustomization?.toggle?.animation
-              : "",
-
-            showPlayIcon:
-              typeof data?.data?.designCustomization?.toggle?.showPlayIcon ===
-              "boolean"
-                ? data?.data?.designCustomization?.toggle?.showPlayIcon
-                : "",
-
-            showCloseIcon:
-              typeof data?.data?.designCustomization?.toggle?.showCloseIcon ===
-              "boolean"
-                ? data?.data?.designCustomization?.toggle?.showCloseIcon
-                : "",
-
-            size: data?.data?.designCustomization?.toggle?.size
-              ? data?.data?.designCustomization?.toggle?.size
-              : "",
-          },
-        },
-        colorStudio: {
-          templates: data?.data?.colorStudio?.templates
-            ? data?.data?.colorStudio?.templates
-            : "",
-
-          general: {
-            gradientOverlay: data?.data?.colorStudio?.general?.gradientOverlay
-              ? data?.data?.colorStudio?.general?.gradientOverlay
-              : "#273149",
-            videoDescription: data?.data?.colorStudio?.general?.videoDescription
-              ? data?.data?.colorStudio?.general?.videoDescription
-              : "#FFFFFF",
-            videoTitle: data?.data?.colorStudio?.general?.videoTitle
-              ? data?.data?.colorStudio?.general?.videoTitle
-              : "#FFFFFF",
-          },
-          callToAction: {
-            buttonBackground:
-              data?.data?.colorStudio?.callToAction?.buttonBackground,
-
-            // buttonBackground: data?.data?.colorStudio?.callToAction
-            //   ?.buttonBackground
-            //   ? data?.data?.colorStudio?.callToAction?.buttonBackground
-            //   : "#1B5CF3",
-
-            // buttonBackground: data?.data?.colorStudio?.templates
-            //   ? colorTheme(data?.data?.colorStudio?.templates)
-            //   : data?.data?.colorStudio?.callToAction?.buttonBackground ||
-            //     "#1B5CF3",
-
-            buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
-              ? data?.data?.colorStudio?.callToAction?.buttonOutline
-              : "#FFFFFF",
-
-            // buttonOutline: data?.data?.colorStudio?.templates
-            //   ? colorTheme(data?.data?.colorStudio?.templates)
-            //   : data?.data?.colorStudio?.callToAction?.buttonOutline ||
-            //     "#FFFFFF",
-
-            buttonText: data?.data?.colorStudio?.callToAction?.buttonText
-              ? data?.data?.colorStudio?.callToAction?.buttonText
-              : "#FFFFFF",
-          },
-          player: {
-            authorName: data?.data?.colorStudio?.player?.authorName
-              ? data?.data?.colorStudio?.player?.authorName
-              : "#FFFFFF",
-
-            control: data?.data?.colorStudio?.player?.control
-              ? data?.data?.colorStudio?.player?.control
-              : "#FFFFFF",
-
-            // seeker: data?.data?.colorStudio?.templates
-            //   ? colorTheme(data?.data?.colorStudio?.templates)
-            //   : data?.data?.colorStudio?.player?.seeker || "#1B5CF3",
-
-            seeker: data?.data?.colorStudio?.player?.seeker
-              ? data?.data?.colorStudio?.player?.seeker
-              : "#1B5CF3",
-          },
-          toggle: {
-            closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
-              ? data?.data?.colorStudio?.toggle?.closeBackground
-              : "#FFFFFF",
-            closeIconColor: data?.data?.colorStudio?.toggle?.closeIconColor
-              ? data?.data?.colorStudio?.toggle?.closeIconColor
-              : "#FFFFFF",
-            playIcon: data?.data?.colorStudio?.toggle?.playIcon
-              ? data?.data?.colorStudio?.toggle?.playIcon
-              : "#FFFFFF",
-          },
-        },
-        fontStudio: {
-          authorName: data?.data?.fontStudio?.authorName
-            ? data?.data?.fontStudio?.authorName
-            : "",
-          ctaButton: data?.data?.fontStudio?.ctaButton
-            ? data?.data?.fontStudio?.ctaButton
-            : "",
-          fontFamily: data?.data?.fontStudio?.fontFamily
-            ? data?.data?.fontStudio?.fontFamily
-            : "",
-          videoDescription: data?.data?.fontStudio?.videoDescription
-            ? data?.data?.fontStudio?.videoDescription
-            : "",
-          videoTitle: data?.data?.fontStudio?.videoTitle
-            ? data?.data?.fontStudio?.videoTitle
-            : "",
-        },
-        title: data?.data?.title ? data?.data?.title : "",
-        description: data?.data?.description ? data?.data?.description : "",
-        video: data?.data?.video ? data?.data?.video?.originalname : "",
-      });
-    }
-  }, [data]);
-
-  //****** */
-
-  function buildFormData(formData, data, parentKey) {
-    if (
-      data &&
-      typeof data === "object" &&
-      !(data instanceof Date) &&
-      !(data instanceof File)
-    ) {
-      Object.keys(data).forEach((key) => {
-        if (key === "video") {
-          formData.append(key, data[key][0]);
-        } else {
-          buildFormData(
-            formData,
-            data[key],
-            parentKey ? `${parentKey}[${key}]` : key
-          );
-        }
-      });
-    } else {
-      const value = data == null ? "" : data;
-
-      formData.append(parentKey, value);
-    }
-  }
-
-  function jsonToFormData(data) {
-    const formData = new FormData();
-
-    buildFormData(formData, data);
-
-    return formData;
-  }
-
-  const onSubmit = (data) => {
-    // console.log("onSubmit", data);
-
-    if (data) {
-      let formData = jsonToFormData(data);
-      dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
-        .unwrap()
-        .then((res) => {
-          // console.log("res", res);
-          dispatch(setActiveWorkspaceData(res?.data));
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
-    }
-  };
-
-  const valueChangeHandler = (name) => {
-    // handleSubmit(onSubmit);
-
-    // console.log("name", name);
-
-    // console.log("activeWorkspace", activeWorkspace);
-    // console.log("id", activeWorkspaceData?._id);
-
-    if (name === "video") {
-      handleSubmit((data) => {
-        onSubmit(data);
-      })();
-    } else {
-      handleSubmit(({ video, ...data }) => {
-        onSubmit(data);
-      })();
-    }
-  };
-
-  const updateValue = (data) => {
-    // console.log("updateValue", data);
-    setActiveWorkspace(data?.value);
-  };
-
-  const workspaceListHandlerApi = useCallback(() => {
-    dispatch(worksapceListForDropdown())
-      .unwrap()
-      .then((res) => {
-        if (res?.success) {
-          const filterData = res?.data
-            ?.filter((item) => item?.name && item?.name)
-            .map((val) => ({
-              name: val?.name,
-              value: val?._id,
-            }));
-
-          // console.log("filterData", filterData);
-
-          if (filterData?.length > 0 && activeWorkspace === "") {
-            setActiveWorkspace(filterData[0]?.value);
-          }
-
-          setSelectWorkspaceOptions(filterData);
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
-      });
-  }, [activeWorkspace]);
-
-  const newWorkspaceHandler = () => {
-    dispatch(addWorkspace())
-      .unwrap()
-      .then((res) => {
-        // console.log("res", res);
-        if (res?.success) {
-          workspaceListHandlerApi();
-          if (res?.data?.name) {
-            setActiveWorkspace(res?.data?._id);
-          }
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
-      });
-  };
-
-  const deleteWorkspaceByIdApi = useCallback((id) => {
-    dispatch(deleteWorkspaceById(id))
-      .unwrap()
-      .then((res) => {
-        if (res?.success) {
-          // console.log(res, "res of delete");
-          dispatch(worksapceListForDropdown())
-            .unwrap()
-            .then((res) => {
-              if (res?.success) {
-                const filterData = res?.data
-                  ?.filter((item) => item?.name && item?.name)
-                  .map((val) => ({
-                    name: val?.name,
-                    value: val?._id,
-                  }));
-
-                // console.log("filterData", filterData);
-
-                if (filterData?.length > 0 && activeWorkspace === "") {
-                  setActiveWorkspace(filterData[0]?.value);
-                }
-
-                setSelectWorkspaceOptions(filterData);
-              }
-            })
-            .catch((err) => {
-              if (err) {
-                toast(err, {
-                  type: "error",
-                });
-              }
-            });
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
-      });
-  }, []);
-
-  const deleteActiveWorkspace = () => {
-    deleteWorkspaceByIdApi(activeWorkspace);
-  };
-
-  const workspaceChangeHandlerApi = useCallback((id) => {
-    dispatch(getWorkspaceById(id))
-      .unwrap()
-      .then((res) => {
-        if (res?.success) {
-          dispatch(setActiveWorkspaceData(res?.data));
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
-      });
-  }, []);
-
-  const getDropdownValuesHandlerApi = useCallback(() => {
-    dispatch(getDropdownValues());
-  }, []);
-
-  useEffect(() => {
-    dispatch(setPageTitle({ title: "Customization" }));
-    workspaceListHandlerApi();
-    getDropdownValuesHandlerApi();
-  }, []);
-
-  useEffect(() => {
-    if (activeWorkspace) {
-      workspaceChangeHandlerApi(activeWorkspace);
-    }
-  }, [activeWorkspace]);
-
-  // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
-  // console.log("activeWorkspace", activeWorkspace);
-
-  const renderSwitch = (activeWorkspaceData) => {
-    switch (activeWorkspaceData !== null) {
-      case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
-        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
-
-      case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
-        return <RightExitSvg w="w-4" h="h-4" color="text-white" />;
-
-      case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
-        return <CalendarSvg w="13" h="13" color="#fff" />;
-
-      case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
-        return <CloseSvg w="w-4" h="h-4" color="text-white" />;
-
-      default:
-        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
-    }
-  };
-
-  const ClapprComponent = ({
+const ClapprComponent = React.memo(
+  ({
     id,
     source = "https://www.w3schools.com/tags/movie.ogg",
     height,
@@ -617,7 +58,28 @@ const Customization = () => {
     poster,
     animatedImage,
   }) => {
+    console.log(id, "iddd");
     let player = useRef();
+    const { activeWorkspaceData } = useSelector((state) => state.workspace);
+
+    const renderSwitch = (activeWorkspaceData) => {
+      switch (activeWorkspaceData !== null) {
+        case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
+          return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
+          return <RightExitSvg w="w-4" h="h-4" color="text-white" />;
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
+          return <CalendarSvg w="13" h="13" color="#fff" />;
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
+          return <CloseSvg w="w-4" h="h-4" color="text-white" />;
+
+        default:
+          return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+      }
+    };
 
     useEffect(() => {
       player.current = new Clappr.Player({
@@ -940,16 +402,11 @@ const Customization = () => {
                         activeWorkspaceData?.colorStudio?.callToAction
                           ?.buttonBackground,
 
-                      // backgroundColor:
-                      //   activeWorkspaceData?.colorStudio?.templates,
-
                       fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
 
-                      // borderColor:
-                      //   activeWorkspaceData?.colorStudio?.callToAction
-                      //     ?.buttonOutline,
-
-                      borderColor: activeWorkspaceData?.colorStudio?.templates,
+                      borderColor:
+                        activeWorkspaceData?.colorStudio?.callToAction
+                          ?.buttonOutline,
 
                       color:
                         activeWorkspaceData?.colorStudio?.callToAction
@@ -976,9 +433,7 @@ const Customization = () => {
                   id="progress_calc"
                   style={{
                     background:
-                      activeWorkspaceData?.colorStudio?.templates === "none"
-                        ? activeWorkspaceData?.colorStudio?.player?.seeker
-                        : activeWorkspaceData?.colorStudio?.templates,
+                      activeWorkspaceData?.colorStudio?.player?.seeker,
                   }}
                 ></div>
               </div>
@@ -1151,7 +606,533 @@ const Customization = () => {
         )}
       </>
     );
+  }
+);
+
+const Customization = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { data, error, activeWorkspaceData } = useSelector(
+    (state) => state.workspace
+  );
+  // console.log(data, "data");
+
+  // console.log("location?.state", location?.state);
+
+  // console.log("activeWorkspaceData", activeWorkspaceData);
+
+  // base api + video.path
+
+  // console.log(
+  //   "image",
+  //   baseURL +
+  //     "/" +
+  //     activeWorkspaceData?.video?.thumbnailDestination +
+  //     "/" +
+  //     activeWorkspaceData?.video?.thumbnail
+  // );
+
+  // console.log("video", baseURL + "/" + activeWorkspaceData?.video?.path);
+
+  // console.log(
+  //   "animatedImage",
+  //   `${baseURL + "/" + activeWorkspaceData?.video?.animatedImage}`
+  // );
+
+  const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
+  const [activeWorkspace, setActiveWorkspace] = useState(
+    location?.state?.id || ""
+  );
+
+  // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
+
+  // console.log("data", data);
+
+  // for upload video delete
+
+  // const [files, setFile] = useState([]);
+  // const [message, setMessage] = useState();
+
+  // const handleFile = (e) => {
+  //   setMessage("");
+  //   let file = e.target.files;
+
+  //   for (let i = 0; i < file.length; i++) {
+  //     const fileType = file[i]["type"];
+  //     const validImageTypes = ["video/mp4", "video/x-m4v", "video/*"];
+  //     setFile([file[i]]);
+  //     if (validImageTypes.includes(fileType)) {
+  //       setFile([file[i]]);
+  //     } else {
+  //       setMessage("only images accepted");
+  //     }
+  //   }
+  // };
+
+  // const removeImage = (i) => {
+  //   setFile(files.filter((x) => x.name !== i));
+  // };
+
+  // const colorTheme = (color) => {
+  //   switch (color) {
+  //     case "green":
+  //       return "#008000";
+
+  //     case "orange":
+  //       return "#FFA500";
+
+  //     case "red":
+  //       return "#FF0000";
+
+  //     case "blue":
+  //       return "#0000FF";
+  //   }
+  // };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      basicSetUp: {
+        previewStyle: "",
+        videoPosition: "",
+      },
+      callToAction: {
+        buttonCorner: "",
+        buttonIcon: null,
+        buttonStyle: "",
+        buttonText: "",
+        destinationUrl: "",
+      },
+      designCustomization: {
+        authorName: "",
+        horizontalMargin: "",
+        verticalMargin: "",
+        player: {
+          height: "",
+          onMobileDevice: "",
+          size: "",
+        },
+        toggle: {
+          animation: "",
+          showPlayIcon: "",
+          showCloseIcon: "",
+          size: "",
+        },
+      },
+      colorStudio: {
+        templates: "",
+        general: {
+          gradientOverlay: "",
+          videoDescription: "",
+          videoTitle: "",
+        },
+        callToAction: {
+          buttonBackground: "",
+          buttonOutline: "",
+          buttonText: "",
+        },
+        player: {
+          authorName: "",
+          control: "",
+          seeker: "",
+        },
+        toggle: {
+          closeBackground: "",
+          closeIconColor: "",
+          playIcon: "",
+        },
+      },
+      fontStudio: {
+        authorName: "",
+        ctaButton: "",
+        fontFamily: "",
+        videoDescription: "",
+        videoTitle: "",
+      },
+      title: "",
+      description: "",
+      video: null,
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      // console.log(data, "nhj");
+
+      // setThemColorValue(
+      //   data?.data?.colorStudio?.callToAction?.buttonBackground
+      // );
+
+      // console.log("useEffect for data")
+      reset({
+        basicSetUp: {
+          previewStyle: data?.data?.basicSetUp?.previewStyle
+            ? data.data.basicSetUp.previewStyle
+            : "",
+          videoPosition: data?.data?.basicSetUp?.videoPosition
+            ? data?.data?.basicSetUp?.videoPosition
+            : "",
+        },
+        callToAction: {
+          buttonCorner: data?.data?.callToAction?.buttonCorner
+            ? data?.data?.callToAction?.buttonCorner
+            : "",
+          buttonIcon: data?.data?.callToAction?.buttonIcon
+            ? data?.data?.callToAction?.buttonIcon
+            : null,
+          buttonStyle: data?.data?.callToAction?.buttonStyle
+            ? data?.data?.callToAction?.buttonStyle
+            : "",
+          buttonText: data?.data?.callToAction?.buttonText
+            ? data?.data?.callToAction?.buttonText
+            : "",
+          destinationUrl: data?.data?.callToAction?.destinationUrl
+            ? data?.data?.callToAction?.destinationUrl
+            : "",
+        },
+        designCustomization: {
+          authorName: data?.data?.designCustomization?.authorName
+            ? data?.data?.designCustomization?.authorName
+            : "",
+
+          horizontalMargin: data?.data?.designCustomization?.horizontalMargin
+            ? data?.data?.designCustomization?.horizontalMargin
+            : "",
+
+          verticalMargin: data?.data?.designCustomization?.verticalMargin
+            ? data?.data?.designCustomization?.verticalMargin
+            : "",
+
+          player: {
+            height: data?.data?.designCustomization?.player?.height
+              ? data?.data?.designCustomization?.player?.height
+              : "",
+            onMobileDevice: data?.data?.designCustomization?.player
+              ?.onMobileDevice
+              ? data?.data?.designCustomization?.player?.onMobileDevice
+              : "",
+            size: data?.data?.designCustomization?.player?.size
+              ? data?.data?.designCustomization?.player?.size
+              : "",
+          },
+          toggle: {
+            animation: data?.data?.designCustomization?.toggle?.animation
+              ? data?.data?.designCustomization?.toggle?.animation
+              : "",
+
+            showPlayIcon:
+              typeof data?.data?.designCustomization?.toggle?.showPlayIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showPlayIcon
+                : "",
+
+            showCloseIcon:
+              typeof data?.data?.designCustomization?.toggle?.showCloseIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showCloseIcon
+                : "",
+
+            size: data?.data?.designCustomization?.toggle?.size
+              ? data?.data?.designCustomization?.toggle?.size
+              : "",
+          },
+        },
+        colorStudio: {
+          templates: data?.data?.colorStudio?.templates
+            ? data?.data?.colorStudio?.templates
+            : "",
+
+          general: {
+            gradientOverlay: data?.data?.colorStudio?.general?.gradientOverlay
+              ? data?.data?.colorStudio?.general?.gradientOverlay
+              : "#273149",
+            videoDescription: data?.data?.colorStudio?.general?.videoDescription
+              ? data?.data?.colorStudio?.general?.videoDescription
+              : "#FFFFFF",
+            videoTitle: data?.data?.colorStudio?.general?.videoTitle
+              ? data?.data?.colorStudio?.general?.videoTitle
+              : "#FFFFFF",
+          },
+          callToAction: {
+            buttonBackground:
+              data?.data?.colorStudio?.callToAction?.buttonBackground,
+
+            buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
+              ? data?.data?.colorStudio?.callToAction?.buttonOutline
+              : "#FFFFFF",
+
+            buttonText: data?.data?.colorStudio?.callToAction?.buttonText
+              ? data?.data?.colorStudio?.callToAction?.buttonText
+              : "#FFFFFF",
+          },
+          player: {
+            authorName: data?.data?.colorStudio?.player?.authorName
+              ? data?.data?.colorStudio?.player?.authorName
+              : "#FFFFFF",
+
+            control: data?.data?.colorStudio?.player?.control
+              ? data?.data?.colorStudio?.player?.control
+              : "#FFFFFF",
+
+            seeker: data?.data?.colorStudio?.player?.seeker
+              ? data?.data?.colorStudio?.player?.seeker
+              : "#1B5CF3",
+          },
+          toggle: {
+            closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
+              ? data?.data?.colorStudio?.toggle?.closeBackground
+              : "#FFFFFF",
+            closeIconColor: data?.data?.colorStudio?.toggle?.closeIconColor
+              ? data?.data?.colorStudio?.toggle?.closeIconColor
+              : "#FFFFFF",
+            playIcon: data?.data?.colorStudio?.toggle?.playIcon
+              ? data?.data?.colorStudio?.toggle?.playIcon
+              : "#FFFFFF",
+          },
+        },
+        fontStudio: {
+          authorName: data?.data?.fontStudio?.authorName
+            ? data?.data?.fontStudio?.authorName
+            : "",
+          ctaButton: data?.data?.fontStudio?.ctaButton
+            ? data?.data?.fontStudio?.ctaButton
+            : "",
+          fontFamily: data?.data?.fontStudio?.fontFamily
+            ? data?.data?.fontStudio?.fontFamily
+            : "",
+          videoDescription: data?.data?.fontStudio?.videoDescription
+            ? data?.data?.fontStudio?.videoDescription
+            : "",
+          videoTitle: data?.data?.fontStudio?.videoTitle
+            ? data?.data?.fontStudio?.videoTitle
+            : "",
+        },
+        title: data?.data?.title ? data?.data?.title : "",
+        description: data?.data?.description ? data?.data?.description : "",
+        video: data?.data?.video ? data?.data?.video?.originalname : "",
+      });
+    }
+  }, [data]);
+
+  //****** */
+
+  function buildFormData(formData, data, parentKey) {
+    if (
+      data &&
+      typeof data === "object" &&
+      !(data instanceof Date) &&
+      !(data instanceof File)
+    ) {
+      Object.keys(data).forEach((key) => {
+        if (key === "video") {
+          formData.append(key, data[key][0]);
+        } else {
+          buildFormData(
+            formData,
+            data[key],
+            parentKey ? `${parentKey}[${key}]` : key
+          );
+        }
+      });
+    } else {
+      const value = data == null ? "" : data;
+
+      formData.append(parentKey, value);
+    }
+  }
+
+  function jsonToFormData(data) {
+    const formData = new FormData();
+
+    buildFormData(formData, data);
+
+    return formData;
+  }
+
+  const onSubmit = (data) => {
+    // console.log("onSubmit", data);
+
+    if (data) {
+      let formData = jsonToFormData(data);
+      dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
+        .unwrap()
+        .then((res) => {
+          // console.log("res", res);
+          dispatch(setActiveWorkspaceData(res?.data));
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    }
   };
+
+  const valueChangeHandler = (name) => {
+    // handleSubmit(onSubmit);
+
+    // console.log("name", name);
+
+    // console.log("activeWorkspace", activeWorkspace);
+    // console.log("id", activeWorkspaceData?._id);
+
+    if (name === "video") {
+      handleSubmit((data) => {
+        console.log(data, "dd");
+        onSubmit(data);
+      })();
+    } else {
+      handleSubmit(({ video, ...data }) => {
+        console.log(data, "ddd");
+        onSubmit(data);
+      })();
+    }
+  };
+
+  const updateValue = (data) => {
+    // console.log("updateValue", data);
+    setActiveWorkspace(data?.value);
+  };
+
+  const workspaceListHandlerApi = useCallback(() => {
+    dispatch(worksapceListForDropdown())
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          const filterData = res?.data
+            ?.filter((item) => item?.name && item?.name)
+            .map((val) => ({
+              name: val?.name,
+              value: val?._id,
+            }));
+
+          // console.log("filterData", filterData);
+
+          if (filterData?.length > 0 && activeWorkspace === "") {
+            setActiveWorkspace(filterData[0]?.value);
+          }
+
+          setSelectWorkspaceOptions(filterData);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, [activeWorkspace]);
+
+  const newWorkspaceHandler = () => {
+    dispatch(addWorkspace())
+      .unwrap()
+      .then((res) => {
+        // console.log("res", res);
+        if (res?.success) {
+          workspaceListHandlerApi();
+          if (res?.data?.name) {
+            setActiveWorkspace(res?.data?._id);
+          }
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  };
+
+  const deleteWorkspaceByIdApi = useCallback((id) => {
+    dispatch(deleteWorkspaceById(id))
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          // console.log(res, "res of delete");
+          dispatch(worksapceListForDropdown())
+            .unwrap()
+            .then((res) => {
+              if (res?.success) {
+                const filterData = res?.data
+                  ?.filter((item) => item?.name && item?.name)
+                  .map((val) => ({
+                    name: val?.name,
+                    value: val?._id,
+                  }));
+
+                // console.log("filterData", filterData);
+
+                if (filterData?.length > 0 && activeWorkspace === "") {
+                  setActiveWorkspace(filterData[0]?.value);
+                }
+
+                setSelectWorkspaceOptions(filterData);
+              }
+            })
+            .catch((err) => {
+              if (err) {
+                toast(err, {
+                  type: "error",
+                });
+              }
+            });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, []);
+
+  const deleteActiveWorkspace = () => {
+    deleteWorkspaceByIdApi(activeWorkspace);
+  };
+
+  const workspaceChangeHandlerApi = useCallback((id) => {
+    dispatch(getWorkspaceById(id))
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          dispatch(setActiveWorkspaceData(res?.data));
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, []);
+
+  const getDropdownValuesHandlerApi = useCallback(() => {
+    dispatch(getDropdownValues());
+  }, []);
+
+  useEffect(() => {
+    dispatch(setPageTitle({ title: "Customization" }));
+    workspaceListHandlerApi();
+    getDropdownValuesHandlerApi();
+  }, []);
+
+  useEffect(() => {
+    if (activeWorkspace) {
+      workspaceChangeHandlerApi(activeWorkspace);
+    }
+  }, [activeWorkspace]);
+
+  // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
+  // console.log("activeWorkspace", activeWorkspace);
 
   return (
     <div className="inline-block w-full h-full">
@@ -1197,7 +1178,7 @@ const Customization = () => {
                 </div>
               </div>
 
-              {console.log("rendering...")}
+              {/* {console.log("rendering...")} */}
 
               {activeWorkspaceData !== null && (
                 <div className="inline-block w-full h-[calc(100vh-183px)] relative">
@@ -1308,6 +1289,7 @@ const Customization = () => {
                   watch={watch}
                   valueChangeHandler={valueChangeHandler}
                   control={control}
+                  setValue={setValue}
                 />
               </li>
 
