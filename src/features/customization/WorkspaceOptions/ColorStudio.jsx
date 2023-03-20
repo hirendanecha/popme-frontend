@@ -26,7 +26,42 @@ export const ColorObj = {
   },
 };
 
-const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
+const ColorStudio = ({
+  register,
+  watch,
+  valueChangeHandler,
+  control,
+  setValue,
+}) => {
+  const colorTheme = (color) => {
+    switch (color) {
+      case "green":
+        return "#24CB3F";
+
+      case "orange":
+        return "#FFBB0E";
+
+      case "red":
+        return "#FF0056";
+
+      case "blue":
+        return "#00A3FF";
+    }
+  };
+
+  const changeHandler = (e) => {
+    // console.log("selected value", e.target.value);
+
+    let color = colorTheme(e.target.value);
+
+    // console.log("jjj", color);
+
+    setValue("colorStudio.callToAction.buttonBackground", color);
+    setValue("colorStudio.callToAction.buttonOutline", color);
+    setValue("colorStudio.player.seeker", color);
+    valueChangeHandler();
+  };
+
   return (
     <>
       <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
@@ -54,12 +89,10 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates", {
-                      onChange: () => {
-                        valueChangeHandler();
-                      },
+                      onChange: (e) => changeHandler(e),
                     })}
                     value="red"
-                    className="radio bg-[#FF0000] checked:bg-[#FF0000] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#FF0056] checked:bg-[#FF0056] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>
@@ -73,12 +106,10 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates", {
-                      onChange: () => {
-                        valueChangeHandler();
-                      },
+                      onChange: (e) => changeHandler(e),
                     })}
                     value="blue"
-                    className="radio bg-[#0000FF] checked:bg-[#0000FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#00A3FF] checked:bg-[#00A3FF] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>
@@ -92,12 +123,10 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates", {
-                      onChange: () => {
-                        valueChangeHandler();
-                      },
+                      onChange: (e) => changeHandler(e),
                     })}
                     value="green"
-                    className="radio bg-[#008000] checked:bg-[#008000] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#24CB3F] checked:bg-[#24CB3F] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>
@@ -111,12 +140,10 @@ const ColorStudio = ({ register, watch, valueChangeHandler, control }) => {
                     type="radio"
                     name="colorStudio.templates"
                     {...register("colorStudio.templates", {
-                      onChange: () => {
-                        valueChangeHandler();
-                      },
+                      onChange: (e) => changeHandler(e),
                     })}
                     value="orange"
-                    className="radio bg-[#FFA500] checked:bg-[#FFA500] checked:!shadow-none checked:!border-4 checked:!border-black/50"
+                    className="radio bg-[#FFBB0E] checked:bg-[#FFBB0E] checked:!shadow-none checked:!border-4 checked:!border-black/50"
                   />
                 </label>
               </div>
