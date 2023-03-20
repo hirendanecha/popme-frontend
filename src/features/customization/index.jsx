@@ -55,7 +55,7 @@ const Customization = () => {
   const { data, error, activeWorkspaceData } = useSelector(
     (state) => state.workspace
   );
-  // console.log(data,"data")
+  // console.log(data, "data");
 
   // console.log("location?.state", location?.state);
 
@@ -139,228 +139,76 @@ const Customization = () => {
   } = useForm({
     defaultValues: {
       basicSetUp: {
-        //       previewStyle: "",
-        //       videoPosition: "",
-        //     },
-        //     callToAction: {
-        //       buttonCorner: "",
-        //       buttonIcon: null,
-        //       buttonStyle: "",
-        //       buttonText: "",
-        //       destinationUrl: "",
-        //     },
-        //     designCustomization: {
-        //       authorName: "",
-        //       horizontalMargin: "",
-        //       verticalMargin: "",
-        //       player: {
-        //         height: "",
-        //         onMobileDevice: "",
-        //         size: "",
-        //       },
-        //       toggle: {
-        //         animation: "",
-        //         showPlayIcon: "",
-        //         showCloseIcon: "",
-        //         size: "",
-        //       },
-        //     },
-        //     colorStudio: {
-        //       templates: "",
-        //       general: {
-        //         gradientOverlay: "",
-        //         videoDescription: "",
-        //         videoTitle: "",
-        //       },
-        //       callToAction: {
-        //         buttonBackground: "",
-        //         buttonOutline: "",
-        //         buttonText: "",
-        //       },
-        //       player: {
-        //         authorName: "",
-        //         control: "",
-        //         seeker: "",
-        //       },
-        //       toggle: {
-        //         closeBackground: "",
-        //         closeIconColor: "",
-        //         playIcon: "",
-        //       },
-        //     },
-        //     fontStudio: {
-        //       authorName: "",
-        //       ctaButton: "",
-        //       fontFamily: "",
-        //       videoDescription: "",
-        //       videoTitle: "",
-        //     },
-        //     title: "",
-        //     description: "",
-        //     video: null,
-        //   },
-        // });
-
-        // useEffect(() => {
-        //   if (data !== null) {
-        //     reset({
-        //       basicSetUp: {
-
-        previewStyle: data?.data?.basicSetUp?.previewStyle
-          ? data?.data?.basicSetUp?.previewStyle
-          : "",
-        videoPosition: data?.data?.basicSetUp?.videoPosition
-          ? data?.data?.basicSetUp?.videoPosition
-          : "",
+        previewStyle: "",
+        videoPosition: "",
       },
       callToAction: {
-        buttonCorner: data?.data?.callToAction?.buttonCorner
-          ? data?.data?.callToAction?.buttonCorner
-          : "",
-        buttonIcon: data?.data?.callToAction?.buttonIcon
-          ? data?.data?.callToAction?.buttonIcon
-          : null,
-        buttonStyle: data?.data?.callToAction?.buttonStyle
-          ? data?.data?.callToAction?.buttonStyle
-          : "",
-        buttonText: data?.data?.callToAction?.buttonText
-          ? data?.data?.callToAction?.buttonText
-          : "",
-        destinationUrl: data?.data?.callToAction?.destinationUrl
-          ? data?.data?.callToAction?.destinationUrl
-          : "",
+        buttonCorner: "",
+        buttonIcon: null,
+        buttonStyle: "",
+        buttonText: "",
+        destinationUrl: "",
       },
       designCustomization: {
-        authorName: data?.data?.designCustomization?.authorName
-          ? data?.data?.designCustomization?.authorName
-          : "",
-
-        horizontalMargin: data?.data?.designCustomization?.horizontalMargin
-          ? data?.data?.designCustomization?.horizontalMargin
-          : "",
-
-        verticalMargin: data?.data?.designCustomization?.verticalMargin
-          ? data?.data?.designCustomization?.verticalMargin
-          : "",
-
+        authorName: "",
+        horizontalMargin: "",
+        verticalMargin: "",
         player: {
-          height: data?.data?.designCustomization?.player?.height
-            ? data?.data?.designCustomization?.player?.height
-            : "",
-          onMobileDevice: data?.data?.designCustomization?.player
-            ?.onMobileDevice
-            ? data?.data?.designCustomization?.player?.onMobileDevice
-            : "",
-          size: data?.data?.designCustomization?.player?.size
-            ? data?.data?.designCustomization?.player?.size
-            : "",
+          height: "",
+          onMobileDevice: "",
+          size: "",
         },
         toggle: {
-          animation: data?.data?.designCustomization?.toggle?.animation
-            ? data?.data?.designCustomization?.toggle?.animation
-            : "",
-
-          showPlayIcon:
-            typeof data?.data?.designCustomization?.toggle?.showPlayIcon ===
-            "boolean"
-              ? data?.data?.designCustomization?.toggle?.showPlayIcon
-              : "",
-
-          showCloseIcon:
-            typeof data?.data?.designCustomization?.toggle?.showCloseIcon ===
-            "boolean"
-              ? data?.data?.designCustomization?.toggle?.showCloseIcon
-              : "",
-
-          size: data?.data?.designCustomization?.toggle?.size
-            ? data?.data?.designCustomization?.toggle?.size
-            : "",
+          animation: "",
+          showPlayIcon: "",
+          showCloseIcon: "",
+          size: "",
         },
       },
       colorStudio: {
-        templates: data?.data?.colorStudio?.templates
-          ? data?.data?.colorStudio?.templates
-          : "",
-
+        templates: "",
         general: {
-          gradientOverlay: data?.data?.colorStudio?.general?.gradientOverlay
-            ? data?.data?.colorStudio?.general?.gradientOverlay
-            : "#273149",
-          videoDescription: data?.data?.colorStudio?.general?.videoDescription
-            ? data?.data?.colorStudio?.general?.videoDescription
-            : "#FFFFFF",
-          videoTitle: data?.data?.colorStudio?.general?.videoTitle
-            ? data?.data?.colorStudio?.general?.videoTitle
-            : "#FFFFFF",
+          gradientOverlay: "",
+          videoDescription: "",
+          videoTitle: "",
         },
         callToAction: {
-          buttonBackground: data?.data?.colorStudio?.callToAction
-            ?.buttonBackground
-            ? data?.data?.colorStudio?.callToAction?.buttonBackground
-            : "#1B5CF3",
-
-          buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
-            ? data?.data?.colorStudio?.callToAction?.buttonOutline
-            : "#FFFFFF",
-
-          buttonText: data?.data?.colorStudio?.callToAction?.buttonText
-            ? data?.data?.colorStudio?.callToAction?.buttonText
-            : "#FFFFFF",
+          buttonBackground: "",
+          buttonOutline: "",
+          buttonText: "",
         },
         player: {
-          authorName: data?.data?.colorStudio?.player?.authorName
-            ? data?.data?.colorStudio?.player?.authorName
-            : "#FFFFFF",
-          control: data?.data?.colorStudio?.player?.control
-            ? data?.data?.colorStudio?.player?.control
-            : "#FFFFFF",
-          seeker: data?.data?.colorStudio?.player?.seeker
-            ? data?.data?.colorStudio?.player?.seeker
-            : "#FFFFFF",
+          authorName: "",
+          control: "",
+          seeker: "",
         },
         toggle: {
-          closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
-            ? data?.data?.colorStudio?.toggle?.closeBackground
-            : "#FFFFFF",
-          closeIconColor: data?.data?.colorStudio?.toggle?.closeIconColor
-            ? data?.data?.colorStudio?.toggle?.closeIconColor
-            : "#FFFFFF",
-          playIcon: data?.data?.colorStudio?.toggle?.playIcon
-            ? data?.data?.colorStudio?.toggle?.playIcon
-            : "#FFFFFF",
+          closeBackground: "",
+          closeIconColor: "",
+          playIcon: "",
         },
       },
       fontStudio: {
-        authorName: data?.data?.fontStudio?.authorName
-          ? data?.data?.fontStudio?.authorName
-          : "",
-        ctaButton: data?.data?.fontStudio?.ctaButton
-          ? data?.data?.fontStudio?.ctaButton
-          : "",
-        fontFamily: data?.data?.fontStudio?.fontFamily
-          ? data?.data?.fontStudio?.fontFamily
-          : "",
-        videoDescription: data?.data?.fontStudio?.videoDescription
-          ? data?.data?.fontStudio?.videoDescription
-          : "",
-        videoTitle: data?.data?.fontStudio?.videoTitle
-          ? data?.data?.fontStudio?.videoTitle
-          : "",
+        authorName: "",
+        ctaButton: "",
+        fontFamily: "",
+        videoDescription: "",
+        videoTitle: "",
       },
-      title: data?.data?.title ? data?.data?.title : "",
-      description: data?.data?.description ? data?.data?.description : "",
-      video: data?.data?.video ? data?.data?.video?.originalname : "",
-      // addVideo: null,
+      title: "",
+      description: "",
+      video: null,
     },
   });
-  // }
-  // }, [data]);
-
-  //*** */
 
   useEffect(() => {
     if (data) {
-      // console.log(data?.data,"nhj");
+      // console.log(data, "nhj");
+
+      // setThemColorValue(
+      //   data?.data?.colorStudio?.callToAction?.buttonBackground
+      // );
+
       // console.log("useEffect for data")
       reset({
         basicSetUp: {
@@ -452,19 +300,27 @@ const Customization = () => {
               : "#FFFFFF",
           },
           callToAction: {
+            buttonBackground:
+              data?.data?.colorStudio?.callToAction?.buttonBackground,
+
             // buttonBackground: data?.data?.colorStudio?.callToAction
             //   ?.buttonBackground
             //   ? data?.data?.colorStudio?.callToAction?.buttonBackground
             //   : "#1B5CF3",
 
-            buttonBackground: data?.data?.colorStudio?.templates
-              ? colorTheme(data?.data?.colorStudio?.templates)
-              : data?.data?.colorStudio?.callToAction?.buttonBackground ||
-                "#1B5CF3",
+            // buttonBackground: data?.data?.colorStudio?.templates
+            //   ? colorTheme(data?.data?.colorStudio?.templates)
+            //   : data?.data?.colorStudio?.callToAction?.buttonBackground ||
+            //     "#1B5CF3",
 
             buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
               ? data?.data?.colorStudio?.callToAction?.buttonOutline
               : "#FFFFFF",
+
+            // buttonOutline: data?.data?.colorStudio?.templates
+            //   ? colorTheme(data?.data?.colorStudio?.templates)
+            //   : data?.data?.colorStudio?.callToAction?.buttonOutline ||
+            //     "#FFFFFF",
 
             buttonText: data?.data?.colorStudio?.callToAction?.buttonText
               ? data?.data?.colorStudio?.callToAction?.buttonText
@@ -474,13 +330,18 @@ const Customization = () => {
             authorName: data?.data?.colorStudio?.player?.authorName
               ? data?.data?.colorStudio?.player?.authorName
               : "#FFFFFF",
+
             control: data?.data?.colorStudio?.player?.control
               ? data?.data?.colorStudio?.player?.control
               : "#FFFFFF",
 
-            seeker: data?.data?.colorStudio?.templates
-              ? colorTheme(data?.data?.colorStudio?.templates)
-              : data?.data?.colorStudio?.player?.seeker || "#1B5CF3",
+            // seeker: data?.data?.colorStudio?.templates
+            //   ? colorTheme(data?.data?.colorStudio?.templates)
+            //   : data?.data?.colorStudio?.player?.seeker || "#1B5CF3",
+
+            seeker: data?.data?.colorStudio?.player?.seeker
+              ? data?.data?.colorStudio?.player?.seeker
+              : "#1B5CF3",
           },
           toggle: {
             closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
@@ -750,7 +611,7 @@ const Customization = () => {
 
   const ClapprComponent = ({
     id,
-    source,
+    source = "https://www.w3schools.com/tags/movie.ogg",
     height,
     width,
     poster,
@@ -948,13 +809,13 @@ const Customization = () => {
       <>
         {/* <div ref={player} id={id}></div> */}
 
-        <div className="inline-block w-full h-full disabled pointer-events-none opacity-25">
+        {/* <div className="inline-block w-full h-full disabled pointer-events-none opacity-25">
           <iframe
             id="iFrameExample"
             src="https://heroicons.com/"
             className="w-full h-full"
           ></iframe>
-        </div>
+        </div> */}
 
         <div
           // className={`absolute bottom-0 left-3 rounded-lg overflow-hidden`}
@@ -978,7 +839,7 @@ const Customization = () => {
               }}
             >
               <div className="flex justify-between w-full p-4 h-[calc(100%-58px)]">
-                <div className="flex justify-between flex-col play_area_button z-20">
+                <div className="flex justify-between flex-col w-full play_area_button z-20">
                   <div className="flex justify-between">
                     <h5
                       className="text-white text-base"
@@ -1070,52 +931,35 @@ const Customization = () => {
                   target="_blank"
                   className="w-full"
                 >
-                  {activeWorkspaceData?.colorStudio?.templates === "none" ? (
-                    <button
-                      type="button"
-                      className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
+                  <button
+                    type="button"
+                    className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
                     ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
-                      style={{
-                        backgroundColor:
-                          activeWorkspaceData?.colorStudio?.callToAction
-                            ?.buttonBackground,
+                    style={{
+                      backgroundColor:
+                        activeWorkspaceData?.colorStudio?.callToAction
+                          ?.buttonBackground,
 
-                        fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
+                      // backgroundColor:
+                      //   activeWorkspaceData?.colorStudio?.templates,
 
-                        borderColor:
-                          activeWorkspaceData?.colorStudio?.callToAction
-                            ?.buttonOutline,
+                      fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
 
-                        color:
-                          activeWorkspaceData?.colorStudio?.callToAction
-                            ?.buttonText,
-                      }}
-                    >
-                      {activeWorkspaceData?.callToAction?.buttonText ||
-                        "Try for free"}
-                      {renderSwitch(activeWorkspaceData)}
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
-                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
-                      style={{
-                        backgroundColor:
-                          activeWorkspaceData?.colorStudio?.templates,
-                        fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
+                      // borderColor:
+                      //   activeWorkspaceData?.colorStudio?.callToAction
+                      //     ?.buttonOutline,
 
-                        borderColor:
-                          activeWorkspaceData?.callToAction?.buttonStyle ===
-                            "outlined" &&
-                          activeWorkspaceData?.colorStudio?.templates,
-                      }}
-                    >
-                      {activeWorkspaceData?.callToAction?.buttonText ||
-                        "Try for free"}
-                      {renderSwitch(activeWorkspaceData)}
-                    </button>
-                  )}
+                      borderColor: activeWorkspaceData?.colorStudio?.templates,
+
+                      color:
+                        activeWorkspaceData?.colorStudio?.callToAction
+                          ?.buttonText,
+                    }}
+                  >
+                    {activeWorkspaceData?.callToAction?.buttonText ||
+                      "Try for free"}
+                    {renderSwitch(activeWorkspaceData)}
+                  </button>
                 </Link>
               </div>
 
@@ -1352,6 +1196,8 @@ const Customization = () => {
                   />
                 </div>
               </div>
+
+              {console.log("rendering...")}
 
               {activeWorkspaceData !== null && (
                 <div className="inline-block w-full h-[calc(100vh-183px)] relative">

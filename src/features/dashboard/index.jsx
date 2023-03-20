@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ClockSvg from "../../assets/svgs/ClockSvg";
@@ -20,6 +20,9 @@ import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { data } = useSelector((state) => state.auth);
+
+  // console.log("data", data);
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Dashboard" }));
@@ -70,7 +73,7 @@ const Dashboard = () => {
       <div className="inline-block w-full">
         <div className="flex items-center justify-between mb-9">
           <h2 className="text-2xl font-bold text-primary-main">
-            Welcome back, Elie
+            Welcome back, {data?.data?.firstName}
           </h2>
 
           <div className="flex flex-wrap items-center justify-end gap-3">
