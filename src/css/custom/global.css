@@ -18,22 +18,22 @@ body {
 /* video position */
 .top_left {
   top: 0;
-  left: 0.75rem;
+  left: 2rem;
 }
 
 .bottom_left {
   bottom: 0;
-  left: 0.75rem;
+  left: 2rem;
 }
 
 .top_right {
   top: 0;
-  right: 0.75rem;
+  right: 2rem;
 }
 
 .bottom_right {
   bottom: 0;
-  right: 0.75rem;
+  right: 2rem;
 }
 
 /* video button style */
@@ -68,7 +68,7 @@ body {
 }
 
 .bounce {
-  animation: bounce2 2s ease 1;
+  animation: bounce2 2s ease infinite;
 }
 
 @keyframes bounce2 {
@@ -99,5 +99,21 @@ body {
   }
   to {
     transform: translateY(0px);
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
   }
 }
