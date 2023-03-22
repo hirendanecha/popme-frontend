@@ -66,19 +66,19 @@ const WidgetShare = () => {
   const renderSwitch = (activeWorkspaceData) => {
     switch (activeWorkspaceData !== null) {
       case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
-        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+        return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
-        return <RightExitSvg w="w-4" h="h-4" color="text-white" />;
+        return <RightExitSvg w="w-6" h="h-6" color="text-white" />;
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
-        return <CalendarSvg w="13" h="13" color="#fff" />;
+        return <CalendarSvg w="15" h="15" color="#fff" />;
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
-        return <CloseSvg w="w-4" h="h-4" color="text-white" />;
+        return <CloseSvg w="w-6" h="h-6" color="text-white" />;
 
       default:
-        return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+        return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
     }
   };
 
@@ -232,7 +232,11 @@ const WidgetShare = () => {
           <div
             className={`relative player_wrap ${workspaceData?.fontStudio?.fontFamily} transform translate-y-0 translate-x-0 opacity-100 transition duration-500 ease-in-out`}
           >
-            <div ref={player} id={id} className="block"></div>
+            <div
+              ref={player}
+              id={id}
+              className="block clappr_player_custom"
+            ></div>
 
             <div
               className="absolute top-0 bottom-0 left-0 right-0"
@@ -252,10 +256,27 @@ const WidgetShare = () => {
                     >
                       {workspaceData?.designCustomization?.authorName}
                     </h5>
-                    <div className="minimize_icon cursor-pointer">
-                      <DashSvg
-                        color={workspaceData?.colorStudio?.player?.control}
-                      />
+
+                    <div className="flex">
+                      <div className="flex mr-6">
+                        <div className="inline-block volume_icon cursor-pointer z-30">
+                          <VolumeSvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
+                        </div>
+
+                        <div className="mute_icon hidden cursor-pointer z-30">
+                          <MuteSvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="minimize_icon cursor-pointer">
+                        <DashSvg
+                          color={workspaceData?.colorStudio?.player?.control}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -263,7 +284,7 @@ const WidgetShare = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col pr-3">
                         <h4
-                          className="text-2xl text-white mb-3"
+                          className="text-2xl text-white mb-3 font-bold"
                           style={{
                             fontSize: `${workspaceData?.fontStudio?.videoTitle}px`,
                             color:
@@ -274,7 +295,7 @@ const WidgetShare = () => {
                         </h4>
 
                         <p
-                          className="text-sm text-white mb-4 line-clamp-5"
+                          className="text-sm text-white mb-4 line-clamp-5 font-bold"
                           style={{
                             fontSize: `${workspaceData?.fontStudio?.videoDescription}px`,
                             color:
@@ -288,18 +309,6 @@ const WidgetShare = () => {
                       </div>
 
                       <div className="flex flex-col">
-                        <div className="mb-6 inline-block volume_icon cursor-pointer z-30">
-                          <VolumeSvg
-                            color={workspaceData?.colorStudio?.player?.control}
-                          />
-                        </div>
-
-                        <div className="mb-6 mute_icon hidden cursor-pointer z-30">
-                          <MuteSvg
-                            color={workspaceData?.colorStudio?.player?.control}
-                          />
-                        </div>
-
                         <div className="play_icon cursor-pointer hidden z-30">
                           <PlayerPlaySvg
                             color={workspaceData?.colorStudio?.player?.control}
@@ -330,52 +339,41 @@ const WidgetShare = () => {
                         target="_blank"
                         className="w-full"
                       >
-                        {workspaceData?.colorStudio?.templates === "none" ? (
-                          <button
-                            type="button"
-                            className={`btn h-auto ${workspaceData?.callToAction?.buttonStyle}
-                    ${workspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                        <button
+                          type="button"
+                          className={`btn cta_show ${workspaceData?.callToAction?.buttonStyle}
+                    ${workspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                          style={{
+                            backgroundColor:
+                              workspaceData?.colorStudio?.callToAction
+                                ?.buttonBackground,
+
+                            fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
+
+                            borderColor:
+                              workspaceData?.colorStudio?.callToAction
+                                ?.buttonOutline,
+
+                            color:
+                              workspaceData?.colorStudio?.callToAction
+                                ?.buttonText,
+
+                            height: "auto",
+                            padding: "0",
+                          }}
+                        >
+                          <span
+                            className="flex gap-3 items-center justify-center flex-wrap"
                             style={{
-                              backgroundColor:
-                                workspaceData?.colorStudio?.callToAction
-                                  ?.buttonBackground,
-
-                              fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
-
-                              borderColor:
-                                workspaceData?.colorStudio?.callToAction
-                                  ?.buttonOutline,
-
-                              color:
-                                workspaceData?.colorStudio?.callToAction
-                                  ?.buttonText,
+                              padding: `${+workspaceData?.fontStudio
+                                ?.ctaButton}px`,
                             }}
                           >
                             {workspaceData?.callToAction?.buttonText ||
                               "Try for free"}
                             {renderSwitch(workspaceData)}
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            className={`btn h-auto ${workspaceData?.callToAction?.buttonStyle}
-                    ${workspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
-                            style={{
-                              backgroundColor:
-                                workspaceData?.colorStudio?.templates,
-                              fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
-
-                              borderColor:
-                                workspaceData?.callToAction?.buttonStyle ===
-                                  "outlined" &&
-                                workspaceData?.colorStudio?.templates,
-                            }}
-                          >
-                            {workspaceData?.callToAction?.buttonText ||
-                              "Try for free"}
-                            {renderSwitch(workspaceData)}
-                          </button>
-                        )}
+                          </span>
+                        </button>
                       </Link>
                     </div>
                   </div>
@@ -394,10 +392,7 @@ const WidgetShare = () => {
                   className="flex bg-secondary-main h-[6px] rounded-tr-xl"
                   id="progress_calcc"
                   style={{
-                    background:
-                      workspaceData?.colorStudio?.templates === "none"
-                        ? workspaceData?.colorStudio?.player?.seeker
-                        : workspaceData?.colorStudio?.templates,
+                    background: workspaceData?.colorStudio?.player?.seeker,
                   }}
                 ></div>
               </div>

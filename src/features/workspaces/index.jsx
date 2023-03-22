@@ -226,90 +226,92 @@ const Workspaces = () => {
 
   return (
     <div className="min-h-screen py-8 px-4 lg:px-6">
-      <div className="inline-block w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {workspacePosts &&
-            workspacePosts?.length > 0 &&
-            workspacePosts?.map((item, index) => (
-              <WorkspacePost
-                key={index}
-                item={item}
-                index={index}
-                onDeleteHandler={onDeleteHandler}
-                onEditHandler={onEditHandler}
-                onDuplicateHandler={onDuplicateHandler}
-              />
-            ))}
+      <div class="container mx-auto">
+        <div className="inline-block w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+            {workspacePosts &&
+              workspacePosts?.length > 0 &&
+              workspacePosts?.map((item, index) => (
+                <WorkspacePost
+                  key={index}
+                  item={item}
+                  index={index}
+                  onDeleteHandler={onDeleteHandler}
+                  onEditHandler={onEditHandler}
+                  onDuplicateHandler={onDuplicateHandler}
+                />
+              ))}
 
-          <div className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl h-fit cursor-pointer">
-            <div className="flex flex-col">
-              <div className="inline-block w-full p-4">
-                <div
-                  onClick={createNewWorkspaceHandler}
-                  className="flex flex-col justify-center items-center border-4 border-dashed border-borderColor-main h-[340px]"
-                >
-                  {PlusIcon()}
-                  <h3 className="text-lg text-primary-normal">
-                    <span className="text-secondary-main">Create</span> a new
-                    Workspace
-                  </h3>
-                </div>
-              </div>
-
-              <div className="inline-block w-full p-4 bg-white rounded-xl mt-2">
-                <div className="flex justify-between items-center">
-                  <div className="flex flex-col">
-                    <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
-                      // workspacePosts &&
-                      // workspacePosts?.length > 0 &&
-                      // workspacePosts?.length + 1
-
-                      // newWorkspaceNum &&
-                      // newWorkspaceNum > 0 &&
-                      // newWorkspaceNum + 1
-
-                      data?.data?.workspaceIndex + 1
-                    }`}</h4>
-                    <p className="text-primary-normal text-sm">
-                      Create a new Workspace
-                    </p>
-                  </div>
-
+            <div className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl h-fit cursor-pointer">
+              <div className="flex flex-col">
+                <div className="inline-block w-full p-4">
                   <div
                     onClick={createNewWorkspaceHandler}
-                    className="flex justify-center items-center h-8 w-8 rounded-full bg-secondary-main"
+                    className="flex flex-col justify-center items-center border-4 border-dashed border-borderColor-main h-[404px]"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6 text-white"
+                    {PlusIcon()}
+                    <h3 className="text-lg text-primary-normal">
+                      <span className="text-secondary-main">Create</span> a new
+                      Workspace
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="inline-block w-full p-4 bg-white rounded-xl mt-2">
+                  <div className="flex justify-between items-center">
+                    <div className="flex flex-col">
+                      <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
+                        // workspacePosts &&
+                        // workspacePosts?.length > 0 &&
+                        // workspacePosts?.length + 1
+
+                        // newWorkspaceNum &&
+                        // newWorkspaceNum > 0 &&
+                        // newWorkspaceNum + 1
+
+                        data?.data?.workspaceIndex + 1
+                      }`}</h4>
+                      <p className="text-primary-normal text-sm">
+                        Create a new Workspace
+                      </p>
+                    </div>
+
+                    <div
+                      onClick={createNewWorkspaceHandler}
+                      className="flex justify-center items-center h-8 w-8 rounded-full bg-secondary-main"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 4.5v15m7.5-7.5h-15"
-                      />
-                    </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6 text-white"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {workspacePosts?.length <= 0 ||
-          (totalPage != currentPage && (
-            <div className="flex justify-center mt-8">
-              <Button
-                text="Load More"
-                buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
-                clickHandler={loadmoreHandler}
-              />
-            </div>
-          ))}
+          {workspacePosts?.length <= 0 ||
+            (totalPage != currentPage && (
+              <div className="flex justify-center mt-8">
+                <Button
+                  text="Load More"
+                  buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
+                  clickHandler={loadmoreHandler}
+                />
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
