@@ -65,19 +65,19 @@ const ClapprComponent = React.memo(
     const renderSwitch = (activeWorkspaceData) => {
       switch (activeWorkspaceData !== null) {
         case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
-          return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+          return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
 
         case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
-          return <RightExitSvg w="w-4" h="h-4" color="text-white" />;
+          return <RightExitSvg w="w-6" h="h-6" color="text-white" />;
 
         case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
-          return <CalendarSvg w="13" h="13" color="#fff" />;
+          return <CalendarSvg w="15" h="15" color="#fff" />;
 
         case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
-          return <CloseSvg w="w-4" h="h-4" color="text-white" />;
+          return <CloseSvg w="w-6" h="h-6" color="text-white" />;
 
         default:
-          return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
+          return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
       }
     };
 
@@ -284,7 +284,11 @@ const ClapprComponent = React.memo(
           <div
             className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily} player_anim opacity-0 transition duration-500 ease-in-out`}
           >
-            <div ref={player} id={id} className="hidden"></div>
+            <div
+              ref={player}
+              id={id}
+              className="hidden clappr_player_custom"
+            ></div>
 
             <div
               className="absolute top-0 bottom-0 left-0 right-0"
@@ -292,7 +296,7 @@ const ClapprComponent = React.memo(
                 background: `linear-gradient(180deg, transparent 60%, ${activeWorkspaceData?.colorStudio?.general?.gradientOverlay} 100%)`,
               }}
             >
-              <div className="flex justify-between w-full p-4 h-[calc(100%-58px)]">
+              <div className="flex justify-between w-full p-4 h-full">
                 <div className="flex justify-between flex-col w-full play_area_button z-20">
                   <div className="flex justify-between">
                     <h5
@@ -335,86 +339,99 @@ const ClapprComponent = React.memo(
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col pr-3">
-                      <h4
-                        className="text-2xl text-white mb-3 line-clamp-2"
-                        style={{
-                          fontSize: `${activeWorkspaceData?.fontStudio?.videoTitle}px`,
-                          color:
-                            activeWorkspaceData?.colorStudio?.general
-                              ?.videoTitle,
-                        }}
-                      >
-                        {activeWorkspaceData?.title || "This is PopMe!"}
-                      </h4>
+                  <div className="flex flex-col">
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col pr-3">
+                        <h4
+                          className="text-2xl text-white mb-3 line-clamp-2 font-bold"
+                          style={{
+                            fontSize: `${activeWorkspaceData?.fontStudio?.videoTitle}px`,
+                            color:
+                              activeWorkspaceData?.colorStudio?.general
+                                ?.videoTitle,
+                          }}
+                        >
+                          {activeWorkspaceData?.title || "This is PopMe!"}
+                        </h4>
 
-                      <p
-                        className="text-sm text-white mb-4 line-clamp-5"
-                        style={{
-                          fontSize: `${activeWorkspaceData?.fontStudio?.videoDescription}px`,
-                          color:
-                            activeWorkspaceData?.colorStudio?.general
-                              ?.videoDescription,
-                        }}
-                      >
-                        {activeWorkspaceData?.description ||
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry."}
-                      </p>
+                        <p
+                          className="text-sm text-white mb-4 line-clamp-5 font-bold"
+                          style={{
+                            fontSize: `${activeWorkspaceData?.fontStudio?.videoDescription}px`,
+                            color:
+                              activeWorkspaceData?.colorStudio?.general
+                                ?.videoDescription,
+                          }}
+                        >
+                          {activeWorkspaceData?.description ||
+                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry."}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <div className="play_icon cursor-pointer hidden z-30">
+                          <PlayerPlaySvg
+                            color={
+                              activeWorkspaceData?.colorStudio?.player?.control
+                            }
+                          />
+                        </div>
+
+                        <div className="pause_icon cursor-pointer z-30">
+                          <PauseSvg
+                            color={
+                              activeWorkspaceData?.colorStudio?.player?.control
+                            }
+                          />
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="flex flex-col">
-                      <div className="play_icon cursor-pointer hidden z-30">
-                        <PlayerPlaySvg
-                          color={
-                            activeWorkspaceData?.colorStudio?.player?.control
-                          }
-                        />
-                      </div>
+                    <div className="flex mb-[26px]">
+                      <Link
+                        to={activeWorkspaceData?.callToAction?.destinationUrl}
+                        target="_blank"
+                        className="w-full"
+                      >
+                        <button
+                          type="button"
+                          className={`btn cta_show ${activeWorkspaceData?.callToAction?.buttonStyle}
+                    ${activeWorkspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                          style={{
+                            backgroundColor:
+                              activeWorkspaceData?.colorStudio?.callToAction
+                                ?.buttonBackground,
 
-                      <div className="pause_icon cursor-pointer z-30">
-                        <PauseSvg
-                          color={
-                            activeWorkspaceData?.colorStudio?.player?.control
-                          }
-                        />
-                      </div>
+                            fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
+
+                            borderColor:
+                              activeWorkspaceData?.colorStudio?.callToAction
+                                ?.buttonOutline,
+
+                            color:
+                              activeWorkspaceData?.colorStudio?.callToAction
+                                ?.buttonText,
+
+                            height: "auto",
+                            padding: "0",
+                          }}
+                        >
+                          <span
+                            className="flex gap-3 items-center justify-between flex-wrap"
+                            style={{
+                              padding: `${+activeWorkspaceData?.fontStudio
+                                ?.ctaButton}px`,
+                            }}
+                          >
+                            {activeWorkspaceData?.callToAction?.buttonText ||
+                              "Try for free"}
+                            {renderSwitch(activeWorkspaceData)}
+                          </span>
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex px-4 mb-[26px]">
-                <Link
-                  to={activeWorkspaceData?.callToAction?.destinationUrl}
-                  target="_blank"
-                  className="w-full"
-                >
-                  <button
-                    type="button"
-                    className={`btn cta_show h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
-                    ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
-                    style={{
-                      backgroundColor:
-                        activeWorkspaceData?.colorStudio?.callToAction
-                          ?.buttonBackground,
-
-                      fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
-
-                      borderColor:
-                        activeWorkspaceData?.colorStudio?.callToAction
-                          ?.buttonOutline,
-
-                      color:
-                        activeWorkspaceData?.colorStudio?.callToAction
-                          ?.buttonText,
-                    }}
-                  >
-                    {activeWorkspaceData?.callToAction?.buttonText ||
-                      "Try for free"}
-                    {renderSwitch(activeWorkspaceData)}
-                  </button>
-                </Link>
               </div>
 
               <div className="absolute bottom-0 flex w-full">

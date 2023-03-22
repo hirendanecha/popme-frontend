@@ -147,3 +147,12 @@ body {
     opacity: 1;
   }
 }
+
+.clappr_player_custom video {
+  object-fit: cover;
+}
+
+.clappr_player_custom .play-wrapper {
+  display: flex;
+  justify-content: center;
+}
