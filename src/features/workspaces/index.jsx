@@ -35,16 +35,13 @@ const Workspaces = () => {
 
   const perPageSize = 4;
 
-  const { data } = useSelector(
-    (state) => state.auth
-  );
+  const { data } = useSelector((state) => state.auth);
 
   const workspaceListApi = useCallback((props, options = { merge: false }) => {
     dispatch(worksapceList(props))
       .unwrap()
       .then((res) => {
         if (res?.success) {
-          console.log(res, "ressss>>");
           if (options?.merge) {
             setWorkspacePosts((prev) => [...prev, ...res?.data]);
           } else {
@@ -231,7 +228,6 @@ const Workspaces = () => {
     <div className="min-h-screen py-8 px-4 lg:px-6">
       <div className="inline-block w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {console.log(workspacePosts,"workspacePosts")}
           {workspacePosts &&
             workspacePosts?.length > 0 &&
             workspacePosts?.map((item, index) => (
@@ -244,7 +240,6 @@ const Workspaces = () => {
                 onDuplicateHandler={onDuplicateHandler}
               />
             ))}
-           
 
           <div className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl h-fit cursor-pointer">
             <div className="flex flex-col">
@@ -274,7 +269,6 @@ const Workspaces = () => {
                       // newWorkspaceNum + 1
 
                       data?.data?.workspaceIndex + 1
-
                     }`}</h4>
                     <p className="text-primary-normal text-sm">
                       Create a new Workspace
