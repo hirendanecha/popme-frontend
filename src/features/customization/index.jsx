@@ -58,9 +58,9 @@ const ClapprComponent = React.memo(
     poster,
     animatedImage,
   }) => {
-    console.log(id, "iddd");
     let player = useRef();
     const { activeWorkspaceData } = useSelector((state) => state.workspace);
+    const [isToggleHiden, setIsToggleHiden] = useState("");
 
     const renderSwitch = (activeWorkspaceData) => {
       switch (activeWorkspaceData !== null) {
@@ -80,6 +80,20 @@ const ClapprComponent = React.memo(
           return <RightArrowSvg w="w-4" h="h-4" color="text-white" />;
       }
     };
+
+    useEffect(() => {
+      let imgPlayIcon = document.querySelector(".img_play_button");
+      imgPlayIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        setIsToggleHiden("hidden");
+      });
+
+      let minimizeIcon = document.querySelector(".minimize_icon");
+      minimizeIcon.addEventListener("click", function (event) {
+        event.stopPropagation();
+        setIsToggleHiden("");
+      });
+    }, []);
 
     useEffect(() => {
       player.current = new Clappr.Player({
@@ -117,8 +131,6 @@ const ClapprComponent = React.memo(
         player.current.core.mediaControl.disable();
       });
 
-      //   player.current.getPlugin("poster").$playWrapper.hide();
-
       let volumeIcon = document.querySelector(".volume_icon");
       volumeIcon.addEventListener("click", function (event) {
         event.stopPropagation();
@@ -155,16 +167,8 @@ const ClapprComponent = React.memo(
           document.getElementById(id).classList.remove("hidden");
           document.getElementById(id).classList.add("block");
 
-          document
-            .querySelector(".player_wrap")
-            .classList.remove("translate-y-[130%]");
-          document
-            .querySelector(".player_wrap")
-            .classList.remove("translate-x-[-130%]");
           document.querySelector(".player_wrap").classList.remove("opacity-0");
 
-          document.querySelector(".player_wrap").classList.add("translate-y-0");
-          document.querySelector(".player_wrap").classList.add("translate-x-0");
           document.querySelector(".player_wrap").classList.add("opacity-100");
 
           document.querySelector(".thumbnail_img").classList.remove("block");
@@ -238,20 +242,8 @@ const ClapprComponent = React.memo(
 
           document
             .querySelector(".player_wrap")
-            .classList.remove("translate-y-0");
-          document
-            .querySelector(".player_wrap")
-            .classList.remove("translate-x-0");
-          document
-            .querySelector(".player_wrap")
             .classList.remove("opacity-100");
 
-          document
-            .querySelector(".player_wrap")
-            .classList.add("translate-y-[130%]");
-          document
-            .querySelector(".player_wrap")
-            .classList.add("translate-x-[-130%]");
           document.querySelector(".player_wrap").classList.add("opacity-0");
 
           document.querySelector(".thumbnail_img").classList.remove("hidden");
@@ -290,7 +282,7 @@ const ClapprComponent = React.memo(
           }}
         >
           <div
-            className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily} transform translate-y-[130%] translate-x-[-130%] opacity-0 transition duration-500 ease-in-out`}
+            className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily} player_anim opacity-0 transition duration-500 ease-in-out`}
           >
             <div ref={player} id={id} className="hidden"></div>
 
@@ -313,12 +305,33 @@ const ClapprComponent = React.memo(
                     >
                       {activeWorkspaceData?.designCustomization?.authorName}
                     </h5>
-                    <div className="minimize_icon cursor-pointer">
-                      <DashSvg
-                        color={
-                          activeWorkspaceData?.colorStudio?.player?.control
-                        }
-                      />
+
+                    <div className="flex">
+                      <div className="flex mr-6">
+                        <div className="inline-block volume_icon cursor-pointer z-30">
+                          <VolumeSvg
+                            color={
+                              activeWorkspaceData?.colorStudio?.player?.control
+                            }
+                          />
+                        </div>
+
+                        <div className="mute_icon hidden cursor-pointer z-30">
+                          <MuteSvg
+                            color={
+                              activeWorkspaceData?.colorStudio?.player?.control
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="minimize_icon cursor-pointer">
+                        <DashSvg
+                          color={
+                            activeWorkspaceData?.colorStudio?.player?.control
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -351,22 +364,6 @@ const ClapprComponent = React.memo(
                     </div>
 
                     <div className="flex flex-col">
-                      <div className="mb-6 inline-block volume_icon cursor-pointer z-30">
-                        <VolumeSvg
-                          color={
-                            activeWorkspaceData?.colorStudio?.player?.control
-                          }
-                        />
-                      </div>
-
-                      <div className="mb-6 mute_icon hidden cursor-pointer z-30">
-                        <MuteSvg
-                          color={
-                            activeWorkspaceData?.colorStudio?.player?.control
-                          }
-                        />
-                      </div>
-
                       <div className="play_icon cursor-pointer hidden z-30">
                         <PlayerPlaySvg
                           color={
@@ -395,7 +392,7 @@ const ClapprComponent = React.memo(
                 >
                   <button
                     type="button"
-                    className={`btn h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
+                    className={`btn cta_show h-auto ${activeWorkspaceData?.callToAction?.buttonStyle}
                     ${activeWorkspaceData?.callToAction?.buttonCorner} min-h-[2rem] w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
                     style={{
                       backgroundColor:
@@ -448,7 +445,7 @@ const ClapprComponent = React.memo(
               "bottom-0 left-3"
             } block thumbnail_img ${
               activeWorkspaceData?.designCustomization?.toggle?.animation
-            }`}
+            } ${isToggleHiden}`}
             style={{
               marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
               marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
@@ -535,7 +532,7 @@ const ClapprComponent = React.memo(
               "bottom-0 left-3"
             } block thumbnail_img ${
               activeWorkspaceData?.designCustomization?.toggle?.animation
-            }`}
+            } ${isToggleHiden}`}
             style={{
               marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
               marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
@@ -983,12 +980,10 @@ const Customization = () => {
 
     if (name === "video") {
       handleSubmit((data) => {
-        console.log(data, "dd");
         onSubmit(data);
       })();
     } else {
       handleSubmit(({ video, ...data }) => {
-        console.log(data, "ddd");
         onSubmit(data);
       })();
     }

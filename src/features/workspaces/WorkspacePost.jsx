@@ -44,7 +44,7 @@ const WorkspacePost = ({
       : defaultWorkspaceImage
   );
 
-  const [playIcon, setPlayIcon] = useState(false);
+  const [showPlayer, setShowPlayer] = useState(false);
 
   const mouseOver = () => {
     setDefaultWorkspaceImg(
@@ -52,8 +52,6 @@ const WorkspacePost = ({
         ? baseURL + "/" + item?.video?.animatedImage
         : defaultWorkspaceWebp
     );
-
-    setPlayIcon(true);
   };
 
   const mouseOut = () => {
@@ -66,24 +64,88 @@ const WorkspacePost = ({
             item?.video?.thumbnail
         : defaultWorkspaceImage
     );
-
-    setPlayIcon(false);
   };
 
   const editWorkspaceHandler = () => {
-    // console.log(item._id, "item");
     onEditHandler(item._id);
   };
 
   const deleteWorkspaceHandler = () => {
-    // console.log(item._id, "item");
     onDeleteHandler(item._id);
   };
 
   const duplicateWorkspaceHandler = () => {
-    // console.log(item._id, "duplicate item id");
     onDuplicateHandler(item._id);
   };
+
+  function ClapprPlayer({ id, source, item }) {
+    useEffect(() => {
+      let clappr_player = null;
+      var playerElement = document.getElementById(id);
+      clappr_player = new Clappr.Player({
+        source: source,
+        // plugins: [Video360],
+        width: "100%",
+        height: "434",
+        autoPlay: true,
+        loop: true,
+
+        playback: {
+          controls: true,
+        },
+        includeResetStyle: false,
+      });
+
+      clappr_player.attachTo(playerElement);
+
+      // console.log("id", id + "play");
+
+      if (!showPlayer) {
+        let playAreaButton = document.getElementById(id + "play");
+        playAreaButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          clappr_player.play();
+          setShowPlayer(true);
+        });
+      }
+
+      // remove live control bar
+      clappr_player.on(Clappr.Events.PLAYER_PLAY, function () {
+        clappr_player.core.mediaControl.disable();
+      });
+
+      return () => {
+        clappr_player.destroy();
+        clappr_player = null;
+      };
+    }, [id]);
+
+    return (
+      <div className="inline-block w-full">
+        {!showPlayer && (
+          <>
+            <img
+              src={defaultWorkspaceImg}
+              alt={item?.name}
+              className="h-[440px] w-full object-cover rounded-t-2xl block poster_img"
+            />
+
+            <img
+              src={playVideoIcon}
+              className={`absolute left-0 right-0 top-0 bottom-0 m-auto cursor-pointer`}
+              id={id + "play"}
+            />
+          </>
+        )}
+
+        {showPlayer && (
+          <div className="inline-block w-full h-full rounded-t-2xl overflow-hidden">
+            <div className="clappr-player h-full" id={id} />
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -97,18 +159,11 @@ const WorkspacePost = ({
             onMouseOver={mouseOver}
             onMouseLeave={mouseOut}
           >
-            <img
-              src={defaultWorkspaceImg}
-              alt={item?.name}
-              className="h-[340px] w-full object-cover rounded-t-2xl block poster_img"
+            <ClapprPlayer
+              id={item?._id}
+              source={baseURL + "/" + item?.video?.path}
+              item={item}
             />
-
-            {!playIcon && (
-              <img
-                src={playVideoIcon}
-                className="absolute left-0 right-0 top-0 bottom-0 m-auto cursor-pointer"
-              />
-            )}
           </div>
 
           <div className="inline-block w-full p-4 bg-white rounded-b-2xl">

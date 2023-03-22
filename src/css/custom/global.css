@@ -117,3 +117,33 @@ body {
     transform: scale(1);
   }
 }
+
+.player_anim {
+  animation: playerShow ease-in-out infinite;
+}
+
+@keyframes playerShow {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.cta_show {
+  animation: ctaShow 3s ease-in-out 1;
+}
+
+@keyframes ctaShow {
+  0% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
