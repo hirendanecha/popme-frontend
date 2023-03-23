@@ -141,32 +141,18 @@ const WorkspacePost = ({
       });
 
       return () => {
-        myRef.current.destroy();
-        myRef.current = null;
+        if (myRef.current) {
+          myRef.current.destroy();
+          myRef.current = null;
+        }
       };
     }, [id]);
 
     return (
       <div className="inline-block w-full">
-        {/* {!showPlayer && (
-          <>
-            <img
-              src={defaultWorkspaceImg}
-              alt={item?.name}
-              className="h-[440px] w-full object-cover rounded-t-2xl block poster_img"
-            />
-
-            <img
-              src={playVideoIcon}
-              className={`absolute left-0 right-0 top-0 bottom-0 m-auto cursor-pointer`}
-              id={id + "play"}
-            />
-          </>
-        )} */}
-
-        <div className="inline-block w-full h-full rounded-t-2xl overflow-hidden">
+        <div className="inline-block w-full h-full rounded-t-xl overflow-hidden">
           <div
-            className="clappr-player h-full clappr_player_custom"
+            className="clappr-player h-full clappr_player_customm"
             id={id}
             ref={addToRefs}
           />
@@ -175,10 +161,54 @@ const WorkspacePost = ({
     );
   }
 
+  function fromNow(
+    date,
+    nowDate = Date.now(),
+    rft = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" })
+  ) {
+    const SECOND = 1000;
+    const MINUTE = 60 * SECOND;
+    const HOUR = 60 * MINUTE;
+    const DAY = 24 * HOUR;
+    const WEEK = 7 * DAY;
+    const MONTH = 30 * DAY;
+    const YEAR = 365 * DAY;
+    const intervals = [
+      { ge: YEAR, divisor: YEAR, unit: "year" },
+      { ge: MONTH, divisor: MONTH, unit: "month" },
+      { ge: WEEK, divisor: WEEK, unit: "week" },
+      { ge: DAY, divisor: DAY, unit: "day" },
+      { ge: HOUR, divisor: HOUR, unit: "hour" },
+      { ge: MINUTE, divisor: MINUTE, unit: "minute" },
+      { ge: 30 * SECOND, divisor: SECOND, unit: "seconds" },
+      { ge: 0, divisor: 1, text: "just now" },
+    ];
+    const now =
+      typeof nowDate === "object"
+        ? nowDate.getTime()
+        : new Date(nowDate).getTime();
+    const diff =
+      now - (typeof date === "object" ? date : new Date(date)).getTime();
+    const diffAbs = Math.abs(diff);
+    for (const interval of intervals) {
+      if (diffAbs >= interval.ge) {
+        const x = Math.round(Math.abs(diff) / interval.divisor);
+        const isFuture = diff < 0;
+        return interval.unit
+          ? rft.format(isFuture ? x : -x, interval.unit)
+          : interval.text;
+      }
+    }
+  }
+
+  let hih = fromNow(new Date(item?.updatedAt));
+
+  console.log("hih", hih);
+
   return (
     <>
       <div
-        className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-2xl"
+        className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl"
         key={item._id}
       >
         <div className="flex flex-col workspace_wraper">
@@ -194,15 +224,19 @@ const WorkspacePost = ({
             />
           </div>
 
-          <div className="inline-block w-full p-4 bg-white rounded-b-2xl">
-            <div className="flex justify-between items-baseline mb-5">
+          <div className="inline-block w-full p-4 bg-white rounded-b-xl">
+            <div className="flex justify-between items-center mb-5">
               <div className="flex flex-col">
                 <h4 className=" text-primary-normal text-lg font-bold">
                   {item?.name}
                 </h4>
 
-                <p className="text-primary-normal text-sm line-clamp-4 min-h-[89px]">
+                {/* <p className="text-primary-normal text-sm line-clamp-4 min-h-[89px]">
                   {item?.description}
+                </p> */}
+
+                <p className="text-primary-light text-sm">
+                  Uploaded {fromNow(new Date(item?.createdAt))}
                 </p>
               </div>
 

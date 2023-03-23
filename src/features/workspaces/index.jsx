@@ -227,7 +227,7 @@ const Workspaces = () => {
   return (
     <div className="min-h-screen py-8 px-4 lg:px-6">
       <div className="inline-block w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
           {workspacePosts &&
             workspacePosts?.length > 0 &&
             workspacePosts?.map((item, index) => (
@@ -246,7 +246,7 @@ const Workspaces = () => {
               <div className="inline-block w-full p-4">
                 <div
                   onClick={createNewWorkspaceHandler}
-                  className="flex flex-col justify-center items-center border-4 border-dashed border-borderColor-main h-[404px]"
+                  className="flex flex-col justify-center items-center border-4 border-dashed border-borderColor-main h-[448px]"
                 >
                   {PlusIcon()}
                   <h3 className="text-lg text-primary-normal">
@@ -260,14 +260,6 @@ const Workspaces = () => {
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col">
                     <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
-                      // workspacePosts &&
-                      // workspacePosts?.length > 0 &&
-                      // workspacePosts?.length + 1
-
-                      // newWorkspaceNum &&
-                      // newWorkspaceNum > 0 &&
-                      // newWorkspaceNum + 1
-
                       data?.data?.workspaceIndex + 1
                     }`}</h4>
                     <p className="text-primary-normal text-sm">

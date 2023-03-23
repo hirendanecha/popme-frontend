@@ -31,7 +31,7 @@ const NewTextArea = ({
         {register ? (
           <>
             <textarea
-              className={`textarea textarea-bordered w-full text-primary-main bg-white focus:outline-none border-borderColor-main h-24 ${inputStyle}`}
+              className={`textarea [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl textarea-bordered w-full text-primary-main bg-white focus:outline-none border-borderColor-main h-24 ${inputStyle}`}
               placeholder={placeholder || ""}
               {...register(name, {
                 required: false,

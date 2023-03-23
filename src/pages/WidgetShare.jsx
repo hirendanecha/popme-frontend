@@ -89,7 +89,7 @@ const WidgetShare = () => {
       player.current = new Clappr.Player({
         source: source,
         // poster: "http://clappr.io/poster.png",
-        parentId: "#share_player",
+        parentId: `#${id}`,
         height,
         width,
         autoPlay: true,
@@ -244,11 +244,11 @@ const WidgetShare = () => {
                 background: `linear-gradient(180deg, transparent 60%, ${workspaceData?.colorStudio?.general?.gradientOverlay} 100%)`,
               }}
             >
-              <div className="flex justify-between w-full p-4 h-full">
+              <div className="flex justify-between w-full px-6 pt-5 pb-2 h-full">
                 <div className="flex justify-between play_area_button flex-col z-20">
                   <div className="flex justify-between">
                     <h5
-                      className="text-white text-base"
+                      className="text-white text-base font-medium"
                       style={{
                         fontSize: `${workspaceData?.fontStudio?.authorName}px`,
                         color: workspaceData?.colorStudio?.player?.authorName,
@@ -257,7 +257,7 @@ const WidgetShare = () => {
                       {workspaceData?.designCustomization?.authorName}
                     </h5>
 
-                    <div className="flex">
+                    <div className="flex items-center">
                       <div className="flex mr-6">
                         <div className="inline-block volume_icon cursor-pointer z-30">
                           <VolumeSvg
@@ -323,7 +323,7 @@ const WidgetShare = () => {
                       </div>
                     </div>
 
-                    <div className="flex mb-[26px]">
+                    <div className="flex mb-[20px]">
                       {/* <Button
                         text="Try for free"
                         rightIcon={RightArrowSvg({
@@ -341,7 +341,7 @@ const WidgetShare = () => {
                       >
                         <button
                           type="button"
-                          className={`btn cta_show ${workspaceData?.callToAction?.buttonStyle}
+                          className={`btn whitespace-normal cta_show ${workspaceData?.callToAction?.buttonStyle}
                     ${workspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
                           style={{
                             backgroundColor:
@@ -359,15 +359,18 @@ const WidgetShare = () => {
                                 ?.buttonText,
 
                             height: "auto",
-                            padding: "0",
+                            minHeight: "38px",
+
+                            paddingTop: "6px",
+                            paddingBottom: "6px",
                           }}
                         >
                           <span
                             className="flex gap-3 items-center justify-center flex-wrap"
-                            style={{
-                              padding: `${+workspaceData?.fontStudio
-                                ?.ctaButton}px`,
-                            }}
+                            // style={{
+                            //   padding: `${+workspaceData?.fontStudio
+                            //     ?.ctaButton}px`,
+                            // }}
                           >
                             {workspaceData?.callToAction?.buttonText ||
                               "Try for free"}
@@ -380,7 +383,7 @@ const WidgetShare = () => {
                 </div>
               </div>
 
-              <div className="absolute bottom-0 flex w-full">
+              <div className="absolute bottom-[2px] flex w-full px-2">
                 {/* <progress
                   className="progress progress-accent bg-opacity-60 w-full"
                   value="70"
@@ -389,7 +392,7 @@ const WidgetShare = () => {
                 ></progress> */}
 
                 <div
-                  className="flex bg-secondary-main h-[6px] rounded-tr-xl"
+                  className="flex bg-secondary-main h-[7px] rounded-xl"
                   id="progress_calcc"
                   style={{
                     background: workspaceData?.colorStudio?.player?.seeker,
@@ -410,8 +413,8 @@ const WidgetShare = () => {
           <ClapprComponent
             id="share_player"
             source={baseURL + "/" + workspaceData?.video?.path}
-            height={500}
-            width={280}
+            height={664}
+            width={336}
           />
         )}
       </div>
