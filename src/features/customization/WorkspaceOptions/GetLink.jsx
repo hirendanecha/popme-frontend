@@ -45,7 +45,7 @@ const GetLink = ({ register }) => {
                 Share Link
               </h4>
               <div className="flex mb-6">
-                <ClipBoardSvg width="60" />
+                <ClipBoardSvg width="90" height="50" />
 
                 <p className="text-base text-[#202223] ml-3">
                   You can share your facepop widget through a direct link

@@ -46,6 +46,7 @@ import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 import { useLocation } from "react-router-dom";
 import CalendarSvg from "../../assets/svgs/CalendarSvg";
+import logo from "../../assets/images/old-sidebar-logo.png";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -98,8 +99,7 @@ const ClapprComponent = React.memo(
     useEffect(() => {
       player.current = new Clappr.Player({
         source: source,
-        // poster: { poster },
-        parentId: "#player",
+        parentId: `#${id}`,
         height,
         width,
         // autoPlay: true,
@@ -125,6 +125,15 @@ const ClapprComponent = React.memo(
             }
           },
         },
+      });
+
+      if (document.getElementById(id).classList.contains("block")) {
+        player.current.play();
+      }
+
+      player.current.resize({
+        height: activeWorkspaceData?.designCustomization?.player?.height,
+        width: activeWorkspaceData?.designCustomization?.player?.size,
       });
 
       player.current.on(window.Clappr.Events.PLAYER_PLAY, function () {
@@ -167,9 +176,9 @@ const ClapprComponent = React.memo(
           document.getElementById(id).classList.remove("hidden");
           document.getElementById(id).classList.add("block");
 
-          document.querySelector(".player_wrap").classList.remove("opacity-0");
+          // document.querySelector(".player_wrap").classList.remove("opacity-0");
 
-          document.querySelector(".player_wrap").classList.add("opacity-100");
+          // document.querySelector(".player_wrap").classList.add("opacity-100");
 
           document.querySelector(".thumbnail_img").classList.remove("block");
           document.querySelector(".thumbnail_img").classList.add("hidden");
@@ -240,11 +249,11 @@ const ClapprComponent = React.memo(
           document.querySelector(".player_wrap").classList.remove("z-10");
           document.querySelector(".player_wrap").classList.add("z-0");
 
-          document
-            .querySelector(".player_wrap")
-            .classList.remove("opacity-100");
+          // document
+          //   .querySelector(".player_wrap")
+          //   .classList.remove("opacity-100");
 
-          document.querySelector(".player_wrap").classList.add("opacity-0");
+          // document.querySelector(".player_wrap").classList.add("opacity-0");
 
           document.querySelector(".thumbnail_img").classList.remove("hidden");
           document.querySelector(".thumbnail_img").classList.add("block");
@@ -257,7 +266,14 @@ const ClapprComponent = React.memo(
         document.querySelector(".thumbnail_img").classList.remove("block");
         document.querySelector(".thumbnail_img").classList.add("hidden");
       });
-    }, []);
+
+      return () => {
+        if (player.current) {
+          player.current.destroy();
+          player.current = null;
+        }
+      };
+    }, [activeWorkspaceData]);
 
     return (
       <>
@@ -272,17 +288,16 @@ const ClapprComponent = React.memo(
         </div> */}
 
         <div
-          // className={`absolute bottom-0 left-3 rounded-lg overflow-hidden`}
           className={`absolute ${
             activeWorkspaceData?.basicSetUp?.videoPosition || "bottom-0 left-3"
-          } rounded-lg overflow-hidden`}
+          } rounded-2xl overflow-hidden`}
           style={{
             marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
             marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
           }}
         >
           <div
-            className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily} player_anim opacity-0 transition duration-500 ease-in-out`}
+            className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily} player_anim transition duration-500 ease-in-out`}
           >
             <div
               ref={player}
@@ -296,11 +311,11 @@ const ClapprComponent = React.memo(
                 background: `linear-gradient(180deg, transparent 60%, ${activeWorkspaceData?.colorStudio?.general?.gradientOverlay} 100%)`,
               }}
             >
-              <div className="flex justify-between w-full p-4 h-full">
+              <div className="flex justify-between w-full px-6 pt-5 pb-2 h-full">
                 <div className="flex justify-between flex-col w-full play_area_button z-20">
                   <div className="flex justify-between">
                     <h5
-                      className="text-white text-base"
+                      className="text-white text-base font-medium"
                       style={{
                         fontSize: `${activeWorkspaceData?.fontStudio?.authorName}px`,
                         color:
@@ -310,7 +325,7 @@ const ClapprComponent = React.memo(
                       {activeWorkspaceData?.designCustomization?.authorName}
                     </h5>
 
-                    <div className="flex">
+                    <div className="flex items-center">
                       <div className="flex mr-6">
                         <div className="inline-block volume_icon cursor-pointer z-30">
                           <VolumeSvg
@@ -387,7 +402,7 @@ const ClapprComponent = React.memo(
                       </div>
                     </div>
 
-                    <div className="flex mb-[26px]">
+                    <div className="flex mb-[20px]">
                       <Link
                         to={activeWorkspaceData?.callToAction?.destinationUrl}
                         target="_blank"
@@ -395,7 +410,7 @@ const ClapprComponent = React.memo(
                       >
                         <button
                           type="button"
-                          className={`btn cta_show ${activeWorkspaceData?.callToAction?.buttonStyle}
+                          className={`btn whitespace-normal cta_show ${activeWorkspaceData?.callToAction?.buttonStyle}
                     ${activeWorkspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
                           style={{
                             backgroundColor:
@@ -413,15 +428,21 @@ const ClapprComponent = React.memo(
                                 ?.buttonText,
 
                             height: "auto",
-                            padding: "0",
+                            minHeight: "38px",
+
+                            paddingTop: "6px",
+                            paddingBottom: "6px",
+
+                            // minHeight: "32px",
+                            // padding: "0",
                           }}
                         >
                           <span
-                            className="flex gap-3 items-center justify-between flex-wrap"
-                            style={{
-                              padding: `${+activeWorkspaceData?.fontStudio
-                                ?.ctaButton}px`,
-                            }}
+                            className="flex gap-3 items-center justify-center flex-wrap font-medium"
+                            // style={{
+                            //   padding: `${+activeWorkspaceData?.fontStudio
+                            //     ?.ctaButton}px`,
+                            // }}
                           >
                             {activeWorkspaceData?.callToAction?.buttonText ||
                               "Try for free"}
@@ -434,16 +455,9 @@ const ClapprComponent = React.memo(
                 </div>
               </div>
 
-              <div className="absolute bottom-0 flex w-full">
-                {/* <progress
-                  className="progress progress-accent bg-opacity-60 w-full"
-                  value="70"
-                  max="100"
-                  id="progress_bar"
-                ></progress> */}
-
+              <div className="absolute bottom-[2px] flex w-full px-2">
                 <div
-                  className="flex bg-secondary-main h-[6px] rounded-tr-xl"
+                  className="flex bg-secondary-main h-[7px] rounded-xl"
                   id="progress_calc"
                   style={{
                     background:
@@ -473,12 +487,15 @@ const ClapprComponent = React.memo(
                 src={poster && poster}
                 // src={animatedImage ? animatedImage : workspace1}
                 alt="workspace1"
-                className="object-cover rounded-lg"
+                className="object-cover rounded-xl"
                 style={{
-                  width:
-                    activeWorkspaceData?.designCustomization?.player?.size *
-                    (activeWorkspaceData?.designCustomization?.toggle?.size /
-                      100),
+                  // width:
+                  //   activeWorkspaceData?.designCustomization?.player?.size *
+                  //   (activeWorkspaceData?.designCustomization?.toggle?.size /
+                  //     100),
+
+                  width: "100%",
+                  maxWidth: "168px",
 
                   height:
                     activeWorkspaceData?.designCustomization?.player?.height *
@@ -486,6 +503,14 @@ const ClapprComponent = React.memo(
                       100),
                 }}
               />
+
+              <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
+                <img
+                  src={logo}
+                  alt="logo"
+                  className="w-[40px] h-[30px] object-contain"
+                />
+              </div>
 
               <div
                 className="absolute right-[-20px] top-[-20px] close_thumbnail_svg"
@@ -495,8 +520,6 @@ const ClapprComponent = React.memo(
                       ?.showCloseIcon && "none",
                 }}
               >
-                {/* <CloseCircle /> */}
-
                 <div
                   className="p-1 rounded-full"
                   style={{
@@ -535,7 +558,7 @@ const ClapprComponent = React.memo(
                       : "block",
                   }}
                 >
-                  <PlayerPlaySvg
+                  <PlayButtonSvg
                     color={activeWorkspaceData?.colorStudio?.toggle?.playIcon}
                   />
                 </div>
@@ -561,6 +584,14 @@ const ClapprComponent = React.memo(
                 alt="workspace1"
                 className="h-[178px] w-[178px] object-cover rounded-full"
               />
+
+              <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
+                <img
+                  src={logo}
+                  alt="logo"
+                  className="w-[40px] h-[30px] object-contain"
+                />
+              </div>
 
               <div
                 className="absolute right-[-10px] top-[-10px] close_thumbnail_svg"
@@ -610,7 +641,7 @@ const ClapprComponent = React.memo(
                       : "block",
                   }}
                 >
-                  <PlayerPlaySvg
+                  <PlayButtonSvg
                     color={activeWorkspaceData?.colorStudio?.toggle?.playIcon}
                   />
                 </div>
@@ -778,13 +809,6 @@ const Customization = () => {
 
   useEffect(() => {
     if (data) {
-      // console.log(data, "nhj");
-
-      // setThemColorValue(
-      //   data?.data?.colorStudio?.callToAction?.buttonBackground
-      // );
-
-      // console.log("useEffect for data")
       reset({
         basicSetUp: {
           previewStyle: data?.data?.basicSetUp?.previewStyle
@@ -1185,7 +1209,7 @@ const Customization = () => {
                   <Button
                     type="submit"
                     text="Save"
-                    buttonClass="w-32 text-base max-w-full h-[2.50rem] min-h-[2.50rem]"
+                    buttonClass="w-32 text-base max-w-full h-[2.40rem] min-h-[2.40rem]"
                   />
                 </div>
               </div>

@@ -1,11 +1,11 @@
 import React from "react";
 
-const PlayButtonSvg = () => {
+const PlayButtonSvg = ({ color = "white" }) => {
   return (
     <>
       <svg
-        width="24"
-        height="24"
+        width="2.625rem"
+        height="2.625rem"
         viewBox="0 0 23 26"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +13,7 @@ const PlayButtonSvg = () => {
         <g filter="url(#filter0_d_457_1276)">
           <path
             d="M6.23177 3.31502C5.57656 2.90884 4.75312 2.89545 4.08464 3.27485C3.41615 3.65424 3 4.3684 3 5.14505V20.8566C3 21.6332 3.41615 22.3474 4.08464 22.7268C4.75312 23.1062 5.57656 23.0883 6.23177 22.6866L18.9818 14.8308C19.6148 14.4425 20 13.7507 20 13.0008C20 12.2509 19.6148 11.5636 18.9818 11.1708L6.23177 3.31502Z"
-            fill="white"
+            fill={color}
           />
         </g>
         <defs>

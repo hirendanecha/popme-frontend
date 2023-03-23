@@ -148,11 +148,23 @@ body {
   }
 }
 
-.clappr_player_custom video {
+.clappr_player_custom video,
+.clappr_player_customm video {
   object-fit: cover;
 }
 
-.clappr_player_custom .play-wrapper {
+.clappr_player_custom .play-wrapper,
+.clappr_player_customm .play-wrapper {
   display: flex;
   justify-content: center;
+}
+
+.clappr_player_customm .play-wrapper {
+  background-image: url("../../assets/images/playVideoIcon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.clappr_player_customm .play-wrapper svg {
+  display: none !important;
 }
