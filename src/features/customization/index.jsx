@@ -1304,9 +1304,8 @@ const Customization = () => {
                   // removeImage={(e) => removeImage(e)}
                 />
               </li>
-
               <li>
-                <CallToActionModal
+              <CallToActionModal
                   register={register}
                   valueChangeHandler={valueChangeHandler}
                 />
@@ -1318,7 +1317,7 @@ const Customization = () => {
                   valueChangeHandler={valueChangeHandler}
                 />
               </li>
-
+              
               <li>
                 <ColorStudio
                   register={register}
@@ -1328,25 +1327,24 @@ const Customization = () => {
                   setValue={setValue}
                 />
               </li>
-
               <li>
                 <FontStudio
                   register={register}
                   valueChangeHandler={valueChangeHandler}
                 />
               </li>
-
               <li>
                 <Preview register={register} />
               </li>
-
               <li>
                 <GetLink register={register} />
               </li>
-
               <li>
                 <InstantEmbed register={register} />
-              </li>
+              </li> 
+              
+              
+
             </ul>
           </div>
         </div>

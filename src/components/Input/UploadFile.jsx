@@ -74,7 +74,7 @@ const UploadFile = ({
       )}
 
       {(fileName || watch(name)) && (
-        <p className="mt-3 text-sm text-primary-normal">
+        <p className="mt-3 text-sm text-primary-normal flex justify-start">
           {fileName ? fileName : watch(name)}
         </p>
       )}
