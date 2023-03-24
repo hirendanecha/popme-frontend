@@ -72,7 +72,7 @@ const ColorPickerInput = ({
   return (
     <>
       <div
-        className={`form-control w-full h-12 border border-borderColor-main rounded-lg ${containerStyle}`}
+        className={`form-control w-full h-12 mb-2 border border-borderColor-main rounded-lg ${containerStyle}`}
       >
         <label
           className="flex h-full items-center justify-between px-4"

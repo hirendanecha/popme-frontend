@@ -11,7 +11,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
 
   return (
     <>
-      <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+      {/* <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
         <div
           tabIndex={3}
           className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
@@ -22,8 +22,21 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
             Design Customization
           </div>
 
-          <div className="collapse-content p-0">
-            <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+          <div className="collapse-content p-0"> */}
+<div className="flex flex-col w-full p-0 active:bg-transparent hover:bg-transparent">
+                  <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
+                    <div className="flex items-center justify-between h-16 px-3 font-semibold">
+                      <span className="truncate text-xl text-gray-600">Design Customization</span>
+                      <svg className="mx-2" width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 1L8 8L1 1" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                    </div>
+                    <div className="max-h-0 overflow-auto duration-300 group-focus:max-h-screen focus-within:max-h-screen [&::-webkit-scrollbar]:hidden">
+                     
+
+
+            {/* <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main"> */}
+            <div className="px-4 pb-3 border-b">
               <NewInputText
                 type="text"
                 labelTitle="Author Name"
@@ -32,8 +45,10 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 name="designCustomization.authorName"
                 register={register}
                 valueChangeHandler={valueChangeHandler}
-              />
+                />
+                {/* </div>
 
+<div className="px-4"> */}
               <InputWithIcon
                 type="number"
                 labelTitle="Vertical Margin"
@@ -44,8 +59,9 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 rightText="px"
                 valueChangeHandler={valueChangeHandler}
                 max="500"
-              />
-
+                />
+                {/* </div>
+<div className="px-4 "> */}
               <InputWithIcon
                 type="number"
                 labelTitle="Horizontal Margin"
@@ -56,13 +72,17 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 rightText="px"
                 valueChangeHandler={valueChangeHandler}
                 max="500"
-              />
-            </div>
+                />
+                </div>
+            {/* </div> */}
+
+            {/* //--------- */}
 
             <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
-              <h4 className="text-xl font-bold text-primary-normal py-4">
+              <h4 className="text-xl text-left font-bold text-primary-normal py-4">
                 Toggle
               </h4>
+                  
 
               <InputWithIcon
                 type="number"
@@ -124,10 +144,12 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 placeholder
                 valueChangeHandler={valueChangeHandler}
               />
+              
             </div>
+            {/* </div> */}
 
-            <div className="flex flex-col px-4">
-              <h4 className="text-xl font-bold text-primary-normal py-4">
+            <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
+              <h4 className="text-xl text-left font-bold text-primary-normal py-4">
                 Player
               </h4>
 
@@ -142,6 +164,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 valueChangeHandler={valueChangeHandler}
               />
 
+           
               <InputWithIcon
                 type="number"
                 labelTitle="Height"
@@ -168,8 +191,14 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 valueChangeHandler={valueChangeHandler}
               />
             </div>
+
           </div>
+
+
+          {/* </div>
         </div>
+      </div> */}
+      </button>
       </div>
     </>
   );

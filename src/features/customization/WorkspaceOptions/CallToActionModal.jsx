@@ -39,7 +39,7 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
 
   return (
     <>
-      <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+      {/* <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
         <div
           tabIndex={2}
           className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
@@ -49,8 +49,21 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
           <div className="collapse-title text-xl font-bold text-primary-normal">
             Call To Action
           </div>
-          <div className="collapse-content">
-            <div className="flex flex-col">
+          <div className="collapse-content"> */}
+          <div className="flex flex-col w-full p-0 active:bg-transparent hover:bg-transparent">
+                  <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
+                    <div className="flex items-center justify-between h-16 px-3 font-semibold">
+                      <span className="truncate text-xl text-gray-600">Call To Action</span>
+                      <svg className="mx-2" width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 1L8 8L1 1" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                    </div>
+                    <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-screen focus-within:max-h-screen">
+                      
+
+
+            {/* <div className="flex flex-col"> */}
+            <div className="px-4">
               <NewInputText
                 type="text"
                 labelTitle="Button Text"
@@ -59,8 +72,9 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                 name="callToAction.buttonText"
                 register={register}
                 valueChangeHandler={valueChangeHandler}
-              />
-
+                />
+              </div>
+              <div className="px-4">
               <NewInputText
                 type="url"
                 labelTitle="Destination URL"
@@ -69,10 +83,11 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                 name="callToAction.destinationUrl"
                 register={register}
                 valueChangeHandler={valueChangeHandler}
-              />
+                />
+              </div>
 
-              <div className="flex flex-col mb-3">
-                <h5 className="text-primary-main text-base font-semibold py-2">
+              <div className="flex flex-col mb-3 px-4">
+                <h5 className="text-primary-main text-base font-semibold py-2 text-left">
                   Button Icon
                 </h5>
 
@@ -103,7 +118,7 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                               dangerouslySetInnerHTML={{
                                 __html: conv(item?.svg),
                               }}
-                              className="flex items-center justify-center"
+                              className="flex items-center justify-center -z-10"
                             />
                           </label>
                         </div>
@@ -120,7 +135,7 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                     ? masterWorkspaceOptions?.data?.buttonStyle
                     : []
                 }
-                containerStyle="min-w-[10rem] mb-3"
+                containerStyle="min-w-[18rem] mb-3"
                 selectStyle="text-primary-main"
                 name="callToAction.buttonStyle"
                 register={register}
@@ -136,7 +151,7 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                     ? masterWorkspaceOptions?.data?.buttonCorner
                     : []
                 }
-                containerStyle="min-w-[10rem] mb-3"
+                containerStyle="min-w-[18rem] mb-4 pb-3"
                 selectStyle="text-primary-main"
                 name="callToAction.buttonCorner"
                 register={register}
@@ -144,8 +159,9 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                 valueChangeHandler={valueChangeHandler}
               />
             </div>
-          </div>
-        </div>
+          {/* </div> */}
+        {/* </div> */}
+        </button>
       </div>
     </>
   );

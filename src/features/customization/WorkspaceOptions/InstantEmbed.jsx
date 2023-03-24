@@ -19,7 +19,7 @@ const InstantEmbed = ({ register }) => {
 
   return (
     <>
-      <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
+      {/* <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
         <div
           tabIndex={7}
           className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
@@ -30,8 +30,24 @@ const InstantEmbed = ({ register }) => {
             Instant Embed
           </div>
 
-          <div className="collapse-content">
+          <div className="collapse-content"> */}
+          <div className="flex flex-col w-full p-0 active:bg-transparent hover:bg-transparent">
+                  <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
+                    <div className="flex items-center justify-between h-16 px-3 font-semibold">
+                      <span className="truncate text-xl text-gray-600">Instant Embed</span>
+                      <svg className="mx-2" width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 1L8 8L1 1" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                    </div>
+                    <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-screen focus-within:max-h-screen">
+                     
+
+
+
+
+            <div className="px-4">
             <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -44,14 +60,17 @@ const InstantEmbed = ({ register }) => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                />
+                  />
               </svg>
 
               <p className="text-sm text-secondary-main font-bold ml-3">
                 Connect your website with Answerly and embed any widget with one
                 click.
               </p>
+                  </div>
             </div>
+
+<div className="px-4">
 
             <div className="flex p-3 bg-[#F2F6F0] mb-4">
               <svg
@@ -84,7 +103,7 @@ const InstantEmbed = ({ register }) => {
                   children: <ConnectWebsiteModal />,
                 })
               }
-            />
+              />
 
             {activeWorkspaceData !== null &&
               activeWorkspaceData?.website
@@ -116,7 +135,7 @@ const InstantEmbed = ({ register }) => {
                           selectStyle="text-primary-main"
                           name="instantEmbed.inThisWebsite"
                           // register={register}
-                        />
+                          />
                       </div>
 
                       <div className="flex mb-3">
@@ -138,16 +157,17 @@ const InstantEmbed = ({ register }) => {
                         <Button
                           text="Add conditions"
                           buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                        />
+                          />
                       </div>
                     </div>
                   </div>
                 ))}
+                </div>
 
             {/* <div
               tabIndex={8}
               className="collapse collapse-arrow border border-borderColor-main rounded-lg mb-3"
-            >
+              >
               <input type="checkbox" />
 
               <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
@@ -222,8 +242,11 @@ const InstantEmbed = ({ register }) => {
                 <p>Lorem Ipsum is simply dummy text of the printing.</p>
               </div>
             </div> */}
-          </div>
+          {/* </div>
         </div>
+      </div> */}
+      </div>
+      </button>
       </div>
     </>
   );

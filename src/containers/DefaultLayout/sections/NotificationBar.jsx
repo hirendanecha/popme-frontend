@@ -58,7 +58,7 @@ function NotificationBar() {
               className='float-left btn btn-circle btn-outline btn-sm'
               onClick={() => close()}
             >
-              <XMarkIcon className='h-5 w-5' />
+              <XMarkIcon className='h-6 w-6' />
             </button>
             <span className='ml-2 font-bold text-xl'>{header}</span>
           </div>
