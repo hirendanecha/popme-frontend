@@ -109,26 +109,6 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                         </div>
                       )
                     )}
-
-                  {/* {IconList.map((item, index) => (
-                    <div className="inline-block" key={index}>
-                      <input
-                        type="radio"
-                        id={item?.name}
-                        name="callToAction.buttonIcon"
-                        {...register("callToAction.buttonIcon")}
-                        value={item?.name}
-                        className="hidden peer"
-                      />
-
-                      <label
-                        htmlFor={item?.name}
-                        className="peer-checked:border-secondary-main flex items-center justify-center h-6 w-6 border border-borderColor-main"
-                      >
-                        {item?.icon}
-                      </label>
-                    </div>
-                  ))} */}
                 </div>
               </div>
 

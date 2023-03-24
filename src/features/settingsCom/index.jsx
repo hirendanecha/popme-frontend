@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setPageTitle } from "../../redux/slices/headerSlice";
 import Button from "../../components/Button/Button";
@@ -80,19 +80,24 @@ const SettingsCom = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [checkoutData, setCheckoutData] = useState(null);
+
   const [activeTab, setActiveTab] = useState(1);
 
-  const { data } = useSelector(
-    (state) => state.auth
-  );
+  const { data } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Settings" }));
   }, []);
 
-  const activeTabHandler = (e, id) => {
+  const activeTabHandler = (e, id, data) => {
     e.preventDefault();
     setActiveTab(id);
+
+    if (data) {
+      // console.log("data", data);
+      setCheckoutData(data);
+    }
   };
 
   const CodeBracket = () => (
@@ -167,17 +172,16 @@ const SettingsCom = () => {
     </svg>
   );
 
-
   const logoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(logoutUser())
-    .unwrap()
-    .then((res) => {
-      if (res.success === true) {
-        // console.log(res,"rrr<>")
-        setTimeout(() => {
-          navigate("/login");
-        }, 100);
+      .unwrap()
+      .then((res) => {
+        if (res.success === true) {
+          // console.log(res,"rrr<>")
+          setTimeout(() => {
+            navigate("/login");
+          }, 100);
         }
       })
       .catch((err) => {
@@ -189,6 +193,11 @@ const SettingsCom = () => {
         }
       });
   };
+
+  const checkoutHandler = () => {
+    console.log("checkout");
+  };
+
   return (
     <>
       <div className="inline-block w-full h-full">
@@ -444,6 +453,7 @@ const SettingsCom = () => {
                           <Button
                             text="Select Plan"
                             buttonClass="w-full text-base font-semibold"
+                            clickHandler={(e) => activeTabHandler(e, 3, item)}
                           />
                         )}
                       </div>
@@ -532,6 +542,41 @@ const SettingsCom = () => {
                   Open billing portal
                 </span>
               </div>
+
+              {/* {console.log("checkoutData", checkoutData)} */}
+
+              {checkoutData && (
+                <div className="flex justify-between items-center mt-10">
+                  <div className="flex flex-col">
+                    <h3 className="text-primary-normal font-bold text-2xl">
+                      {checkoutData?.title}
+                    </h3>
+
+                    <p className="text-base text-primary-light">
+                      {checkoutData?.description}
+                    </p>
+
+                    <p className="text-base text-primary-light">
+                      Your payable ammount is{" "}
+                      <span className="text-secondary-main font-bold">
+                        ${checkoutData?.price}
+                      </span>
+                    </p>
+                  </div>
+
+                  <div className="flex">
+                    <Link
+                      to="https://buy.stripe.com/test_aEU2c0c317bh5iMbII"
+                      target="_blank"
+                    >
+                      <Button
+                        text="Paynow"
+                        buttonClass="w-32 text-base max-w-full h-[2.40rem] min-h-[2.40rem]"
+                      />
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
