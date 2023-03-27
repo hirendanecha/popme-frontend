@@ -281,7 +281,7 @@ const WidgetShare = () => {
                   </div>
 
                   <div className="flex flex-col">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-end justify-between">
                       <div className="flex flex-col pr-3">
                         <h4
                           className="text-2xl text-white mb-3 font-bold"
@@ -295,7 +295,7 @@ const WidgetShare = () => {
                         </h4>
 
                         <p
-                          className="text-sm text-white mb-4 line-clamp-5 font-bold"
+                          className="text-sm text-white mb-4 font-bold"
                           style={{
                             fontSize: `${workspaceData?.fontStudio?.videoDescription}px`,
                             color:
@@ -308,7 +308,7 @@ const WidgetShare = () => {
                         </p>
                       </div>
 
-                      <div className="flex flex-col">
+                      <div className="flex flex-col mb-4">
                         <div className="play_icon cursor-pointer hidden z-30">
                           <PlayerPlaySvg
                             color={workspaceData?.colorStudio?.player?.control}

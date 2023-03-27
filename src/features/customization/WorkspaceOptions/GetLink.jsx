@@ -40,21 +40,28 @@ const GetLink = ({ register }) => {
             Get Link
           </div>
           <div className="collapse-content"> */}
-          <div className="flex flex-col w-80 p-0 active:bg-transparent hover:bg-transparent">
-                  <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
-                    <div className="flex items-center justify-between h-16 px-3 font-semibold">
-                      <span className="truncate text-xl text-gray-600">Get Link</span>
-                      <svg className="mx-2" width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15 1L8 8L1 1" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-                    </div>
-                    <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-screen focus-within:max-h-screen">
-                     
-
-
-
-
-
+      <div className="flex flex-col w-80 p-0 active:bg-transparent hover:bg-transparent">
+        <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
+          <div className="flex items-center justify-between h-16 px-3 font-semibold">
+            <span className="truncate text-xl text-gray-600">Get Link</span>
+            <svg
+              className="mx-2"
+              width="16"
+              height="9"
+              viewBox="0 0 16 9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 1L8 8L1 1"
+                stroke="#111827"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-screen focus-within:max-h-screen">
             {/* <div className="flex flex-col"> */}
 
             <div className="px-4">
@@ -80,7 +87,7 @@ const GetLink = ({ register }) => {
                   id="a"
                   onClick={() => navigator.clipboard.writeText(customLink)}
                   className="w-[calc(100%-80px)] inline-block whitespace-nowrap overflow-hidden text-ellipsis"
-                  >
+                >
                   {customLink}
                 </p>
 
@@ -90,13 +97,13 @@ const GetLink = ({ register }) => {
                   </Link>
                 </div>
               </div>
-                  </div>
+            </div>
             {/* </div> */}
             {/* </div>
           </div>
         </div> */}
-      </div>
-      </button>
+          </div>
+        </button>
       </div>
     </>
   );

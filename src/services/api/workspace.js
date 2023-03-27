@@ -43,8 +43,6 @@ const workSpaceAPI = {
 
   // add website
   addWebsiteApi({ data, id }) {
-    // console.log("data", data);
-    // console.log("id", id);
     return axios.put(`/api/workspace/website/${id}`, data);
   },
 

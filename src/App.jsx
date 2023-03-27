@@ -1,20 +1,19 @@
 import React, { lazy, Suspense, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
-import ShareLayout from "./containers/ShareLayout";
 import "./css/style.css";
 
 // Importing pages
 const Layout = lazy(() => import("./containers/DefaultLayout"));
+const ShareLayout = lazy(() => import("./containers/ShareLayout"));
 const Login = lazy(() => import("./pages/Login"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const Register = lazy(() => import("./pages/Register"));
 const EmailVerify = lazy(() => import("./pages/EmailVerify"));
+const CheckoutStatus = lazy(() => import("./pages/CheckoutStatus"));
 
 function App() {
-  const { userToken: token } = useSelector(
-    (state) => state.auth
-  );
+  const { userToken: token } = useSelector((state) => state.auth);
   // console.log({token});
   // const token = localStorage.getItem("token");
   // console.log("token",!token)
@@ -49,15 +48,17 @@ function App() {
   return (
     <Suspense fallback={<>Loading... </>}>
       <Routes>
-        {!token && 
+        {!token &&
           publicRoutes.map(({ path, element: E, ...props }, index) => (
             <Route path={path} element={<E />} {...props} key={index} />
-            ))}
+          ))}
 
         <Route path="/*" element={<ShareLayout />} />
+
         {/* Place new routes over this */}
         <Route path="/app/*" element={<Layout />} />
-        {/* <Route path="/share/*" element={<ShareLayout />} /> */}
+
+        <Route path="/callback" element={<CheckoutStatus />} />
 
         <Route
           path="/*"

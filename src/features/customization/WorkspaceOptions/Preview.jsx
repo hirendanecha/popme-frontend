@@ -40,20 +40,28 @@ const Preview = ({ register }) => {
           </div>
 
           <div className="collapse-content"> */}
-<div className="flex flex-col w-full p-0 active:bg-transparent hover:bg-transparent">
-                  <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
-                    <div className="flex items-center justify-between h-16 px-3 font-semibold">
-                      <span className="truncate text-xl text-gray-600">Preview</span>
-                      <svg className="mx-2" width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15 1L8 8L1 1" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-                    </div>
-                    <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-screen focus-within:max-h-screen">
-                     
-
-
-
-
+      <div className="flex flex-col w-full p-0 active:bg-transparent hover:bg-transparent">
+        <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
+          <div className="flex items-center justify-between h-16 px-3 font-semibold">
+            <span className="truncate text-xl text-gray-600">Preview</span>
+            <svg
+              className="mx-2"
+              width="16"
+              height="9"
+              viewBox="0 0 16 9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 1L8 8L1 1"
+                stroke="#111827"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-screen focus-within:max-h-screen">
             {/* <div className="flex flex-col"> */}
             <div className="px-4 pb-4">
               <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
@@ -64,7 +72,7 @@ const Preview = ({ register }) => {
                   without embedding it.
                 </p>
               </div>
-            {/* </div>
+              {/* </div>
 
 <div className="px-4"> */}
               <div className="flex p-3 bg-[#F2F6F0]">
@@ -75,7 +83,7 @@ const Preview = ({ register }) => {
                   without embedding it.
                 </p>
               </div>
-{/* </div>
+              {/* </div>
 
 <div className="px-4"> */}
               <NewInputText
@@ -88,8 +96,8 @@ const Preview = ({ register }) => {
                 // register={register}
                 defaultValue={userWebsite}
                 updateFormValue={updateValue}
-                />
-                {/* </div>
+              />
+              {/* </div>
 
 <div className="px-4"> */}
               <div className="flex items-center mb-6">
@@ -97,12 +105,14 @@ const Preview = ({ register }) => {
 
                 {activeWorkspaceData !== null && (
                   <Link
-                  // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
+                    // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
+
                     to={`${window?.location?.origin}/preview/${btoa(
                       `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
                     )}?site=https://${userWebsite}`}
                     target="_blank"
-                    
+
+                    // to="https://stripe.com/docs/stripe-js/react"
                     // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}
                   >
                     <p className="text-base text-secondary-main font-bold ml-2">
@@ -113,9 +123,9 @@ const Preview = ({ register }) => {
                   </Link>
                 )}
               </div>
-                </div>
+            </div>
 
-              {/* <div className="flex flex-col">
+            {/* <div className="flex flex-col">
                 <h5 className="text-primary-main text-base font-semibold py-2 mb-1">
                   Preview via custom domain
                 </h5>
@@ -126,11 +136,11 @@ const Preview = ({ register }) => {
                 />
               </div> */}
             {/* </div> */}
-          {/* </div>
+            {/* </div>
         </div>
       </div> */}
-      </div>
-      </button>
+          </div>
+        </button>
       </div>
     </>
   );
