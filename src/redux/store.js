@@ -5,6 +5,7 @@ import rightDrawerSlice from "./slices/rightDrawerSlice";
 import authSlice from "./slices/authSlice";
 import newModalSlice from "./slices/newModalSlice";
 import workspaceSlice from "../features/workspaces/reducer/workspaceSlice";
+import settingSlice from "../features/settingsCom/reducer/settingSlice";
 
 const combinedReducer = {
   header: headerSlice,
@@ -13,6 +14,7 @@ const combinedReducer = {
   auth: authSlice,
   modal: newModalSlice,
   workspace: workspaceSlice,
+  setting: settingSlice,
 };
 
 export default configureStore({

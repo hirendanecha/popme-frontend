@@ -203,8 +203,6 @@ const WorkspacePost = ({
 
   let hih = fromNow(new Date(item?.updatedAt));
 
-  console.log("hih", hih);
-
   return (
     <>
       <div

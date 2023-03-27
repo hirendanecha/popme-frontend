@@ -46,7 +46,7 @@ import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
 import { useLocation } from "react-router-dom";
 import CalendarSvg from "../../assets/svgs/CalendarSvg";
-import logo from "../../assets/images/old-sidebar-logo.png";
+import logo from "../../assets/images/sidebar-logo.png";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -140,6 +140,18 @@ const ClapprComponent = React.memo(
         player.current.core.mediaControl.disable();
       });
 
+      // console.log("klbibib");
+
+      document.querySelector(".mute_icon").classList.add("hidden");
+      document.querySelector(".mute_icon").classList.remove("block");
+      document.querySelector(".volume_icon").classList.add("block");
+      document.querySelector(".volume_icon").classList.remove("hidden");
+
+      document.querySelector(".play_icon").classList.add("hidden");
+      document.querySelector(".play_icon").classList.remove("block");
+      document.querySelector(".pause_icon").classList.add("block");
+      document.querySelector(".pause_icon").classList.remove("hidden");
+
       let volumeIcon = document.querySelector(".volume_icon");
       volumeIcon.addEventListener("click", function (event) {
         event.stopPropagation();
@@ -149,6 +161,7 @@ const ClapprComponent = React.memo(
 
         if (muteIcon.classList.contains("hidden")) {
           muteIcon.classList.remove("hidden");
+          muteIcon.classList.add("block");
           document.querySelector(".volume_icon").classList.add("hidden");
         }
       });
@@ -162,6 +175,7 @@ const ClapprComponent = React.memo(
 
         if (volumeIcon.classList.contains("hidden")) {
           volumeIcon.classList.remove("hidden");
+          volumeIcon.classList.add("block");
           document.querySelector(".mute_icon").classList.add("hidden");
         }
       });
@@ -175,10 +189,6 @@ const ClapprComponent = React.memo(
 
           document.getElementById(id).classList.remove("hidden");
           document.getElementById(id).classList.add("block");
-
-          // document.querySelector(".player_wrap").classList.remove("opacity-0");
-
-          // document.querySelector(".player_wrap").classList.add("opacity-100");
 
           document.querySelector(".thumbnail_img").classList.remove("block");
           document.querySelector(".thumbnail_img").classList.add("hidden");
@@ -202,6 +212,7 @@ const ClapprComponent = React.memo(
 
         if (pauseIcon.classList.contains("hidden")) {
           pauseIcon.classList.remove("hidden");
+          pauseIcon.classList.add("block");
           document.querySelector(".play_icon").classList.add("hidden");
         }
       });
@@ -214,6 +225,7 @@ const ClapprComponent = React.memo(
         const playIcon = document.querySelector(".play_icon");
         if (playIcon.classList.contains("hidden")) {
           playIcon.classList.remove("hidden");
+          playIcon.classList.add("block");
           document.querySelector(".pause_icon").classList.add("hidden");
         }
       });
@@ -355,10 +367,10 @@ const ClapprComponent = React.memo(
                   </div>
 
                   <div className="flex flex-col">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-end justify-between">
                       <div className="flex flex-col pr-3">
                         <h4
-                          className="text-2xl text-white mb-3 line-clamp-2 font-bold"
+                          className="text-2xl text-white mb-3 font-bold"
                           style={{
                             fontSize: `${activeWorkspaceData?.fontStudio?.videoTitle}px`,
                             color:
@@ -370,7 +382,7 @@ const ClapprComponent = React.memo(
                         </h4>
 
                         <p
-                          className="text-sm text-white mb-4 line-clamp-5 font-bold"
+                          className="text-sm text-white mb-4 font-bold"
                           style={{
                             fontSize: `${activeWorkspaceData?.fontStudio?.videoDescription}px`,
                             color:
@@ -383,8 +395,8 @@ const ClapprComponent = React.memo(
                         </p>
                       </div>
 
-                      <div className="flex flex-col">
-                        <div className="play_icon cursor-pointer hidden z-30">
+                      <div className="flex flex-col mb-4">
+                        <div className="play_icon cursor-pointer z-30">
                           <PlayerPlaySvg
                             color={
                               activeWorkspaceData?.colorStudio?.player?.control
@@ -1305,7 +1317,7 @@ const Customization = () => {
                 />
               </li>
               <li>
-              <CallToActionModal
+                <CallToActionModal
                   register={register}
                   valueChangeHandler={valueChangeHandler}
                 />
@@ -1317,7 +1329,7 @@ const Customization = () => {
                   valueChangeHandler={valueChangeHandler}
                 />
               </li>
-              
+
               <li>
                 <ColorStudio
                   register={register}
@@ -1341,10 +1353,7 @@ const Customization = () => {
               </li>
               <li>
                 <InstantEmbed register={register} />
-              </li> 
-              
-              
-
+              </li>
             </ul>
           </div>
         </div>

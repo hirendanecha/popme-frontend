@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setPageTitle } from "../../redux/slices/headerSlice";
 import Button from "../../components/Button/Button";
 import { logoutUser } from "../../redux/actions/authAction";
+import { getAllPlansList } from "./action";
 
 const Data = [
   {
@@ -79,15 +80,35 @@ const Data = [
 const SettingsCom = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [checkoutData, setCheckoutData] = useState(null);
-
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(location?.state?.tab || 1);
 
   const { data } = useSelector((state) => state.auth);
 
+  const { billingPlans } = useSelector((state) => state.setting);
+
+  // console.log("billingPlans", billingPlans);
+
+  const getAllBillingPlanHandlerApi = useCallback(() => {
+    dispatch(getAllPlansList())
+      .unwrap()
+      .then((res) => {
+        // console.log("res", res);
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  }, []);
+
   useEffect(() => {
     dispatch(setPageTitle({ title: "Settings" }));
+    getAllBillingPlanHandlerApi();
   }, []);
 
   const activeTabHandler = (e, id, data) => {
@@ -192,10 +213,6 @@ const SettingsCom = () => {
           });
         }
       });
-  };
-
-  const checkoutHandler = () => {
-    console.log("checkout");
   };
 
   return (
@@ -517,6 +534,104 @@ const SettingsCom = () => {
                       </div>
                     </div>
                   ))}
+
+                {/* {billingPlans !== null &&
+                  billingPlans?.data?.map((item) => (
+                    <div
+                      className={`flex flex-col relative px-3 py-4 border  rounded-xl`}
+                      key={item?._id}
+                    >
+                      <h4 className="text-2xl font-bold text-primary-main">
+                        {item?.name}
+                      </h4>
+
+                      <p className="text-base text-primary-main mb-5 line-clamp-3 min-h-[66px]">
+                        {item?.description}
+                      </p>
+
+                      <div className="flex flex-col mb-6">
+                        <h4 className="text-[#183169] text-2xl font-bold">
+                          ${item?.amount.toString().slice(0, -2)}.
+                          <span className="text-lg font-normal">99</span>
+                          {console.log(
+                            "remov",
+                            item?.amount.toString().slice(0, -2).concat(".99")
+                          )}
+                        </h4>
+
+                        <span className="text-base text-primary-light">
+                          per month
+                        </span>
+                      </div>
+
+                      <div className="inline-block w-full mb-6">
+                        <Button
+                          text="Select Plan"
+                          buttonClass="w-full text-base font-semibold"
+                          clickHandler={(e) => activeTabHandler(e, 3, item)}
+                        />
+                      </div>
+
+                      <div className="flex flex-col">
+                        <div className="flex mb-5">
+                          <CodeBracket />
+
+                          <div className="flex flex-col ml-5">
+                            <h5 className="text-base font-bold text-primary-normal">
+                              Video Embedding
+                            </h5>
+                            <p className="text-sm text-primary-light">
+                              {`includes ${item?.props?.videoEmbedingViews} video
+                              views`}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex mb-5">
+                          <VideoCamera />
+
+                          <div className="flex flex-col ml-5">
+                            <h5 className="text-base font-bold text-primary-normal">
+                              {`Up to ${item?.props?.upToWorkspace} Workspaces`}
+                            </h5>
+                            <p className="text-sm text-primary-light">
+                              {`display ${item?.props?.displayVideoToWeb} videos to your website`}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex">
+                          {item?.props?.watermark ? (
+                            <>
+                              <OpenEye />
+
+                              <div className="flex flex-col ml-5">
+                                <h5 className="text-base font-bold text-primary-normal">
+                                  PopMe Watermark
+                                </h5>
+                                <p className="text-sm text-primary-light">
+                                  our logo will be displayed
+                                </p>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <CloseEye />
+
+                              <div className="flex flex-col ml-5">
+                                <h5 className="text-base font-bold text-primary-normal">
+                                  No Watermark
+                                </h5>
+                                <p className="text-sm text-primary-light">
+                                  our logo will be displayed
+                                </p>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))} */}
               </div>
             </div>
           )}
@@ -542,8 +657,6 @@ const SettingsCom = () => {
                   Open billing portal
                 </span>
               </div>
-
-              {/* {console.log("checkoutData", checkoutData)} */}
 
               {checkoutData && (
                 <div className="flex justify-between items-center mt-10">
