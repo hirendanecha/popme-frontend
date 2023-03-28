@@ -62,6 +62,7 @@ const ClapprComponent = React.memo(
     let player = useRef();
     const { activeWorkspaceData } = useSelector((state) => state.workspace);
     const [isToggleHiden, setIsToggleHiden] = useState("");
+    const [videoSeekTime, setVideoSeekTime] = useState(0);
 
     const renderSwitch = (activeWorkspaceData) => {
       switch (activeWorkspaceData !== null) {
@@ -103,6 +104,7 @@ const ClapprComponent = React.memo(
         height,
         width,
         // autoPlay: true,
+        mute: true,
         loop: true,
         playback: {
           controls: false,
@@ -116,6 +118,9 @@ const ClapprComponent = React.memo(
             //   progressbar.value = e.current;
             //   progressbar.max = isNaN(e.total) ? 0 : e.total;
             // }
+            // console.log("time", e.current);
+
+            setVideoSeekTime(e.current);
 
             let progressbar = document.getElementById("progress_calc");
             if (progressbar) {
@@ -131,10 +136,17 @@ const ClapprComponent = React.memo(
         player.current.play();
       }
 
+      // console.log("videoSeekTime", videoSeekTime);
+
+      player.current.seek(videoSeekTime);
+
       player.current.resize({
         height: activeWorkspaceData?.designCustomization?.player?.height,
         width: activeWorkspaceData?.designCustomization?.player?.size,
       });
+
+      // hide loader
+      player.current.getPlugin("spinner").disable();
 
       player.current.on(window.Clappr.Events.PLAYER_PLAY, function () {
         player.current.core.mediaControl.disable();
@@ -142,10 +154,15 @@ const ClapprComponent = React.memo(
 
       // console.log("klbibib");
 
-      document.querySelector(".mute_icon").classList.add("hidden");
-      document.querySelector(".mute_icon").classList.remove("block");
-      document.querySelector(".volume_icon").classList.add("block");
-      document.querySelector(".volume_icon").classList.remove("hidden");
+      // document.querySelector(".mute_icon").classList.add("hidden");
+      // document.querySelector(".mute_icon").classList.remove("block");
+      // document.querySelector(".volume_icon").classList.add("block");
+      // document.querySelector(".volume_icon").classList.remove("hidden");
+
+      document.querySelector(".mute_icon").classList.add("block");
+      document.querySelector(".mute_icon").classList.remove("hidden");
+      document.querySelector(".volume_icon").classList.add("hidden");
+      document.querySelector(".volume_icon").classList.remove("block");
 
       document.querySelector(".play_icon").classList.add("hidden");
       document.querySelector(".play_icon").classList.remove("block");
@@ -185,7 +202,7 @@ const ClapprComponent = React.memo(
         event.stopPropagation();
         if (document.getElementById(id).classList.contains("hidden")) {
           player.current.play();
-          player.current.unmute();
+          // player.current.unmute();
 
           document.getElementById(id).classList.remove("hidden");
           document.getElementById(id).classList.add("block");
@@ -422,7 +439,7 @@ const ClapprComponent = React.memo(
                       >
                         <button
                           type="button"
-                          className={`btn whitespace-normal cta_show ${activeWorkspaceData?.callToAction?.buttonStyle}
+                          className={`btn scale-100 hover:scale-[.98] whitespace-normal cta_show ${activeWorkspaceData?.callToAction?.buttonStyle}
                     ${activeWorkspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
                           style={{
                             backgroundColor:
@@ -496,7 +513,7 @@ const ClapprComponent = React.memo(
           >
             <div className="relative">
               <img
-                src={poster && poster}
+                src={animatedImage && animatedImage}
                 // src={animatedImage ? animatedImage : workspace1}
                 alt="workspace1"
                 className="object-cover rounded-xl"
@@ -592,9 +609,19 @@ const ClapprComponent = React.memo(
           >
             <div className="relative">
               <img
-                src={poster && poster}
+                src={animatedImage && animatedImage}
                 alt="workspace1"
                 className="h-[178px] w-[178px] object-cover rounded-full"
+                style={{
+                  height:
+                    activeWorkspaceData?.designCustomization?.player?.size *
+                    (activeWorkspaceData?.designCustomization?.toggle?.size /
+                      100),
+                  width:
+                    activeWorkspaceData?.designCustomization?.player?.size *
+                    (activeWorkspaceData?.designCustomization?.toggle?.size /
+                      100),
+                }}
               />
 
               <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
