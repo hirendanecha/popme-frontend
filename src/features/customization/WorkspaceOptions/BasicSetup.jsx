@@ -1,8 +1,39 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useCallback } from "react";
+import Cropper from "react-easy-crop";
+import { useSelector, useDispatch } from "react-redux";
+import { setImageCrop } from "../../workspaces/reducer/workspaceSlice";
+// import defaultWorkspaceImage from "../../../assets/images/defaultWorkspaceImage.png";
+
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const BasicSetup = ({ register, valueChangeHandler }) => {
+  const dispatch = useDispatch();
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
+  const { activeWorkspaceData } = useSelector((state) => state.workspace);
+
+  // console.log("activeWorkspaceData", activeWorkspaceData);
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedArea, setCroppedArea] = useState(null);
+
+  // console.log("croppedArea", croppedArea);
+  // dispatch(crop);
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    // console.log(croppedArea, "croppedArea");
+    // console.log("croppedAreaPixels", croppedAreaPixels);
+
+    const scale = 100 / croppedArea.width;
+
+    dispatch(
+      setImageCrop({
+        x: `${-croppedArea.x * scale}%`,
+        y: `${-croppedArea.y * scale}%`,
+        scale,
+      })
+    );
+  }, []);
 
   return (
     <>
@@ -112,6 +143,33 @@ const BasicSetup = ({ register, valueChangeHandler }) => {
                     }
                   )}
               </div>
+
+              {activeWorkspaceData !== null &&
+                activeWorkspaceData?.basicSetUp?.previewStyle ===
+                  "circular" && (
+                  <div className="inline-block w-full relative h-[300px]">
+                    <Cropper
+                      image={
+                        baseURL +
+                        "/" +
+                        activeWorkspaceData?.video?.thumbnailDestination +
+                        "/" +
+                        activeWorkspaceData?.video?.thumbnail
+                      }
+                      crop={crop}
+                      zoom={zoom}
+                      cropShape="round"
+                      showGrid={false}
+                      aspect={1}
+                      onCropChange={setCrop}
+                      onCropComplete={onCropComplete}
+                      onZoomChange={setZoom}
+                      onCropAreaChange={(croppedArea) => {
+                        setCroppedArea(croppedArea);
+                      }}
+                    />
+                  </div>
+                )}
             </div>
             {/* </div> */}
           </div>

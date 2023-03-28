@@ -20,6 +20,11 @@ const initialState = {
   masterWorkspaceOptions: null,
   activeWorkspaceData: null,
   currentWebsiteUrl: "",
+  imageCrop: {
+    x: `${-0 * 1}%`,
+    y: `${-43.75 * 1}%`,
+    scale: 1,
+  },
 };
 
 const workspaceSlice = createSlice({
@@ -31,6 +36,9 @@ const workspaceSlice = createSlice({
     },
     setCurrentWebsiteUrl: (state, action) => {
       state.currentWebsiteUrl = action.payload;
+    },
+    setImageCrop: (state, action) => {
+      state.imageCrop = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -58,11 +66,14 @@ const workspaceSlice = createSlice({
       state.dataDD = [];
     });
 
-    builder.addCase(worksapceListForDropdown.fulfilled, (state, { payload }) => {
-      state.loading = false;
-      state.dataDD = payload;
-      state.success = true;
-    });
+    builder.addCase(
+      worksapceListForDropdown.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.dataDD = payload;
+        state.success = true;
+      }
+    );
 
     builder.addCase(worksapceListForDropdown.rejected, (state, { payload }) => {
       state.loading = false;
@@ -198,7 +209,7 @@ const workspaceSlice = createSlice({
   },
 });
 
-export const { setActiveWorkspaceData, setCurrentWebsiteUrl } =
+export const { setActiveWorkspaceData, setCurrentWebsiteUrl, setImageCrop } =
   workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

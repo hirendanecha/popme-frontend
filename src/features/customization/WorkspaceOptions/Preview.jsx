@@ -100,20 +100,32 @@ const Preview = ({ register }) => {
               {/* </div>
 
 <div className="px-4"> */}
-              <div className="flex items-center mb-6">
+              <div
+                className="flex items-center mb-6"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open(
+                    `${window?.location?.origin}/preview/${btoa(
+                      `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
+                    )}?site=https://${userWebsite}`,
+                    "_blank"
+                  );
+                }}
+              >
                 <ShareSvg height="16" width="16" stroke="#3A6FFA" />
 
                 {activeWorkspaceData !== null && (
                   <Link
-                    // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
+                  // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
 
-                    to={`${window?.location?.origin}/preview/${btoa(
-                      `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
-                    )}?site=https://${userWebsite}`}
-                    target="_blank"
+                  // to={`${window?.location?.origin}/preview/${btoa(
+                  //   `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
+                  // )}?site=https://${userWebsite}`}
 
-                    // to="https://stripe.com/docs/stripe-js/react"
-                    // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}
+                  // target="_blank"
+
+                  // to="https://stripe.com/docs/stripe-js/react"
+                  // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}
                   >
                     <p className="text-base text-secondary-main font-bold ml-2">
                       {/* popme.io/preview?example.com */}
