@@ -123,6 +123,9 @@ const WidgetShare = () => {
         player.current.core.mediaControl.disable();
       });
 
+      // hide loader
+      player.current.getPlugin("spinner").disable();
+
       // hide play button
       player.current.getPlugin("poster").$playWrapper.hide();
 
