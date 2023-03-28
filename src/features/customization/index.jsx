@@ -60,7 +60,12 @@ const ClapprComponent = React.memo(
     animatedImage,
   }) => {
     let player = useRef();
-    const { activeWorkspaceData } = useSelector((state) => state.workspace);
+    const { activeWorkspaceData, imageCrop } = useSelector(
+      (state) => state.workspace
+    );
+
+    // console.log("imageCrop", imageCrop);
+
     const [isToggleHiden, setIsToggleHiden] = useState("");
     const [videoSeekTime, setVideoSeekTime] = useState(0);
 
@@ -537,12 +542,12 @@ const ClapprComponent = React.memo(
                 <img
                   src={logo}
                   alt="logo"
-                  className="w-[40px] h-[30px] object-contain"
+                  className="w-[70px] h-[30px] object-contain"
                 />
               </div>
 
               <div
-                className="absolute right-[-20px] top-[-20px] close_thumbnail_svg"
+                className="absolute right-[-10px] top-[-10px] close_thumbnail_svg"
                 style={{
                   display:
                     !activeWorkspaceData?.designCustomization?.toggle
@@ -550,7 +555,7 @@ const ClapprComponent = React.memo(
                 }}
               >
                 <div
-                  className="p-1 rounded-full"
+                  className="p-1 rounded-full cursor-pointer"
                   style={{
                     background:
                       activeWorkspaceData?.colorStudio?.toggle?.closeBackground,
@@ -608,10 +613,8 @@ const ClapprComponent = React.memo(
             }}
           >
             <div className="relative">
-              <img
-                src={animatedImage && animatedImage}
-                alt="workspace1"
-                className="h-[178px] w-[178px] object-cover rounded-full"
+              <div
+                className="relative overflow-hidden rounded-full"
                 style={{
                   height:
                     activeWorkspaceData?.designCustomization?.player?.size *
@@ -622,14 +625,50 @@ const ClapprComponent = React.memo(
                     (activeWorkspaceData?.designCustomization?.toggle?.size /
                       100),
                 }}
-              />
-
-              <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
+              >
                 <img
-                  src={logo}
-                  alt="logo"
-                  className="w-[40px] h-[30px] object-contain"
+                  src={animatedImage && animatedImage}
+                  alt="workspace1"
+                  className="object-cover"
+                  style={{
+                    // height:
+                    //   activeWorkspaceData?.designCustomization?.player?.size *
+                    //   (activeWorkspaceData?.designCustomization?.toggle?.size /
+                    //     100),
+                    // width:
+                    //   activeWorkspaceData?.designCustomization?.player?.size *
+                    //   (activeWorkspaceData?.designCustomization?.toggle?.size /
+                    //     100),
+
+                    width: "100%",
+                    height: "auto",
+
+                    transform: `translate3d(${imageCrop.x}, ${imageCrop.y}, 0) scale3d(${imageCrop.scale},${imageCrop.scale},1)`,
+                  }}
                 />
+
+                <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
+                  <img
+                    src={logo}
+                    alt="logo"
+                    className="w-[70px] h-[30px] object-contain"
+                  />
+                </div>
+
+                <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
+                  <div
+                    style={{
+                      display: !activeWorkspaceData?.designCustomization?.toggle
+                        ?.showPlayIcon
+                        ? "none"
+                        : "block",
+                    }}
+                  >
+                    <PlayButtonSvg
+                      color={activeWorkspaceData?.colorStudio?.toggle?.playIcon}
+                    />
+                  </div>
+                </div>
               </div>
 
               <div
@@ -640,10 +679,8 @@ const ClapprComponent = React.memo(
                       ?.showCloseIcon && "none",
                 }}
               >
-                {/* <CloseCircle /> */}
-
                 <div
-                  className="p-1 rounded-full"
+                  className="p-1 rounded-full cursor-pointer"
                   style={{
                     background:
                       activeWorkspaceData?.colorStudio?.toggle?.closeBackground,
@@ -668,21 +705,6 @@ const ClapprComponent = React.memo(
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
-                </div>
-              </div>
-
-              <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
-                <div
-                  style={{
-                    display: !activeWorkspaceData?.designCustomization?.toggle
-                      ?.showPlayIcon
-                      ? "none"
-                      : "block",
-                  }}
-                >
-                  <PlayButtonSvg
-                    color={activeWorkspaceData?.colorStudio?.toggle?.playIcon}
-                  />
                 </div>
               </div>
             </div>

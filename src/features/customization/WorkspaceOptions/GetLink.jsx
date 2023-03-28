@@ -91,10 +91,16 @@ const GetLink = ({ register }) => {
                   {customLink}
                 </p>
 
-                <div className="flex justify-end">
-                  <Link to={customLink} target="_blank">
-                    <ShareSvg />
-                  </Link>
+                <div
+                  className="flex justify-end"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open(customLink, "_blank");
+                  }}
+                >
+                  {/* <Link to={customLink} target="_blank"> */}
+                  <ShareSvg />
+                  {/* </Link> */}
                 </div>
               </div>
             </div>
