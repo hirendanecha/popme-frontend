@@ -315,14 +315,6 @@ const ClapprComponent = React.memo(
 
       return () => {
         if (player.current) {
-          let el = document.querySelector(".play_area_button");
-          if (el) {
-            // p.removeListener("click", playAreaListenerhandler);
-
-            let elClone = el.cloneNode(true);
-
-            el.parentNode.replaceChild(elClone, el);
-          }
           player.current.destroy();
           player.current = null;
         }
