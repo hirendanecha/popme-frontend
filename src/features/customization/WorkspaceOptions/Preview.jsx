@@ -10,64 +10,61 @@ import { OpenEye } from "../SvgComp";
 const Preview = ({ register }) => {
   const { activeWorkspaceData } = useSelector((state) => state.workspace);
 
-  // console.log("activeWorkspaceData", activeWorkspaceData);
-
   const [userWebsite, setUserWebsite] = useState("");
 
   const updateValue = (data) => {
     setUserWebsite(data?.value);
   };
 
-  // console.log("userWebsite", userWebsite);
-
-  // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
-
-  // let decodedStringBtoA = `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`;
-  // let encodedStringBtoA = btoa(decodedStringBtoA);
-  // console.log("encodedStringBtoA", encodedStringBtoA);
+  const url = `${window?.location?.origin}/preview/${btoa(
+    `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
+  )}?site=https://${userWebsite}`;
 
   return (
     <>
-      {/* <div className="flex flex-col p-0 focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb]">
-        <div
-          tabIndex={11}
-          className="collapse collapse-arrow border-t border-borderColor-main bg-transparent w-full"
-        >
-          <input type="checkbox" />
-
-          <div className="collapse-title text-xl font-bold text-primary-normal">
+      <div className="flex flex-col w-full p-0 border border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
+        <h2 className="w-full" id="headingSeven">
+          <button
+            className="group relative flex w-full items-center border-0 bg-white py-4 px-5 text-left text-xl text-gray-600 font-semibold [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)] [&[data-te-collapse-collapsed]]:rounded-b-[15px] [&[data-te-collapse-collapsed]]:transition-none"
+            type="button"
+            data-te-collapse-init
+            data-te-collapse-collapsed
+            data-te-target="#collapseSeven"
+            aria-expanded="false"
+            aria-controls="collapseSeven"
+          >
             Preview
-          </div>
-
-          <div className="collapse-content"> */}
-      <div className="flex flex-col w-full p-0 active:bg-transparent hover:bg-transparent">
-        <button className="group border-t border-r border-l border-transparant focus:outline-none w-full">
-          <div className="flex items-center justify-between h-16 px-3 font-semibold">
-            <span className="truncate text-xl text-gray-600">Preview</span>
-            <svg
-              className="mx-2"
-              width="16"
-              height="9"
-              viewBox="0 0 16 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 1L8 8L1 1"
-                stroke="#111827"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-screen focus-within:max-h-screen">
-            {/* <div className="flex flex-col"> */}
+            <span className="ml-auto -mr-1 h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:mr-0 group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none dark:fill-blue-300 dark:group-[[data-te-collapse-collapsed]]:fill-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+          </button>
+        </h2>
+        <div
+          id="collapseSeven"
+          className="!visible hidden"
+          data-te-collapse-item
+          aria-labelledby="headingSeven"
+          data-te-parent="#accordionExample"
+        >
+          <div className="">
             <div className="px-4 pb-4">
               <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
                 <OpenEye />
 
-                <p className="text-sm text-secondary-main font-bold ml-3">
+                <p className="text-sm text-left text-secondary-main font-bold ml-3">
                   Preview how this PopMe widget will look on your website
                   without embedding it.
                 </p>
@@ -78,9 +75,9 @@ const Preview = ({ register }) => {
               <div className="flex p-3 bg-[#F2F6F0]">
                 <MouseSvg width="60" height="30" stroke="#4A8A37" />
 
-                <p className="text-sm text-[#4A8A37] font-bold ml-3">
-                  Preview how this PopMe widget will look on your website
-                  without embedding it.
+                <p className="text-sm text-left text-[#4A8A37] font-bold ml-3">
+                  Enter your website in the input field and then click the
+                  URL(s) below.
                 </p>
               </div>
               {/* </div>
@@ -100,34 +97,33 @@ const Preview = ({ register }) => {
               {/* </div>
 
 <div className="px-4"> */}
-              <div
-                className="flex items-center mb-6"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.open(
-                    `${window?.location?.origin}/preview/${btoa(
-                      `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
-                    )}?site=https://${userWebsite}`,
-                    "_blank"
-                  );
-                }}
-              >
-                <ShareSvg height="16" width="16" stroke="#3A6FFA" />
+              {/* {console.log(activeWorkspaceData?.identity,"???")} */}
+              <div className="flex items-center mb-6">
+                <ShareSvg height="18" width="18" stroke="#3A6FFA" />
 
                 {activeWorkspaceData !== null && (
                   <Link
-                  // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
+                    // // to={`${window?.location?.origin}/preview/${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}?site=https://${userWebsite}`}
+                    to={url}
+                    target="_blank"
+                    // onClick={(e) => {
+                    //   e.preventDefault();
+                    //   window.open(url, "_blank");
+                    // }}
 
-                  // to={`${window?.location?.origin}/preview/${btoa(
-                  //   `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
-                  // )}?site=https://${userWebsite}`}
-
-                  // target="_blank"
-
-                  // to="https://stripe.com/docs/stripe-js/react"
-                  // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}
+                    //   // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}
                   >
-                    <p className="text-base text-secondary-main font-bold ml-2">
+                    <p
+                      // onClick={() => {
+                      //   window.open(
+                      //     `${window?.location?.origin}/preview/${btoa(
+                      //       `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
+                      //     )}?site=https://${userWebsite}`,
+                      //     "_blank"
+                      //   );
+                      // }}
+                      className="text-base text-secondary-main font-bold ml-2 text-left"
+                    >
                       {/* popme.io/preview?example.com */}
                       {/* https://popme-frontend.vercel.app/app/preview?site=https://opash.in */}
                       {`${window?.location?.origin}/preview?${userWebsite}`}
@@ -136,23 +132,8 @@ const Preview = ({ register }) => {
                 )}
               </div>
             </div>
-
-            {/* <div className="flex flex-col">
-                <h5 className="text-primary-main text-base font-semibold py-2 mb-1">
-                  Preview via custom domain
-                </h5>
-
-                <Button
-                  text="Add custom domain"
-                  buttonClass="w-full text-base"
-                />
-              </div> */}
-            {/* </div> */}
-            {/* </div>
-        </div>
-      </div> */}
           </div>
-        </button>
+        </div>
       </div>
     </>
   );

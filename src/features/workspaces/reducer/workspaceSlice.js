@@ -90,6 +90,7 @@ const workspaceSlice = createSlice({
     builder.addCase(addWorkspace.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.data = payload;
+      state.activeWorkspaceData = payload;
       state.success = true;
     });
 
@@ -144,6 +145,7 @@ const workspaceSlice = createSlice({
     builder.addCase(getWorkspaceById.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.data = payload;
+      state.activeWorkspaceData = payload;
       state.success = true;
     });
 

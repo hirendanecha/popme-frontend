@@ -7,6 +7,7 @@ const Button = ({
   rightIcon,
   type = "button",
   clickHandler,
+  disabled
 }) => {
   return (
     <>
@@ -14,6 +15,7 @@ const Button = ({
         type={type}
         className={`btn bg-secondary-main border-0 hover:bg-secondary-main capitalize text-white gap-2 ${buttonClass}`}
         onClick={clickHandler}
+        disabled={disabled}
       >
         {leftIcon && leftIcon}
         {text}
