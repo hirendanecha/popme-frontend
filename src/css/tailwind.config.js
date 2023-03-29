@@ -1,7 +1,10 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}",
+  "./src/**/*.{html,js}",
+  "./node_modules/tw-elements/dist/js/**/*.js"],
+  
   theme: {
     extend: {
       colors: {
@@ -97,5 +100,6 @@ module.exports = {
     }),
     require("daisyui"),
     require("@tailwindcss/line-clamp"),
+    require("tw-elements/dist/plugin"),
   ],
 };
