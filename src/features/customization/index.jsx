@@ -169,10 +169,10 @@ const ClapprComponent = React.memo(
       document.querySelector(".volume_icon").classList.add("hidden");
       document.querySelector(".volume_icon").classList.remove("block");
 
-      document.querySelector(".play_icon").classList.add("hidden");
       document.querySelector(".play_icon").classList.remove("block");
-      document.querySelector(".pause_icon").classList.add("block");
+      document.querySelector(".play_icon").classList.add("hidden");
       document.querySelector(".pause_icon").classList.remove("hidden");
+      document.querySelector(".pause_icon").classList.add("block");
 
       let volumeIcon = document.querySelector(".volume_icon");
       volumeIcon.addEventListener("click", function (event) {
@@ -228,13 +228,15 @@ const ClapprComponent = React.memo(
       let playIcon = document.querySelector(".play_icon");
       playIcon.addEventListener("click", function (event) {
         event.stopPropagation();
-        player.current.play();
 
         const pauseIcon = document.querySelector(".pause_icon");
 
         if (pauseIcon.classList.contains("hidden")) {
+          player.current.play();
+
           pauseIcon.classList.remove("hidden");
           pauseIcon.classList.add("block");
+          document.querySelector(".play_icon").classList.remove("block");
           document.querySelector(".play_icon").classList.add("hidden");
         }
       });
@@ -242,35 +244,45 @@ const ClapprComponent = React.memo(
       let pauseIcon = document.querySelector(".pause_icon");
       pauseIcon.addEventListener("click", function (event) {
         event.stopPropagation();
-        player.current.pause();
 
         const playIcon = document.querySelector(".play_icon");
         if (playIcon.classList.contains("hidden")) {
-          playIcon.classList.remove("hidden");
-          playIcon.classList.add("block");
-          document.querySelector(".pause_icon").classList.add("hidden");
-        }
-      });
-
-      let playAreaButton = document.querySelector(".play_area_button");
-      playAreaButton.addEventListener("click", function (event) {
-        const pauseIcon = document.querySelector(".pause_icon");
-        const playIcon = document.querySelector(".play_icon");
-
-        if (pauseIcon.classList.contains("hidden")) {
-          event.stopPropagation();
-          player.current.play();
-
-          pauseIcon.classList.remove("hidden");
-          document.querySelector(".play_icon").classList.add("hidden");
-        } else if (playIcon.classList.contains("hidden")) {
-          event.stopPropagation();
           player.current.pause();
 
           playIcon.classList.remove("hidden");
+          playIcon.classList.add("block");
+          document.querySelector(".pause_icon").classList.remove("block");
           document.querySelector(".pause_icon").classList.add("hidden");
         }
       });
+
+      function playAreaListenerhandler(event) {
+        const pauseIcon = document.querySelector(".pause_icon");
+        const playIcon = document.querySelector(".play_icon");
+
+        event.stopPropagation();
+
+        if (document.querySelector(".play_icon").classList.contains("hidden")) {
+          player.current.pause();
+
+          document.querySelector(".play_icon").classList.remove("hidden");
+          document.querySelector(".play_icon").classList.add("block");
+          document.querySelector(".pause_icon").classList.remove("block");
+          document.querySelector(".pause_icon").classList.add("hidden");
+        } else if (
+          document.querySelector(".play_icon").classList.contains("block")
+        ) {
+          player.current.play();
+
+          document.querySelector(".play_icon").classList.remove("block");
+          document.querySelector(".play_icon").classList.add("hidden");
+          document.querySelector(".pause_icon").classList.remove("hidden");
+          document.querySelector(".pause_icon").classList.add("block");
+        }
+      }
+
+      let playAreaButton = document.querySelector(".play_area_button");
+      playAreaButton.addEventListener("click", playAreaListenerhandler);
 
       let minimizeIcon = document.querySelector(".minimize_icon");
       minimizeIcon.addEventListener("click", function (event) {
@@ -303,6 +315,14 @@ const ClapprComponent = React.memo(
 
       return () => {
         if (player.current) {
+          let el = document.querySelector(".play_area_button");
+          if (el) {
+            // p.removeListener("click", playAreaListenerhandler);
+
+            let elClone = el.cloneNode(true);
+
+            el.parentNode.replaceChild(elClone, el);
+          }
           player.current.destroy();
           player.current = null;
         }
@@ -1277,37 +1297,40 @@ const Customization = () => {
 
               {/* {console.log("rendering...")} */}
 
-              {activeWorkspaceData !== null && (
-                <div className="inline-block w-full h-[calc(100vh-183px)] relative">
-                  <ClapprComponent
-                    id="player"
-                    source={
-                      activeWorkspaceData !== null &&
-                      baseURL + "/" + activeWorkspaceData?.video?.path
-                    }
-                    // base api + video.path
-                    height={
-                      activeWorkspaceData?.designCustomization?.player
-                        ?.height || 461
-                    }
-                    width={
-                      activeWorkspaceData?.designCustomization?.player?.size ||
-                      261
-                    }
-                    poster={
-                      activeWorkspaceData !== null &&
-                      baseURL +
+              {activeWorkspaceData !== null &&
+                selectWorkspaceOptions.length > 0 && (
+                  <div className="inline-block w-full h-[calc(100vh-183px)] relative">
+                    <ClapprComponent
+                      id="player"
+                      source={
+                        activeWorkspaceData !== null &&
+                        baseURL + "/" + activeWorkspaceData?.video?.path
+                      }
+                      // base api + video.path
+                      height={
+                        activeWorkspaceData?.designCustomization?.player
+                          ?.height || 461
+                      }
+                      width={
+                        activeWorkspaceData?.designCustomization?.player
+                          ?.size || 261
+                      }
+                      poster={
+                        activeWorkspaceData !== null &&
+                        baseURL +
+                          "/" +
+                          activeWorkspaceData?.video?.thumbnailDestination +
+                          "/" +
+                          activeWorkspaceData?.video?.thumbnail
+                      }
+                      animatedImage={
+                        baseURL +
                         "/" +
-                        activeWorkspaceData?.video?.thumbnailDestination +
-                        "/" +
-                        activeWorkspaceData?.video?.thumbnail
-                    }
-                    animatedImage={
-                      baseURL + "/" + activeWorkspaceData?.video?.animatedImage
-                    }
-                  />
-                </div>
-              )}
+                        activeWorkspaceData?.video?.animatedImage
+                      }
+                    />
+                  </div>
+                )}
             </div>
           </div>
 
