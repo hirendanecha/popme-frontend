@@ -1,10 +1,14 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}",
-  "./src/**/*.{html,js}",
-  "./node_modules/tw-elements/dist/js/**/*.js"],
-  
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{html,js}",
+    "./node_modules/tw-elements/dist/js/**/*.js",
+  ],
+
+  darkMode: "class",
   theme: {
     extend: {
       colors: {

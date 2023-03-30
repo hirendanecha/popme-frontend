@@ -248,7 +248,7 @@ const WidgetShare = () => {
               }}
             >
               <div className="flex justify-between w-full px-6 pt-5 pb-2 h-full">
-                <div className="flex justify-between play_area_button flex-col z-20">
+                <div className="flex justify-between play_area_button flex-col z-20 w-full">
                   <div className="flex justify-between">
                     <h5
                       className="text-white text-base font-medium"
