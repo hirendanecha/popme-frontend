@@ -884,170 +884,156 @@ const Customization = () => {
   });
 
   useEffect(() => {
-    if (activeWorkspaceData) {
+    if (data) {
       reset({
         basicSetUp: {
-          previewStyle: activeWorkspaceData?.basicSetUp?.previewStyle
-            ? activeWorkspaceData?.basicSetUp.previewStyle
+          previewStyle: data?.data?.basicSetUp?.previewStyle
+            ? data?.data?.basicSetUp.previewStyle
             : "",
-          videoPosition: activeWorkspaceData?.basicSetUp?.videoPosition
-            ? activeWorkspaceData?.basicSetUp?.videoPosition
+          videoPosition: data?.data?.basicSetUp?.videoPosition
+            ? data?.data?.basicSetUp?.videoPosition
             : "",
         },
         callToAction: {
-          buttonCorner: activeWorkspaceData?.callToAction?.buttonCorner
-            ? activeWorkspaceData?.callToAction?.buttonCorner
+          buttonCorner: data?.data?.callToAction?.buttonCorner
+            ? data?.data?.callToAction?.buttonCorner
             : "",
-          buttonIcon: activeWorkspaceData?.callToAction?.buttonIcon
-            ? activeWorkspaceData?.callToAction?.buttonIcon
+          buttonIcon: data?.data?.callToAction?.buttonIcon
+            ? data?.data?.callToAction?.buttonIcon
             : null,
-          buttonStyle: activeWorkspaceData?.callToAction?.buttonStyle
-            ? activeWorkspaceData?.callToAction?.buttonStyle
+          buttonStyle: data?.data?.callToAction?.buttonStyle
+            ? data?.data?.callToAction?.buttonStyle
             : "",
-          buttonText: activeWorkspaceData?.callToAction?.buttonText
-            ? activeWorkspaceData?.callToAction?.buttonText
+          buttonText: data?.data?.callToAction?.buttonText
+            ? data?.data?.callToAction?.buttonText
             : "",
-          destinationUrl: activeWorkspaceData?.callToAction?.destinationUrl
-            ? activeWorkspaceData?.callToAction?.destinationUrl
+          destinationUrl: data?.data?.callToAction?.destinationUrl
+            ? data?.data?.callToAction?.destinationUrl
             : "",
         },
         designCustomization: {
-          authorName: activeWorkspaceData?.designCustomization?.authorName
-            ? activeWorkspaceData?.designCustomization?.authorName
+          authorName: data?.data?.designCustomization?.authorName
+            ? data?.data?.designCustomization?.authorName
             : "",
 
-          horizontalMargin: activeWorkspaceData?.designCustomization
-            ?.horizontalMargin
-            ? activeWorkspaceData?.designCustomization?.horizontalMargin
+          horizontalMargin: data?.data?.designCustomization?.horizontalMargin
+            ? data?.data?.designCustomization?.horizontalMargin
             : "",
 
-          verticalMargin: activeWorkspaceData?.designCustomization
-            ?.verticalMargin
-            ? activeWorkspaceData?.designCustomization?.verticalMargin
+          verticalMargin: data?.data?.designCustomization?.verticalMargin
+            ? data?.data?.designCustomization?.verticalMargin
             : "",
 
           player: {
-            height: activeWorkspaceData?.designCustomization?.player?.height
-              ? activeWorkspaceData?.designCustomization?.player?.height
+            height: data?.data?.designCustomization?.player?.height
+              ? data?.data?.designCustomization?.player?.height
               : "",
-            onMobileDevice: activeWorkspaceData?.designCustomization?.player
+            onMobileDevice: data?.data?.designCustomization?.player
               ?.onMobileDevice
-              ? activeWorkspaceData?.designCustomization?.player?.onMobileDevice
+              ? data?.data?.designCustomization?.player?.onMobileDevice
               : "",
-            size: activeWorkspaceData?.designCustomization?.player?.size
-              ? activeWorkspaceData?.designCustomization?.player?.size
+            size: data?.data?.designCustomization?.player?.size
+              ? data?.data?.designCustomization?.player?.size
               : "",
           },
           toggle: {
-            animation: activeWorkspaceData?.designCustomization?.toggle
-              ?.animation
-              ? activeWorkspaceData?.designCustomization?.toggle?.animation
+            animation: data?.data?.designCustomization?.toggle?.animation
+              ? data?.data?.designCustomization?.toggle?.animation
               : "",
 
             showPlayIcon:
-              typeof activeWorkspaceData?.designCustomization?.toggle
-                ?.showPlayIcon === "boolean"
-                ? activeWorkspaceData?.designCustomization?.toggle?.showPlayIcon
+              typeof data?.data?.designCustomization?.toggle?.showPlayIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showPlayIcon
                 : "",
 
             showCloseIcon:
-              typeof activeWorkspaceData?.designCustomization?.toggle
-                ?.showCloseIcon === "boolean"
-                ? activeWorkspaceData?.designCustomization?.toggle
-                    ?.showCloseIcon
+              typeof data?.data?.designCustomization?.toggle?.showCloseIcon ===
+              "boolean"
+                ? data?.data?.designCustomization?.toggle?.showCloseIcon
                 : "",
 
-            size: activeWorkspaceData?.designCustomization?.toggle?.size
-              ? activeWorkspaceData?.designCustomization?.toggle?.size
+            size: data?.data?.designCustomization?.toggle?.size
+              ? data?.data?.designCustomization?.toggle?.size
               : "",
           },
         },
         colorStudio: {
-          templates: activeWorkspaceData?.colorStudio?.templates
-            ? activeWorkspaceData?.colorStudio?.templates
+          templates: data?.data?.colorStudio?.templates
+            ? data?.data?.colorStudio?.templates
             : "",
 
           general: {
-            gradientOverlay: activeWorkspaceData?.colorStudio?.general
-              ?.gradientOverlay
-              ? activeWorkspaceData?.colorStudio?.general?.gradientOverlay
+            gradientOverlay: data?.data?.colorStudio?.general?.gradientOverlay
+              ? data?.data?.colorStudio?.general?.gradientOverlay
               : "#273149",
-            videoDescription: activeWorkspaceData?.colorStudio?.general
-              ?.videoDescription
-              ? activeWorkspaceData?.colorStudio?.general?.videoDescription
+            videoDescription: data?.data?.colorStudio?.general?.videoDescription
+              ? data?.data?.colorStudio?.general?.videoDescription
               : "#FFFFFF",
-            videoTitle: activeWorkspaceData?.colorStudio?.general?.videoTitle
-              ? activeWorkspaceData?.colorStudio?.general?.videoTitle
+            videoTitle: data?.data?.colorStudio?.general?.videoTitle
+              ? data?.data?.colorStudio?.general?.videoTitle
               : "#FFFFFF",
           },
           callToAction: {
             buttonBackground:
-              activeWorkspaceData?.colorStudio?.callToAction?.buttonBackground,
+              data?.data?.colorStudio?.callToAction?.buttonBackground,
 
-            buttonOutline: activeWorkspaceData?.colorStudio?.callToAction
-              ?.buttonOutline
-              ? activeWorkspaceData?.colorStudio?.callToAction?.buttonOutline
+            buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
+              ? data?.data?.colorStudio?.callToAction?.buttonOutline
               : "#FFFFFF",
 
-            buttonText: activeWorkspaceData?.colorStudio?.callToAction
-              ?.buttonText
-              ? activeWorkspaceData?.colorStudio?.callToAction?.buttonText
+            buttonText: data?.data?.colorStudio?.callToAction?.buttonText
+              ? data?.data?.colorStudio?.callToAction?.buttonText
               : "#FFFFFF",
           },
           player: {
-            authorName: activeWorkspaceData?.colorStudio?.player?.authorName
-              ? activeWorkspaceData?.colorStudio?.player?.authorName
+            authorName: data?.data?.colorStudio?.player?.authorName
+              ? data?.data?.colorStudio?.player?.authorName
               : "#FFFFFF",
 
-            control: activeWorkspaceData?.colorStudio?.player?.control
-              ? activeWorkspaceData?.colorStudio?.player?.control
+            control: data?.data?.colorStudio?.player?.control
+              ? data?.data?.colorStudio?.player?.control
               : "#FFFFFF",
 
-            seeker: activeWorkspaceData?.colorStudio?.player?.seeker
-              ? activeWorkspaceData?.colorStudio?.player?.seeker
+            seeker: data?.data?.colorStudio?.player?.seeker
+              ? data?.data?.colorStudio?.player?.seeker
               : "#1B5CF3",
           },
           toggle: {
-            closeBackground: activeWorkspaceData?.colorStudio?.toggle
-              ?.closeBackground
-              ? activeWorkspaceData?.colorStudio?.toggle?.closeBackground
+            closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
+              ? data?.data?.colorStudio?.toggle?.closeBackground
               : "#FFFFFF",
-            closeIconColor: activeWorkspaceData?.colorStudio?.toggle
-              ?.closeIconColor
-              ? activeWorkspaceData?.colorStudio?.toggle?.closeIconColor
+            closeIconColor: data?.data?.colorStudio?.toggle?.closeIconColor
+              ? data?.data?.colorStudio?.toggle?.closeIconColor
               : "#FFFFFF",
-            playIcon: activeWorkspaceData?.colorStudio?.toggle?.playIcon
-              ? activeWorkspaceData?.colorStudio?.toggle?.playIcon
+            playIcon: data?.data?.colorStudio?.toggle?.playIcon
+              ? data?.data?.colorStudio?.toggle?.playIcon
               : "#FFFFFF",
           },
         },
         fontStudio: {
-          authorName: activeWorkspaceData?.fontStudio?.authorName
-            ? activeWorkspaceData?.fontStudio?.authorName
+          authorName: data?.data?.fontStudio?.authorName
+            ? data?.data?.fontStudio?.authorName
             : "",
-          ctaButton: activeWorkspaceData?.fontStudio?.ctaButton
-            ? activeWorkspaceData?.fontStudio?.ctaButton
+          ctaButton: data?.data?.fontStudio?.ctaButton
+            ? data?.data?.fontStudio?.ctaButton
             : "",
-          fontFamily: activeWorkspaceData?.fontStudio?.fontFamily
-            ? activeWorkspaceData?.fontStudio?.fontFamily
+          fontFamily: data?.data?.fontStudio?.fontFamily
+            ? data?.data?.fontStudio?.fontFamily
             : "",
-          videoDescription: activeWorkspaceData?.fontStudio?.videoDescription
-            ? activeWorkspaceData?.fontStudio?.videoDescription
+          videoDescription: data?.data?.fontStudio?.videoDescription
+            ? data?.data?.fontStudio?.videoDescription
             : "",
-          videoTitle: activeWorkspaceData?.fontStudio?.videoTitle
-            ? activeWorkspaceData?.fontStudio?.videoTitle
+          videoTitle: data?.data?.fontStudio?.videoTitle
+            ? data?.data?.fontStudio?.videoTitle
             : "",
         },
-        title: activeWorkspaceData?.title ? activeWorkspaceData?.title : "",
-        description: activeWorkspaceData?.description
-          ? activeWorkspaceData?.description
-          : "",
-        video: activeWorkspaceData?.video
-          ? activeWorkspaceData?.video?.originalname
-          : "",
+        title: data?.data?.title ? data?.data?.title : "",
+        description: data?.data?.description ? data?.data?.description : "",
+        video: data?.data?.video ? data?.data?.video?.originalname : "",
       });
     }
-  }, [activeWorkspaceData]);
+  }, [data]);
 
   //****** */
 

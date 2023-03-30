@@ -7,7 +7,7 @@ body {
   margin: 0;
   background-color: #f9fafb;
   /* font-family: "Poppins", sans-serif; */
-  /* font-family: "Roboto", sans-serif; */
+  font-family: "Inter", sans-serif;
 }
 
 .color_pick_comp #rc-editable-input-1 {
