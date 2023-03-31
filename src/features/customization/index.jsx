@@ -47,6 +47,7 @@ import FontStudio from "./WorkspaceOptions/FontStudio";
 import Preview from "./WorkspaceOptions/Preview";
 import GetLink from "./WorkspaceOptions/GetLink";
 import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
+import BasicSetupTest from "./WorkspaceOptions/BasicSetupTest";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -59,6 +60,7 @@ const ClapprComponent = React.memo(
     poster,
     animatedImage,
   }) => {
+    // console.log("<<");
     let player = useRef();
     const { activeWorkspaceData, imageCrop } = useSelector(
       (state) => state.workspace
@@ -87,7 +89,6 @@ const ClapprComponent = React.memo(
           return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
       }
     };
-
     useEffect(() => {
       let imgPlayIcon = document.querySelector(".img_play_button");
       imgPlayIcon.addEventListener("click", function (event) {
@@ -100,9 +101,12 @@ const ClapprComponent = React.memo(
         event.stopPropagation();
         setIsToggleHiden("");
       });
-    }, []);
+      // console.log(activeWorkspaceData, "activeWorkspaceData");
+      // console.log("iiiii");
+    }, [activeWorkspaceData]);
 
     useEffect(() => {
+      // console.log(activeWorkspaceData, "***");
       player.current = new Clappr.Player({
         source: source,
         parentId: `#${id}`,
@@ -202,8 +206,8 @@ const ClapprComponent = React.memo(
         }
       });
 
-      let imgPlayIcon = document.querySelector(".img_play_button");
-      imgPlayIcon.addEventListener("click", function (event) {
+      let imgPlayIcon1 = document.querySelector(".img_play_button");
+      imgPlayIcon1.addEventListener("click", function (event) {
         event.stopPropagation();
         if (document.getElementById(id).classList.contains("hidden")) {
           player.current.play();
@@ -1371,8 +1375,14 @@ const Customization = () => {
                 </div>
               </li>
 
-              <li>
+              {/* <li>
                 <BasicSetup
+                  register={register}
+                  valueChangeHandler={valueChangeHandler}
+                />
+              </li> */}
+              <li>
+                <BasicSetupTest
                   register={register}
                   valueChangeHandler={valueChangeHandler}
                 />
