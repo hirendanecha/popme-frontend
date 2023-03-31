@@ -30,8 +30,8 @@ const initialState = {
   // },
 
   imageCrop: {
-    x: `${-0 * 1}`,
-    y: `${-43.75 * 1}`,
+    x: `${0 * 1}`,
+    y: `${43.75 * 1}`,
     scale: 1,
   },
 };
@@ -48,6 +48,13 @@ const workspaceSlice = createSlice({
     },
     setImageCrop: (state, action) => {
       state.imageCrop = action.payload;
+      state.activeWorkspaceData = {
+        ...state.activeWorkspaceData,
+        basicSetUp: {
+          ...state.activeWorkspaceData?.basicSetUp,
+          imageCrop: action?.payload,
+        },
+      };
     },
   },
   extraReducers: (builder) => {
@@ -115,7 +122,7 @@ const workspaceSlice = createSlice({
 
     builder.addCase(deleteWorkspaceById.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.data = payload;
+      // state.data = payload;
       state.success = true;
     });
 
@@ -133,7 +140,7 @@ const workspaceSlice = createSlice({
 
     builder.addCase(duplicateWorkspaceById.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.data = payload;
+      // state.data = payload;
       state.success = true;
     });
 
@@ -180,12 +187,12 @@ const workspaceSlice = createSlice({
     // update workspace options
     builder.addCase(updateWorkspaceOptions.pending, (state, { payload }) => {
       state.loading = true;
-      state.data = null;
+      // state.data = null;
     });
 
     builder.addCase(updateWorkspaceOptions.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.data = payload;
+      state.activeWorkspaceData = payload;
       state.success = true;
     });
 
