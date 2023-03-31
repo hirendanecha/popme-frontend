@@ -29,8 +29,8 @@ const BasicSetup = ({ register, valueChangeHandler }) => {
 
     dispatch(
       setImageCrop({
-        x: `${-croppedArea.x * scale}%`,
-        y: `${-croppedArea.y * scale}%`,
+        x: `${-croppedArea.x * scale}`,
+        y: `${-croppedArea.y * scale}`,
         scale,
       })
     );

@@ -66,7 +66,7 @@ const ClapprComponent = React.memo(
       (state) => state.workspace
     );
 
-    // console.log("imageCrop", imageCrop);
+    console.log("imageCrop", imageCrop);
 
     const [isToggleHiden, setIsToggleHiden] = useState("");
     const [videoSeekTime, setVideoSeekTime] = useState(0);
@@ -357,7 +357,7 @@ const ClapprComponent = React.memo(
             ></div>
 
             <div
-              className="absolute top-0 bottom-0 left-0 right-0"
+              className="absolute top-0 bottom-0 left-0 right-0 rounded-2xl overflow-hidden"
               style={{
                 background: `linear-gradient(180deg, transparent 60%, ${activeWorkspaceData?.colorStudio?.general?.gradientOverlay} 100%)`,
               }}
@@ -508,7 +508,7 @@ const ClapprComponent = React.memo(
                 </div>
               </div>
 
-              <div className="absolute bottom-[2px] flex w-full px-2">
+              <div className="absolute bottom-[2px] flex w-full rounded-xl px-2">
                 <div
                   className="flex bg-secondary-main h-[7px] rounded-xl"
                   id="progress_calc"
@@ -637,12 +637,12 @@ const ClapprComponent = React.memo(
                 style={{
                   height:
                     activeWorkspaceData?.designCustomization?.player?.size *
-                    (activeWorkspaceData?.designCustomization?.toggle?.size /
-                      100),
+                      (activeWorkspaceData?.designCustomization?.toggle?.size /
+                        100) || "",
                   width:
                     activeWorkspaceData?.designCustomization?.player?.size *
-                    (activeWorkspaceData?.designCustomization?.toggle?.size /
-                      100),
+                      (activeWorkspaceData?.designCustomization?.toggle?.size /
+                        100) || "",
                 }}
               >
                 <img
@@ -662,7 +662,7 @@ const ClapprComponent = React.memo(
                     width: "100%",
                     height: "auto",
 
-                    transform: `translate3d(${imageCrop.x}, ${imageCrop.y}, 0) scale3d(${imageCrop.scale},${imageCrop.scale},1)`,
+                    transform: `translate3d(${imageCrop.x}%, ${imageCrop.y}%, 0) scale3d(${imageCrop.scale},${imageCrop.scale},1)`,
                   }}
                 />
 
@@ -737,7 +737,7 @@ const ClapprComponent = React.memo(
 const Customization = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { data, error, activeWorkspaceData } = useSelector(
+  const { data, error, activeWorkspaceData, imageCrop } = useSelector(
     (state) => state.workspace
   );
   // console.log(data, "data");
@@ -827,6 +827,11 @@ const Customization = () => {
       basicSetUp: {
         previewStyle: "",
         videoPosition: "",
+        toggle: {
+          x: "",
+          y: "",
+          scale: "",
+        },
       },
       callToAction: {
         buttonCorner: "",
@@ -897,6 +902,12 @@ const Customization = () => {
           videoPosition: data?.data?.basicSetUp?.videoPosition
             ? data?.data?.basicSetUp?.videoPosition
             : "",
+
+          toggle: {
+            x: imageCrop.x || "",
+            y: imageCrop.y || "",
+            scale: imageCrop.scale || "",
+          },
         },
         callToAction: {
           buttonCorner: data?.data?.callToAction?.buttonCorner
@@ -1172,6 +1183,7 @@ const Customization = () => {
       .then((res) => {
         if (res?.success) {
           // console.log(res, "res of delete");
+
           dispatch(worksapceListForDropdown())
             .unwrap()
             .then((res) => {
@@ -1183,7 +1195,9 @@ const Customization = () => {
                     value: val?._id,
                   }));
 
-                // console.log("filterData", filterData);
+                if (filterData?.length === 0) {
+                  dispatch(setActiveWorkspaceData(null));
+                }
 
                 if (filterData?.length > 0 && activeWorkspace === "") {
                   setActiveWorkspace(filterData[0]?.value);
