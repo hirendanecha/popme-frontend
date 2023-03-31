@@ -57,25 +57,12 @@ const ColorPickerInput = ({
     setPickColor(false);
   };
 
-  // const popover = {
-  //   position: "absolute",
-  //   right: 0,
-  // };
-
-  // const cover = {
-  //   position: "fixed",
-  //   top: "0px",
-  //   right: "0px",
-  //   bottom: "0px",
-  //   left: "0px",
-  // };
-
   // console.log("watch(name)", watch(name));
 
   return (
     <>
       <div
-        className={`form-control w-full h-12 mb-2 border border-borderColor-main rounded-lg ${containerStyle}`}
+        className={`form-control w-full h-12 mb-2 border border-borderColor-main rounded-lg ${containerStyle} relative`}
       >
         <label
           className="flex h-full items-center justify-between px-4"
@@ -134,16 +121,20 @@ const ColorPickerInput = ({
                   // onBlur={() => setIsShow(false)}
                   onMouseLeave={() => setIsShow(false)}
                 >
-                  <ChromePicker
-                    color={value}
-                    onChange={({ hex }) => onChange(hex)}
-                    onChangeComplete={({ hex }) => {
-                      onBlur(hex);
-                      debounceFn();
-                    }}
-                    className={`color_pick_comp ${isShow ? "block" : "hidden"}`}
-                    {...field}
-                  />
+                  <div className="absolute left-0 z-60">
+                    <ChromePicker
+                      color={value}
+                      onChange={({ hex }) => onChange(hex)}
+                      onChangeComplete={({ hex }) => {
+                        onBlur(hex);
+                        debounceFn();
+                      }}
+                      className={`color_pick_comp ${
+                        isShow ? "block" : "hidden"
+                      } z-50`}
+                      {...field}
+                    />
+                  </div>
                 </div>
               )}
             />

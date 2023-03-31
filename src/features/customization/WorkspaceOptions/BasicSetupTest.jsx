@@ -14,8 +14,13 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
 
   // console.log("activeWorkspaceData", activeWorkspaceData);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
+  const [crop, setCrop] = useState({
+    x: activeWorkspaceData?.basicSetUp?.toggle?.x || 0,
+    y: activeWorkspaceData?.basicSetUp?.toggle?.y || 0,
+  });
+  const [zoom, setZoom] = useState(
+    activeWorkspaceData?.basicSetUp?.toggle?.scale || 1
+  );
   const [croppedArea, setCroppedArea] = useState(null);
 
   // console.log("croppedArea", croppedArea);
@@ -29,8 +34,8 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
 
     dispatch(
       setImageCrop({
-        x: `${-croppedArea.x * scale}%`,
-        y: `${-croppedArea.y * scale}%`,
+        x: croppedArea.x * scale,
+        y: croppedArea.y * scale,
         scale,
       })
     );
