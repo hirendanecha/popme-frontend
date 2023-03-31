@@ -20,9 +20,18 @@ const initialState = {
   masterWorkspaceOptions: null,
   activeWorkspaceData: null,
   currentWebsiteUrl: "",
+  // imageCrop: {
+  //   unit: "px", // Can be 'px' or '%'
+  //   x: 0,
+  //   y: 0,
+  //   width: 150,
+  //   height: 150,
+  //   scale: 1,
+  // },
+
   imageCrop: {
-    x: `${-0 * 1}%`,
-    y: `${-43.75 * 1}%`,
+    x: `${-0 * 1}`,
+    y: `${-43.75 * 1}`,
     scale: 1,
   },
 };
@@ -84,12 +93,10 @@ const workspaceSlice = createSlice({
     // addWorkspace
     builder.addCase(addWorkspace.pending, (state, { payload }) => {
       state.loading = true;
-      state.data = null;
     });
 
     builder.addCase(addWorkspace.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.data = payload;
       state.activeWorkspaceData = payload;
       state.success = true;
     });
@@ -139,12 +146,10 @@ const workspaceSlice = createSlice({
     // getWorkspaceById
     builder.addCase(getWorkspaceById.pending, (state, { payload }) => {
       state.loading = true;
-      state.data = null;
     });
 
     builder.addCase(getWorkspaceById.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.data = payload;
       state.activeWorkspaceData = payload;
       state.success = true;
     });
@@ -158,7 +163,6 @@ const workspaceSlice = createSlice({
     // get dropdown values
     builder.addCase(getDropdownValues.pending, (state, { payload }) => {
       state.loading = true;
-      state.data = null;
     });
 
     builder.addCase(getDropdownValues.fulfilled, (state, { payload }) => {

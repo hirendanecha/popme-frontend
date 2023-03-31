@@ -14,6 +14,8 @@ const ColorPickerInput = ({
 }) => {
   const { activeWorkspaceData } = useSelector((state) => state.workspace);
 
+  const [isShow, setIsShow] = useState(false);
+
   const [pickColor, setPickColor] = useState(false);
   // const [colorValue, setColorValue] = useState("#ddd");
 
@@ -55,17 +57,18 @@ const ColorPickerInput = ({
     setPickColor(false);
   };
 
-  const popover = {
-    position: "absolute",
-    right: 0,
-  };
-  const cover = {
-    position: "fixed",
-    top: "0px",
-    right: "0px",
-    bottom: "0px",
-    left: "0px",
-  };
+  // const popover = {
+  //   position: "absolute",
+  //   right: 0,
+  // };
+
+  // const cover = {
+  //   position: "fixed",
+  //   top: "0px",
+  //   right: "0px",
+  //   bottom: "0px",
+  //   left: "0px",
+  // };
 
   // console.log("watch(name)", watch(name));
 
@@ -126,16 +129,22 @@ const ColorPickerInput = ({
               name={name}
               control={control}
               render={({ field: { value, onChange, onBlur, ...field } }) => (
-                <ChromePicker
-                  color={value}
-                  onChange={({ hex }) => onChange(hex)}
-                  onChangeComplete={({ hex }) => {
-                    onBlur(hex);
-                    debounceFn();
-                  }}
-                  className="color_pick_comp"
-                  {...field}
-                />
+                <div
+                  onClick={() => setIsShow(true)}
+                  // onBlur={() => setIsShow(false)}
+                  onMouseLeave={() => setIsShow(false)}
+                >
+                  <ChromePicker
+                    color={value}
+                    onChange={({ hex }) => onChange(hex)}
+                    onChangeComplete={({ hex }) => {
+                      onBlur(hex);
+                      debounceFn();
+                    }}
+                    className={`color_pick_comp ${isShow ? "block" : "hidden"}`}
+                    {...field}
+                  />
+                </div>
               )}
             />
           )}

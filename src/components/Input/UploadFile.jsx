@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UploadImgSvg from "../../assets/svgs/UploadImgSvg";
 
 const UploadFile = ({
@@ -14,6 +14,8 @@ const UploadFile = ({
 }) => {
   const [fileName, setFileName] = useState("");
 
+  const [progressValue, setProgressValue] = useState(0);
+
   // console.log("watch", watch(name));
 
   const handleFile = (e) => {
@@ -24,6 +26,22 @@ const UploadFile = ({
 
     valueChangeHandler("video");
   };
+
+  // let a = 1;
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     console.log(a, "outer");
+
+  //     if (a <= 3) {
+  //       console.log(a, "inner");
+  //       setProgressValue((prev) => prev + 33.33);
+  //       a = a + 1;
+  //     }
+  //   }, 4000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  // console.log("progressValue", progressValue);
 
   return (
     <div className="flex flex-col w-full">
@@ -37,8 +55,7 @@ const UploadFile = ({
             required: false,
             onChange: (e) => handleFile(e),
             // validate: {
-            //   lessThan10MB: (files) =>
-            //     files[0]?.size < 104857600 || "Max 100mb",
+            //   lessThan10MB: (files) => files[0]?.size < 84934656 || "Max 80mb",
             //   acceptedFormats: (files) =>
             //     [
             //       "video/mp4",
@@ -68,6 +85,25 @@ const UploadFile = ({
           </div>
         </div>
       </div>
+
+      {/* <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
+        <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">
+          <div className="flex flex-col items-center w-full h-full justify-center px-4">
+            <div className="flex bg-slate-300 rounded-xl w-full h-[7px] mb-2 mt-3">
+              <div
+                className="flex bg-secondary-main rounded-xl"
+                style={{
+                  width: `${progressValue}%`,
+                  transition: "width .1s linear,height .2s",
+                }}
+              />
+            </div>
+
+            <span>Uploading...</span>
+            <button onClick={() => setProgressValue("70")}>click</button>
+          </div>
+        </div>
+      </div> */}
 
       {errorMessage && (
         <p className="mt-3 text-sm text-[#991B1B]">{errorMessage}</p>

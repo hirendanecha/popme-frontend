@@ -262,7 +262,7 @@ const Workspaces = () => {
                     <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
                       data?.data?.workspaceIndex + 1
                     }`}</h4>
-                    <p className="text-primary-normal text-sm">
+                    <p className="text-primary-normal text-sm text-center">
                       Create a new Workspace
                     </p>
                   </div>
