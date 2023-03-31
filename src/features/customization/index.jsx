@@ -66,8 +66,6 @@ const ClapprComponent = React.memo(
       (state) => state.workspace
     );
 
-    console.log("imageCrop", imageCrop);
-
     const [isToggleHiden, setIsToggleHiden] = useState("");
     const [videoSeekTime, setVideoSeekTime] = useState(0);
 
@@ -662,7 +660,7 @@ const ClapprComponent = React.memo(
                     width: "100%",
                     height: "auto",
 
-                    transform: `translate3d(${imageCrop.x}%, ${imageCrop.y}%, 0) scale3d(${imageCrop.scale},${imageCrop.scale},1)`,
+                    transform: `translate3d(-${imageCrop.x}%, -${imageCrop.y}%, 0) scale3d(${imageCrop.scale},${imageCrop.scale},1)`,
                   }}
                 />
 
@@ -893,164 +891,179 @@ const Customization = () => {
   });
 
   useEffect(() => {
-    if (data) {
-      reset({
-        basicSetUp: {
-          previewStyle: data?.data?.basicSetUp?.previewStyle
-            ? data?.data?.basicSetUp.previewStyle
+    console.log({ imageCrop });
+    reset({
+      basicSetUp: {
+        previewStyle: activeWorkspaceData?.basicSetUp?.previewStyle
+          ? activeWorkspaceData?.basicSetUp.previewStyle
+          : "",
+        videoPosition: activeWorkspaceData?.basicSetUp?.videoPosition
+          ? activeWorkspaceData?.basicSetUp?.videoPosition
+          : "",
+
+        toggle: {
+          x: `-${
+            activeWorkspaceData?.basicSetUp?.imageCrop?.x === "NaN"
+              ? 0
+              : activeWorkspaceData?.basicSetUp?.imageCrop?.x
+          }`,
+          y: `-${
+            activeWorkspaceData?.basicSetUp?.imageCrop?.y === "NaN"
+              ? 0
+              : activeWorkspaceData?.basicSetUp?.imageCrop?.y
+          }`,
+          scale: activeWorkspaceData?.basicSetUp?.imageCrop?.scale || 1,
+        },
+      },
+      callToAction: {
+        buttonCorner: activeWorkspaceData?.callToAction?.buttonCorner
+          ? activeWorkspaceData?.callToAction?.buttonCorner
+          : "",
+        buttonIcon: activeWorkspaceData?.callToAction?.buttonIcon
+          ? activeWorkspaceData?.callToAction?.buttonIcon
+          : null,
+        buttonStyle: activeWorkspaceData?.callToAction?.buttonStyle
+          ? activeWorkspaceData?.callToAction?.buttonStyle
+          : "",
+        buttonText: activeWorkspaceData?.callToAction?.buttonText
+          ? activeWorkspaceData?.callToAction?.buttonText
+          : "",
+        destinationUrl: activeWorkspaceData?.callToAction?.destinationUrl
+          ? activeWorkspaceData?.callToAction?.destinationUrl
+          : "",
+      },
+      designCustomization: {
+        authorName: activeWorkspaceData?.designCustomization?.authorName
+          ? activeWorkspaceData?.designCustomization?.authorName
+          : "",
+
+        horizontalMargin: activeWorkspaceData?.designCustomization
+          ?.horizontalMargin
+          ? activeWorkspaceData?.designCustomization?.horizontalMargin
+          : "",
+
+        verticalMargin: activeWorkspaceData?.designCustomization?.verticalMargin
+          ? activeWorkspaceData?.designCustomization?.verticalMargin
+          : "",
+
+        player: {
+          height: activeWorkspaceData?.designCustomization?.player?.height
+            ? activeWorkspaceData?.designCustomization?.player?.height
             : "",
-          videoPosition: data?.data?.basicSetUp?.videoPosition
-            ? data?.data?.basicSetUp?.videoPosition
+          onMobileDevice: activeWorkspaceData?.designCustomization?.player
+            ?.onMobileDevice
+            ? activeWorkspaceData?.designCustomization?.player?.onMobileDevice
+            : "",
+          size: activeWorkspaceData?.designCustomization?.player?.size
+            ? activeWorkspaceData?.designCustomization?.player?.size
+            : "",
+        },
+        toggle: {
+          animation: activeWorkspaceData?.designCustomization?.toggle?.animation
+            ? activeWorkspaceData?.designCustomization?.toggle?.animation
             : "",
 
-          toggle: {
-            x: imageCrop.x || "",
-            y: imageCrop.y || "",
-            scale: imageCrop.scale || "",
-          },
+          showPlayIcon:
+            typeof activeWorkspaceData?.designCustomization?.toggle
+              ?.showPlayIcon === "boolean"
+              ? activeWorkspaceData?.designCustomization?.toggle?.showPlayIcon
+              : "",
+
+          showCloseIcon:
+            typeof activeWorkspaceData?.designCustomization?.toggle
+              ?.showCloseIcon === "boolean"
+              ? activeWorkspaceData?.designCustomization?.toggle?.showCloseIcon
+              : "",
+
+          size: activeWorkspaceData?.designCustomization?.toggle?.size
+            ? activeWorkspaceData?.designCustomization?.toggle?.size
+            : "",
+        },
+      },
+      colorStudio: {
+        templates: activeWorkspaceData?.colorStudio?.templates
+          ? activeWorkspaceData?.colorStudio?.templates
+          : "",
+
+        general: {
+          gradientOverlay: activeWorkspaceData?.colorStudio?.general
+            ?.gradientOverlay
+            ? activeWorkspaceData?.colorStudio?.general?.gradientOverlay
+            : "#273149",
+          videoDescription: activeWorkspaceData?.colorStudio?.general
+            ?.videoDescription
+            ? activeWorkspaceData?.colorStudio?.general?.videoDescription
+            : "#FFFFFF",
+          videoTitle: activeWorkspaceData?.colorStudio?.general?.videoTitle
+            ? activeWorkspaceData?.colorStudio?.general?.videoTitle
+            : "#FFFFFF",
         },
         callToAction: {
-          buttonCorner: data?.data?.callToAction?.buttonCorner
-            ? data?.data?.callToAction?.buttonCorner
-            : "",
-          buttonIcon: data?.data?.callToAction?.buttonIcon
-            ? data?.data?.callToAction?.buttonIcon
-            : null,
-          buttonStyle: data?.data?.callToAction?.buttonStyle
-            ? data?.data?.callToAction?.buttonStyle
-            : "",
-          buttonText: data?.data?.callToAction?.buttonText
-            ? data?.data?.callToAction?.buttonText
-            : "",
-          destinationUrl: data?.data?.callToAction?.destinationUrl
-            ? data?.data?.callToAction?.destinationUrl
-            : "",
+          buttonBackground:
+            activeWorkspaceData?.colorStudio?.callToAction?.buttonBackground,
+
+          buttonOutline: activeWorkspaceData?.colorStudio?.callToAction
+            ?.buttonOutline
+            ? activeWorkspaceData?.colorStudio?.callToAction?.buttonOutline
+            : "#FFFFFF",
+
+          buttonText: activeWorkspaceData?.colorStudio?.callToAction?.buttonText
+            ? activeWorkspaceData?.colorStudio?.callToAction?.buttonText
+            : "#FFFFFF",
         },
-        designCustomization: {
-          authorName: data?.data?.designCustomization?.authorName
-            ? data?.data?.designCustomization?.authorName
-            : "",
+        player: {
+          authorName: activeWorkspaceData?.colorStudio?.player?.authorName
+            ? activeWorkspaceData?.colorStudio?.player?.authorName
+            : "#FFFFFF",
 
-          horizontalMargin: data?.data?.designCustomization?.horizontalMargin
-            ? data?.data?.designCustomization?.horizontalMargin
-            : "",
+          control: activeWorkspaceData?.colorStudio?.player?.control
+            ? activeWorkspaceData?.colorStudio?.player?.control
+            : "#FFFFFF",
 
-          verticalMargin: data?.data?.designCustomization?.verticalMargin
-            ? data?.data?.designCustomization?.verticalMargin
-            : "",
-
-          player: {
-            height: data?.data?.designCustomization?.player?.height
-              ? data?.data?.designCustomization?.player?.height
-              : "",
-            onMobileDevice: data?.data?.designCustomization?.player
-              ?.onMobileDevice
-              ? data?.data?.designCustomization?.player?.onMobileDevice
-              : "",
-            size: data?.data?.designCustomization?.player?.size
-              ? data?.data?.designCustomization?.player?.size
-              : "",
-          },
-          toggle: {
-            animation: data?.data?.designCustomization?.toggle?.animation
-              ? data?.data?.designCustomization?.toggle?.animation
-              : "",
-
-            showPlayIcon:
-              typeof data?.data?.designCustomization?.toggle?.showPlayIcon ===
-              "boolean"
-                ? data?.data?.designCustomization?.toggle?.showPlayIcon
-                : "",
-
-            showCloseIcon:
-              typeof data?.data?.designCustomization?.toggle?.showCloseIcon ===
-              "boolean"
-                ? data?.data?.designCustomization?.toggle?.showCloseIcon
-                : "",
-
-            size: data?.data?.designCustomization?.toggle?.size
-              ? data?.data?.designCustomization?.toggle?.size
-              : "",
-          },
+          seeker: activeWorkspaceData?.colorStudio?.player?.seeker
+            ? activeWorkspaceData?.colorStudio?.player?.seeker
+            : "#1B5CF3",
         },
-        colorStudio: {
-          templates: data?.data?.colorStudio?.templates
-            ? data?.data?.colorStudio?.templates
-            : "",
-
-          general: {
-            gradientOverlay: data?.data?.colorStudio?.general?.gradientOverlay
-              ? data?.data?.colorStudio?.general?.gradientOverlay
-              : "#273149",
-            videoDescription: data?.data?.colorStudio?.general?.videoDescription
-              ? data?.data?.colorStudio?.general?.videoDescription
-              : "#FFFFFF",
-            videoTitle: data?.data?.colorStudio?.general?.videoTitle
-              ? data?.data?.colorStudio?.general?.videoTitle
-              : "#FFFFFF",
-          },
-          callToAction: {
-            buttonBackground:
-              data?.data?.colorStudio?.callToAction?.buttonBackground,
-
-            buttonOutline: data?.data?.colorStudio?.callToAction?.buttonOutline
-              ? data?.data?.colorStudio?.callToAction?.buttonOutline
-              : "#FFFFFF",
-
-            buttonText: data?.data?.colorStudio?.callToAction?.buttonText
-              ? data?.data?.colorStudio?.callToAction?.buttonText
-              : "#FFFFFF",
-          },
-          player: {
-            authorName: data?.data?.colorStudio?.player?.authorName
-              ? data?.data?.colorStudio?.player?.authorName
-              : "#FFFFFF",
-
-            control: data?.data?.colorStudio?.player?.control
-              ? data?.data?.colorStudio?.player?.control
-              : "#FFFFFF",
-
-            seeker: data?.data?.colorStudio?.player?.seeker
-              ? data?.data?.colorStudio?.player?.seeker
-              : "#1B5CF3",
-          },
-          toggle: {
-            closeBackground: data?.data?.colorStudio?.toggle?.closeBackground
-              ? data?.data?.colorStudio?.toggle?.closeBackground
-              : "#FFFFFF",
-            closeIconColor: data?.data?.colorStudio?.toggle?.closeIconColor
-              ? data?.data?.colorStudio?.toggle?.closeIconColor
-              : "#FFFFFF",
-            playIcon: data?.data?.colorStudio?.toggle?.playIcon
-              ? data?.data?.colorStudio?.toggle?.playIcon
-              : "#FFFFFF",
-          },
+        toggle: {
+          closeBackground: activeWorkspaceData?.colorStudio?.toggle
+            ?.closeBackground
+            ? activeWorkspaceData?.colorStudio?.toggle?.closeBackground
+            : "#FFFFFF",
+          closeIconColor: activeWorkspaceData?.colorStudio?.toggle
+            ?.closeIconColor
+            ? activeWorkspaceData?.colorStudio?.toggle?.closeIconColor
+            : "#FFFFFF",
+          playIcon: activeWorkspaceData?.colorStudio?.toggle?.playIcon
+            ? activeWorkspaceData?.colorStudio?.toggle?.playIcon
+            : "#FFFFFF",
         },
-        fontStudio: {
-          authorName: data?.data?.fontStudio?.authorName
-            ? data?.data?.fontStudio?.authorName
-            : "",
-          ctaButton: data?.data?.fontStudio?.ctaButton
-            ? data?.data?.fontStudio?.ctaButton
-            : "",
-          fontFamily: data?.data?.fontStudio?.fontFamily
-            ? data?.data?.fontStudio?.fontFamily
-            : "",
-          videoDescription: data?.data?.fontStudio?.videoDescription
-            ? data?.data?.fontStudio?.videoDescription
-            : "",
-          videoTitle: data?.data?.fontStudio?.videoTitle
-            ? data?.data?.fontStudio?.videoTitle
-            : "",
-        },
-        title: data?.data?.title ? data?.data?.title : "",
-        description: data?.data?.description ? data?.data?.description : "",
-        video: data?.data?.video ? data?.data?.video?.originalname : "",
-      });
-    }
-  }, [data]);
-
-  //****** */
+      },
+      fontStudio: {
+        authorName: activeWorkspaceData?.fontStudio?.authorName
+          ? activeWorkspaceData?.fontStudio?.authorName
+          : "",
+        ctaButton: activeWorkspaceData?.fontStudio?.ctaButton
+          ? activeWorkspaceData?.fontStudio?.ctaButton
+          : "",
+        fontFamily: activeWorkspaceData?.fontStudio?.fontFamily
+          ? activeWorkspaceData?.fontStudio?.fontFamily
+          : "",
+        videoDescription: activeWorkspaceData?.fontStudio?.videoDescription
+          ? activeWorkspaceData?.fontStudio?.videoDescription
+          : "",
+        videoTitle: activeWorkspaceData?.fontStudio?.videoTitle
+          ? activeWorkspaceData?.fontStudio?.videoTitle
+          : "",
+      },
+      title: activeWorkspaceData?.title ? activeWorkspaceData?.title : "",
+      description: activeWorkspaceData?.description
+        ? activeWorkspaceData?.description
+        : "",
+      video: activeWorkspaceData?.video
+        ? activeWorkspaceData?.video?.originalname
+        : "",
+    });
+  }, [activeWorkspaceData]);
 
   function buildFormData(formData, data, parentKey) {
     if (
@@ -1062,6 +1075,12 @@ const Customization = () => {
       Object.keys(data).forEach((key) => {
         if (key === "video") {
           formData.append(key, data[key][0]);
+        } else if (["x", "y"].includes(key)) {
+          buildFormData(
+            formData,
+            Math.abs(data[key]),
+            parentKey ? `${parentKey}[${key}]` : key
+          );
         } else {
           buildFormData(
             formData,
@@ -1093,7 +1112,6 @@ const Customization = () => {
       dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
         .unwrap()
         .then((res) => {
-          // console.log("res", res);
           dispatch(setActiveWorkspaceData(res?.data));
         })
         .catch((err) => {
