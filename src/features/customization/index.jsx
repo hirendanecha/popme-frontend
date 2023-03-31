@@ -891,7 +891,6 @@ const Customization = () => {
   });
 
   useEffect(() => {
-    console.log({ imageCrop });
     reset({
       basicSetUp: {
         previewStyle: activeWorkspaceData?.basicSetUp?.previewStyle
@@ -902,16 +901,16 @@ const Customization = () => {
           : "",
         toggle: {
           x: `-${
-            activeWorkspaceData?.basicSetUp?.imageCrop?.x === "NaN"
+            activeWorkspaceData?.basicSetUp?.toggle?.x === 0
               ? 0
-              : activeWorkspaceData?.basicSetUp?.imageCrop?.x
+              : activeWorkspaceData?.basicSetUp?.toggle?.x || imageCrop?.x
           }`,
           y: `-${
-            activeWorkspaceData?.basicSetUp?.imageCrop?.y === "NaN"
+            activeWorkspaceData?.basicSetUp?.toggle?.y === 0
               ? 0
-              : activeWorkspaceData?.basicSetUp?.imageCrop?.y
+              : activeWorkspaceData?.basicSetUp?.toggle?.y || imageCrop?.y
           }`,
-          scale: activeWorkspaceData?.basicSetUp?.imageCrop?.scale || 1,
+          scale: activeWorkspaceData?.basicSetUp?.toggle?.scale || 1,
         },
       },
       callToAction: {
@@ -1104,8 +1103,6 @@ const Customization = () => {
   }
 
   const onSubmit = (data) => {
-    // console.log("onSubmit", data);
-
     if (data) {
       let formData = jsonToFormData(data);
       dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
