@@ -900,7 +900,6 @@ const Customization = () => {
         videoPosition: activeWorkspaceData?.basicSetUp?.videoPosition
           ? activeWorkspaceData?.basicSetUp?.videoPosition
           : "",
-
         toggle: {
           x: `-${
             activeWorkspaceData?.basicSetUp?.imageCrop?.x === "NaN"
