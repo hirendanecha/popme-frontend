@@ -31,7 +31,7 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
 
     const scale = 100 / croppedArea.width;
 
-    if (scale !== NaN && scale) {
+    if (!Number.isNaN(scale)) {
       dispatch(
         setImageCrop({
           x: croppedArea.x * scale,
