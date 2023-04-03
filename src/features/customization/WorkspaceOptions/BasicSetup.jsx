@@ -185,6 +185,11 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
 
                         //   }
                         // }}
+
+                        // cropSize={{
+                        //   width: 168.75,
+                        //   height: 168.75,
+                        // }}
                       />
                     </div>
                   </div>
