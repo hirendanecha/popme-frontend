@@ -179,6 +179,12 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                           setCroppedArea(croppedArea);
                         }}
                         onCropComplete={onCropComplete}
+                        disableAutomaticStylesInjection={true}
+                        // style={{
+                        //   containerStyle: {
+
+                        //   }
+                        // }}
                       />
                     </div>
                   </div>

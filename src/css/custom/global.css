@@ -82,6 +82,39 @@ body {
   -moz-user-select: none !important; /* Firefox */
   -ms-user-select: none !important; /* Edge, IE */
   user-select: none !important; /* Modern browsers */
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+  cursor: move;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #999393;
+}
+
+.reactEasyCrop_Contain {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.reactEasyCrop_CropArea {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
 }
 
 @keyframes bounce2 {
