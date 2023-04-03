@@ -126,7 +126,7 @@ export const updateWorkspaceOptions = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await workSpaceAPI.updateWorkspaceApi(data);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

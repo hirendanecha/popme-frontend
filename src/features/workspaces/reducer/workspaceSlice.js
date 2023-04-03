@@ -30,8 +30,8 @@ const initialState = {
   // },
 
   imageCrop: {
-    x: `${0 * 1}`,
-    y: `${43.75 * 1}`,
+    x: `${0}`,
+    y: `${0}`,
     scale: 1,
   },
 };
@@ -47,12 +47,20 @@ const workspaceSlice = createSlice({
       state.currentWebsiteUrl = action.payload;
     },
     setImageCrop: (state, action) => {
+      // console.log("payload", action.payload);
+
       state.imageCrop = action.payload;
+
       state.activeWorkspaceData = {
         ...state.activeWorkspaceData,
         basicSetUp: {
-          ...state.activeWorkspaceData?.basicSetUp,
-          imageCrop: action?.payload,
+          previewStyle: state.activeWorkspaceData?.basicSetUp?.previewStyle,
+          videoPosition: state.activeWorkspaceData?.basicSetUp?.videoPosition,
+          toggle: {
+            x: action.payload.x,
+            y: action.payload.y,
+            scale: action.payload.scale,
+          },
         },
       };
     },

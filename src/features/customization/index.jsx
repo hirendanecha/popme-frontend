@@ -47,7 +47,6 @@ import FontStudio from "./WorkspaceOptions/FontStudio";
 import Preview from "./WorkspaceOptions/Preview";
 import GetLink from "./WorkspaceOptions/GetLink";
 import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
-import BasicSetupTest from "./WorkspaceOptions/BasicSetupTest";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -69,22 +68,46 @@ const ClapprComponent = React.memo(
     const [isToggleHiden, setIsToggleHiden] = useState("");
     const [videoSeekTime, setVideoSeekTime] = useState(0);
 
-    const renderSwitch = (activeWorkspaceData) => {
+    const renderSwitch = (activeWorkspaceData, color, fontSize) => {
       switch (activeWorkspaceData !== null) {
         case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
-          return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
+          return (
+            <RightArrowSvg
+              w={`w-[${fontSize}px]`}
+              h={`h-[${fontSize}px]`}
+              color={`text-[${color}]`}
+            />
+          );
 
         case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
-          return <RightExitSvg w="w-6" h="h-6" color="text-white" />;
+          return (
+            <RightExitSvg
+              w={`w-[${fontSize}px]`}
+              h={`h-[${fontSize}px]`}
+              color={`text-[${color}]`}
+            />
+          );
 
         case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
-          return <CalendarSvg w="15" h="15" color="#fff" />;
+          return <CalendarSvg w={fontSize} h={fontSize} color={color} />;
 
         case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
-          return <CloseSvg w="w-6" h="h-6" color="text-white" />;
+          return (
+            <CloseSvg
+              w={`w-[${fontSize}px]`}
+              h={`h-[${fontSize}px]`}
+              color={`text-[${color}]`}
+            />
+          );
 
         default:
-          return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
+          return (
+            <RightArrowSvg
+              w={`w-[${fontSize}px]`}
+              h={`h-[${fontSize}px]`}
+              color={`text-[${color}]`}
+            />
+          );
       }
     };
     useEffect(() => {
@@ -471,8 +494,13 @@ const ClapprComponent = React.memo(
                             fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
 
                             borderColor:
-                              activeWorkspaceData?.colorStudio?.callToAction
-                                ?.buttonOutline,
+                              activeWorkspaceData?.callToAction?.buttonStyle ===
+                                "ghost" ||
+                              activeWorkspaceData?.callToAction?.buttonStyle ===
+                                "link"
+                                ? "transparent"
+                                : activeWorkspaceData?.colorStudio?.callToAction
+                                    ?.buttonOutline,
 
                             color:
                               activeWorkspaceData?.colorStudio?.callToAction
@@ -497,7 +525,12 @@ const ClapprComponent = React.memo(
                           >
                             {activeWorkspaceData?.callToAction?.buttonText ||
                               "Try for free"}
-                            {renderSwitch(activeWorkspaceData)}
+                            {renderSwitch(
+                              activeWorkspaceData,
+                              activeWorkspaceData?.colorStudio?.callToAction
+                                ?.buttonText,
+                              activeWorkspaceData?.fontStudio?.ctaButton
+                            )}
                           </span>
                         </button>
                       </Link>
@@ -643,24 +676,25 @@ const ClapprComponent = React.memo(
                         100) || "",
                 }}
               >
-                <img
+                {/* <img
                   src={animatedImage && animatedImage}
                   alt="workspace1"
                   className="object-cover"
                   style={{
-                    // height:
-                    //   activeWorkspaceData?.designCustomization?.player?.size *
-                    //   (activeWorkspaceData?.designCustomization?.toggle?.size /
-                    //     100),
-                    // width:
-                    //   activeWorkspaceData?.designCustomization?.player?.size *
-                    //   (activeWorkspaceData?.designCustomization?.toggle?.size /
-                    //     100),
-
                     width: "100%",
-                    height: "auto",
-
+                    height: "100%",
                     transform: `translate3d(-${imageCrop.x}%, -${imageCrop.y}%, 0) scale3d(${imageCrop.scale},${imageCrop.scale},1)`,
+                  }}
+                /> */}
+
+                <div
+                  style={{
+                    backgroundImage: `url(${animatedImage})`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "cover",
+                    height: "100%",
+                    width: "100%",
+                    backgroundPosition: `${activeWorkspaceData?.basicSetUp?.toggle?.x}% ${activeWorkspaceData?.basicSetUp?.toggle?.y}%`,
                   }}
                 />
 
@@ -826,9 +860,15 @@ const Customization = () => {
         previewStyle: "",
         videoPosition: "",
         toggle: {
-          x: "",
-          y: "",
-          scale: "",
+          x: activeWorkspaceData?.basicSetUp?.toggle?.x
+            ? activeWorkspaceData?.basicSetUp?.toggle?.x
+            : "",
+          y: activeWorkspaceData?.basicSetUp?.toggle?.y
+            ? activeWorkspaceData?.basicSetUp?.toggle?.y
+            : "",
+          scale: activeWorkspaceData?.basicSetUp?.toggle?.scale
+            ? activeWorkspaceData?.basicSetUp?.toggle?.scale
+            : "",
         },
       },
       callToAction: {
@@ -891,6 +931,8 @@ const Customization = () => {
   });
 
   useEffect(() => {
+    // console.log("activeWorkspaceData", activeWorkspaceData);
+
     reset({
       basicSetUp: {
         previewStyle: activeWorkspaceData?.basicSetUp?.previewStyle
@@ -899,19 +941,36 @@ const Customization = () => {
         videoPosition: activeWorkspaceData?.basicSetUp?.videoPosition
           ? activeWorkspaceData?.basicSetUp?.videoPosition
           : "",
+
         toggle: {
           x: `-${
-            activeWorkspaceData?.basicSetUp?.toggle?.x === 0
-              ? 0
-              : activeWorkspaceData?.basicSetUp?.toggle?.x || imageCrop?.x
+            activeWorkspaceData?.basicSetUp?.toggle?.x
+              ? activeWorkspaceData?.basicSetUp?.toggle?.x
+              : 0
           }`,
           y: `-${
-            activeWorkspaceData?.basicSetUp?.toggle?.y === 0
-              ? 0
-              : activeWorkspaceData?.basicSetUp?.toggle?.y || imageCrop?.y
+            activeWorkspaceData?.basicSetUp?.toggle?.y
+              ? activeWorkspaceData?.basicSetUp?.toggle?.y
+              : 0
           }`,
-          scale: activeWorkspaceData?.basicSetUp?.toggle?.scale || 1,
+          scale: activeWorkspaceData?.basicSetUp?.toggle?.scale
+            ? activeWorkspaceData?.basicSetUp?.toggle?.scale
+            : 1,
         },
+
+        // toggle: {
+        //   x: `-${
+        //     activeWorkspaceData?.basicSetUp?.toggle?.x === 0
+        //       ? 0
+        //       : activeWorkspaceData?.basicSetUp?.toggle?.x || imageCrop?.x
+        //   }`,
+        //   y: `-${
+        //     activeWorkspaceData?.basicSetUp?.toggle?.y === 0
+        //       ? 0
+        //       : activeWorkspaceData?.basicSetUp?.toggle?.y || imageCrop?.y
+        //   }`,
+        //   scale: activeWorkspaceData?.basicSetUp?.toggle?.scale || 1,
+        // },
       },
       callToAction: {
         buttonCorner: activeWorkspaceData?.callToAction?.buttonCorner
@@ -1103,16 +1162,33 @@ const Customization = () => {
   }
 
   const onSubmit = (data) => {
+    // console.log("activeWorkspaceData", activeWorkspaceData);
+    // console.log("data", data);
+    // console.log("imageCrop", imageCrop);
+
+    // const kk = {
+    //   ...data,
+    //   basicSetUp: {
+    //     previewStyle: data?.basicSetUp?.previewStyle,
+    //     videoPosition: data?.basicSetUp?.videoPosition,
+    //     toggle: {
+    //       x: activeWorkspaceData?.basicSetUp?.toggle?.x,
+    //       y: activeWorkspaceData?.basicSetUp?.toggle?.y,
+    //       scale: activeWorkspaceData?.basicSetUp?.toggle?.scale,
+    //     },
+    //   },
+    // };
+
     if (data) {
       let formData = jsonToFormData(data);
-      dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }))
-        .unwrap()
-        .then((res) => {
-          dispatch(setActiveWorkspaceData(res?.data));
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
+      dispatch(updateWorkspaceOptions({ data: formData, id: activeWorkspace }));
+      // .unwrap()
+      // .then((res) => {
+      //   dispatch(setActiveWorkspaceData(res?.data));
+      // })
+      // .catch((err) => {
+      //   console.log("err", err);
+      // });
     }
   };
 
@@ -1403,14 +1479,8 @@ const Customization = () => {
                 </div>
               </li>
 
-              {/* <li>
-                <BasicSetup
-                  register={register}
-                  valueChangeHandler={valueChangeHandler}
-                />
-              </li> */}
               <li>
-                <BasicSetupTest
+                <BasicSetup
                   register={register}
                   valueChangeHandler={valueChangeHandler}
                 />
