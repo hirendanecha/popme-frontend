@@ -41,6 +41,10 @@ body {
   background-color: transparent !important;
 }
 
+[data-player] {
+  border-radius: 1rem;
+}
+
 .ghost {
   background-color: transparent !important;
 }
