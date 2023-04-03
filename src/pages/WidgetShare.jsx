@@ -63,22 +63,46 @@ const WidgetShare = () => {
 
   console.log("workspaceData", workspaceData);
 
-  const renderSwitch = (activeWorkspaceData) => {
+  const renderSwitch = (activeWorkspaceData, color, fontSize) => {
     switch (activeWorkspaceData !== null) {
       case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
-        return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
+        return (
+          <RightArrowSvg
+            w={`w-[${fontSize}px]`}
+            h={`h-[${fontSize}px]`}
+            color={`text-[${color}]`}
+          />
+        );
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
-        return <RightExitSvg w="w-6" h="h-6" color="text-white" />;
+        return (
+          <RightExitSvg
+            w={`w-[${fontSize}px]`}
+            h={`h-[${fontSize}px]`}
+            color={`text-[${color}]`}
+          />
+        );
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
-        return <CalendarSvg w="15" h="15" color="#fff" />;
+        return <CalendarSvg w={fontSize} h={fontSize} color={color} />;
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
-        return <CloseSvg w="w-6" h="h-6" color="text-white" />;
+        return (
+          <CloseSvg
+            w={`w-[${fontSize}px]`}
+            h={`h-[${fontSize}px]`}
+            color={`text-[${color}]`}
+          />
+        );
 
       default:
-        return <RightArrowSvg w="w-6" h="h-6" color="text-white" />;
+        return (
+          <RightArrowSvg
+            w={`w-[${fontSize}px]`}
+            h={`h-[${fontSize}px]`}
+            color={`text-[${color}]`}
+          />
+        );
     }
   };
 
@@ -354,8 +378,13 @@ const WidgetShare = () => {
                             fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
 
                             borderColor:
-                              workspaceData?.colorStudio?.callToAction
-                                ?.buttonOutline,
+                              workspaceData?.callToAction?.buttonStyle ===
+                                "ghost" ||
+                              workspaceData?.callToAction?.buttonStyle ===
+                                "link"
+                                ? "transparent"
+                                : workspaceData?.colorStudio?.callToAction
+                                    ?.buttonOutline,
 
                             color:
                               workspaceData?.colorStudio?.callToAction
@@ -377,7 +406,12 @@ const WidgetShare = () => {
                           >
                             {workspaceData?.callToAction?.buttonText ||
                               "Try for free"}
-                            {renderSwitch(workspaceData)}
+                            {renderSwitch(
+                              workspaceData,
+                              workspaceData?.colorStudio?.callToAction
+                                ?.buttonText,
+                              workspaceData?.fontStudio?.ctaButton
+                            )}
                           </span>
                         </button>
                       </Link>

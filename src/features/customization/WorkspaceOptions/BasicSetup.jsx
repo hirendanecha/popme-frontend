@@ -7,19 +7,23 @@ import * as te from "tw-elements";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-const BasicSetup = ({ register, valueChangeHandler }) => {
+const BasicSetupTest = ({ register, valueChangeHandler }) => {
   const dispatch = useDispatch();
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
   const { activeWorkspaceData } = useSelector((state) => state.workspace);
 
   // console.log("activeWorkspaceData", activeWorkspaceData);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedArea, setCroppedArea] = useState(null);
+  const [crop, setCrop] = useState({
+    x: activeWorkspaceData?.basicSetUp?.toggle?.x || 0,
+    y: activeWorkspaceData?.basicSetUp?.toggle?.y || 0,
+  });
 
-  // console.log("croppedArea", croppedArea);
-  // dispatch(crop);
+  const [zoom, setZoom] = useState(
+    activeWorkspaceData?.basicSetUp?.toggle?.scale || 1
+  );
+
+  const [croppedArea, setCroppedArea] = useState(null);
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     // console.log(croppedArea, "croppedArea");
@@ -27,35 +31,34 @@ const BasicSetup = ({ register, valueChangeHandler }) => {
 
     const scale = 100 / croppedArea.width;
 
-    dispatch(
-      setImageCrop({
-        x: `${-croppedArea.x * scale}`,
-        y: `${-croppedArea.y * scale}`,
-        scale,
-      })
-    );
+    if (!Number.isNaN(scale)) {
+      dispatch(
+        setImageCrop({
+          x: croppedArea.x * scale,
+          y: croppedArea.y * scale,
+          scale,
+        })
+      );
+    }
   }, []);
+
+  // console.log("croppedArea", croppedArea);
 
   return (
     <>
       <div className="flex flex-col w-full p-0 border border-neutral-200 bg-white">
-        {/* <div className="flex flex-col w-full p-0 border border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800"> */}
-
         <h2 className="w-full" id="headingOne">
           <button
-            className="group relative flex w-full items-center rounded-t-[15px] border-0 bg-white py-4 px-5 text-left text-xl text-gray-600 font-semibold [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)]"
-            // className="group relative flex w-full items-center rounded-t-[15px] border-0 bg-white py-4 px-5 text-left text-xl text-gray-600 font-semibold [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
-
+            className="group relative flex w-full items-center rounded-none border-0 bg-white py-4 px-5 text-left text-xl text-gray-700 font-bold [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)]"
             type="button"
             data-te-collapse-init
+            data-te-collapse-collapsed
             data-te-target="#collapseOne"
-            aria-expanded="true"
+            aria-expanded="false"
             aria-controls="collapseOne"
           >
             Basic Setup
             <span className="ml-auto h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none">
-              {/* <span className="ml-auto h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none dark:fill-blue-300 dark:group-[[data-te-collapse-collapsed]]:fill-white"> */}
-
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -73,12 +76,10 @@ const BasicSetup = ({ register, valueChangeHandler }) => {
             </span>
           </button>
         </h2>
-
         <div
           id="collapseOne"
-          className="!visible w-full"
+          className="!visible hidden"
           data-te-collapse-item
-          data-te-collapse-show
           aria-labelledby="headingOne"
           data-te-parent="#accordionExample"
         >
@@ -158,26 +159,28 @@ const BasicSetup = ({ register, valueChangeHandler }) => {
                 activeWorkspaceData?.basicSetUp?.previewStyle ===
                   "circular" && (
                   <div className="inline-block w-full relative h-[300px]">
-                    <Cropper
-                      image={
-                        baseURL +
-                        "/" +
-                        activeWorkspaceData?.video?.thumbnailDestination +
-                        "/" +
-                        activeWorkspaceData?.video?.thumbnail
-                      }
-                      crop={crop}
-                      zoom={zoom}
-                      cropShape="round"
-                      showGrid={false}
-                      aspect={1}
-                      onCropChange={setCrop}
-                      onCropComplete={onCropComplete}
-                      onZoomChange={setZoom}
-                      onCropAreaChange={(croppedArea) => {
-                        setCroppedArea(croppedArea);
-                      }}
-                    />
+                    <div className="absolute top-0 bottom-0 left-0 right-0">
+                      <Cropper
+                        image={
+                          baseURL +
+                          "/" +
+                          activeWorkspaceData?.video?.thumbnailDestination +
+                          "/" +
+                          activeWorkspaceData?.video?.thumbnail
+                        }
+                        aspect={1}
+                        crop={crop}
+                        zoom={zoom}
+                        cropShape="round"
+                        showGrid={false}
+                        onCropChange={setCrop}
+                        onZoomChange={setZoom}
+                        onCropAreaChange={(croppedArea) => {
+                          setCroppedArea(croppedArea);
+                        }}
+                        onCropComplete={onCropComplete}
+                      />
+                    </div>
                   </div>
                 )}
             </div>
@@ -188,4 +191,4 @@ const BasicSetup = ({ register, valueChangeHandler }) => {
   );
 };
 
-export default BasicSetup;
+export default BasicSetupTest;

@@ -285,7 +285,7 @@ const WorkspacePost = ({
                   Total Minutes Watchtime
                 </p>
                 <h4 className="text-primary-main text-base font-bold">
-                  {item?.totalWatchedTime}
+                  {Number(item?.totalWatchedTime).toFixed(2)}
                 </h4>
               </div>
             </div>

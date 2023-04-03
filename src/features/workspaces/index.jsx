@@ -249,7 +249,7 @@ const Workspaces = () => {
                   className="flex flex-col justify-center items-center border-4 border-dashed border-borderColor-main h-[448px]"
                 >
                   {PlusIcon()}
-                  <h3 className="text-lg text-primary-normal">
+                  <h3 className="text-lg text-primary-normal text-center">
                     <span className="text-secondary-main">Create</span> a new
                     Workspace
                   </h3>
@@ -262,7 +262,7 @@ const Workspaces = () => {
                     <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
                       data?.data?.workspaceIndex + 1
                     }`}</h4>
-                    <p className="text-primary-normal text-sm text-center">
+                    <p className="text-primary-normal text-sm">
                       Create a new Workspace
                     </p>
                   </div>
