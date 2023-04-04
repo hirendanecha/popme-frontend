@@ -232,9 +232,9 @@ const Workspaces = () => {
             workspacePosts?.length > 0 &&
             workspacePosts?.map((item, index) => (
               <WorkspacePost
-                key={index}
+                key={index.toString()}
                 item={item}
-                index={index}
+                index={index.toString()}
                 onDeleteHandler={onDeleteHandler}
                 onEditHandler={onEditHandler}
                 onDuplicateHandler={onDuplicateHandler}
