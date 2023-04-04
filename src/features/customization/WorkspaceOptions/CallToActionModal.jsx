@@ -58,8 +58,8 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
           aria-labelledby="headingThree"
           data-te-parent="#accordionExample"
         >
-          <div className="py-4 px-4">
-            <div className="">
+          <div className="pb-2 px-4">
+            <div>
               <NewInputText
                 type="text"
                 labelTitle="Button Text"
@@ -70,7 +70,7 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                 valueChangeHandler={valueChangeHandler}
               />
             </div>
-            <div className="">
+            <div>
               <NewInputText
                 type="url"
                 labelTitle="Destination URL"
