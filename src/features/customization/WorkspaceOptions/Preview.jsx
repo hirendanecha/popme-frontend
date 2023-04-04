@@ -22,7 +22,7 @@ const Preview = ({ register }) => {
 
   return (
     <>
-      <div className="flex flex-col w-full p-0 border border-t-0 border-neutral-200 bg-white">
+      <div className="flex flex-col w-80 p-0 border border-t-0 border-neutral-200 bg-white">
         <h2 className="w-full" id="headingSeven">
           <button
             className="group relative flex w-full items-center border-0 bg-white py-4 px-5 text-left text-xl text-gray-700 font-bold [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] [&[data-te-collapse-collapsed]]:rounded-b-[15px] [&[data-te-collapse-collapsed]]:transition-none"
@@ -54,7 +54,7 @@ const Preview = ({ register }) => {
         </h2>
         <div
           id="collapseSeven"
-          className="!visible hidden"
+          className="!visible hidden w-80"
           data-te-collapse-item
           aria-labelledby="headingSeven"
           data-te-parent="#accordionExample"
@@ -98,8 +98,10 @@ const Preview = ({ register }) => {
 
 <div className="px-4"> */}
               {/* {console.log(activeWorkspaceData?.identity,"???")} */}
-              <div className="flex items-center mb-6">
-                <ShareSvg height="18" width="18" stroke="#3A6FFA" />
+              <div className="flex items-center mb-3">
+                <div className="w-5">
+                  <ShareSvg height="18" width="18" stroke="#3A6FFA" />
+                </div>
 
                 {activeWorkspaceData !== null && (
                   <Link
@@ -113,17 +115,7 @@ const Preview = ({ register }) => {
 
                     //   // to={`http://localhost:5173/share/preview?site=https://${userWebsite}`}
                   >
-                    <p
-                      // onClick={() => {
-                      //   window.open(
-                      //     `${window?.location?.origin}/preview/${btoa(
-                      //       `${activeWorkspaceData?._id}:${activeWorkspaceData?.identity}`
-                      //     )}?site=https://${userWebsite}`,
-                      //     "_blank"
-                      //   );
-                      // }}
-                      className="text-base text-secondary-main font-bold ml-2 text-left"
-                    >
+                    <p className="text-sm text-secondary-main font-bold ml-2 text-left">
                       {/* popme.io/preview?example.com */}
                       {/* https://popme-frontend.vercel.app/app/preview?site=https://opash.in */}
                       {`${window?.location?.origin}/preview?${userWebsite}`}

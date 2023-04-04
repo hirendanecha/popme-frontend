@@ -100,7 +100,7 @@ const ColorStudio = ({
           aria-labelledby="headingFive"
           data-te-parent="#accordionExample"
         >
-          <div className="py-4">
+          <div>
             <div className="flex flex-col px-4 pb-3 border-b border-borderColor-main">
               <h5 className="text-primary-main text-base text-left font-semibold py-2">
                 Templates
