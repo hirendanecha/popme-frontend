@@ -596,7 +596,7 @@ const ClapprComponent = React.memo(
                 <img
                   src={logo}
                   alt="logo"
-                  className="w-[46px] h-[30px] object-contain"
+                  className="w-[52px] h-[30px] object-contain"
                 />
               </div>
 
@@ -709,7 +709,7 @@ const ClapprComponent = React.memo(
                   <img
                     src={logo}
                     alt="logo"
-                    className="w-[46px] h-[30px] object-contain"
+                    className="w-[52px] h-[30px] object-contain"
                   />
                 </div>
 
