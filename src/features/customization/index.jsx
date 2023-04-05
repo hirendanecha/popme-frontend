@@ -569,7 +569,7 @@ const ClapprComponent = React.memo(
           >
             <div className="relative">
               <img
-                src={animatedImage && animatedImage}
+                src={poster || animatedImage || ""}
                 // src={animatedImage ? animatedImage : workspace1}
                 alt="workspace1"
                 className="object-cover rounded-xl"
@@ -693,7 +693,7 @@ const ClapprComponent = React.memo(
 
                 <div
                   style={{
-                    backgroundImage: `url(${animatedImage})`,
+                    backgroundImage: `url(${poster || animatedImage})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     height: "100%",

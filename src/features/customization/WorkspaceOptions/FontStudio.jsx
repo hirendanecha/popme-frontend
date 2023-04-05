@@ -44,7 +44,7 @@ const FontStudio = ({ register, valueChangeHandler }) => {
           aria-labelledby="headingSix"
           data-te-parent="#accordionExample"
         >
-          <div className="py-4">
+          <div>
             <div className="px-4">
               <SelectBox
                 labelTitle="Font Family"
