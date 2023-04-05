@@ -120,14 +120,18 @@ export const VolumeSvg = ({ color = "#fff" }) => (
   </>
 );
 
-export const PlayerPlaySvg = ({ color = "#fff" }) => (
+export const PlayerPlaySvg = ({
+  color = "#fff",
+  height = "24px",
+  width = "24px",
+}) => (
   <svg
     // className="text-white"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill={color}
-    height="24px"
-    width="24px"
+    height={height}
+    width={width}
   >
     <path d="M8 5v14l11-7z"></path>
   </svg>

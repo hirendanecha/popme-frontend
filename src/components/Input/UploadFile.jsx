@@ -11,12 +11,15 @@ const UploadFile = ({
   errorMessage,
   watch,
   valueChangeHandler,
+  videoUploadProcess,
+  isVideoUploaded,
 }) => {
   const [fileName, setFileName] = useState("");
 
-  const [progressValue, setProgressValue] = useState(0);
-
+  // const [progressValue, setProgressValue] = useState();
   // console.log("watch", watch(name));
+  // console.log("videoUploadProcess", videoUploadProcess);
+  // console.log("convertProcess", convertProcess);
 
   const handleFile = (e) => {
     let file = e.target.files;
@@ -45,46 +48,72 @@ const UploadFile = ({
 
   return (
     <div className="flex flex-col w-full">
-      <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
-        <input
-          type="file"
-          accept="video/*"
-          multiple={false}
-          className="h-full w-full opacity-0 z-10 absolute p-3"
-          {...register(name, {
-            required: false,
-            onChange: (e) => handleFile(e),
-            // validate: {
-            //   lessThan10MB: (files) => files[0]?.size < 84934656 || "Max 80mb",
-            //   acceptedFormats: (files) =>
-            //     [
-            //       "video/mp4",
-            //       "video/x-m4v",
-            //       "video/x-msvideo",
-            //       "video/quicktime",
-            //       "video/vnd.mpegurl",
-            //       "video/webm",
-            //       "video/x-matroska",
-            //     ].includes(files[0]?.type) || "Unsupported video format",
-            // },
-          })}
-        />
+      {videoUploadProcess === 0 || videoUploadProcess === 100.99 ? (
+        <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
+          <input
+            type="file"
+            accept="video/*"
+            multiple={false}
+            className="h-full w-full opacity-0 z-10 absolute p-3"
+            {...register(name, {
+              required: false,
+              onChange: (e) => handleFile(e),
+              // validate: {
+              //   lessThan10MB: (files) => files[0]?.size < 84934656 || "Max 80mb",
+              //   acceptedFormats: (files) =>
+              //     [
+              //       "video/mp4",
+              //       "video/x-m4v",
+              //       "video/x-msvideo",
+              //       "video/quicktime",
+              //       "video/vnd.mpegurl",
+              //       "video/webm",
+              //       "video/x-matroska",
+              //     ].includes(files[0]?.type) || "Unsupported video format",
+              // },
+            })}
+          />
 
-        <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">
-          <div className="flex flex-col">
-            <div className="flex justify-center mb-3">
-              <UploadImgSvg />
+          <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">
+            <div className="flex flex-col">
+              <div className="flex justify-center mb-3">
+                <UploadImgSvg />
+              </div>
+              <h6 className="text-base text-primary-normal font-semibold text-center mb-1">
+                <span className="text-secondary-main">Upload a file</span> or
+                drag and drop
+              </h6>
+              <p className="text-primary-light text-sm text-center">
+                MP4, AVI, MOV, MKV, M4V, WEBM up to 80MB
+              </p>
             </div>
-            <h6 className="text-base text-primary-normal font-semibold text-center mb-1">
-              <span className="text-secondary-main">Upload a file</span> or drag
-              and drop
-            </h6>
-            <p className="text-primary-light text-sm text-center">
-              MP4, AVI, MOV, MKV, M4V, WEBM up to 80MB
-            </p>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
+          <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">
+            <div className="flex flex-col items-center w-full h-full justify-center px-4">
+              <div className="flex bg-slate-300 rounded-xl w-full h-[7px] mb-2 mt-3">
+                <div
+                  className="flex bg-secondary-main rounded-xl"
+                  style={{
+                    width: `${videoUploadProcess}%`,
+                    transition: "width .1s linear,height .2s",
+                  }}
+                />
+              </div>
+
+              {!isVideoUploaded ? (
+                <span>Uploading...</span>
+              ) : (
+                <span>Processing...</span>
+              )}
+
+              {/* <button onClick={() => setProgressValue("70")}>click</button> */}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
         <div className="h-full w-full bg-transparent absolute z-1 flex justify-center items-center top-0">

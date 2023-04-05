@@ -37,8 +37,8 @@ const workSpaceAPI = {
   },
 
   // update workspace options
-  updateWorkspaceApi({ data, id }) {
-    return axios.put(`/api/workspace/${id}`, data);
+  updateWorkspaceApi({ data, id, config }) {
+    return axios.put(`/api/workspace/${id}`, data, config);
   },
 
   // add website

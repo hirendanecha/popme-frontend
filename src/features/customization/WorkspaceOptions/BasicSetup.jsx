@@ -15,15 +15,20 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
   // console.log("activeWorkspaceData", activeWorkspaceData);
 
   const [crop, setCrop] = useState({
-    x: activeWorkspaceData?.basicSetUp?.toggle?.x || 0,
-    y: activeWorkspaceData?.basicSetUp?.toggle?.y || 0,
+    x: 0,
+    y: 65.625,
   });
 
-  const [zoom, setZoom] = useState(
-    activeWorkspaceData?.basicSetUp?.toggle?.scale || 1
-  );
+  const [zoom, setZoom] = useState(1);
 
   const [croppedArea, setCroppedArea] = useState(null);
+
+  // const [mediaSize, setMediaSize] = useState({
+  //   width: 0,
+  //   height: 0,
+  //   naturalWidth: 0,
+  //   naturalHeight: 0,
+  // });
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     // console.log(croppedArea, "croppedArea");
@@ -41,6 +46,8 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
       );
     }
   }, []);
+
+  // console.log("crop", crop);
 
   // console.log("croppedArea", croppedArea);
 
@@ -180,16 +187,33 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                         }}
                         onCropComplete={onCropComplete}
                         disableAutomaticStylesInjection={true}
-                        // style={{
-                        //   containerStyle: {
+                        onMediaLoaded={() =>
+                          setCrop({
+                            x: 0,
+                            y: 65.625,
+                          })
+                        }
+                        // setCropSize={(e) => console.log("e", e)}
+                        // setMediaSize={setMediaSize}
 
-                        //   }
-                        // }}
+                        // cropSize={{ width: 168, height: 168 }}
 
                         // cropSize={{
                         //   width: 168.75,
                         //   height: 168.75,
                         // }}
+                        // initialCroppedAreaPercentages={{
+                        //   width: 168.75,
+                        //   height: 168.75,
+                        //   x: 0,
+                        //   y: 0,
+                        // }}
+                        style={{
+                          cropAreaStyle: {
+                            minWidth: "168.75px",
+                            minHeight: "168.75px",
+                          },
+                        }}
                       />
                     </div>
                   </div>

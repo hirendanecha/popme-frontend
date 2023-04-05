@@ -22,8 +22,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { data } = useSelector((state) => state.auth);
 
-  // console.log("data", data);
-
   useEffect(() => {
     dispatch(setPageTitle({ title: "Dashboard" }));
   }, []);
