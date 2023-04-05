@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, createRef } from "react";
 import defaultWorkspaceImage from "../../assets/images/defaultWorkspaceImage.png";
 import defaultWorkspaceWebp from "../../assets/images/defaultWorkspaceWebp.webp";
 import ClockSvg from "../../assets/svgs/ClockSvg";
@@ -8,15 +8,125 @@ import ThreeDotSvg from "../../assets/svgs/ThreeDotSvg";
 import playVideoIcon from "../../assets/images/playVideoIcon.png";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
+const ClapprPlayer = React.forwardRef(({ id, source, item, event }, ref) => {
+  const myRef = useRef(ref);
+  console.log(myRef.current, "refff");
+  // const addToRefs = (el) => {
+  //   if (el && !myRef.current.includes(el)) {
+  //     myRef.current.push(el);
+  //   }
+  // };
 
+  // console.log("addToRefs", addToRefs);
+
+  useEffect(() => {
+    // let clappr_player = null;
+
+    var playerElement = document.getElementById(id);
+    myRef.current = new Clappr.Player({
+      source: source,
+      // plugins: [Video360],
+      poster:
+        baseURL +
+        "/" +
+        item?.video?.thumbnailDestination +
+        "/" +
+        item?.video?.thumbnail,
+      width: "100%",
+      height: "480",
+      autoPlay: false,
+      loop: true,
+
+      playback: {
+        controls: true,
+      },
+      events: {
+        onReady: function () {
+          var p = this.getPlugin("click_to_pause");
+          p && p.disable();
+        },
+        onPlay: function () {
+          event.emit("PLAY", item._id);
+        },
+        onPause: function () {
+          console.log(item._id, "pause");
+        },
+      },
+
+      includeResetStyle: false,
+    });
+
+    myRef.current.attachTo(playerElement);
+
+    // console.log("id", id + "play");
+
+    // if (!showPlayer) {
+    //   let playAreaButton = document.getElementById(id + "play");
+    //   playAreaButton.addEventListener("click", function (event) {
+    //     event.stopPropagation();
+    //     setShowPlayer(true);
+    //     myRef.current.play();
+    //   });
+    // }
+
+    // if (showPlayer) {
+    //   let volumeIcon = document.getElementById(id + "mute");
+    //   volumeIcon.addEventListener("click", function (event) {
+    //     event.stopPropagation();
+    //     setShowPlayer(true);
+    //     myRef.current.mute();
+    //   });
+    // }
+
+    // remove live control bar
+    myRef.current.on(Clappr.Events.PLAYER_PLAY, function () {
+      myRef.current.core.mediaControl.disable();
+    });
+
+    event.on("PLAY", (id) => {
+      if (id !== item._id) {
+        myRef.current.pause();
+      }
+    });
+
+    return () => {
+      if (myRef.current) {
+        myRef.current.destroy();
+        myRef.current = null;
+      }
+    };
+  }, [id]);
+
+  return (
+    <div className="inline-block w-full">
+      <div className="inline-block w-full h-full rounded-t-xl overflow-hidden">
+        <div
+          className="clappr-player h-full clappr_player_customm"
+          id={id}
+          ref={myRef}
+        />
+      </div>
+    </div>
+  );
+});
 const WorkspacePost = ({
   item,
   index,
   onDeleteHandler,
   onEditHandler,
   onDuplicateHandler,
+  allPlayer,
+  event,
 }) => {
   // console.log("item", item);
+
+  const playerRef = useRef({});
+
+  useEffect(() => {
+    console.log("ref: player", playerRef.current);
+    playerRef.current[item._id] = createRef();
+    return () => {};
+  }, [item._id]);
 
   // console.log(
   //   "video",
@@ -43,8 +153,6 @@ const WorkspacePost = ({
           item?.video?.thumbnail
       : defaultWorkspaceImage
   );
-
-  // const [showPlayer, setShowPlayer] = useState(false);
 
   const mouseOver = () => {
     setDefaultWorkspaceImg(
@@ -77,111 +185,6 @@ const WorkspacePost = ({
   const duplicateWorkspaceHandler = () => {
     onDuplicateHandler(item._id);
   };
-
-  function ClapprPlayer({ id, source, item }) {
-    const myRef = useRef([]);
-    myRef.current = [];
-    console.log(myRef.current, "refff");
-    const addToRefs = (el) => {
-      if (el && !myRef.current.includes(el)) {
-        myRef.current.push(el);
-      }
-    };
-
-    // console.log("myRef", myRef);
-
-    useEffect(() => {
-      // let clappr_player = null;
-
-      var playerElement = document.getElementById(id);
-      myRef.current = new Clappr.Player({
-        source: source,
-        // plugins: [Video360],
-        poster:
-          baseURL +
-          "/" +
-          item?.video?.thumbnailDestination +
-          "/" +
-          item?.video?.thumbnail,
-        width: "100%",
-        height: "480",
-        autoPlay: false,
-        loop: true,
-
-        playback: {
-          controls: true,
-        },
-        events: {
-          onReady: function () {
-            var p = this.getPlugin("click_to_pause");
-            p && p.disable();
-          },
-          onPlay: function () {
-            console.log(item._id, "video is playing");
-            console.log(index, "index in props");
-
-            var p = this.getPlugin("click_to_pause");
-            p && p.onPause();
-          },
-          onPause: function () {
-            console.log(item._id, "pause");
-          },
-        },
-
-        includeResetStyle: false,
-      });
-
-      myRef.current.attachTo(playerElement);
-
-      // console.log("id", id + "play");
-
-      // if (!showPlayer) {
-      //   let playAreaButton = document.getElementById(id + "play");
-      //   playAreaButton.addEventListener("click", function (event) {
-      //     event.stopPropagation();
-      //     setShowPlayer(true);
-      //     myRef.current.play();
-      //   });
-      // }
-
-      // if (showPlayer) {
-      //   let volumeIcon = document.getElementById(id + "mute");
-      //   volumeIcon.addEventListener("click", function (event) {
-      //     event.stopPropagation();
-      //     setShowPlayer(true);
-      //     myRef.current.mute();
-      //   });
-      // }
-
-      // remove live control bar
-      myRef.current.on(Clappr.Events.PLAYER_PLAY, function () {
-        myRef.current.core.mediaControl.disable();
-      });
-
-      return () => {
-        if (myRef.current) {
-          myRef.current.destroy();
-          myRef.current = null;
-        }
-      };
-    }, [id]);
-
-    return (
-      <div className="inline-block w-full">
-        <div className="inline-block w-full h-full rounded-t-xl overflow-hidden">
-          <div
-            className="clappr-player h-full clappr_player_customm"
-            id={id}
-            // ref={addToRefs}
-            ref={(el) => {
-              console.log(el, "element");
-              myRef.current[id] = el;
-            }}
-          />
-        </div>
-      </div>
-    );
-  }
 
   function fromNow(
     date,
@@ -242,6 +245,9 @@ const WorkspacePost = ({
               key={item?._id}
               source={baseURL + "/" + item?.video?.path}
               item={item}
+              ref={playerRef.current[item._id]}
+              event={event}
+              // onClick=((e) => console.log(e))
             />
           </div>
 
