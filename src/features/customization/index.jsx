@@ -1355,7 +1355,7 @@ const Customization = () => {
   // console.log("activeWorkspace", activeWorkspace);
 
   return (
-    <div className="inline-block w-full h-full">
+    <div className="inline-block w-full h-full overflow-y-hidden">
       <form onSubmit={handleSubmit(onSubmit)} className="h-full">
         <div className="drawer drawer-mobile h-full">
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
