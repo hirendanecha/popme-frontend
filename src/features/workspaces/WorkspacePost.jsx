@@ -81,6 +81,7 @@ const WorkspacePost = ({
   function ClapprPlayer({ id, source, item }) {
     const myRef = useRef([]);
     myRef.current = [];
+    console.log(myRef.current, "refff");
     const addToRefs = (el) => {
       if (el && !myRef.current.includes(el)) {
         myRef.current.push(el);
@@ -110,6 +111,23 @@ const WorkspacePost = ({
         playback: {
           controls: true,
         },
+        events: {
+          onReady: function () {
+            var p = this.getPlugin("click_to_pause");
+            p && p.disable();
+          },
+          onPlay: function () {
+            console.log(item._id, "video is playing");
+            console.log(index, "index in props");
+
+            var p = this.getPlugin("click_to_pause");
+            p && p.onPause();
+          },
+          onPause: function () {
+            console.log(item._id, "pause");
+          },
+        },
+
         includeResetStyle: false,
       });
 
@@ -154,7 +172,11 @@ const WorkspacePost = ({
           <div
             className="clappr-player h-full clappr_player_customm"
             id={id}
-            ref={addToRefs}
+            // ref={addToRefs}
+            ref={(el) => {
+              console.log(el, "element");
+              myRef.current[id] = el;
+            }}
           />
         </div>
       </div>
