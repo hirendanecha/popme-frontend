@@ -12,7 +12,7 @@ const UploadFile = ({
   watch,
   valueChangeHandler,
   videoUploadProcess,
-  convertProcess,
+  isVideoUploaded,
 }) => {
   const [fileName, setFileName] = useState("");
 
@@ -48,7 +48,7 @@ const UploadFile = ({
 
   return (
     <div className="flex flex-col w-full">
-      {videoUploadProcess === 0 || videoUploadProcess === 100 ? (
+      {videoUploadProcess === 0 || videoUploadProcess === 100.99 ? (
         <div className="h-36 w-full overflow-hidden relative shadow-md items-center rounded-md cursor-pointer border-3 border-dashed border-borderColor-main">
           <input
             type="file"
@@ -103,7 +103,12 @@ const UploadFile = ({
                 />
               </div>
 
-              <span>Uploading...</span>
+              {!isVideoUploaded ? (
+                <span>Uploading...</span>
+              ) : (
+                <span>Processing...</span>
+              )}
+
               {/* <button onClick={() => setProgressValue("70")}>click</button> */}
             </div>
           </div>

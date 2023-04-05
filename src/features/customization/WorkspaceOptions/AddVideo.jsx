@@ -9,7 +9,7 @@ const AddVideo = ({
   watch,
   valueChangeHandler,
   videoUploadProcess,
-  convertProcess,
+  isVideoUploaded,
 }) => {
   return (
     <>
@@ -64,7 +64,7 @@ const AddVideo = ({
               watch={watch}
               valueChangeHandler={valueChangeHandler}
               videoUploadProcess={videoUploadProcess}
-              convertProcess={convertProcess}
+              isVideoUploaded={isVideoUploaded}
               // handleFile={handleFile}
               // removeImage={removeImage}
               // files={files}

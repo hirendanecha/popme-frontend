@@ -34,7 +34,10 @@ import {
   updateWorkspaceOptions,
   worksapceListForDropdown,
 } from "../workspaces/action";
-import { setActiveWorkspaceData } from "../workspaces/reducer/workspaceSlice";
+import {
+  setActiveWorkspaceData,
+  setVideoUploadedProcess,
+} from "../workspaces/reducer/workspaceSlice";
 import { useLocation } from "react-router-dom";
 import CalendarSvg from "../../assets/svgs/CalendarSvg";
 import logo from "../../assets/images/sidebar-logo.png";
@@ -570,7 +573,6 @@ const ClapprComponent = React.memo(
             <div className="relative">
               <img
                 src={poster || animatedImage || ""}
-                // src={animatedImage ? animatedImage : workspace1}
                 alt="workspace1"
                 className="object-cover rounded-xl"
                 style={{
@@ -593,7 +595,7 @@ const ClapprComponent = React.memo(
                 <img
                   src={logo}
                   alt="logo"
-                  className="w-[70px] h-[30px] object-contain"
+                  className="w-[46px] h-[30px] object-contain"
                 />
               </div>
 
@@ -706,7 +708,7 @@ const ClapprComponent = React.memo(
                   <img
                     src={logo}
                     alt="logo"
-                    className="w-[70px] h-[30px] object-contain"
+                    className="w-[46px] h-[30px] object-contain"
                   />
                 </div>
 
@@ -777,25 +779,20 @@ const Customization = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { data, error, activeWorkspaceData, imageCrop } = useSelector(
-    (state) => state.workspace
-  );
+  const { data, error, activeWorkspaceData, imageCrop, videoUploadedProcess } =
+    useSelector((state) => state.workspace);
 
   const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
   const [activeWorkspace, setActiveWorkspace] = useState(
     location?.state?.id || ""
   );
 
-  const previousValue = useRef(null);
   const [videoUploadProcess, setVideoUploadProcess] = useState(0);
-  const [convertProcess, setConvertProcess] = useState(0);
-  const [vdoProgress, setVdoProgress] = useState({
-    thumbs: false,
-    animatedImage: false,
-    video: false,
-  });
+  const [isVideoUploaded, setIsVideoUploaded] = useState(false);
 
   // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
+
+  // console.log("videoUploadedProcess", videoUploadedProcess);
 
   // console.log("data", data);
 
@@ -1172,13 +1169,15 @@ const Customization = () => {
           setVideoUploadProcess(percentCompleted);
 
           if (percentCompleted === 100) {
-            toast("Video uploaded", {
-              type: "success",
-            });
-            setVideoUploadProcess(0);
+            setIsVideoUploaded(true);
+            setVideoUploadProcess(1);
           }
         },
       };
+
+      if (isVideo) {
+        dispatch(setVideoUploadedProcess(true));
+      }
 
       dispatch(
         updateWorkspaceOptions({
@@ -1322,6 +1321,7 @@ const Customization = () => {
       .then((res) => {
         if (res?.success) {
           dispatch(setActiveWorkspaceData(res?.data));
+          dispatch(setVideoUploadedProcess(false));
         }
       })
       .catch((err) => {
@@ -1348,45 +1348,41 @@ const Customization = () => {
 
   useEffect(() => {
     if (activeWorkspace) {
-      previousValue.current = activeWorkspace;
-      // console.log("activeWorkspace", activeWorkspace);
+      // console.log("activeWorkspace - main", activeWorkspace);
       socket.emit("join", { workspaceId: activeWorkspace }, (resp) => {
-        // console.log(resp, "joined");
-        console.log("join", resp);
-
-        // setVdoProgress((r) => ({
-        //   ...r,
-        //   [Object.keys(resp)[0]]: resp[Object.keys(resp)[0]],
-        // }));
+        // console.log("join", resp);
       });
-
-      // const progress = Object.keys(vdoProgress).reduce(
-      //   (a, b) => a + (vdoProgress[b] ? +33.33 : 0),
-      //   0
-      // );
 
       socket.on("vdo-processing", (resp) => {
-        console.log("vdo-processing", resp);
+        // console.log("vdo-processing", resp);
+        // console.log("activeWorkspace", resp[activeWorkspace]);
+        // console.log(Object.keys(resp[activeWorkspace]), "keyyyyy");
+        // console.log(Object.keys(resp[activeWorkspace]), "valueeeee");
 
-        console.log("activeWorkspace", resp?.activeWorkspace);
-        console.log(Object.keys(resp.activeWorkspace));
+        const key = Object.keys(resp[activeWorkspace]);
+        // console.log("key", key[0]);
+        let val = resp[activeWorkspace];
+        // console.log("val", val[key]);
 
-        // setVdoProgress((prev) => ({
-        //   ...prev,
-        //   resp?.activeWorkspace?.
-        // }));
+        if (val[key]) {
+          setVideoUploadProcess((prev) => prev + 33.33);
+
+          if (resp[activeWorkspace]?.video === true) {
+            toast("Video uploaded", {
+              type: "success",
+            });
+            workspaceChangeHandlerApi(activeWorkspace);
+            setIsVideoUploaded(false);
+          }
+        }
       });
-
-      // console.log({ progress });
-      // setConvertProcess(progress);
-      // setVideoUploadProcess(progress);
-      // setConvertProcess((prev) => prev + 33.33);
     }
 
     workspaceChangeHandlerApi(activeWorkspace);
 
     return () => {
-      socket.emit("leave", { workspaceId: previousValue.current });
+      // console.log("activeWorkspace - return", activeWorkspace);
+      socket.emit("leave", { workspaceId: activeWorkspace });
       socket.off("vdo-processing");
     };
   }, [activeWorkspace]);
@@ -1445,41 +1441,47 @@ const Customization = () => {
               </div>
 
               {/* {console.log("rendering...")} */}
+              {/* {console.log("activeWorkspaceData", activeWorkspaceData)} */}
 
               {activeWorkspaceData !== null &&
-                selectWorkspaceOptions.length > 0 && (
-                  <div className="inline-block w-full h-[calc(100vh-183px)] relative">
-                    <ClapprComponent
-                      id="player"
-                      source={
-                        activeWorkspaceData !== null &&
-                        baseURL + "/" + activeWorkspaceData?.video?.path
-                      }
-                      // base api + video.path
-                      height={
-                        activeWorkspaceData?.designCustomization?.player
-                          ?.height || 461
-                      }
-                      width={
-                        activeWorkspaceData?.designCustomization?.player
-                          ?.size || 261
-                      }
-                      poster={
-                        activeWorkspaceData !== null &&
-                        baseURL +
-                          "/" +
-                          activeWorkspaceData?.video?.thumbnailDestination +
-                          "/" +
-                          activeWorkspaceData?.video?.thumbnail
-                      }
-                      animatedImage={
-                        baseURL +
+              selectWorkspaceOptions.length > 0 &&
+              !videoUploadedProcess ? (
+                <div className="inline-block w-full h-[calc(100vh-183px)] relative">
+                  <ClapprComponent
+                    id="player"
+                    source={
+                      activeWorkspaceData !== null &&
+                      baseURL + "/" + activeWorkspaceData?.video?.path
+                    }
+                    // base api + video.path
+                    height={
+                      activeWorkspaceData?.designCustomization?.player
+                        ?.height || 461
+                    }
+                    width={
+                      activeWorkspaceData?.designCustomization?.player?.size ||
+                      261
+                    }
+                    poster={
+                      activeWorkspaceData !== null &&
+                      baseURL +
                         "/" +
-                        activeWorkspaceData?.video?.animatedImage
-                      }
-                    />
-                  </div>
-                )}
+                        activeWorkspaceData?.video?.thumbnailDestination +
+                        "/" +
+                        activeWorkspaceData?.video?.thumbnail
+                    }
+                    animatedImage={
+                      baseURL + "/" + activeWorkspaceData?.video?.animatedImage
+                    }
+                  />
+                </div>
+              ) : (
+                <div className="inline-block w-full h-[calc(100vh-183px)] relative">
+                  <div
+                    className={`video_upload_loader border-t-[5px solid] border-t-secondary-main absolute top-0 bottom-0 left-0 right-0 m-auto`}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
@@ -1539,7 +1541,7 @@ const Customization = () => {
                   watch={watch}
                   valueChangeHandler={valueChangeHandler}
                   videoUploadProcess={videoUploadProcess}
-                  convertProcess={convertProcess}
+                  isVideoUploaded={isVideoUploaded}
                   // files={files}
                   // handleFile={(e) => handleFile(e)}
                   // removeImage={(e) => removeImage(e)}
