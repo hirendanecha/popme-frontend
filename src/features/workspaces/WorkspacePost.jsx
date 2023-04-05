@@ -217,6 +217,7 @@ const WorkspacePost = ({
           >
             <ClapprPlayer
               id={item?._id}
+              key={item?._id}
               source={baseURL + "/" + item?.video?.path}
               item={item}
             />
