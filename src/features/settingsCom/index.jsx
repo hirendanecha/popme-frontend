@@ -6,6 +6,7 @@ import { setPageTitle } from "../../redux/slices/headerSlice";
 import Button from "../../components/Button/Button";
 import { logoutUser } from "../../redux/actions/authAction";
 import { getAllPlansList } from "./action";
+import { socket } from "../../services/socketCon";
 
 const Data = [
   {
@@ -203,6 +204,7 @@ const SettingsCom = () => {
           setTimeout(() => {
             navigate("/login");
           }, 100);
+          socket.close();
         }
       })
       .catch((err) => {
