@@ -135,11 +135,11 @@ const UploadFile = ({
       </div> */}
 
       {errorMessage && (
-        <p className="mt-3 text-sm text-[#991B1B]">{errorMessage}</p>
+        <p className="mt-3 break-all text-sm text-[#991B1B]">{errorMessage}</p>
       )}
 
       {(fileName || watch(name)) && (
-        <p className="mt-3 text-sm text-primary-normal flex justify-start">
+        <p className="mt-3 break-all text-sm text-primary-normal flex justify-start">
           {fileName ? fileName : watch(name)}
         </p>
       )}
