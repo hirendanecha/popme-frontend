@@ -1395,7 +1395,7 @@ const Customization = () => {
   // console.log("activeWorkspace", activeWorkspace);
 
   return (
-    <div className="inline-block w-full h-full">
+    <div className="inline-block w-full h-full overflow-y-hidden">
       <form
         onSubmit={handleSubmit(({ video, ...data }) => onSubmit(data, false))}
         className="h-full"

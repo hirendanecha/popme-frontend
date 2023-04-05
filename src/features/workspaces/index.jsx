@@ -21,13 +21,16 @@ import Button from "../../components/Button/Button";
 import { setActiveWorkspaceData } from "./reducer/workspaceSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { EventEmitter } from "../../utils/event";
 
 const Workspaces = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [workspacePosts, setWorkspacePosts] = useState([]);
+  const event = EventEmitter;
 
+  const [workspacePosts, setWorkspacePosts] = useState([]);
+  const [allPlayer, setAllPlayer] = useState([]);
   const [newWorkspaceNum, setNewWorkspaceNum] = useState("");
   const [totalPage, setTotalPage] = useState("");
   const [currentPage, setCurrentPage] = useState("");
@@ -238,6 +241,8 @@ const Workspaces = () => {
                 onDeleteHandler={onDeleteHandler}
                 onEditHandler={onEditHandler}
                 onDuplicateHandler={onDuplicateHandler}
+                allPlayer={allPlayer}
+                event={event}
               />
             ))}
 
