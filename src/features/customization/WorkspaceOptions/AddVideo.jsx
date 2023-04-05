@@ -3,7 +3,14 @@ import NewInputText from "../../../components/Input/NewInputText";
 import NewTextArea from "../../../components/Input/NewTextArea";
 import UploadFile from "../../../components/Input/UploadFile";
 
-const AddVideo = ({ register, errors, watch, valueChangeHandler }) => {
+const AddVideo = ({
+  register,
+  errors,
+  watch,
+  valueChangeHandler,
+  videoUploadProcess,
+  convertProcess,
+}) => {
   return (
     <>
       <div className="flex flex-col w-full p-0 border border-t-0 border-neutral-200 bg-white">
@@ -56,6 +63,8 @@ const AddVideo = ({ register, errors, watch, valueChangeHandler }) => {
               errorMessage={errors?.video?.message && errors?.video?.message}
               watch={watch}
               valueChangeHandler={valueChangeHandler}
+              videoUploadProcess={videoUploadProcess}
+              convertProcess={convertProcess}
               // handleFile={handleFile}
               // removeImage={removeImage}
               // files={files}
