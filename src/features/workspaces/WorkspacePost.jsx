@@ -37,8 +37,10 @@ const ClapprPlayer = React.forwardRef(({ id, source, item, event }, ref) => {
       height: "480",
       autoPlay: false,
       loop: true,
-
+      exitFullscreenOnEnd: true,
       playback: {
+        playInline: true,
+        recycleVideo: true,
         controls: true,
       },
       events: {

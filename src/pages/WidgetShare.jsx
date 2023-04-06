@@ -118,7 +118,10 @@ const WidgetShare = () => {
         width,
         autoPlay: true,
         loop: true,
+        exitFullscreenOnEnd: true,
         playback: {
+          playInline: true,
+          recycleVideo: true,
           controls: false,
         },
         includeResetStyle: false,
