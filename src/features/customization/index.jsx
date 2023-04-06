@@ -1443,6 +1443,7 @@ const Customization = () => {
 
               {/* {console.log("rendering...")} */}
               {/* {console.log("activeWorkspaceData", activeWorkspaceData)} */}
+              {/* {console.log("videoUploadedProcess", videoUploadedProcess)} */}
 
               {activeWorkspaceData !== null &&
               selectWorkspaceOptions.length > 0 &&
@@ -1478,9 +1479,13 @@ const Customization = () => {
                 </div>
               ) : (
                 <div className="inline-block w-full h-[calc(100vh-183px)] relative">
-                  <div
-                    className={`video_upload_loader border-t-[5px solid] border-t-secondary-main absolute top-0 bottom-0 left-0 right-0 m-auto`}
-                  />
+                  {videoUploadedProcess ? (
+                    <div
+                      className={`video_upload_loader border-t-[5px solid] border-t-secondary-main absolute top-0 bottom-0 left-0 right-0 m-auto`}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
               )}
             </div>
