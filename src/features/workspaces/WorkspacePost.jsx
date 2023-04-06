@@ -10,7 +10,8 @@ import playVideoIcon from "../../assets/images/playVideoIcon.png";
 const baseURL = import.meta.env.VITE_BASE_URL;
 const ClapprPlayer = React.forwardRef(({ id, source, item, event }, ref) => {
   const myRef = useRef(ref);
-  console.log(myRef.current, "refff");
+  // console.log(myRef.current, "refff");
+
   // const addToRefs = (el) => {
   //   if (el && !myRef.current.includes(el)) {
   //     myRef.current.push(el);
@@ -123,7 +124,7 @@ const WorkspacePost = ({
   const playerRef = useRef({});
 
   useEffect(() => {
-    console.log("ref: player", playerRef.current);
+    // console.log("ref: player", playerRef.current);
     playerRef.current[item._id] = createRef();
     return () => {};
   }, [item._id]);
@@ -226,7 +227,11 @@ const WorkspacePost = ({
     }
   }
 
-  let hih = fromNow(new Date(item?.updatedAt));
+  function kFormatter(num) {
+    return Math.abs(num) > 999
+      ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
+      : Math.sign(num) * Math.abs(num);
+  }
 
   return (
     <>
@@ -299,7 +304,7 @@ const WorkspacePost = ({
               <div className="flex flex-col">
                 <p className="text-primary-normal text-sm">Total Views</p>
                 <h4 className="text-primary-main text-base font-bold">
-                  {item?.totalViews}
+                  {kFormatter(item?.totalViews)}
                 </h4>
               </div>
             </div>
@@ -327,7 +332,7 @@ const WorkspacePost = ({
               <div className="flex flex-col">
                 <p className="text-primary-normal text-sm">Total Clicked CTA</p>
                 <h4 className="text-primary-main text-base font-bold">
-                  {item?.totalCtaCounter}
+                  {kFormatter(item?.totalCtaCounter)}
                 </h4>
               </div>
             </div>

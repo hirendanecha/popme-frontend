@@ -21,7 +21,7 @@ const Layout = () => {
 
   useEffect(() => {
     socket.on("connect", () => {
-      console.log("socketid", socket.id); // x8WIv7-mJelg7on_ALbx
+      // console.log(socket.connected);
     });
 
     return () => {};
