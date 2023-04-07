@@ -713,16 +713,20 @@ const ClapprComponent = React.memo(
                   }}
                 /> */}
 
-                <div
-                  style={{
-                    backgroundImage: `url(${animatedImage || poster})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
-                    height: "100%",
-                    width: "100%",
-                    backgroundPosition: `${activeWorkspaceData?.basicSetUp?.toggle?.x}% ${activeWorkspaceData?.basicSetUp?.toggle?.y}%`,
-                  }}
-                />
+                {animatedImage !== "https://popme-api.opash.in/undefined" &&
+                  poster !==
+                    "https://popme-api.opash.in/undefined/undefined" && (
+                    <div
+                      style={{
+                        backgroundImage: `url(${animatedImage || poster})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        height: "100%",
+                        width: "100%",
+                        backgroundPosition: `${activeWorkspaceData?.basicSetUp?.toggle?.x}% ${activeWorkspaceData?.basicSetUp?.toggle?.y}%`,
+                      }}
+                    />
+                  )}
 
                 <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
                   <img

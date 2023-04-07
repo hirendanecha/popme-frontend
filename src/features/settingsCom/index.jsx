@@ -416,7 +416,7 @@ const SettingsCom = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
-                {Data &&
+                {/* {Data &&
                   Data.map((item) => (
                     <div
                       className={`flex flex-col relative px-3 py-4 border ${
@@ -535,9 +535,9 @@ const SettingsCom = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  ))} */}
 
-                {/* {billingPlans !== null &&
+                {billingPlans !== null &&
                   billingPlans?.data?.map((item) => (
                     <div
                       className={`flex flex-col relative px-3 py-4 border  rounded-xl`}
@@ -633,7 +633,68 @@ const SettingsCom = () => {
                         </div>
                       </div>
                     </div>
-                  ))} */}
+                  ))}
+
+                <div
+                  className={`flex flex-col relative px-3 py-4 border  rounded-xl`}
+                >
+                  <h4 className="text-2xl font-bold text-primary-main">
+                    Enterprise
+                  </h4>
+
+                  <p className="text-base text-primary-main mb-5 line-clamp-3 min-h-[66px]">
+                    Best for websites with over 100K visitors/month and brands
+                    seeking enterprise-grade service level
+                  </p>
+
+                  <div className="flex flex-col mb-6 min-h-[54px]">
+                    <h4 className="text-primary-main text-xl font-bold">
+                      Let’s Talk
+                    </h4>
+                  </div>
+
+                  <div className="inline-block w-full mb-6">
+                    <Button
+                      text="Current Plan"
+                      buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main font-semibold"
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <div className="flex mb-5">
+                      <CodeBracket />
+
+                      <div className="flex flex-col ml-5">
+                        <h5 className="text-base font-bold text-primary-normal">
+                          Video Embedding
+                        </h5>
+                        <p className="text-sm text-primary-light">contact us</p>
+                      </div>
+                    </div>
+
+                    <div className="flex mb-5">
+                      <VideoCamera />
+
+                      <div className="flex flex-col ml-5">
+                        <h5 className="text-base font-bold text-primary-normal">
+                          Unlimited Workspaces
+                        </h5>
+                        <p className="text-sm text-primary-light">contact us</p>
+                      </div>
+                    </div>
+
+                    <div className="flex">
+                      <CloseEye />
+
+                      <div className="flex flex-col ml-5">
+                        <h5 className="text-base font-bold text-primary-normal">
+                          No Watermark
+                        </h5>
+                        <p className="text-sm text-primary-light">contact us</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
