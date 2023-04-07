@@ -117,12 +117,14 @@ const ClapprComponent = React.memo(
     useEffect(() => {
       let imgPlayIcon = document.querySelector(".img_play_button");
       imgPlayIcon.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
         setIsToggleHiden("hidden");
       });
 
       let minimizeIcon = document.querySelector(".minimize_icon");
       minimizeIcon.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
         setIsToggleHiden("");
       });
@@ -208,6 +210,7 @@ const ClapprComponent = React.memo(
 
       let volumeIcon = document.querySelector(".volume_icon");
       volumeIcon.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
         player.current.mute();
 
@@ -222,6 +225,7 @@ const ClapprComponent = React.memo(
 
       let muteIcon = document.querySelector(".mute_icon");
       muteIcon.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
         player.current.unmute();
 
@@ -236,6 +240,7 @@ const ClapprComponent = React.memo(
 
       let imgPlayIcon1 = document.querySelector(".img_play_button");
       imgPlayIcon1.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
         if (document.getElementById(id).classList.contains("hidden")) {
           player.current.play();
@@ -253,12 +258,22 @@ const ClapprComponent = React.memo(
             document.querySelector(".player_wrap").classList.remove("z-0");
           }
 
+          if (
+            document.querySelector(".play_icon").classList.contains("block")
+          ) {
+            document.querySelector(".play_icon").classList.remove("block");
+            document.querySelector(".play_icon").classList.add("hidden");
+            document.querySelector(".pause_icon").classList.remove("hidden");
+            document.querySelector(".pause_icon").classList.add("block");
+          }
+
           document.querySelector(".player_wrap").classList.add("z-10");
         }
       });
 
       let playIcon = document.querySelector(".play_icon");
       playIcon.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
 
         const pauseIcon = document.querySelector(".pause_icon");
@@ -276,6 +291,7 @@ const ClapprComponent = React.memo(
       let pauseIcon = document.querySelector(".pause_icon");
 
       pauseIcon.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
 
         const playIcon = document.querySelector(".play_icon");
@@ -290,9 +306,7 @@ const ClapprComponent = React.memo(
       });
 
       function playAreaListenerhandler(event) {
-        const pauseIcon = document.querySelector(".pause_icon");
-        const playIcon = document.querySelector(".play_icon");
-
+        event.preventDefault();
         event.stopPropagation();
 
         if (document.querySelector(".play_icon").classList.contains("hidden")) {
@@ -319,6 +333,7 @@ const ClapprComponent = React.memo(
 
       let minimizeIcon = document.querySelector(".minimize_icon");
       minimizeIcon.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
         player.current.pause();
 
@@ -341,6 +356,7 @@ const ClapprComponent = React.memo(
 
       let closeThumbnailSvg = document.querySelector(".close_thumbnail_svg");
       closeThumbnailSvg.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
         document.querySelector(".thumbnail_img").classList.remove("block");
         document.querySelector(".thumbnail_img").classList.add("hidden");
@@ -1362,11 +1378,8 @@ const Customization = () => {
         // console.log("activeWorkspace", resp[activeWorkspace]);
         // console.log(Object.keys(resp[activeWorkspace]), "keyyyyy");
         // console.log(Object.keys(resp[activeWorkspace]), "valueeeee");
-
         const key = Object.keys(resp[activeWorkspace]);
-        // console.log("key", key[0]);
         let val = resp[activeWorkspace];
-        // console.log("val", val[key]);
 
         if (val[key]) {
           setVideoUploadProcess((prev) => prev + 33.33);
@@ -1381,21 +1394,13 @@ const Customization = () => {
         }
       });
     }
-
     workspaceChangeHandlerApi(activeWorkspace);
 
     return () => {
-      // console.log("activeWorkspace - return", activeWorkspace);
       socket.emit("leave", { workspaceId: activeWorkspace });
       socket.off("vdo-processing");
     };
   }, [activeWorkspace]);
-
-  // console.log("vdoProgress", vdoProgress);
-  // console.log("convertProcess", convertProcess);
-
-  // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
-  // console.log("activeWorkspace", activeWorkspace);
 
   return (
     <div className="inline-block w-full h-full overflow-y-hidden">

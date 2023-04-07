@@ -10,9 +10,10 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-.color_pick_comp #rc-editable-input-1 {
-  color: white !important;
+.color_pick_comp input {
+  color: black !important;
   outline: none !important;
+  background-color: white !important;
 }
 
 /* video position */
