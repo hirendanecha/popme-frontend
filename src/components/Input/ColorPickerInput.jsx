@@ -18,11 +18,13 @@ const ColorPickerInput = ({
 
   const handleClick = (e) => {
     e.preventDefault();
-    setState(!state);
+    e.stopPropagation();
+    setState(true);
   };
 
   const handleClose = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     setState(false);
   };
 
