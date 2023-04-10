@@ -108,6 +108,7 @@ const SettingsCom = () => {
 
   const { billingPlans } = useSelector((state) => state.setting);
 
+  // console.log("data", data);
   // console.log("billingPlans", billingPlans);
 
   const getAllBillingPlanHandlerApi = useCallback(() => {
@@ -633,13 +634,35 @@ const SettingsCom = () => {
                         </span>
                       </div>
 
+                      {/* {console.log("item?._id", item?._id)} */}
+
+                      {/* {console.log(
+                        "data?.plan?.selected",
+                        data?.data?.plan?.selected
+                      )} */}
+
                       <div className="inline-block w-full mb-6">
-                        <Button
+                        {data?.data?.plan?.selected === item?._id &&
+                        data?.data?.plan?.isActive === true ? (
+                          <Button
+                            text="Current Plan"
+                            buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main font-semibold"
+                          />
+                        ) : (
+                          <Button
+                            text="Select Plan"
+                            buttonClass="w-full text-base font-semibold"
+                            // clickHandler={(e) => activeTabHandler(e, 3, item)}
+                            clickHandler={(e) => paymentLinkHandler(e, item)}
+                          />
+                        )}
+
+                        {/* <Button
                           text="Select Plan"
                           buttonClass="w-full text-base font-semibold"
                           // clickHandler={(e) => activeTabHandler(e, 3, item)}
                           clickHandler={(e) => paymentLinkHandler(e, item)}
-                        />
+                        /> */}
                       </div>
 
                       <div className="flex flex-col">
@@ -787,18 +810,22 @@ const SettingsCom = () => {
                 </p>
               </div>
 
-              <div className="flex justify-between">
-                <h5 className="text-lg text-primary-normal font-semibold">
-                  Payment, subscription and invoices
-                </h5>
+              {(data?.data?.plan?.selected !== null ||
+                data?.data?.plan?.selected !== undefined) &&
+                data?.data?.plan?.isActive !== false && (
+                  <div className="flex justify-between">
+                    <h5 className="text-lg text-primary-normal font-semibold">
+                      Payment, subscription and invoices
+                    </h5>
 
-                <span
-                  className="text-secondary-main text-lg no-underline hover:no-underline cursor-pointer font-semibold"
-                  onClick={(e) => openPortalHandler(e)}
-                >
-                  Open billing portal
-                </span>
-              </div>
+                    <span
+                      className="text-secondary-main text-lg no-underline hover:no-underline cursor-pointer font-semibold"
+                      onClick={(e) => openPortalHandler(e)}
+                    >
+                      Open billing portal
+                    </span>
+                  </div>
+                )}
 
               {checkoutData && (
                 <div className="flex justify-between items-center mt-10">
