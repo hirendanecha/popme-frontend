@@ -16,3 +16,35 @@ export const getAllPlansList = createAsyncThunk(
     }
   }
 );
+
+export const paymentLink = createAsyncThunk(
+  "setting/paymentLink",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await settingAPI.paymentLinkApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const customerPortal = createAsyncThunk(
+  "setting/customerPortal",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await settingAPI.customerPortalApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

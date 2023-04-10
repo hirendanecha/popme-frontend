@@ -5,7 +5,10 @@ import ModalButton from "../../components/Button/ModalButton";
 import NewInputText from "../../components/Input/NewInputText";
 import { openNewModal } from "../../redux/slices/newModalSlice";
 import { addWebsite } from "../workspaces/action";
-import { setCurrentWebsiteUrl } from "../workspaces/reducer/workspaceSlice";
+import {
+  setActiveWorkspaceData,
+  setCurrentWebsiteUrl,
+} from "../workspaces/reducer/workspaceSlice";
 import AddInstantEmbedModal from "./AddInstantEmbedModal";
 
 const ConnectWebsiteModal = () => {
@@ -29,7 +32,7 @@ const ConnectWebsiteModal = () => {
         .then((res) => {
           if (res?.success) {
             dispatch(setCurrentWebsiteUrl(webUrl));
-            // dispatch(setActiveWorkspaceData(res?.data));
+            dispatch(setActiveWorkspaceData(res?.data));
             dispatch(openNewModal(props));
           }
         })

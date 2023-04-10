@@ -1,11 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import {
+  useNavigate,
+  Link,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import { toast } from "react-toastify";
 import { setPageTitle } from "../../redux/slices/headerSlice";
 import Button from "../../components/Button/Button";
 import { logoutUser } from "../../redux/actions/authAction";
-import { getAllPlansList } from "./action";
+import { customerPortal, getAllPlansList, paymentLink } from "./action";
 import { socket } from "../../services/socketCon";
 
 const Data = [
@@ -82,6 +87,19 @@ const SettingsCom = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  // console.log("searchParams", +searchParams.get("tb"));
+  // console.log("location", location.pathname);
+  // console.log("location", location);
+  // console.log("navigate", window.location.href);
+  // console.log("navigate", navigate("/", { state: { previousPath: pathname } }););
+
+  useEffect(() => {
+    if (searchParams.get("tb")) {
+      setActiveTab(+searchParams.get("tb"));
+    }
+  }, [searchParams.get("tb")]);
 
   const [checkoutData, setCheckoutData] = useState(null);
   const [activeTab, setActiveTab] = useState(location?.state?.tab || 1);
@@ -209,6 +227,41 @@ const SettingsCom = () => {
       })
       .catch((err) => {
         // console.log(err,"er")
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  };
+
+  const paymentLinkHandler = (e, data) => {
+    e.preventDefault();
+    // console.log("data", data);
+    dispatch(paymentLink({ planId: data?._id }))
+      .unwrap()
+      .then((res) => {
+        // console.log("res", res);
+        window.location.href = res.data.url;
+      })
+      .catch((err) => {
+        if (err) {
+          toast(err, {
+            type: "error",
+          });
+        }
+      });
+  };
+
+  const openPortalHandler = (e) => {
+    e.preventDefault();
+    dispatch(customerPortal({ returnUrl: `${window.location.href}?tb=3` }))
+      .unwrap()
+      .then((res) => {
+        // console.log("res", res);
+        window.location.href = res.data.url;
+      })
+      .catch((err) => {
         if (err) {
           toast(err, {
             type: "error",
@@ -540,9 +593,21 @@ const SettingsCom = () => {
                 {billingPlans !== null &&
                   billingPlans?.data?.map((item) => (
                     <div
-                      className={`flex flex-col relative px-3 py-4 border  rounded-xl`}
+                      className={`flex flex-col relative px-3 py-4 border ${
+                        item?.name === "Advanced"
+                          ? "border-secondary-main"
+                          : "border-[#D1D5DB]"
+                      } rounded-xl hover:border-secondary-main`}
                       key={item?._id}
                     >
+                      {item?.name === "Advanced" && (
+                        <div className="absolute top-[-13px] right-6">
+                          <span className="bg-[#FCEB97] rounded-2xl px-2 text-sm text-primary-main font-medium ml-3">
+                            Most Popular
+                          </span>
+                        </div>
+                      )}
+
                       <h4 className="text-2xl font-bold text-primary-main">
                         {item?.name}
                       </h4>
@@ -553,12 +618,14 @@ const SettingsCom = () => {
 
                       <div className="flex flex-col mb-6">
                         <h4 className="text-[#183169] text-2xl font-bold">
-                          ${item?.amount.toString().slice(0, -2)}.
-                          <span className="text-lg font-normal">99</span>
-                          {console.log(
+                          ${(item?.amount / 100).toString().split(".")[0]}.
+                          <span className="text-lg font-normal">
+                            {(item?.amount / 100).toString().split(".")[1]}
+                          </span>
+                          {/* {console.log(
                             "remov",
-                            item?.amount.toString().slice(0, -2).concat(".99")
-                          )}
+                            (item?.amount / 100).toString().split(".")
+                          )} */}
                         </h4>
 
                         <span className="text-base text-primary-light">
@@ -570,7 +637,8 @@ const SettingsCom = () => {
                         <Button
                           text="Select Plan"
                           buttonClass="w-full text-base font-semibold"
-                          clickHandler={(e) => activeTabHandler(e, 3, item)}
+                          // clickHandler={(e) => activeTabHandler(e, 3, item)}
+                          clickHandler={(e) => paymentLinkHandler(e, item)}
                         />
                       </div>
 
@@ -635,66 +703,74 @@ const SettingsCom = () => {
                     </div>
                   ))}
 
-                <div
-                  className={`flex flex-col relative px-3 py-4 border  rounded-xl`}
-                >
-                  <h4 className="text-2xl font-bold text-primary-main">
-                    Enterprise
-                  </h4>
-
-                  <p className="text-base text-primary-main mb-5 line-clamp-3 min-h-[66px]">
-                    Best for websites with over 100K visitors/month and brands
-                    seeking enterprise-grade service level
-                  </p>
-
-                  <div className="flex flex-col mb-6 min-h-[54px]">
-                    <h4 className="text-primary-main text-xl font-bold">
-                      Let’s Talk
+                {billingPlans !== null && (
+                  <div
+                    className={`flex flex-col relative px-3 py-4 border border-[#D1D5DB] rounded-xl hover:border-secondary-main`}
+                  >
+                    <h4 className="text-2xl font-bold text-primary-main">
+                      Enterprise
                     </h4>
-                  </div>
 
-                  <div className="inline-block w-full mb-6">
-                    <Button
-                      text="Current Plan"
-                      buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main font-semibold"
-                    />
-                  </div>
+                    <p className="text-base text-primary-main mb-5 line-clamp-3 min-h-[66px]">
+                      Best for websites with over 100K visitors/month and brands
+                      seeking enterprise-grade service level
+                    </p>
 
-                  <div className="flex flex-col">
-                    <div className="flex mb-5">
-                      <CodeBracket />
-
-                      <div className="flex flex-col ml-5">
-                        <h5 className="text-base font-bold text-primary-normal">
-                          Video Embedding
-                        </h5>
-                        <p className="text-sm text-primary-light">contact us</p>
-                      </div>
+                    <div className="flex flex-col mb-6 min-h-[54px]">
+                      <h4 className="text-primary-main text-xl font-bold">
+                        Let’s Talk
+                      </h4>
                     </div>
 
-                    <div className="flex mb-5">
-                      <VideoCamera />
-
-                      <div className="flex flex-col ml-5">
-                        <h5 className="text-base font-bold text-primary-normal">
-                          Unlimited Workspaces
-                        </h5>
-                        <p className="text-sm text-primary-light">contact us</p>
-                      </div>
+                    <div className="inline-block w-full mb-6">
+                      <Button
+                        text="Contact Us"
+                        buttonClass="w-full text-base font-semibold"
+                      />
                     </div>
 
-                    <div className="flex">
-                      <CloseEye />
+                    <div className="flex flex-col">
+                      <div className="flex mb-5">
+                        <CodeBracket />
 
-                      <div className="flex flex-col ml-5">
-                        <h5 className="text-base font-bold text-primary-normal">
-                          No Watermark
-                        </h5>
-                        <p className="text-sm text-primary-light">contact us</p>
+                        <div className="flex flex-col ml-5">
+                          <h5 className="text-base font-bold text-primary-normal">
+                            Video Embedding
+                          </h5>
+                          <p className="text-sm text-primary-light">
+                            contact us
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex mb-5">
+                        <VideoCamera />
+
+                        <div className="flex flex-col ml-5">
+                          <h5 className="text-base font-bold text-primary-normal">
+                            Unlimited Workspaces
+                          </h5>
+                          <p className="text-sm text-primary-light">
+                            contact us
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex">
+                        <CloseEye />
+
+                        <div className="flex flex-col ml-5">
+                          <h5 className="text-base font-bold text-primary-normal">
+                            No Watermark
+                          </h5>
+                          <p className="text-sm text-primary-light">
+                            contact us
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           )}
@@ -716,7 +792,10 @@ const SettingsCom = () => {
                   Payment, subscription and invoices
                 </h5>
 
-                <span className="text-secondary-main text-lg no-underline hover:no-underline cursor-pointer font-semibold">
+                <span
+                  className="text-secondary-main text-lg no-underline hover:no-underline cursor-pointer font-semibold"
+                  onClick={(e) => openPortalHandler(e)}
+                >
                   Open billing portal
                 </span>
               </div>
