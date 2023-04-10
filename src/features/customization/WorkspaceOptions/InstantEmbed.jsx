@@ -126,7 +126,7 @@ const InstantEmbed = ({ register }) => {
                       <input type="checkbox" />
 
                       <div className="collapse-title text-xl font-bold text-primary-main bg-[#E5E7EB]">
-                        {`www.${item?.url}`}
+                        {`${item?.url}`}
                       </div>
                       <div className="collapse-content">
                         <div className="inline-block w-full">

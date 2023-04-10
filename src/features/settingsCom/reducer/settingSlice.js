@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllPlansList } from "../action";
+import { customerPortal, getAllPlansList, paymentLink } from "../action";
 
 const initialState = {
   loading: false,
@@ -26,6 +26,34 @@ const settingSlice = createSlice({
     builder.addCase(getAllPlansList.rejected, (state, { payload }) => {
       state.loading = false;
       state.success = false;
+      state.error = payload;
+    });
+
+    builder.addCase(paymentLink.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
+    builder.addCase(paymentLink.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+    });
+
+    builder.addCase(paymentLink.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    builder.addCase(customerPortal.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
+    builder.addCase(customerPortal.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+    });
+
+    builder.addCase(customerPortal.rejected, (state, { payload }) => {
+      state.loading = false;
       state.error = payload;
     });
   },

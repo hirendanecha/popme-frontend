@@ -7,9 +7,7 @@ const CheckoutStatus = () => {
   const [searchParams] = useSearchParams();
   // console.log(searchParams.get("success"));
   // console.log(searchParams.get("canceled"));
-
   // console.log(searchParams.get("status"));
-
   // console.log(searchParams.entries());
 
   // for (const entry of searchParams.entries()) {
@@ -26,7 +24,7 @@ const CheckoutStatus = () => {
         <div className="artboard artboard-horizontal phone-3 shadow-xl p-4 rounded-2xl bg-white">
           <div className="flex flex-col h-full justify-center items-center">
             <div className="flex mb-3">
-              {searchParams.get("success") && (
+              {searchParams.get("status") === "success" && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -43,7 +41,7 @@ const CheckoutStatus = () => {
                 </svg>
               )}
 
-              {searchParams.get("canceled") && (
+              {searchParams.get("status") === "canceled" && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -64,18 +62,19 @@ const CheckoutStatus = () => {
             <div className="flex flex-col mb-5">
               <h4 className="text-2xl text-primary-main font-bold mb-2 text-center">
                 {/* {error !== null ? "Not Verified" : "Verified!"} */}
-                {searchParams.get("success") && "Payment Success!"}
-                {searchParams.get("canceled") && "Payment Failed!"}
+                {searchParams.get("status") === "success" && "Payment Success!"}
+
+                {searchParams.get("status") === "canceled" && "Payment Failed!"}
               </h4>
               <p className="text-base text-primary-normal font-semibold text-center">
                 {/* {error !== null
                   ? "You have not verified account, so please check"
                   : "You have successfully verified account."} */}
 
-                {searchParams.get("success") &&
+                {searchParams.get("status") === "success" &&
                   "You have successfully verified account."}
 
-                {searchParams.get("canceled") &&
+                {searchParams.get("status") === "canceled" &&
                   "You have not verified account, so please check"}
               </p>
             </div>
