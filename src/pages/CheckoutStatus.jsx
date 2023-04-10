@@ -6,7 +6,7 @@ const CheckoutStatus = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   // console.log(searchParams.get("success"));
-  // console.log(searchParams.get("canceled"));
+  // console.log(searchParams.get("cancel"));
   // console.log(searchParams.get("status"));
   // console.log(searchParams.entries());
 
@@ -41,7 +41,7 @@ const CheckoutStatus = () => {
                 </svg>
               )}
 
-              {searchParams.get("status") === "canceled" && (
+              {searchParams.get("status") === "cancel" && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -64,7 +64,7 @@ const CheckoutStatus = () => {
                 {/* {error !== null ? "Not Verified" : "Verified!"} */}
                 {searchParams.get("status") === "success" && "Payment Success!"}
 
-                {searchParams.get("status") === "canceled" && "Payment Failed!"}
+                {searchParams.get("status") === "cancel" && "Payment Failed!"}
               </h4>
               <p className="text-base text-primary-normal font-semibold text-center">
                 {/* {error !== null
@@ -74,7 +74,7 @@ const CheckoutStatus = () => {
                 {searchParams.get("status") === "success" &&
                   "You have successfully verified account."}
 
-                {searchParams.get("status") === "canceled" &&
+                {searchParams.get("status") === "cancel" &&
                   "You have not verified account, so please check"}
               </p>
             </div>
