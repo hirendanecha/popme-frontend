@@ -254,21 +254,25 @@ const SettingsCom = () => {
       });
   };
 
-  const openPortalHandler = (e) => {
+  const openPortalHandler = (e, tab) => {
     e.preventDefault();
-    dispatch(customerPortal({ returnUrl: `${window.location.href}?tb=3` }))
-      .unwrap()
-      .then((res) => {
-        // console.log("res", res);
-        window.location.href = res.data.url;
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
-      });
+    let url = window.location.href.split("?");
+
+    if (url) {
+      dispatch(customerPortal({ returnUrl: `${url[0]}?tb=${tab}` }))
+        .unwrap()
+        .then((res) => {
+          // console.log("res", res);
+          window.location.href = res.data.url;
+        })
+        .catch((err) => {
+          if (err) {
+            toast(err, {
+              type: "error",
+            });
+          }
+        });
+    }
   };
 
   return (
@@ -457,11 +461,20 @@ const SettingsCom = () => {
                     </h3>
                     <p className="text-base text-primary-light">
                       Take your website to the next level with PopMe. See more
-                      details about our pricing plans here. Cancel your
-                      subscription by{" "}
-                      <span className=" lowercase text-secondary-main no-underline hover:no-underline cursor-pointer">
-                        clicking here.
-                      </span>
+                      details about our pricing plans here.{" "}
+                      {(data?.data?.plan?.selected !== null ||
+                        data?.data?.plan?.selected !== undefined) &&
+                        data?.data?.plan?.isActive !== false && (
+                          <span>
+                            Cancel your subscription by{" "}
+                            <span
+                              className=" lowercase text-secondary-main no-underline hover:no-underline cursor-pointer"
+                              onClick={(e) => openPortalHandler(e, 2)}
+                            >
+                              clicking here.
+                            </span>
+                          </span>
+                        )}
                     </p>
                   </div>
 
@@ -820,7 +833,7 @@ const SettingsCom = () => {
 
                     <span
                       className="text-secondary-main text-lg no-underline hover:no-underline cursor-pointer font-semibold"
-                      onClick={(e) => openPortalHandler(e)}
+                      onClick={(e) => openPortalHandler(e, 3)}
                     >
                       Open billing portal
                     </span>
