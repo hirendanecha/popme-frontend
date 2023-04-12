@@ -3,7 +3,20 @@ import { useSelector } from "react-redux";
 import CalendarSvg from "../../../assets/svgs/CalendarSvg";
 import NewInputText from "../../../components/Input/NewInputText";
 import SelectBox from "../../../components/Input/SelectBox";
-import { CloseSvg, PhoneSvg, RightArrowSvg, RightExitSvg } from "../SvgComp";
+import {
+  CheckSvg,
+  CloseSvg,
+  GiftSvg,
+  InfoCircleSvg,
+  MessageSvg,
+  NewCalendarSvg,
+  NewPhoneSvg,
+  NewRightArrowSvg,
+  PhoneSvg,
+  RightArrowSvg,
+  RightExitSvg,
+  SendSvg,
+} from "../SvgComp";
 
 const CallToActionModal = ({ register, valueChangeHandler }) => {
   const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
@@ -13,6 +26,49 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
     decodedString.innerHTML = svg;
     return decodedString.value;
   };
+
+  const renderSwitch = (activeWorkspaceData) => {
+    // console.log("activeWorkspaceData", activeWorkspaceData);
+
+    switch (activeWorkspaceData !== null) {
+      case activeWorkspaceData === "arrow":
+        return <NewRightArrowSvg />;
+
+      case activeWorkspaceData === "send":
+        return <SendSvg />;
+
+      case activeWorkspaceData === "roundedarrow":
+        return <RightExitSvg />;
+
+      case activeWorkspaceData === "calendar":
+        return <NewCalendarSvg />;
+
+      case activeWorkspaceData === "cross":
+        return <CloseSvg />;
+
+      case activeWorkspaceData === "none":
+        return null;
+
+      case activeWorkspaceData === "phone":
+        return <NewPhoneSvg />;
+
+      case activeWorkspaceData === "check":
+        return <CheckSvg />;
+
+      case activeWorkspaceData === "gift":
+        return <GiftSvg />;
+
+      case activeWorkspaceData === "info-circle":
+        return <InfoCircleSvg />;
+
+      case activeWorkspaceData === "message-2":
+        return <MessageSvg />;
+
+      default:
+        return <NewRightArrowSvg />;
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col w-full p-0 border border-t-0 border-neutral-200 bg-white">
@@ -111,12 +167,14 @@ const CallToActionModal = ({ register, valueChangeHandler }) => {
                           htmlFor={item?._id}
                           className="peer-checked:border-secondary-main flex items-center justify-center h-6 w-6 border border-borderColor-main"
                         >
-                          <div
+                          {/* <div
                             dangerouslySetInnerHTML={{
                               __html: conv(item?.svg),
                             }}
                             className="flex items-center justify-center"
-                          />
+                          /> */}
+
+                          {renderSwitch(item?.name)}
                         </label>
                       </div>
                     )

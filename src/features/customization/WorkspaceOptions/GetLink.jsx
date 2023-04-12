@@ -68,8 +68,8 @@ const GetLink = ({ register }) => {
                 <ClipBoardSvg width="90" height="50" />
 
                 <p className="text-base text-left text-[#202223] ml-3">
-                  You can share your facepop widget through a direct link
-                  without embedding it on your website.
+                  You can share your popme widget through a direct link without
+                  embedding it on your website.
                 </p>
               </div>
             </div>

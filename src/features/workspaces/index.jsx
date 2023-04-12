@@ -22,6 +22,7 @@ import { setActiveWorkspaceData } from "./reducer/workspaceSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { EventEmitter } from "../../utils/event";
+import ModalButton from "../../components/Button/ModalButton";
 
 const Workspaces = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const Workspaces = () => {
   const perPageSize = 4;
 
   const { data } = useSelector((state) => state.auth);
+  const { deleteWorkspaceId } = useSelector((state) => state.workspace);
 
   const workspaceListApi = useCallback((props, options = { merge: false }) => {
     dispatch(worksapceList(props))
@@ -129,12 +131,15 @@ const Workspaces = () => {
         .unwrap()
         .then((res) => {
           if (res?.success) {
-            // console.log(res, "res of delete");
             let filterData =
               workspacePosts &&
               workspacePosts?.filter((item) => item?._id !== id);
             setWorkspacePosts(() => [...filterData]);
             // workspaceListApi({ page: page, size: 4 });
+
+            toast(res?.message, {
+              type: "success",
+            });
           }
         })
         .catch((err) => {
@@ -150,10 +155,13 @@ const Workspaces = () => {
 
   // console.log("workspacePosts", workspacePosts);
 
-  const onDeleteHandler = (id) => {
-    // console.log(id,"id of deleted item")
-    deleteWorkspaceByIdApi(id);
+  const onDeleteHandler = () => {
+    if (deleteWorkspaceId !== null) {
+      deleteWorkspaceByIdApi(deleteWorkspaceId);
+    }
   };
+
+  // console.log("deleteWorkspaceId", deleteWorkspaceId);
 
   const getWorkspaceByIdApi = useCallback((id) => {
     dispatch(getWorkspaceById(id))
@@ -238,7 +246,7 @@ const Workspaces = () => {
                 key={index.toString()}
                 item={item}
                 index={index.toString()}
-                onDeleteHandler={onDeleteHandler}
+                // onDeleteHandler={onDeleteHandler}
                 onEditHandler={onEditHandler}
                 onDuplicateHandler={onDuplicateHandler}
                 allPlayer={allPlayer}
@@ -308,6 +316,44 @@ const Workspaces = () => {
             </div>
           ))}
       </div>
+
+      <input
+        type="checkbox"
+        id="delete_verify_modal"
+        className="modal-toggle"
+      />
+      <label htmlFor="delete_verify_modal" className="modal cursor-pointer">
+        <label className="modal-box relative bg-white" htmlFor="">
+          <label
+            htmlFor="delete_verify_modal"
+            className="btn btn-xs btn-circle bg-white text-primary-light border-primary-light hover:bg-white hover:border-primary-light absolute right-2 top-2"
+          >
+            ✕
+          </label>
+
+          <h3 className="text-xl font-bold text-primary-normal mb-4">
+            Are you sure you want to delete ?
+          </h3>
+
+          <div className="flex">
+            <div className="inline-block mr-4">
+              <ModalButton
+                text="Delete"
+                id="delete_verify_modal"
+                clickHandler={() => onDeleteHandler()}
+              />
+            </div>
+
+            <div className="inline-block">
+              <ModalButton
+                text="Cancel"
+                id="delete_verify_modal"
+                buttonClass="!bg-[#F3F3F4] !text-primary-main hover:bg-[#F3F3F4]"
+              />
+            </div>
+          </div>
+        </label>
+      </label>
     </div>
   );
 };

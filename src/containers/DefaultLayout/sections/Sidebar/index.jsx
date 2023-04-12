@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
 import CustomizationSvg from "../../../../assets/svgs/CustomizationSvg";
 import DashboardSvg from "../../../../assets/svgs/DashboardSvg";
 import SettingsSvg from "../../../../assets/svgs/SettingsSvg";
@@ -100,7 +100,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
             {/* Logo */}
             <div className="flex items-center justify-between w-full">
-              <NavLink end to="/app/dashboard" className="block">
+              <NavLink end to="/app/workspaces" className="block">
                 <div className="flex">
                   <img src={sidebarLogo} alt="sidebarLogo" className="w-36" />
                 </div>
@@ -169,7 +169,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <div>
             <ul className="mt-3 p-4">
               {/* Dashboard */}
-              <li
+
+              {/* <li
                 className={`p-3 mb-2 rounded-md last:mb-0 ${
                   pathname.includes("dashboard") && "bg-slate-900"
                 }`}
@@ -189,7 +190,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     </span>
                   </div>
                 </NavLink>
-              </li>
+              </li> */}
 
               {/* Workspaces */}
               <li
@@ -245,7 +246,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               >
                 <NavLink
                   end
-                  to="/app/dashboard"
+                  to="/app/workspaces"
                   className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
                     pathname.includes("testing") && "hover:text-slate-200"
                   }`}
@@ -349,7 +350,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             </div>
 
             <div className="flex lg:hidden sidebar-expanded:block">
-              <SettingsSvg color="#CBCBCB" />
+              <Link to="/app/setting">
+                <SettingsSvg color="#CBCBCB" />
+              </Link>
             </div>
           </div>
         </div>

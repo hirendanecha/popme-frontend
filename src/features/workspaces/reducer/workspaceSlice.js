@@ -21,6 +21,7 @@ const initialState = {
   activeWorkspaceData: null,
   currentWebsiteUrl: "",
   videoUploadedProcess: false,
+  deleteWorkspaceId: null,
 
   // imageCrop: {
   //   unit: "px", // Can be 'px' or '%'
@@ -44,6 +45,9 @@ const workspaceSlice = createSlice({
   reducers: {
     setActiveWorkspaceData: (state, action) => {
       state.activeWorkspaceData = action.payload;
+    },
+    setDeleteWorkspaceId: (state, action) => {
+      state.deleteWorkspaceId = action.payload;
     },
     setVideoUploadedProcess: (state, action) => {
       state.videoUploadedProcess = action.payload;
@@ -240,6 +244,7 @@ export const {
   setCurrentWebsiteUrl,
   setImageCrop,
   setVideoUploadedProcess,
+  setDeleteWorkspaceId,
 } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

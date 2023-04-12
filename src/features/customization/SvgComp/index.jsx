@@ -1,22 +1,251 @@
-export const CloseSvg = ({
-  w = "w-6",
-  h = "h-6",
+// New start
+export const NewRightArrowSvg = ({
+  w = "17",
+  h = "17",
   color = "text-primary-main",
 }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className={`${w} ${h} ${color}`}
-  >
-    <path
+  <>
+    <svg
+      width={w}
+      height={h}
+      className={`${color}`}
+      fill="none"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M6 18L18 6M6 6l12 12"
-    />
-  </svg>
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M5 12h14"></path>
+      <path d="m15 16 4-4"></path>
+      <path d="m15 8 4 4"></path>
+    </svg>
+  </>
+);
+
+export const SendSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M10 14 21 3"></path>
+      <path d="m21 3-6.5 18a.55.55 0 0 1-1 0L10 14l-7-3.5a.55.55 0 0 1 0-1L21 3Z"></path>
+    </svg>
+  </>
+);
+
+export const NewPhoneSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path>
+    </svg>
+  </>
+);
+
+export const CheckSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="m5 12 5 5L20 7"></path>
+    </svg>
+  </>
+);
+
+export const NewCalendarSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M18 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"></path>
+      <path d="M16 3v4"></path>
+      <path d="M8 3v4"></path>
+      <path d="M4 11h16"></path>
+      <path d="M10 16h4"></path>
+    </svg>
+  </>
+);
+
+export const ExternalLinkSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M11 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-5"></path>
+      <path d="M10 14 20 4"></path>
+      <path d="M15 4h5v5"></path>
+    </svg>
+  </>
+);
+
+export const GiftSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M20 8H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1Z"></path>
+      <path d="M12 8v13"></path>
+      <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+      <path d="M7.5 8a2.5 2.5 0 1 1 0-5c.965-.016 1.91.452 2.713 1.344C11.015 5.235 11.638 6.51 12 8c.362-1.49.985-2.764 1.787-3.656.803-.892 1.748-1.36 2.713-1.344a2.5 2.5 0 0 1 0 5"></path>
+    </svg>
+  </>
+);
+
+export const InfoCircleSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"></path>
+      <path d="M12 8h.01"></path>
+      <path d="M11 12h1v4h1"></path>
+    </svg>
+  </>
+);
+
+export const MessageSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="m12 20-3-3H7a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-2l-3 3Z"></path>
+      <path d="M8 9h8"></path>
+      <path d="M8 13h6"></path>
+    </svg>
+  </>
+);
+
+// New end
+
+export const CloseSvg = ({
+  w = "17",
+  h = "17",
+  color = "text-primary-main",
+}) => (
+  <>
+    <svg
+      className={`${color}`}
+      width={w}
+      height={h}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M18 6 6 18"></path>
+      <path d="m6 6 12 12"></path>
+    </svg>
+  </>
 );
 
 export const CloseCircle = () => (
@@ -37,8 +266,8 @@ export const CloseCircle = () => (
 );
 
 export const RightArrowSvg = ({
-  w = "w-6",
-  h = "h-6",
+  w = "17",
+  h = "17",
   color = "text-primary-main",
 }) => (
   <>
@@ -48,7 +277,9 @@ export const RightArrowSvg = ({
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`${w} ${h} ${color}`}
+      className={`${color}`}
+      width={w}
+      height={h}
     >
       <path
         strokeLinecap="round"
@@ -60,8 +291,8 @@ export const RightArrowSvg = ({
 );
 
 export const RightExitSvg = ({
-  w = "w-6",
-  h = "h-6",
+  w = "17",
+  h = "17",
   color = "text-primary-main",
 }) => (
   <svg
@@ -70,7 +301,9 @@ export const RightExitSvg = ({
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    className={`${w} ${h} ${color}`}
+    className={`${color}`}
+    width={w}
+    height={h}
   >
     <path
       strokeLinecap="round"

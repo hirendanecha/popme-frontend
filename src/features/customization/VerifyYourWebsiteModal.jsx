@@ -23,7 +23,7 @@ const VerifyYourWebsiteModal = () => {
       </p>
 
       <p className="mb-8 text-base text-primary-normal font-semibold">
-        A success message will show on this page once the Answerly code runs on
+        A success message will show on this page once the Popme code runs on
         your website.
       </p>
 
