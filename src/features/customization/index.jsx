@@ -25,6 +25,14 @@ import {
   RightExitSvg,
   CloseSvg,
   CloseCircle,
+  NewRightArrowSvg,
+  SendSvg,
+  NewCalendarSvg,
+  NewPhoneSvg,
+  CheckSvg,
+  GiftSvg,
+  InfoCircleSvg,
+  MessageSvg,
 } from "./SvgComp";
 import {
   addWorkspace,
@@ -76,39 +84,68 @@ const ClapprComponent = React.memo(
       switch (activeWorkspaceData !== null) {
         case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
           return (
-            <RightArrowSvg
-              w={`w-[${fontSize}px]`}
-              h={`h-[${fontSize}px]`}
+            <NewRightArrowSvg
+              w={fontSize}
+              h={fontSize}
               color={`text-[${color}]`}
             />
+          );
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "send":
+          return (
+            <SendSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
           );
 
         case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
           return (
-            <RightExitSvg
-              w={`w-[${fontSize}px]`}
-              h={`h-[${fontSize}px]`}
+            <RightExitSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
+          );
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
+          return <NewCalendarSvg w={fontSize} h={fontSize} color={color} />;
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
+          return (
+            <CloseSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
+          );
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "none":
+          return null;
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "phone":
+          return (
+            <NewPhoneSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
+          );
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "check":
+          return (
+            <CheckSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
+          );
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "gift":
+          return (
+            <GiftSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
+          );
+
+        case activeWorkspaceData?.callToAction?.buttonIcon === "info-circle":
+          return (
+            <InfoCircleSvg
+              w={fontSize}
+              h={fontSize}
               color={`text-[${color}]`}
             />
           );
 
-        case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
-          return <CalendarSvg w={fontSize} h={fontSize} color={color} />;
-
-        case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
+        case activeWorkspaceData?.callToAction?.buttonIcon === "message-2":
           return (
-            <CloseSvg
-              w={`w-[${fontSize}px]`}
-              h={`h-[${fontSize}px]`}
-              color={`text-[${color}]`}
-            />
+            <MessageSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
           );
 
         default:
           return (
-            <RightArrowSvg
-              w={`w-[${fontSize}px]`}
-              h={`h-[${fontSize}px]`}
+            <NewRightArrowSvg
+              w={fontSize}
+              h={fontSize}
               color={`text-[${color}]`}
             />
           );
@@ -391,8 +428,15 @@ const ClapprComponent = React.memo(
             marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
           }}
         >
+          {/* {console.log(
+            "font",
+            activeWorkspaceData?.fontStudio?.fontFamily.split("+").join("")
+          )} */}
+
           <div
-            className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily} player_anim transition duration-500 ease-in-out`}
+            className={`relative player_wrap ${activeWorkspaceData?.fontStudio?.fontFamily
+              .split("+")
+              .join("")} player_anim transition duration-500 ease-in-out`}
           >
             <div
               ref={player}
@@ -472,7 +516,7 @@ const ClapprComponent = React.memo(
                             fontSize: `${activeWorkspaceData?.fontStudio?.videoDescription}px`,
                             color:
                               activeWorkspaceData?.colorStudio?.general
-                                ?.videoDescription,
+                                ?.videoTitle,
                           }}
                         >
                           {activeWorkspaceData?.description ||
@@ -915,6 +959,7 @@ const Customization = () => {
           gradientOverlay: "",
           videoDescription: "",
           videoTitle: "",
+          // videoText: "",
         },
         callToAction: {
           buttonBackground: "",
@@ -1062,13 +1107,18 @@ const Customization = () => {
             ?.gradientOverlay
             ? activeWorkspaceData?.colorStudio?.general?.gradientOverlay
             : "#273149",
+
           videoDescription: activeWorkspaceData?.colorStudio?.general
-            ?.videoDescription
-            ? activeWorkspaceData?.colorStudio?.general?.videoDescription
+            ?.videoTitle
+            ? activeWorkspaceData?.colorStudio?.general?.videoTitle
             : "#FFFFFF",
           videoTitle: activeWorkspaceData?.colorStudio?.general?.videoTitle
             ? activeWorkspaceData?.colorStudio?.general?.videoTitle
             : "#FFFFFF",
+
+          // videoText: activeWorkspaceData?.colorStudio?.general?.videoText
+          //   ? activeWorkspaceData?.colorStudio?.general?.videoText
+          //   : "#FFFFFF",
         },
         callToAction: {
           buttonBackground:
@@ -1176,11 +1226,12 @@ const Customization = () => {
     return formData;
   }
 
-  const onSubmit = (data, isVideo) => {
+  const onSubmit = (data, isVideo, text) => {
     // console.log("activeWorkspaceData", activeWorkspaceData);
     // console.log("imageCrop", imageCrop);
     // console.log("data", data);
     // console.log("isVideo", isVideo);
+    // console.log("text", text);
 
     if (data) {
       let formData = jsonToFormData(data);
@@ -1209,7 +1260,22 @@ const Customization = () => {
           id: activeWorkspace,
           ...(isVideo ? { config: config } : {}),
         })
-      );
+      )
+        .unwrap()
+        .then((res) => {
+          if (res && text === "save") {
+            toast("Data updated", {
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            toast(err, {
+              type: "error",
+            });
+          }
+        });
     }
   };
 
@@ -1288,56 +1354,54 @@ const Customization = () => {
       });
   };
 
-  const deleteWorkspaceByIdApi = useCallback((id) => {
-    dispatch(deleteWorkspaceById(id))
-      .unwrap()
-      .then((res) => {
-        if (res?.success) {
-          // console.log(res, "res of delete");
+  // const deleteWorkspaceByIdApi = useCallback((id) => {
+  //   dispatch(deleteWorkspaceById(id))
+  //     .unwrap()
+  //     .then((res) => {
+  //       if (res?.success) {
+  //         dispatch(worksapceListForDropdown())
+  //           .unwrap()
+  //           .then((res) => {
+  //             if (res?.success) {
+  //               const filterData = res?.data
+  //                 ?.filter((item) => item?.name && item?.name)
+  //                 .map((val) => ({
+  //                   name: val?.name,
+  //                   value: val?._id,
+  //                 }));
 
-          dispatch(worksapceListForDropdown())
-            .unwrap()
-            .then((res) => {
-              if (res?.success) {
-                const filterData = res?.data
-                  ?.filter((item) => item?.name && item?.name)
-                  .map((val) => ({
-                    name: val?.name,
-                    value: val?._id,
-                  }));
+  //               if (filterData?.length === 0) {
+  //                 dispatch(setActiveWorkspaceData(null));
+  //               }
 
-                if (filterData?.length === 0) {
-                  dispatch(setActiveWorkspaceData(null));
-                }
+  //               if (filterData?.length > 0 && activeWorkspace === "") {
+  //                 setActiveWorkspace(filterData[0]?.value);
+  //               }
 
-                if (filterData?.length > 0 && activeWorkspace === "") {
-                  setActiveWorkspace(filterData[0]?.value);
-                }
+  //               setSelectWorkspaceOptions(filterData);
+  //             }
+  //           })
+  //           .catch((err) => {
+  //             if (err) {
+  //               toast(err, {
+  //                 type: "error",
+  //               });
+  //             }
+  //           });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       if (err) {
+  //         toast(err, {
+  //           type: "error",
+  //         });
+  //       }
+  //     });
+  // }, []);
 
-                setSelectWorkspaceOptions(filterData);
-              }
-            })
-            .catch((err) => {
-              if (err) {
-                toast(err, {
-                  type: "error",
-                });
-              }
-            });
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
-      });
-  }, []);
-
-  const deleteActiveWorkspace = () => {
-    deleteWorkspaceByIdApi(activeWorkspace);
-  };
+  // const deleteActiveWorkspace = () => {
+  //   deleteWorkspaceByIdApi(activeWorkspace);
+  // };
 
   const workspaceChangeHandlerApi = useCallback((id) => {
     dispatch(getWorkspaceById(id))
@@ -1409,7 +1473,9 @@ const Customization = () => {
   return (
     <div className="inline-block w-full h-full overflow-y-hidden">
       <form
-        onSubmit={handleSubmit(({ video, ...data }) => onSubmit(data, false))}
+        onSubmit={handleSubmit(({ video, ...data }) =>
+          onSubmit(data, false, "save")
+        )}
         className="h-full"
       >
         <div className="drawer drawer-mobile h-full">
@@ -1524,7 +1590,7 @@ const Customization = () => {
                     defaultValue={activeWorkspace}
                   />
 
-                  <div className="inline-block w-full mb-2">
+                  {/* <div className="inline-block w-full mb-2">
                     <Button
                       text="Delete Selected"
                       buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
@@ -1533,7 +1599,7 @@ const Customization = () => {
                         selectWorkspaceOptions.length > 0 ? "" : "disabled"
                       }
                     ></Button>
-                  </div>
+                  </div> */}
 
                   <div className="flex w-full">
                     <Button

@@ -102,7 +102,7 @@ const FontStudio = ({ register, valueChangeHandler }) => {
               />
             </div>
 
-            <div className="px-4 pb-4">
+            {/* <div className="px-4 pb-4">
               <InputWithIcon
                 type="number"
                 labelTitle="Author Name"
@@ -113,7 +113,7 @@ const FontStudio = ({ register, valueChangeHandler }) => {
                 rightText="px"
                 valueChangeHandler={valueChangeHandler}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

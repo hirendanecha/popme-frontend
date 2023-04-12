@@ -8,10 +8,10 @@ const Customization = lazy(() => import("../pages/CustomizationPage"));
 const Setting = lazy(() => import("../pages/SettingPage"));
 
 const routes = [
-  {
-    path: "/dashboard", // the url
-    component: Dashboard, // view rendered
-  },
+  // {
+  //   path: "/dashboard",
+  //   component: Dashboard,
+  // },
   {
     path: "/workspaces", // the url
     component: Workspaces, // view rendered

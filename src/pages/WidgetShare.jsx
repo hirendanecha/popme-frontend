@@ -5,13 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Button from "../components/Button/Button";
 import {
+  CheckSvg,
   CloseSvg,
   DashSvg,
+  GiftSvg,
+  InfoCircleSvg,
+  MessageSvg,
   MuteSvg,
+  NewCalendarSvg,
+  NewPhoneSvg,
+  NewRightArrowSvg,
   PauseSvg,
   PlayerPlaySvg,
   RightArrowSvg,
   RightExitSvg,
+  SendSvg,
   VolumeSvg,
 } from "../features/customization/SvgComp";
 import {
@@ -61,45 +69,62 @@ const WidgetShare = () => {
     }
   }, [decodedStringAtoB]);
 
-  console.log("workspaceData", workspaceData);
+  // console.log("workspaceData", workspaceData);
 
   const renderSwitch = (activeWorkspaceData, color, fontSize) => {
     switch (activeWorkspaceData !== null) {
       case activeWorkspaceData?.callToAction?.buttonIcon === "arrow":
         return (
-          <RightArrowSvg
-            w={`w-[${fontSize}px]`}
-            h={`h-[${fontSize}px]`}
+          <NewRightArrowSvg
+            w={fontSize}
+            h={fontSize}
             color={`text-[${color}]`}
           />
         );
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "send":
+        return <SendSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />;
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "roundedarrow":
         return (
-          <RightExitSvg
-            w={`w-[${fontSize}px]`}
-            h={`h-[${fontSize}px]`}
-            color={`text-[${color}]`}
-          />
+          <RightExitSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
         );
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "calendar":
-        return <CalendarSvg w={fontSize} h={fontSize} color={color} />;
+        return <NewCalendarSvg w={fontSize} h={fontSize} color={color} />;
 
       case activeWorkspaceData?.callToAction?.buttonIcon === "cross":
+        return <CloseSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "none":
+        return null;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "phone":
         return (
-          <CloseSvg
-            w={`w-[${fontSize}px]`}
-            h={`h-[${fontSize}px]`}
-            color={`text-[${color}]`}
-          />
+          <NewPhoneSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
+        );
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "check":
+        return <CheckSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "gift":
+        return <GiftSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />;
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "info-circle":
+        return (
+          <InfoCircleSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
+        );
+
+      case activeWorkspaceData?.callToAction?.buttonIcon === "message-2":
+        return (
+          <MessageSvg w={fontSize} h={fontSize} color={`text-[${color}]`} />
         );
 
       default:
         return (
-          <RightArrowSvg
-            w={`w-[${fontSize}px]`}
-            h={`h-[${fontSize}px]`}
+          <NewRightArrowSvg
+            w={fontSize}
+            h={fontSize}
             color={`text-[${color}]`}
           />
         );
@@ -260,7 +285,11 @@ const WidgetShare = () => {
       <div className="flex justify-center">
         <div className="inline-block rounded-2xl overflow-hidden shadow-[0_10px_36px_0px_rgba(51,60,82,1)]">
           <div
-            className={`relative player_wrap ${workspaceData?.fontStudio?.fontFamily} transform translate-y-0 translate-x-0 opacity-100 transition duration-500 ease-in-out`}
+            className={`relative player_wrap ${workspaceData?.fontStudio?.fontFamily
+              .split("+")
+              .join(
+                ""
+              )} transform translate-y-0 translate-x-0 opacity-100 transition duration-500 ease-in-out`}
           >
             <div
               ref={player}
@@ -329,8 +358,7 @@ const WidgetShare = () => {
                           style={{
                             fontSize: `${workspaceData?.fontStudio?.videoDescription}px`,
                             color:
-                              workspaceData?.colorStudio?.general
-                                ?.videoDescription,
+                              workspaceData?.colorStudio?.general?.videoTitle,
                           }}
                         >
                           {workspaceData?.description ||

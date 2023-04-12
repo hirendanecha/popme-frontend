@@ -73,8 +73,8 @@ const InstantEmbed = ({ register }) => {
                 </svg>
 
                 <p className="text-sm text-left text-secondary-main font-bold ml-3">
-                  Connect your website with Answerly and embed any widget with
-                  one click.
+                  Connect your website with Popme and embed any widget with one
+                  click.
                 </p>
               </div>
             </div>

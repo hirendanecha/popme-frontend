@@ -182,8 +182,16 @@ const ColorStudio = ({
 
               <div className="flex flex-col">
                 <h5 className="text-primary-main text-base text-left font-semibold py-2">
-                  Video Title
+                  Video Text
                 </h5>
+                {/* <ColorPickerInput
+                  name="colorStudio.general.videoText"
+                  register={register}
+                  watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
+                /> */}
+
                 <ColorPickerInput
                   name="colorStudio.general.videoTitle"
                   register={register}
@@ -193,7 +201,20 @@ const ColorStudio = ({
                 />
               </div>
 
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
+                <h5 className="text-primary-main text-base text-left font-semibold py-2">
+                  Video Title
+                </h5>
+                <ColorPickerInput
+                  name="colorStudio.general.videoTitle"
+                  register={register}
+                  watch={watch}
+                  valueChangeHandler={valueChangeHandler}
+                  control={control}
+                />
+              </div> */}
+
+              {/* <div className="flex flex-col">
                 <h5 className="text-primary-main text-left text-base font-semibold py-2">
                   Video Description
                 </h5>
@@ -204,7 +225,7 @@ const ColorStudio = ({
                   valueChangeHandler={valueChangeHandler}
                   control={control}
                 />
-              </div>
+              </div> */}
 
               <div className="flex flex-col">
                 <h5 className="text-primary-main text-left text-base font-semibold py-2">
@@ -296,7 +317,7 @@ const ColorStudio = ({
                 />
               </div>
 
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <h5 className="text-primary-main text-left text-base font-semibold py-2">
                   Author Name
                 </h5>
@@ -307,7 +328,7 @@ const ColorStudio = ({
                   valueChangeHandler={valueChangeHandler}
                   control={control}
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-col px-4 pb-4">

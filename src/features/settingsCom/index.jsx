@@ -340,7 +340,9 @@ const SettingsCom = () => {
             >
               <a
                 className={`tab text-lg font-bold items-baseline ${
-                  activeTab === 4 ? "text-secondary-main" : "text-primary-light"
+                  activeTab === 4
+                    ? "text-secondary-main"
+                    : "text-primary-light/50"
                 } `}
                 onClick={(e) => e.preventDefault()}
               >
@@ -360,7 +362,9 @@ const SettingsCom = () => {
             >
               <a
                 className={`tab text-lg font-bold items-baseline ${
-                  activeTab === 5 ? "text-secondary-main" : "text-primary-light"
+                  activeTab === 5
+                    ? "text-secondary-main"
+                    : "text-primary-light/50"
                 } `}
                 onClick={(e) => e.preventDefault()}
               >
@@ -633,7 +637,7 @@ const SettingsCom = () => {
                       <div className="flex flex-col mb-6">
                         <h4 className="text-[#183169] text-2xl font-bold">
                           ${(item?.amount / 100).toString().split(".")[0]}.
-                          <span className="text-lg font-normal">
+                          <span className="text-lg font-bold">
                             {(item?.amount / 100).toString().split(".")[1]}
                           </span>
                           {/* {console.log(

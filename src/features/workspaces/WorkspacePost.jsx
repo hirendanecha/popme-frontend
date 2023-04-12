@@ -6,6 +6,8 @@ import GroupSvg from "../../assets/svgs/GroupSvg";
 import MouseSvg from "../../assets/svgs/MouseSvg";
 import ThreeDotSvg from "../../assets/svgs/ThreeDotSvg";
 import playVideoIcon from "../../assets/images/playVideoIcon.png";
+import { setDeleteWorkspaceId } from "./reducer/workspaceSlice";
+import { useDispatch } from "react-redux";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 const ClapprPlayer = React.forwardRef(({ id, source, item, event }, ref) => {
@@ -115,7 +117,7 @@ const ClapprPlayer = React.forwardRef(({ id, source, item, event }, ref) => {
 const WorkspacePost = ({
   item,
   index,
-  onDeleteHandler,
+  // onDeleteHandler,
   onEditHandler,
   onDuplicateHandler,
   allPlayer,
@@ -124,6 +126,8 @@ const WorkspacePost = ({
   // console.log("item", item);
 
   const playerRef = useRef({});
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // console.log("ref: player", playerRef.current);
@@ -147,42 +151,43 @@ const WorkspacePost = ({
   //     }`
   //   );
 
-  const [defaultWorkspaceImg, setDefaultWorkspaceImg] = useState(
-    item?.video?.thumbnail
-      ? baseURL +
-          "/" +
-          item?.video?.thumbnailDestination +
-          "/" +
-          item?.video?.thumbnail
-      : defaultWorkspaceImage
-  );
+  // const [defaultWorkspaceImg, setDefaultWorkspaceImg] = useState(
+  //   item?.video?.thumbnail
+  //     ? baseURL +
+  //         "/" +
+  //         item?.video?.thumbnailDestination +
+  //         "/" +
+  //         item?.video?.thumbnail
+  //     : defaultWorkspaceImage
+  // );
 
-  const mouseOver = () => {
-    setDefaultWorkspaceImg(
-      item?.video?.animatedImage
-        ? baseURL + "/" + item?.video?.animatedImage
-        : defaultWorkspaceWebp
-    );
-  };
+  // const mouseOver = () => {
+  //   setDefaultWorkspaceImg(
+  //     item?.video?.animatedImage
+  //       ? baseURL + "/" + item?.video?.animatedImage
+  //       : defaultWorkspaceWebp
+  //   );
+  // };
 
-  const mouseOut = () => {
-    setDefaultWorkspaceImg(
-      item?.video?.thumbnail
-        ? baseURL +
-            "/" +
-            item?.video?.thumbnailDestination +
-            "/" +
-            item?.video?.thumbnail
-        : defaultWorkspaceImage
-    );
-  };
+  // const mouseOut = () => {
+  //   setDefaultWorkspaceImg(
+  //     item?.video?.thumbnail
+  //       ? baseURL +
+  //           "/" +
+  //           item?.video?.thumbnailDestination +
+  //           "/" +
+  //           item?.video?.thumbnail
+  //       : defaultWorkspaceImage
+  //   );
+  // };
 
   const editWorkspaceHandler = () => {
     onEditHandler(item._id);
   };
 
-  const deleteWorkspaceHandler = () => {
-    onDeleteHandler(item._id);
+  const deleteWorkspaceHandler = (id) => {
+    // onDeleteHandler(item._id);
+    dispatch(setDeleteWorkspaceId(id));
   };
 
   const duplicateWorkspaceHandler = () => {
@@ -291,7 +296,13 @@ const WorkspacePost = ({
                       <a onClick={duplicateWorkspaceHandler}>Duplicate</a>
                     </li>
                     <li>
-                      <a onClick={deleteWorkspaceHandler}>Delete</a>
+                      {/* <a onClick={deleteWorkspaceHandler}>Delete</a> */}
+                      <label
+                        htmlFor="delete_verify_modal"
+                        onClick={() => deleteWorkspaceHandler(item._id)}
+                      >
+                        Delete
+                      </label>
                     </li>
                   </ul>
                 </div>

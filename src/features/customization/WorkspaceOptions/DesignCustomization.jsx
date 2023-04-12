@@ -47,7 +47,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
         >
           <div className="">
             <div className="px-4 pb-3 border-b">
-              <NewInputText
+              {/* <NewInputText
                 type="text"
                 labelTitle="Author Name"
                 labelStyle="text-primary-main text-base font-semibold"
@@ -55,10 +55,8 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 name="designCustomization.authorName"
                 register={register}
                 valueChangeHandler={valueChangeHandler}
-              />
-              {/* </div>
+              /> */}
 
-<div className="px-4"> */}
               <InputWithIcon
                 type="number"
                 labelTitle="Vertical Margin"
@@ -70,8 +68,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 valueChangeHandler={valueChangeHandler}
                 max="500"
               />
-              {/* </div>
-<div className="px-4 "> */}
+
               <InputWithIcon
                 type="number"
                 labelTitle="Horizontal Margin"
@@ -90,7 +87,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 Toggle
               </h4>
 
-              <InputWithIcon
+              {/* <InputWithIcon
                 type="number"
                 labelTitle="Size"
                 labelStyle="text-primary-main text-base font-semibold"
@@ -100,7 +97,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 rightText="%"
                 max="100"
                 valueChangeHandler={valueChangeHandler}
-              />
+              /> */}
 
               <SelectBox
                 labelTitle="Animation"
@@ -157,7 +154,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 Player
               </h4>
 
-              <InputWithIcon
+              {/* <InputWithIcon
                 type="number"
                 labelTitle="Width"
                 labelStyle="text-primary-main text-base font-semibold"
@@ -166,9 +163,9 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 register={register}
                 rightText="px"
                 valueChangeHandler={valueChangeHandler}
-              />
+              /> */}
 
-              <InputWithIcon
+              {/* <InputWithIcon
                 type="number"
                 labelTitle="Height"
                 labelStyle="text-primary-main text-base font-semibold"
@@ -177,7 +174,7 @@ const DesignCustomization = ({ register, valueChangeHandler }) => {
                 register={register}
                 rightText="px"
                 valueChangeHandler={valueChangeHandler}
-              />
+              /> */}
 
               <SelectBox
                 labelTitle="On mobile devices"

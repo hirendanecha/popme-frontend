@@ -60,16 +60,30 @@ function App() {
 
         <Route path="/callback" element={<CheckoutStatus />} />
 
-        <Route
+        {/* <Route
           path="/*"
           element={
             <Navigate to={token ? "/app/dashboard" : "/login"} replace />
           }
-        />
+        /> */}
+
         <Route
+          path="/*"
+          element={
+            <Navigate to={token ? "/app/workspaces" : "/login"} replace />
+          }
+        />
+        {/* <Route
           path="/"
           element={
             <Navigate to={token ? "/app/dashboard" : "/login"} replace />
+          }
+        /> */}
+
+        <Route
+          path="/"
+          element={
+            <Navigate to={token ? "/app/workspaces" : "/login"} replace />
           }
         />
       </Routes>

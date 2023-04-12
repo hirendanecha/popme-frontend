@@ -46,8 +46,9 @@ const LoginComp = () => {
       .unwrap()
       .then((res) => {
         if (res.success === true) {
-          console.log(res, "response");
-          navigate("/app/dashboard");
+          // console.log(res, "response");
+          // navigate("/app/dashboard");
+          navigate("/app/workspaces");
         }
       })
       .catch((err) => {
