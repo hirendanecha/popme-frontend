@@ -713,7 +713,9 @@ const ClapprComponent = React.memo(
                   }}
                 /> */}
 
-                {animatedImage !== "https://popme-api.opash.in/undefined" &&
+                <div className="img-preview overflow-hidden !w-full !h-full" />
+
+                {/* {animatedImage !== "https://popme-api.opash.in/undefined" &&
                   poster !==
                     "https://popme-api.opash.in/undefined/undefined" && (
                     <div
@@ -726,7 +728,7 @@ const ClapprComponent = React.memo(
                         backgroundPosition: `${activeWorkspaceData?.basicSetUp?.toggle?.x}% ${activeWorkspaceData?.basicSetUp?.toggle?.y}%`,
                       }}
                     />
-                  )}
+                  )} */}
 
                 <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
                   <img

@@ -1,9 +1,11 @@
-import React, { useState, useCallback } from "react";
-import Cropper from "react-easy-crop";
+import React, { useState, useCallback, createRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setImageCrop } from "../../workspaces/reducer/workspaceSlice";
 import * as te from "tw-elements";
 // import defaultWorkspaceImage from "../../../assets/images/defaultWorkspaceImage.png";
+// import Cropper from "react-easy-crop";
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -20,20 +22,11 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
   });
 
   const [zoom, setZoom] = useState(1);
-
   const [croppedArea, setCroppedArea] = useState(null);
-
-  // const [mediaSize, setMediaSize] = useState({
-  //   width: 0,
-  //   height: 0,
-  //   naturalWidth: 0,
-  //   naturalHeight: 0,
-  // });
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     // console.log(croppedArea, "croppedArea");
     // console.log("croppedAreaPixels", croppedAreaPixels);
-
     const scale = 100 / croppedArea.width;
 
     if (!Number.isNaN(scale)) {
@@ -47,9 +40,7 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
     }
   }, []);
 
-  // console.log("crop", crop);
-
-  // console.log("croppedArea", croppedArea);
+  const cropperRef = createRef();
 
   return (
     <>
@@ -167,7 +158,7 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                   "circular" && (
                   <div className="inline-block w-full relative h-[300px]">
                     <div className="absolute top-0 bottom-0 left-0 right-0">
-                      <Cropper
+                      {/* <Cropper
                         image={
                           baseURL +
                           "/" +
@@ -193,29 +184,59 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                             y: 65.625,
                           })
                         }
-                        // setCropSize={(e) => console.log("e", e)}
-                        // setMediaSize={setMediaSize}
-
-                        // cropSize={{ width: 168, height: 168 }}
-
-                        // cropSize={{
-                        //   width: 168.75,
-                        //   height: 168.75,
-                        // }}
-                        // initialCroppedAreaPercentages={{
-                        //   width: 168.75,
-                        //   height: 168.75,
-                        //   x: 0,
-                        //   y: 0,
-                        // }}
                         style={{
                           cropAreaStyle: {
                             minWidth: "168.75px",
                             minHeight: "168.75px",
                           },
                         }}
-                      />
+                      /> */}
+
+                      <div style={{ width: "100%" }}>
+                        <Cropper
+                          ref={cropperRef}
+                          style={{ height: 260, width: "100%" }}
+                          zoomTo={0}
+                          initialAspectRatio={1}
+                          aspectRatio={1}
+                          preview=".img-preview"
+                          src={
+                            baseURL +
+                            "/" +
+                            activeWorkspaceData?.video?.animatedImage
+                          }
+                          viewMode={1}
+                          minCropBoxHeight={100}
+                          minCropBoxWidth={100}
+                          minContainerWidth={260}
+                          minContainerHeight={307}
+                          background={false}
+                          responsive={true}
+                          autoCropArea={1}
+                          checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+                          guides={false}
+                          cropBoxResizable={false}
+                          className="croper_wrapperr"
+                          crop={(event) => {
+                            console.log("===========================");
+                            // console.log(event.detail.x);
+                            // console.log(event.detail.y);
+                            // console.log(event.detail.width);
+                            // console.log(event.detail.height);
+                            // console.log(event.detail.rotate);
+                            // console.log(event.detail.scaleX);
+                            // console.log(event.detail.scaleY);
+                            console.log(event.detail);
+                          }}
+                          cropend={(e) => console.log("e", e)}
+                        />
+                      </div>
                     </div>
+
+                    {/* <div
+                      className="img-preview mt-10 overflow-hidden"
+                      style={{ width: "100%", float: "left", height: "50px" }}
+                    /> */}
                   </div>
                 )}
             </div>

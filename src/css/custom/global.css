@@ -246,3 +246,8 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.croper_wrapperr .cropper-crop-box,
+.cropper-view-box {
+  border-radius: 50%;
+}
