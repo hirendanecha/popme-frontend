@@ -153,3 +153,19 @@ export const updateProfile = createAsyncThunk(
     }
   }
 );
+
+export const changePasswordSetting = createAsyncThunk(
+  "user/changePasswordSetting",
+  async (data) => {
+    try {
+      const response = await userAPI.changePasswordSettingApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
