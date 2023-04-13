@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ClipBoardSvg from "../../../assets/svgs/ClipBoardSvg";
 import Button from "../../../components/Button/Button";
@@ -6,14 +6,45 @@ import ModalButton from "../../../components/Button/ModalButton";
 import SelectBox from "../../../components/Input/SelectBox";
 import { openNewModal } from "../../../redux/slices/newModalSlice";
 import ConnectWebsiteModal from "../ConnectWebsiteModal";
+import { toast } from "react-toastify";
 
 const InstantEmbed = ({ register }) => {
   const dispatch = useDispatch();
-  const { activeWorkspaceData } = useSelector((state) => state.workspace);
+  const { activeWorkspaceData, workspaceList } = useSelector(
+    (state) => state.workspace
+  );
+  const { userPlanDetails } = useSelector((state) => state.setting);
+
+  const [inWebsiteSelect, setInWebsiteSelect] = useState("");
+
+  // console.log("workspaceList", workspaceList);
+  // console.log("userPlanDetails", userPlanDetails);
+  // console.log(
+  //   "userPlanDetails",
+  //   userPlanDetails?.analytics?.websites,
+  //   userPlanDetails?.selectedPlan?.props?.displayVideoToWeb
+  // );
 
   const modalClickHandler = (props) => {
-    dispatch(openNewModal(props));
+    if (
+      userPlanDetails !== null &&
+      userPlanDetails?.analytics?.websites !==
+        userPlanDetails?.selectedPlan?.props?.displayVideoToWeb
+    ) {
+      dispatch(openNewModal(props));
+    } else {
+      toast("Your limit has been over please upgrade your plan", {
+        type: "info",
+      });
+    }
+    // dispatch(openNewModal(props));
   };
+
+  const updateValue = (data) => {
+    setInWebsiteSelect(data?.value);
+  };
+
+  // console.log("inWebsiteSelect", inWebsiteSelect);
 
   return (
     <>
@@ -157,15 +188,22 @@ const InstantEmbed = ({ register }) => {
                             // labelTitle="In this website"
                             labelStyle="text-primary-main text-base font-semibold"
                             options={[
+                              { name: "Show in all pages", value: "all" },
+                              {
+                                name: "Do not show",
+                                value: "none",
+                              },
                               {
                                 name: "Show in some pages",
-                                value: "some pages",
+                                value: "some",
                               },
-                              { name: "Option 2", value: "option2" },
                             ]}
                             containerStyle="mb-3 w-full"
                             selectStyle="text-primary-main"
-                            name="instantEmbed.inThisWebsite"
+                            updateFormValue={updateValue}
+                            placeholder
+                            defaultValue={inWebsiteSelect}
+                            // name="instantEmbed.inThisWebsite"
                             // register={register}
                           />
                         </div>

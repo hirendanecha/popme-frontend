@@ -1,11 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { customerPortal, getAllPlansList, paymentLink } from "../action";
+import {
+  customerPortal,
+  getAllPlansList,
+  getUserPlanDetails,
+  paymentLink,
+} from "../action";
 
 const initialState = {
   loading: false,
   billingPlans: [],
   error: null,
   success: false,
+  userPlanDetails: null,
 };
 
 const settingSlice = createSlice({
@@ -53,6 +59,21 @@ const settingSlice = createSlice({
     });
 
     builder.addCase(customerPortal.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    builder.addCase(getUserPlanDetails.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
+    builder.addCase(getUserPlanDetails.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.userPlanDetails = payload;
+      state.success = true;
+    });
+
+    builder.addCase(getUserPlanDetails.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });

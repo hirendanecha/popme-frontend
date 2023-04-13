@@ -264,9 +264,9 @@ const WorkspacePost = ({
           </div>
 
           <div className="inline-block w-full p-4 bg-white rounded-b-xl">
-            <div className="flex justify-between items-center mb-5">
+            <div className="flex justify-between items-start mb-5">
               <div className="flex flex-col">
-                <h4 className=" text-primary-normal text-lg font-bold">
+                <h4 className=" text-primary-normal text-lg font-bold min-h-[55px] line-clamp-2">
                   {item?.name}
                 </h4>
 

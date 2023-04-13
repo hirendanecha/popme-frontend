@@ -10,6 +10,9 @@ const settingAPI = {
   customerPortalApi(data) {
     return axios.post("/api/billing/customer-portal", data);
   },
+  getUserPlanDetailsApi() {
+    return axios.get("/api/user/plan-details");
+  },
 };
 
 export default settingAPI;

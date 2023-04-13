@@ -7,10 +7,6 @@ import Sidebar from "./sections/Sidebar";
 import { socket } from "../../services/socketCon";
 
 const Layout = () => {
-  // console.log("location", location);
-  // const token = localStorage.getItem("token");
-  // console.log("Layout - token", token);
-
   // socket.on("connect", () => {
   //   console.log(socket.connected); // true
   // });
@@ -23,7 +19,6 @@ const Layout = () => {
     socket.on("connect", () => {
       // console.log(socket.connected);
     });
-
     return () => {};
   }, []);
 

@@ -6,6 +6,7 @@ import {
   logoutUser,
   registerUser,
   resetPassword,
+  updateProfile,
   verifyForgotPasswordToken,
   verifyRegiterEmail,
 } from "../actions/authAction";
@@ -13,7 +14,7 @@ import {
 const initialState = {
   loading: false,
   data: null,
-  userToken: localStorage.getItem('token'),
+  userToken: localStorage.getItem("token"),
   error: null,
   success: false,
 };
@@ -64,23 +65,23 @@ const authSlice = createSlice({
       state.error = payload;
     });
 
-      // currentUser
-      builder.addCase(currentUser.pending, (state, { payload }) => {
-        state.loading = true;
-        state.data = payload;
-      });
-  
-      builder.addCase(currentUser.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.success = true;
-        state.data = payload;
-      });
-  
-      builder.addCase(currentUser.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.success = false;
-        state.error = payload;
-      });
+    // currentUser
+    builder.addCase(currentUser.pending, (state, { payload }) => {
+      state.loading = true;
+      state.data = payload;
+    });
+
+    builder.addCase(currentUser.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.data = payload;
+    });
+
+    builder.addCase(currentUser.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = payload;
+    });
 
     // verifyRegiterEmail
     builder.addCase(verifyRegiterEmail.pending, (state, { payload }) => {
@@ -174,9 +175,25 @@ const authSlice = createSlice({
         state.error = payload;
       }
     );
+
+    // updateProfile
+    builder.addCase(updateProfile.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
+    builder.addCase(updateProfile.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.data = payload;
+    });
+
+    builder.addCase(updateProfile.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
   },
 });
 
 export default authSlice.reducer;
 
-// export const authSliceActions = authSlice.actions; 
+// export const authSliceActions = authSlice.actions;
