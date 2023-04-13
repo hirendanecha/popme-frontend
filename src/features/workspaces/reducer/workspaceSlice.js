@@ -14,7 +14,7 @@ import {
 const initialState = {
   loading: false,
   data: [],
-  dataDD: [],
+  // dataDD: [],
   error: null,
   success: false,
   masterWorkspaceOptions: null,
@@ -22,6 +22,7 @@ const initialState = {
   currentWebsiteUrl: "",
   videoUploadedProcess: false,
   deleteWorkspaceId: null,
+  workspaceList: [],
 
   // imageCrop: {
   //   unit: "px", // Can be 'px' or '%'
@@ -96,14 +97,14 @@ const workspaceSlice = createSlice({
     // worksapceList for dropdown
     builder.addCase(worksapceListForDropdown.pending, (state, { payload }) => {
       state.loading = true;
-      state.dataDD = [];
+      // state.dataDD = [];
     });
 
     builder.addCase(
       worksapceListForDropdown.fulfilled,
       (state, { payload }) => {
         state.loading = false;
-        state.dataDD = payload;
+        state.workspaceList = payload?.data;
         state.success = true;
       }
     );

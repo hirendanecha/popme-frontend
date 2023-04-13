@@ -1,9 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ModalButton from "../../components/Button/ModalButton";
+import { getUserPlanDetails } from "../settingsCom/action";
 
 const WebsiteConnectedModal = () => {
   const { id } = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
+
+  const getUserPlanDetailsHandler = useCallback(() => {
+    dispatch(getUserPlanDetails());
+  }, []);
+
   return (
     <div div className="flex flex-col">
       <h3 className="text-xl font-bold text-primary-normal mb-6">
@@ -42,7 +49,12 @@ const WebsiteConnectedModal = () => {
       </p>
 
       <div className="flex">
-        <ModalButton text="Close" id={id && id} buttonClass="mb-4" />
+        <ModalButton
+          text="Close"
+          id={id && id}
+          buttonClass="mb-4"
+          clickHandler={() => getUserPlanDetailsHandler()}
+        />
       </div>
     </div>
   );

@@ -12,6 +12,9 @@ import Button from "../../components/Button/Button";
 import { logoutUser } from "../../redux/actions/authAction";
 import { customerPortal, getAllPlansList, paymentLink } from "./action";
 import { socket } from "../../services/socketCon";
+import UpdateProfileModal from "./UpdateProfileModal";
+import ModalButton from "../../components/Button/ModalButton";
+import { openNewModal } from "../../redux/slices/newModalSlice";
 
 const Data = [
   {
@@ -275,6 +278,10 @@ const SettingsCom = () => {
     }
   };
 
+  const modalClickHandler = (props) => {
+    dispatch(openNewModal(props));
+  };
+
   return (
     <>
       <div className="inline-block w-full h-full">
@@ -380,13 +387,31 @@ const SettingsCom = () => {
         <div className="inline-block w-full px-4 lg:px-6">
           {activeTab === 1 && (
             <div className="flex flex-col">
-              <div className="inline-block w-full pt-11 pb-6 border-b">
-                <h3 className="text-primary-normal font-bold text-2xl">
-                  Account
-                </h3>
-                <p className="text-base text-primary-light">
-                  Your account settings.
-                </p>
+              <div className="flex justify-between pt-11 pb-6 border-b">
+                <div className="inline-block">
+                  <h3 className="text-primary-normal font-bold text-2xl">
+                    Account
+                  </h3>
+                  <p className="text-base text-primary-light">
+                    Your account settings.
+                  </p>
+                </div>
+
+                <div className="flex">
+                  {/* <Button text="Update profile" buttonClass="text-base" /> */}
+
+                  <ModalButton
+                    text="Update profile"
+                    id="update-profile"
+                    // buttonClass="mb-4"
+                    clickHandler={() =>
+                      modalClickHandler({
+                        id: "update-profile",
+                        children: <UpdateProfileModal />,
+                      })
+                    }
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-8 py-5 border-b">
@@ -743,7 +768,7 @@ const SettingsCom = () => {
                     </div>
                   ))}
 
-                {billingPlans !== null && (
+                {/* {billingPlans !== null && (
                   <div
                     className={`flex flex-col relative px-3 py-4 border border-[#D1D5DB] rounded-xl hover:border-secondary-main`}
                   >
@@ -810,7 +835,7 @@ const SettingsCom = () => {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           )}

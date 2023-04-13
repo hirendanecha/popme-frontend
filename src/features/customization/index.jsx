@@ -77,6 +77,8 @@ const ClapprComponent = React.memo(
       (state) => state.workspace
     );
 
+    const { userPlanDetails } = useSelector((state) => state.setting);
+
     const [isToggleHiden, setIsToggleHiden] = useState("");
     const [videoSeekTime, setVideoSeekTime] = useState(0);
 
@@ -655,13 +657,16 @@ const ClapprComponent = React.memo(
                 }}
               />
 
-              <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
-                <img
-                  src={logo}
-                  alt="logo"
-                  className="w-[52px] h-[30px] object-contain"
-                />
-              </div>
+              {userPlanDetails !== null &&
+                userPlanDetails?.selectedPlan?.props?.watermark === true && (
+                  <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
+                    <img
+                      src={logo}
+                      alt="logo"
+                      className="w-[52px] h-[30px] object-contain"
+                    />
+                  </div>
+                )}
 
               <div
                 className="absolute right-[-10px] top-[-10px] close_thumbnail_svg"
@@ -772,13 +777,16 @@ const ClapprComponent = React.memo(
                     />
                   )}
 
-                <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
-                  <img
-                    src={logo}
-                    alt="logo"
-                    className="w-[52px] h-[30px] object-contain"
-                  />
-                </div>
+                {userPlanDetails !== null &&
+                  userPlanDetails?.selectedPlan?.props?.watermark === true && (
+                    <div className="flex items-center justify-center absolute left-0 right-0 text-center bottom-0">
+                      <img
+                        src={logo}
+                        alt="logo"
+                        className="w-[52px] h-[30px] object-contain"
+                      />
+                    </div>
+                  )}
 
                 <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center cursor-pointer img_play_button">
                   <div
@@ -850,6 +858,8 @@ const Customization = () => {
   const { data, error, activeWorkspaceData, imageCrop, videoUploadedProcess } =
     useSelector((state) => state.workspace);
 
+  const { userPlanDetails } = useSelector((state) => state.setting);
+
   const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
   const [activeWorkspace, setActiveWorkspace] = useState(
     location?.state?.id || ""
@@ -858,10 +868,9 @@ const Customization = () => {
   const [videoUploadProcess, setVideoUploadProcess] = useState(0);
   const [isVideoUploaded, setIsVideoUploaded] = useState(false);
 
+  // console.log("userPlanDetails", userPlanDetails);
   // console.log("selectWorkspaceOptions", selectWorkspaceOptions);
-
   // console.log("videoUploadedProcess", videoUploadedProcess);
-
   // console.log("data", data);
 
   // for upload video delete
@@ -887,22 +896,6 @@ const Customization = () => {
 
   // const removeImage = (i) => {
   //   setFile(files.filter((x) => x.name !== i));
-  // };
-
-  // const colorTheme = (color) => {
-  //   switch (color) {
-  //     case "green":
-  //       return "#008000";
-
-  //     case "orange":
-  //       return "#FFA500";
-
-  //     case "red":
-  //       return "#FF0000";
-
-  //     case "blue":
-  //       return "#0000FF";
-  //   }
   // };
 
   const {
@@ -987,6 +980,7 @@ const Customization = () => {
       title: "",
       description: "",
       video: null,
+      name: "",
     },
   });
 
@@ -1017,20 +1011,6 @@ const Customization = () => {
             ? activeWorkspaceData?.basicSetUp?.toggle?.scale
             : 1,
         },
-
-        // toggle: {
-        //   x: `-${
-        //     activeWorkspaceData?.basicSetUp?.toggle?.x === 0
-        //       ? 0
-        //       : activeWorkspaceData?.basicSetUp?.toggle?.x || imageCrop?.x
-        //   }`,
-        //   y: `-${
-        //     activeWorkspaceData?.basicSetUp?.toggle?.y === 0
-        //       ? 0
-        //       : activeWorkspaceData?.basicSetUp?.toggle?.y || imageCrop?.y
-        //   }`,
-        //   scale: activeWorkspaceData?.basicSetUp?.toggle?.scale || 1,
-        // },
       },
       callToAction: {
         buttonCorner: activeWorkspaceData?.callToAction?.buttonCorner
@@ -1184,6 +1164,7 @@ const Customization = () => {
       video: activeWorkspaceData?.video
         ? activeWorkspaceData?.video?.originalname
         : "",
+      name: activeWorkspaceData?.name ? activeWorkspaceData?.name : "",
     });
   }, [activeWorkspaceData]);
 
@@ -1220,9 +1201,7 @@ const Customization = () => {
 
   function jsonToFormData(data) {
     const formData = new FormData();
-
     buildFormData(formData, data);
-
     return formData;
   }
 
@@ -1263,8 +1242,10 @@ const Customization = () => {
       )
         .unwrap()
         .then((res) => {
+          workspaceListHandlerApi();
+
           if (res && text === "save") {
-            toast("Data updated", {
+            toast("Your workspace has been saved", {
               type: "success",
             });
           }
@@ -1334,24 +1315,34 @@ const Customization = () => {
   }, [activeWorkspace]);
 
   const newWorkspaceHandler = () => {
-    dispatch(addWorkspace())
-      .unwrap()
-      .then((res) => {
-        // console.log("res", res);
-        if (res?.success) {
-          workspaceListHandlerApi();
-          if (res?.data?.name) {
-            setActiveWorkspace(res?.data?._id);
+    if (
+      userPlanDetails !== null &&
+      selectWorkspaceOptions?.length <
+        userPlanDetails?.selectedPlan?.props?.upToWorkspace
+    ) {
+      dispatch(addWorkspace())
+        .unwrap()
+        .then((res) => {
+          // console.log("res", res);
+          if (res?.success) {
+            workspaceListHandlerApi();
+            if (res?.data?.name) {
+              setActiveWorkspace(res?.data?._id);
+            }
           }
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
+        })
+        .catch((err) => {
+          if (err) {
+            toast(err, {
+              type: "error",
+            });
+          }
+        });
+    } else {
+      toast("Your limit has been over please upgrade your plan", {
+        type: "info",
       });
+    }
   };
 
   // const deleteWorkspaceByIdApi = useCallback((id) => {
@@ -1429,9 +1420,6 @@ const Customization = () => {
     dispatch(setPageTitle({ title: "Customization" }));
     workspaceListHandlerApi();
     getDropdownValuesHandlerApi();
-    // socket.on("vdo-processing", (resp) => {
-    //   console.log("vdo-processing", resp);
-    // });
   }, []);
 
   useEffect(() => {

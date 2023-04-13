@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { EventEmitter } from "../../utils/event";
 import ModalButton from "../../components/Button/ModalButton";
+import { getUserPlanDetails } from "../settingsCom/action";
 
 const Workspaces = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,10 @@ const Workspaces = () => {
   const perPageSize = 4;
 
   const { data } = useSelector((state) => state.auth);
-  const { deleteWorkspaceId } = useSelector((state) => state.workspace);
+  const { deleteWorkspaceId, workspaceList } = useSelector(
+    (state) => state.workspace
+  );
+  const { userPlanDetails } = useSelector((state) => state.setting);
 
   const workspaceListApi = useCallback((props, options = { merge: false }) => {
     dispatch(worksapceList(props))
@@ -84,40 +88,69 @@ const Workspaces = () => {
   };
 
   const createNewWorkspaceHandler = () => {
-    dispatch(addWorkspace())
-      .unwrap()
-      .then((res) => {
-        if (res?.success) {
-          dispatch(setActiveWorkspaceData(res?.data));
-          navigate("/app/customization", { state: { id: res?.data?._id } });
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
+    if (
+      userPlanDetails !== null &&
+      workspacePosts?.length <
+        userPlanDetails?.selectedPlan?.props?.upToWorkspace
+    ) {
+      dispatch(addWorkspace())
+        .unwrap()
+        .then((res) => {
+          if (res?.success) {
+            dispatch(setActiveWorkspaceData(res?.data));
+            navigate("/app/customization", { state: { id: res?.data?._id } });
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            toast(err, {
+              type: "error",
+            });
+          }
+        });
+    } else {
+      toast("Your limit has been over please upgrade your plan", {
+        type: "info",
       });
+    }
   };
 
+  // console.log("workspacePosts", workspacePosts);
+  // console.log("workspaceList", workspaceList);
+
   const duplicateWorkspaceByIdApi = useCallback((id) => {
-    dispatch(duplicateWorkspaceById(id))
-      .unwrap()
-      .then((res) => {
-        // console.log(res, "response of duplicate");
-        if (res?.success) {
-          dispatch(setActiveWorkspaceData(res?.data));
-          navigate("/app/customization", { state: { id: res?.data?._id } });
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          toast(err, {
-            type: "error",
-          });
-        }
+    // console.log(
+    //   "userPlanDetails",
+    //   workspaceList?.length,
+    //   userPlanDetails?.selectedPlan?.props?.upToWorkspace
+    // );
+
+    if (
+      userPlanDetails !== null &&
+      workspaceList?.length <
+        userPlanDetails?.selectedPlan?.props?.upToWorkspace
+    ) {
+      dispatch(duplicateWorkspaceById(id))
+        .unwrap()
+        .then((res) => {
+          // console.log(res, "response of duplicate");
+          if (res?.success) {
+            dispatch(setActiveWorkspaceData(res?.data));
+            navigate("/app/customization", { state: { id: res?.data?._id } });
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            toast(err, {
+              type: "error",
+            });
+          }
+        });
+    } else {
+      toast("Your limit has been over please upgrade your plan", {
+        type: "info",
       });
+    }
   }, []);
 
   const onDuplicateHandler = (id) => {
@@ -140,6 +173,8 @@ const Workspaces = () => {
             toast(res?.message, {
               type: "success",
             });
+
+            dispatch(getUserPlanDetails());
           }
         })
         .catch((err) => {
@@ -152,8 +187,6 @@ const Workspaces = () => {
     },
     [workspacePosts]
   );
-
-  // console.log("workspacePosts", workspacePosts);
 
   const onDeleteHandler = () => {
     if (deleteWorkspaceId !== null) {
@@ -270,9 +303,9 @@ const Workspaces = () => {
               </div>
 
               <div className="inline-block w-full p-4 bg-white rounded-xl mt-2">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-start">
                   <div className="flex flex-col">
-                    <h4 className=" text-primary-normal text-lg font-bold">{`Workspace #${
+                    <h4 className=" text-primary-normal text-lg font-bold min-h-[55px] line-clamp-2">{`Workspace #${
                       data?.data?.workspaceIndex + 1
                     }`}</h4>
                     <p className="text-primary-normal text-sm">

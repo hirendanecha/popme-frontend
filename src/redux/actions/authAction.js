@@ -45,7 +45,7 @@ export const loginUser = createAsyncThunk(
 // current user action
 export const currentUser = createAsyncThunk(
   "user/currentUser",
-  async (userData, {rejectWithValue})=>{
+  async (userData, { rejectWithValue }) => {
     try {
       const { data } = await authAPI.currentUserApi();
       return data;
@@ -53,19 +53,18 @@ export const currentUser = createAsyncThunk(
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error.message);
       }
     }
   }
 );
-
-
 
 export const verifyRegiterEmail = createAsyncThunk(
   "user/verify",
   async (token, { rejectWithValue }) => {
     try {
       const response = await authAPI.verifyEmailApi(token);
+      localStorage.clear();
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -138,3 +137,19 @@ export const logoutUser = createAsyncThunk("user/logout", async () => {
     }
   }
 });
+
+export const updateProfile = createAsyncThunk(
+  "user/updateProfile",
+  async (data) => {
+    try {
+      const response = await userAPI.updateProfileApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { NavLink, useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { NavLink, useLocation, Link, useNavigate } from "react-router-dom";
 import CustomizationSvg from "../../../../assets/svgs/CustomizationSvg";
 import DashboardSvg from "../../../../assets/svgs/DashboardSvg";
 import SettingsSvg from "../../../../assets/svgs/SettingsSvg";
@@ -11,10 +11,12 @@ import CakeSvg from "../../../../assets/svgs/CakeSvg";
 import Button from "../../../../components/Button/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { currentUser } from "../../../../redux/actions/authAction";
+import { getUserPlanDetails } from "../../../../features/settingsCom/action";
 // import SidebarLinkGroup from "./SidebarLinkGroup";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { pathname } = location;
 
   const trigger = useRef(null);
@@ -23,17 +25,37 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const dispatch = useDispatch();
 
   const { data } = useSelector((state) => state.auth);
+  const { userPlanDetails } = useSelector((state) => state.setting);
 
   // console.log(data?.data,"datasss")
+  // console.log(userPlanDetails, "userPlanDetails");
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
 
+  const getUserPlanDetailsHandler = useCallback(() => {
+    dispatch(getUserPlanDetails())
+      .unwrap()
+      .then((res) => {
+        // console.log("res", res);
+        if (Object.keys(res?.selectedPlan).length === 0) {
+          navigate("/app/setting", { state: { tab: 2 } });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // let selectedPlan = {};
+  // console.log("selectedPlan", Object.keys(res?.selectedPlan).length);
+
   //get data of currentUser
   useEffect(() => {
     dispatch(currentUser());
+    getUserPlanDetailsHandler();
   }, []);
 
   // close on click outside
@@ -70,6 +92,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       document.querySelector("body").classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
+
+  const goToPlansHandler = () => {
+    navigate("/app/setting", { state: { tab: 2 } });
+  };
 
   return (
     <div>
@@ -293,42 +319,39 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         </div>
 
         <div className="flex flex-col mt-auto">
-          <div className="flex flex-col px-4 py-8 text-center border-y lg:hidden sidebar-expanded:block">
-            {/* <div className="flex items-center justify-center mb-3">
-              <CakeSvg />
-              <span className='text-sm text-white ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200'>
-                Free Trial - 3 days left
-              </span>
+          {userPlanDetails !== null && (
+            <div className="flex flex-col px-4 py-8 text-center border-y lg:hidden sidebar-expanded:block">
+              <div className="flex justify-between mb-4">
+                <h5 className="text-base text-white font-bold">
+                  Views Remaining
+                </h5>
+
+                <span className="text-sm text-white font-normal">{`${userPlanDetails?.analytics?.views}/${userPlanDetails?.selectedPlan?.props?.videoEmbedingViews}`}</span>
+              </div>
+
+              <div className="flex mb-4">
+                <progress
+                  className="progress progress-success w-full bg-white/50"
+                  value={`${userPlanDetails?.analytics?.views}`}
+                  max={`${userPlanDetails?.selectedPlan?.props?.videoEmbedingViews}`}
+                ></progress>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="bg-[#DBEAFE] rounded-2xl px-2 text-sm text-[#1E40AF] font-medium">
+                  {/* Free Trial */}
+                  {`${userPlanDetails?.selectedPlan?.name} plan`}
+                </span>
+
+                <span
+                  className="text-sm text-white font-normal cursor-pointer"
+                  onClick={() => goToPlansHandler()}
+                >
+                  Upgrade plan
+                </span>
+              </div>
             </div>
-
-            <Button text="Upgrade" buttonClass="w-full" /> */}
-
-            <div className="flex justify-between mb-4">
-              <h5 className="text-base text-white font-bold">
-                Views Remaining
-              </h5>
-
-              <span className="text-sm text-white font-normal">40/100</span>
-            </div>
-
-            <div className="flex mb-4">
-              <progress
-                className="progress progress-success w-full bg-white/50"
-                value="40"
-                max="100"
-              ></progress>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="bg-[#DBEAFE] rounded-2xl px-2 text-sm text-[#1E40AF] font-medium">
-                Free Trial
-              </span>
-
-              <span className="text-sm text-white font-normal">
-                Upgrade plan
-              </span>
-            </div>
-          </div>
+          )}
 
           <div className="flex items-center justify-between px-4 py-8">
             <div className="flex">

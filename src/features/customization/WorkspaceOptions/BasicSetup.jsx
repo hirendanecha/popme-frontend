@@ -3,6 +3,7 @@ import Cropper from "react-easy-crop";
 import { useSelector, useDispatch } from "react-redux";
 import { setImageCrop } from "../../workspaces/reducer/workspaceSlice";
 import * as te from "tw-elements";
+import NewInputText from "../../../components/Input/NewInputText";
 // import defaultWorkspaceImage from "../../../assets/images/defaultWorkspaceImage.png";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
@@ -92,6 +93,18 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
         >
           <div className="w-full inline-block">
             <div className="flex flex-col">
+              <div className="flex px-4">
+                <NewInputText
+                  type="text"
+                  labelTitle="Workspace Name"
+                  labelStyle="text-primary-main text-base font-semibold"
+                  inputStyle="mb-3 !bg-transparent"
+                  name="name"
+                  register={register}
+                  valueChangeHandler={valueChangeHandler}
+                />
+              </div>
+
               <h5 className="text-primary-main text-base font-semibold pb-4 px-4 text-left">
                 Video Position
               </h5>

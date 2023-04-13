@@ -30,6 +30,7 @@ const AddInstantEmbedModal = () => {
       .unwrap()
       .then((res) => {
         // console.log("res", res);
+        // console.log("currentWebsiteUrl", currentWebsiteUrl);
 
         if (res?.success) {
           const checkData = res?.data?.website?.find(
@@ -37,9 +38,11 @@ const AddInstantEmbedModal = () => {
               item?.url === currentWebsiteUrl && item?.isVerfied === true
           );
 
-          if (checkData !== undefined) {
-            dispatch(setActiveWorkspaceData(res?.data));
+          dispatch(setActiveWorkspaceData(res?.data));
 
+          // console.log("checkData", checkData);
+
+          if (checkData !== undefined) {
             modalClickHandler({
               id: "website-connected",
               children: <WebsiteConnectedModal />,
@@ -67,6 +70,8 @@ const AddInstantEmbedModal = () => {
       <p className="mb-5 text-base text-primary-normal font-semibold">
         Add the Instant Embed code below into the footer of your website:
       </p>
+
+      {/* {console.log("activeWorkspaceData", activeWorkspaceData)} */}
 
       {activeWorkspaceData !== null && (
         <div className="flex justify-end mb-2">
