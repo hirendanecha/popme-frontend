@@ -110,7 +110,7 @@ export const verifyForgotPasswordToken = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
   "user/resetPassword",
-  async (data) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await authAPI.resetPasswordApi(data);
       return response.data;
@@ -140,7 +140,7 @@ export const logoutUser = createAsyncThunk("user/logout", async () => {
 
 export const updateProfile = createAsyncThunk(
   "user/updateProfile",
-  async (data) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await userAPI.updateProfileApi(data);
       return response.data;
@@ -156,7 +156,7 @@ export const updateProfile = createAsyncThunk(
 
 export const changePasswordSetting = createAsyncThunk(
   "user/changePasswordSetting",
-  async (data) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await userAPI.changePasswordSettingApi(data);
       return response.data;

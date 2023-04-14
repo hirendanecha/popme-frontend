@@ -201,6 +201,7 @@ const authSlice = createSlice({
     builder.addCase(changePasswordSetting.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.success = true;
+      state.data = payload;
     });
 
     builder.addCase(changePasswordSetting.rejected, (state, { payload }) => {
