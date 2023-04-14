@@ -40,9 +40,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       .unwrap()
       .then((res) => {
         // console.log("res", res);
+
         if (Object.keys(res?.selectedPlan).length === 0) {
           navigate("/app/setting", { state: { tab: 2 } });
         }
+
+        // if (
+        //   !(
+        //     res?.selectedPlan &&
+        //     res?.selectedPlan?.selected &&
+        //     res?.selectedPlan?.isActive
+        //   )
+        // ) {
+        //   navigate("/app/setting", { state: { tab: 2 } });
+        // }
       })
       .catch((err) => {
         console.log(err);

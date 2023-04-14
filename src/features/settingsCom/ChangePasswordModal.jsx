@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import NewInputText from "../../components/Input/NewInputText";
 import * as yup from "yup";
@@ -7,6 +7,7 @@ import ModalButton from "../../components/Button/ModalButton";
 import { changePasswordSetting } from "../../redux/actions/authAction";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+// import { openNewModal } from "../../redux/slices/newModalSlice";
 
 const schema = yup.object({
   password: yup
@@ -31,6 +32,21 @@ const schema = yup.object({
         return true;
       }
     ),
+  confirmPassword: yup
+    .string()
+    .required("Confirm Password is required")
+    .test(
+      "",
+      "Confirm Password is not same compare to password",
+      (value, testContext) => {
+        if (testContext.parent.password === value) return false;
+        return true;
+      }
+    )
+    .oneOf(
+      [yup.ref("newPassword")],
+      "Confirm Password does not match with new password"
+    ),
 });
 
 const ChangePasswordModal = () => {
@@ -47,13 +63,25 @@ const ChangePasswordModal = () => {
     defaultValues: {
       password: "",
       newPassword: "",
+      confirmPassword: "",
     },
   });
 
+  // useEffect(() => {
+  //   dispatch(
+  //     openNewModal({
+  //       id: "change-password",
+  //       children: null,
+  //       resetFormFun: () => reset(),
+  //     })
+  //   );
+  // }, []);
+
   const onSubmit = (data) => {
     // console.log("data", data);
-
-    dispatch(changePasswordSetting(data))
+    const { confirmPassword, ...rest } = data;
+    // console.log("rest", rest);
+    dispatch(changePasswordSetting(rest))
       .unwrap()
       .then((res) => {
         if (res?.success) {
@@ -103,11 +131,22 @@ const ChangePasswordModal = () => {
             labelStyle="text-primary-main text-base font-semibold"
           />
 
+          <NewInputText
+            type="password"
+            inputStyle="mb-2"
+            // placeholder="Confirm Password"
+            labelTitle="Confirm Password"
+            labelStyle="text-primary-main text-base font-semibold"
+            name="confirmPassword"
+            register={register}
+            errorMessage={errors.confirmPassword?.message}
+          />
+
           <div className="flex mt-4">
             <div className="inline-block mr-3">
               <ModalButton
                 text="Update"
-                id="change-password"
+                // id="change-password"
                 clickHandler={() => handleSubmit((d) => onSubmit(d))()}
               />
             </div>

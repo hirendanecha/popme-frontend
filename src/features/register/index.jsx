@@ -26,7 +26,10 @@ const schema = yup
     confirmPassword: yup
       .string()
       .required("Confirm Password is required")
-      .oneOf([yup.ref("password")], "Passwords does not match"),
+      .oneOf(
+        [yup.ref("password")],
+        "Confirm Password does not match with password"
+      ),
   })
   .required();
 

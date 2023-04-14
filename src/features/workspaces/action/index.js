@@ -170,3 +170,20 @@ export const getWorkspaceByIdentity = createAsyncThunk(
     }
   }
 );
+
+// getWebsitesByWorkspaceId
+export const getWebsitesByWorkspaceId = createAsyncThunk(
+  "workspace/getWebsitesByWorkspaceId",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await workSpaceAPI.getWebsitesByWorkspaceIdApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

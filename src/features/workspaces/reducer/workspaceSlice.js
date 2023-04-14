@@ -9,6 +9,7 @@ import {
   worksapceList,
   worksapceListForDropdown,
   duplicateWorkspaceById,
+  getWebsitesByWorkspaceId,
 } from "../action";
 
 const initialState = {
@@ -236,6 +237,24 @@ const workspaceSlice = createSlice({
       state.loading = false;
       state.error = payload;
       state.success = false;
+    });
+
+    // get websites by workspace
+    builder.addCase(getWebsitesByWorkspaceId.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
+    builder.addCase(
+      getWebsitesByWorkspaceId.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+      }
+    );
+
+    builder.addCase(getWebsitesByWorkspaceId.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     });
   },
 });
