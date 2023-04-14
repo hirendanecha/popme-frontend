@@ -64,7 +64,7 @@ export const verifyRegiterEmail = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const response = await authAPI.verifyEmailApi(token);
-      localStorage.clear();
+
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {

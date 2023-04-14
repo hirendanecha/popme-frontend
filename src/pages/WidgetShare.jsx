@@ -382,70 +382,57 @@ const WidgetShare = () => {
                     </div>
 
                     <div className="flex mb-[20px]">
-                      {/* <Button
-                        text="Try for free"
-                        rightIcon={RightArrowSvg({
-                          w: "w-4",
-                          h: "h-4",
-                          color: "text-white",
-                        })}
-                        buttonClass="h-[2rem] min-h-[2rem] w-full rounded-full"
-                      /> */}
-
-                      <Link
-                        to={workspaceData?.callToAction?.destinationUrl}
-                        target="_blank"
-                        className="w-full"
-                      >
-                        <button
-                          type="button"
-                          className={`btn whitespace-normal cta_show ${workspaceData?.callToAction?.buttonStyle}
-                    ${workspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
-                          style={{
-                            backgroundColor:
-                              workspaceData?.colorStudio?.callToAction
-                                ?.buttonBackground,
-
-                            fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
-
-                            borderColor:
-                              workspaceData?.callToAction?.buttonStyle ===
-                                "ghost" ||
-                              workspaceData?.callToAction?.buttonStyle ===
-                                "link"
-                                ? "transparent"
-                                : workspaceData?.colorStudio?.callToAction
-                                    ?.buttonOutline,
-
-                            color:
-                              workspaceData?.colorStudio?.callToAction
-                                ?.buttonText,
-
-                            height: "auto",
-                            minHeight: "38px",
-
-                            paddingTop: "6px",
-                            paddingBottom: "6px",
-                          }}
-                        >
-                          <span
-                            className="flex gap-3 items-center justify-center flex-wrap"
-                            // style={{
-                            //   padding: `${+workspaceData?.fontStudio
-                            //     ?.ctaButton}px`,
-                            // }}
+                      {workspaceData?.callToAction?.buttonText !== undefined &&
+                        workspaceData?.callToAction?.buttonText.length > 0 && (
+                          <Link
+                            to={workspaceData?.callToAction?.destinationUrl}
+                            target="_blank"
+                            className="w-full"
                           >
-                            {workspaceData?.callToAction?.buttonText ||
-                              "Try for free"}
-                            {renderSwitch(
-                              workspaceData,
-                              workspaceData?.colorStudio?.callToAction
-                                ?.buttonText,
-                              workspaceData?.fontStudio?.ctaButton
-                            )}
-                          </span>
-                        </button>
-                      </Link>
+                            <button
+                              type="button"
+                              className={`btn whitespace-normal cta_show ${workspaceData?.callToAction?.buttonStyle}
+                    ${workspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                              style={{
+                                backgroundColor:
+                                  workspaceData?.colorStudio?.callToAction
+                                    ?.buttonBackground,
+
+                                fontSize: `${workspaceData?.fontStudio?.ctaButton}px`,
+
+                                borderColor:
+                                  workspaceData?.callToAction?.buttonStyle ===
+                                    "ghost" ||
+                                  workspaceData?.callToAction?.buttonStyle ===
+                                    "link"
+                                    ? "transparent"
+                                    : workspaceData?.colorStudio?.callToAction
+                                        ?.buttonOutline,
+
+                                color:
+                                  workspaceData?.colorStudio?.callToAction
+                                    ?.buttonText,
+
+                                height: "auto",
+                                minHeight: "38px",
+
+                                paddingTop: "6px",
+                                paddingBottom: "6px",
+                              }}
+                            >
+                              <span className="flex gap-3 items-center justify-center flex-wrap">
+                                {workspaceData?.callToAction?.buttonText ||
+                                  "Try for free"}
+                                {renderSwitch(
+                                  workspaceData,
+                                  workspaceData?.colorStudio?.callToAction
+                                    ?.buttonText,
+                                  workspaceData?.fontStudio?.ctaButton
+                                )}
+                              </span>
+                            </button>
+                          </Link>
+                        )}
                     </div>
                   </div>
                 </div>

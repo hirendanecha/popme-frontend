@@ -546,63 +546,67 @@ const ClapprComponent = React.memo(
                     </div>
 
                     <div className="flex mb-[20px]">
-                      <Link
-                        to={activeWorkspaceData?.callToAction?.destinationUrl}
-                        target="_blank"
-                        className="w-full"
-                      >
-                        <button
-                          type="button"
-                          className={`btn scale-100 hover:scale-[.98] whitespace-normal cta_show ${activeWorkspaceData?.callToAction?.buttonStyle}
-                    ${activeWorkspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
-                          style={{
-                            backgroundColor:
-                              activeWorkspaceData?.colorStudio?.callToAction
-                                ?.buttonBackground,
+                      {/* {console.log(
+                        "text",
+                        activeWorkspaceData?.callToAction?.buttonText,
+                        activeWorkspaceData?.callToAction?.buttonText.length
+                      )} */}
 
-                            fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
-
-                            borderColor:
-                              activeWorkspaceData?.callToAction?.buttonStyle ===
-                                "ghost" ||
-                              activeWorkspaceData?.callToAction?.buttonStyle ===
-                                "link"
-                                ? "transparent"
-                                : activeWorkspaceData?.colorStudio?.callToAction
-                                    ?.buttonOutline,
-
-                            color:
-                              activeWorkspaceData?.colorStudio?.callToAction
-                                ?.buttonText,
-
-                            height: "auto",
-                            minHeight: "38px",
-
-                            paddingTop: "6px",
-                            paddingBottom: "6px",
-
-                            // minHeight: "32px",
-                            // padding: "0",
-                          }}
-                        >
-                          <span
-                            className="flex gap-3 items-center justify-center flex-wrap font-medium"
-                            // style={{
-                            //   padding: `${+activeWorkspaceData?.fontStudio
-                            //     ?.ctaButton}px`,
-                            // }}
+                      {activeWorkspaceData?.callToAction?.buttonText !==
+                        undefined &&
+                        activeWorkspaceData?.callToAction?.buttonText.length >
+                          0 && (
+                          <Link
+                            to={
+                              activeWorkspaceData?.callToAction?.destinationUrl
+                            }
+                            target="_blank"
+                            className="w-full"
                           >
-                            {activeWorkspaceData?.callToAction?.buttonText ||
-                              "Try for free"}
-                            {renderSwitch(
-                              activeWorkspaceData,
-                              activeWorkspaceData?.colorStudio?.callToAction
-                                ?.buttonText,
-                              activeWorkspaceData?.fontStudio?.ctaButton
-                            )}
-                          </span>
-                        </button>
-                      </Link>
+                            <button
+                              type="button"
+                              className={`btn scale-100 hover:scale-[.98] whitespace-normal cta_show ${activeWorkspaceData?.callToAction?.buttonStyle}
+                    ${activeWorkspaceData?.callToAction?.buttonCorner} w-full rounded-full truncate hover:border-transparent bg-secondary-main border border-transparent hover:bg-secondary-main capitalize text-white gap-2`}
+                              style={{
+                                backgroundColor:
+                                  activeWorkspaceData?.colorStudio?.callToAction
+                                    ?.buttonBackground,
+
+                                fontSize: `${activeWorkspaceData?.fontStudio?.ctaButton}px`,
+
+                                borderColor:
+                                  activeWorkspaceData?.callToAction
+                                    ?.buttonStyle === "ghost" ||
+                                  activeWorkspaceData?.callToAction
+                                    ?.buttonStyle === "link"
+                                    ? "transparent"
+                                    : activeWorkspaceData?.colorStudio
+                                        ?.callToAction?.buttonOutline,
+
+                                color:
+                                  activeWorkspaceData?.colorStudio?.callToAction
+                                    ?.buttonText,
+
+                                height: "auto",
+                                minHeight: "38px",
+
+                                paddingTop: "6px",
+                                paddingBottom: "6px",
+                              }}
+                            >
+                              <span className="flex gap-3 items-center justify-center flex-wrap font-medium">
+                                {activeWorkspaceData?.callToAction
+                                  ?.buttonText || "Try for free"}
+                                {renderSwitch(
+                                  activeWorkspaceData,
+                                  activeWorkspaceData?.colorStudio?.callToAction
+                                    ?.buttonText,
+                                  activeWorkspaceData?.fontStudio?.ctaButton
+                                )}
+                              </span>
+                            </button>
+                          </Link>
+                        )}
                     </div>
                   </div>
                 </div>

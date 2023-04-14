@@ -7,6 +7,8 @@ import SelectBox from "../../../components/Input/SelectBox";
 import { openNewModal } from "../../../redux/slices/newModalSlice";
 import ConnectWebsiteModal from "../ConnectWebsiteModal";
 import { toast } from "react-toastify";
+import SelectPagesModal from "./SelectPagesModal";
+import { getWebsitesByWorkspaceId } from "../../workspaces/action";
 
 const InstantEmbed = ({ register }) => {
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ const InstantEmbed = ({ register }) => {
   );
   const { userPlanDetails } = useSelector((state) => state.setting);
 
-  const [inWebsiteSelect, setInWebsiteSelect] = useState("");
+  const [inWebsiteSelect, setInWebsiteSelect] = useState("all");
 
   // console.log("workspaceList", workspaceList);
   // console.log("userPlanDetails", userPlanDetails);
@@ -44,7 +46,17 @@ const InstantEmbed = ({ register }) => {
     setInWebsiteSelect(data?.value);
   };
 
+  const selectPagesModalClickHandler = (props) => {
+    // console.log("props", props);
+    const { websiteData, ...rest } = props;
+    // console.log("websiteData", websiteData);
+    // console.log("rest", rest);
+    dispatch(getWebsitesByWorkspaceId(websiteData));
+    dispatch(openNewModal(rest));
+  };
+
   // console.log("inWebsiteSelect", inWebsiteSelect);
+  // console.log("activeWorkspaceData", activeWorkspaceData);
 
   return (
     <>
@@ -85,7 +97,7 @@ const InstantEmbed = ({ register }) => {
           aria-labelledby="headingNine"
           data-te-parent="#accordionExample"
         >
-          <div className="">
+          <>
             <div className="px-4">
               <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
                 <svg
@@ -208,32 +220,105 @@ const InstantEmbed = ({ register }) => {
                           />
                         </div>
 
-                        <div className="flex mb-3">
-                          <ClipBoardSvg width="60" />
-                          <p className="text-base text-[#202223] ml-3">
-                            This widget will show only in the pages/URLs
-                            selected below.
-                          </p>
-                        </div>
+                        {/* {console.log("item", item)} */}
 
-                        <div className="inline-block w-full mb-3">
-                          <Button
-                            text="Select pages"
-                            buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                          />
-                        </div>
+                        {inWebsiteSelect === "all" && (
+                          <div className="flex p-3 bg-[#F2F6F0] mb-4">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-12 h-7 text-[#4A8A37]"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
 
-                        <div className="inline-block w-full mb-3">
-                          <Button
-                            text="Add conditions"
-                            buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                          />
-                        </div>
+                            <p className="text-sm text-[#4A8A37] font-bold ml-3">
+                              This widget will show everywhere in this website
+                            </p>
+                          </div>
+                        )}
+
+                        {inWebsiteSelect === "none" && (
+                          <div className="flex p-3 mb-4 bg-secondary-light/30 rounded-lg">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-14 h-7 text-secondary-main"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                              />
+                            </svg>
+
+                            <p className="text-sm text-left text-secondary-main font-bold ml-3">
+                              This widget will not show in this website
+                            </p>
+                          </div>
+                        )}
+
+                        {inWebsiteSelect === "some" && (
+                          <div className="flex flex-col">
+                            <div className="flex mb-3">
+                              <ClipBoardSvg width="60" />
+                              <p className="text-base text-[#202223] ml-3">
+                                This widget will show only in the pages/URLs
+                                selected below.
+                              </p>
+                            </div>
+
+                            <div className="inline-block w-full mb-3">
+                              {/* <Button
+                                text="Select pages"
+                                buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                              /> */}
+
+                              <ModalButton
+                                text="Select pages"
+                                id="select-pages"
+                                buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                                clickHandler={() =>
+                                  selectPagesModalClickHandler({
+                                    id: "select-pages",
+                                    children: (
+                                      <SelectPagesModal
+                                        url={item?.url}
+                                        websiteId={item?._id}
+                                      />
+                                    ),
+                                    websiteData: {
+                                      websiteId: item?._id,
+                                      workspaceId: activeWorkspaceData?._id,
+                                    },
+                                  })
+                                }
+                              />
+                            </div>
+
+                            {/* <div className="inline-block w-full mb-3">
+                              <Button
+                                text="Add conditions"
+                                buttonClass="w-full bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                              />
+                            </div> */}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
             </div>
-          </div>
+          </>
         </div>
       </div>
     </>

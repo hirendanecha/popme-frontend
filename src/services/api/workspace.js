@@ -38,6 +38,7 @@ const workSpaceAPI = {
 
   // update workspace options
   updateWorkspaceApi({ data, id, config }) {
+    // console.log("data", data);
     return axios.put(`/api/workspace/${id}`, data, config);
   },
 
@@ -49,6 +50,14 @@ const workSpaceAPI = {
   // get workspace by identity
   getWorkspaceByIdentityApi(identity) {
     return axios.get(`/api/workspaces/${identity}/data.json`);
+  },
+
+  // get websites by workspace
+  getWebsitesByWorkspaceIdApi(data) {
+    // console.log("dataaaa", data);
+    return axios.get(
+      `/api/workspace/${data?.workspaceId}/website/${data?.websiteId}/pages`
+    );
   },
 };
 
