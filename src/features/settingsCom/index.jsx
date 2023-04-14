@@ -15,6 +15,7 @@ import { socket } from "../../services/socketCon";
 import UpdateProfileModal from "./UpdateProfileModal";
 import ModalButton from "../../components/Button/ModalButton";
 import { openNewModal } from "../../redux/slices/newModalSlice";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const Data = [
   {
@@ -400,17 +401,31 @@ const SettingsCom = () => {
                 <div className="flex">
                   {/* <Button text="Update profile" buttonClass="text-base" /> */}
 
-                  <ModalButton
-                    text="Update profile"
-                    id="update-profile"
-                    // buttonClass="mb-4"
-                    clickHandler={() =>
-                      modalClickHandler({
-                        id: "update-profile",
-                        children: <UpdateProfileModal />,
-                      })
-                    }
-                  />
+                  <div className="inline-block mr-3">
+                    <ModalButton
+                      text="Update profile"
+                      id="update-profile"
+                      clickHandler={() =>
+                        modalClickHandler({
+                          id: "update-profile",
+                          children: <UpdateProfileModal />,
+                        })
+                      }
+                    />
+                  </div>
+
+                  <div className="inline-block">
+                    <ModalButton
+                      text="Change Password"
+                      id="change-password"
+                      clickHandler={() =>
+                        modalClickHandler({
+                          id: "change-password",
+                          children: <ChangePasswordModal />,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </div>
 

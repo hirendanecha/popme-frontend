@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  changePasswordSetting,
   currentUser,
   forgotPassword,
   loginUser,
@@ -188,6 +189,22 @@ const authSlice = createSlice({
     });
 
     builder.addCase(updateProfile.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    // changePasswordSetting
+    builder.addCase(changePasswordSetting.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
+    builder.addCase(changePasswordSetting.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.data = payload;
+    });
+
+    builder.addCase(changePasswordSetting.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
