@@ -10,6 +10,7 @@ import {
   worksapceListForDropdown,
   duplicateWorkspaceById,
   getWebsitesByWorkspaceId,
+  deleteWorkspaceWebsiteById,
 } from "../action";
 
 const initialState = {
@@ -256,6 +257,31 @@ const workspaceSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
+
+    //  detelet workspace website by id
+
+    builder.addCase(
+      deleteWorkspaceWebsiteById.pending,
+      (state, { payload }) => {
+        state.loading = true;
+      }
+    );
+
+    builder.addCase(
+      deleteWorkspaceWebsiteById.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+      }
+    );
+
+    builder.addCase(
+      deleteWorkspaceWebsiteById.rejected,
+      (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      }
+    );
   },
 });
 

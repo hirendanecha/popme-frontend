@@ -187,3 +187,19 @@ export const getWebsitesByWorkspaceId = createAsyncThunk(
     }
   }
 );
+
+export const deleteWorkspaceWebsiteById = createAsyncThunk(
+  "workspace/deleteWorkspaceWebsiteById",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await workSpaceAPI.deleteWorkspaceWebsiteByIdApi(data);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

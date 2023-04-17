@@ -93,7 +93,7 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
         >
           <div className="w-full inline-block">
             <div className="flex flex-col">
-              <div className="flex px-4">
+              {/* <div className="flex px-4">
                 <NewInputText
                   type="text"
                   labelTitle="Workspace Name"
@@ -103,7 +103,7 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                   register={register}
                   valueChangeHandler={valueChangeHandler}
                 />
-              </div>
+              </div> */}
 
               <h5 className="text-primary-main text-base font-semibold pb-4 px-4 text-left">
                 Video Position

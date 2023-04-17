@@ -5,15 +5,18 @@ import NewInputText from "../../../components/Input/NewInputText";
 import { socket } from "../../../services/socketCon";
 import { useDispatch, useSelector } from "react-redux";
 import { updateWorkspaceOptions } from "../../workspaces/action";
+import { setModalData } from "../../../redux/slices/newModalSlice";
 
 // const baseURL = import.meta.env.VITE_BASE_URL;
 
 const SelectPagesModal = ({ url, websiteId }) => {
   const dispatch = useDispatch();
   const { activeWorkspaceData } = useSelector((state) => state.workspace);
-  // console.log("activeWorkspaceData", activeWorkspaceData);
+  const modalData = useSelector((state) => state.modal);
 
+  // console.log("activeWorkspaceData", activeWorkspaceData);
   // console.log("url", url);
+  // console.log("modalData", modalData);
 
   const {
     register,
@@ -37,6 +40,7 @@ const SelectPagesModal = ({ url, websiteId }) => {
 
   const onSubmit = (data) => {
     // console.log("darta", data);
+
     dispatch(
       updateWorkspaceOptions({
         data: data,
@@ -64,7 +68,7 @@ const SelectPagesModal = ({ url, websiteId }) => {
   ];
 
   const [searchValue, setSearchValue] = useState("");
-  const [websitesData, setWebsitesData] = useState([]);
+  // const [websitesData, setWebsitesData] = useState([]);
 
   const updateValue = (data) => {
     setSearchValue(data?.value);
@@ -75,7 +79,9 @@ const SelectPagesModal = ({ url, websiteId }) => {
   useEffect(() => {
     socket.on("page", (resp) => {
       // console.log("page", resp);
-      setWebsitesData([...websitesData, resp]);
+      // setWebsitesData((prev) => [...prev, resp]);
+
+      dispatch(setModalData(resp));
     });
 
     socket.on("page-end", (resp) => {
@@ -104,19 +110,18 @@ const SelectPagesModal = ({ url, websiteId }) => {
 
         <NewInputText
           type="text"
-          // labelTitle="Your website"
-          // labelStyle="text-primary-main text-base font-semibold"
           inputStyle="mb-3 !bg-transparent"
           name="searchWebsite"
           placeholder="Search..."
-          // register={register}
           defaultValue={searchValue}
           updateFormValue={updateValue}
         />
 
+        {/* {console.log("modalData?.data", modalData?.data)} */}
+
         <form>
-          {websitesData.length > 0 &&
-            websitesData
+          {modalData?.data?.length > 0 &&
+            modalData?.data
               ?.filter((item) => {
                 return searchValue.toLowerCase() === ""
                   ? item
@@ -133,39 +138,11 @@ const SelectPagesModal = ({ url, websiteId }) => {
                       className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2"
                       name="website.pages"
                       {...register(`website.pages`, {})}
-                      value={item}
+                      value={new URL(item)?.pathname}
                     />
                   </label>
                 </div>
               ))}
-
-          {/* <div className="form-control">
-            <label className="label cursor-pointer">
-              <h6 className="text-base font-normal text-primary-main">
-                website
-              </h6>
-              <input
-                type="checkbox"
-                className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2"
-                name="first"
-                {...register("first", {})}
-              />
-            </label>
-          </div> */}
-
-          {/* <div className="form-control">
-            <label className="label cursor-pointer">
-              <h6 className="text-base font-normal text-primary-main">
-                website 2
-              </h6>
-              <input
-                type="checkbox"
-                className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2"
-                name="second"
-                {...register("second", {})}
-              />
-            </label>
-          </div> */}
 
           <div className="inline-block mt-6 mr-3">
             <ModalButton
