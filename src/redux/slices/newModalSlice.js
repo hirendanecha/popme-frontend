@@ -8,13 +8,14 @@ const newModalSlice = createSlice({
     description: "",
     modalContainerClass: "",
     children: null,
+    data: [],
     // resetFormFun: () => {},
   },
   reducers: {
     openNewModal: (state, action) => {
       // console.log("action", action);
 
-      const { title, description, id, children } = action.payload;
+      const { title, description, id, children, data } = action.payload;
 
       // console.log("resetFormFun", resetFormFun);
       // console.log("id", id);
@@ -24,10 +25,15 @@ const newModalSlice = createSlice({
       state.id = id;
       state.children = children;
       // state.resetFormFun = resetFormFun;
+      state.data = data;
+    },
+
+    setModalData: (state, action) => {
+      state.data = [...state.data, action.payload];
     },
   },
 });
 
-export const { openNewModal } = newModalSlice.actions;
+export const { openNewModal, setModalData } = newModalSlice.actions;
 
 export default newModalSlice.reducer;

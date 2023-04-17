@@ -59,6 +59,7 @@ import Preview from "./WorkspaceOptions/Preview";
 import GetLink from "./WorkspaceOptions/GetLink";
 import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 import { socket } from "../../services/socketCon";
+import NewInputText from "../../components/Input/NewInputText";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -454,7 +455,7 @@ const ClapprComponent = React.memo(
             >
               <div className="flex justify-between w-full px-6 pt-5 pb-2 h-full">
                 <div className="flex justify-between flex-col w-full play_area_button z-20">
-                  <div className="flex justify-between">
+                  <div className="flex justify-between items-center">
                     <h5
                       className="text-white text-base font-medium"
                       style={{
@@ -467,7 +468,25 @@ const ClapprComponent = React.memo(
                     </h5>
 
                     <div className="flex items-center">
-                      <div className="flex mr-6">
+                      <div className="flex flex-col mr-4">
+                        <div className="play_icon cursor-pointer z-30">
+                          <PlayerPlaySvg
+                            color={
+                              activeWorkspaceData?.colorStudio?.player?.control
+                            }
+                          />
+                        </div>
+
+                        <div className="pause_icon cursor-pointer z-30">
+                          <PauseSvg
+                            color={
+                              activeWorkspaceData?.colorStudio?.player?.control
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex mr-4">
                         <div className="inline-block volume_icon cursor-pointer z-30">
                           <VolumeSvg
                             color={
@@ -509,7 +528,7 @@ const ClapprComponent = React.memo(
                                 ?.videoTitle,
                           }}
                         >
-                          {activeWorkspaceData?.title || "This is PopMe!"}
+                          {activeWorkspaceData?.title || ""}
                         </h4>
 
                         <p
@@ -521,12 +540,11 @@ const ClapprComponent = React.memo(
                                 ?.videoTitle,
                           }}
                         >
-                          {activeWorkspaceData?.description ||
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry."}
+                          {activeWorkspaceData?.description || ""}
                         </p>
                       </div>
 
-                      <div className="flex flex-col mb-4">
+                      {/* <div className="flex flex-col mb-4">
                         <div className="play_icon cursor-pointer z-30">
                           <PlayerPlaySvg
                             color={
@@ -542,7 +560,7 @@ const ClapprComponent = React.memo(
                             }
                           />
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="flex mb-[20px]">
@@ -1567,7 +1585,7 @@ const Customization = () => {
               id="accordionExample"
               className="menu py-4 w-80 bg-[#f9fafb] text-base-content border-r"
             >
-              <li className="mb-12">
+              <li className="mb-6">
                 <div className="flex flex-col px-4 items-start focus:bg-[#f9fafb] active:bg-[#f9fafb] hover:bg-[#f9fafb] p-0">
                   <h3 className="text-primary-normal font-bold mb-3 text-xl">
                     Workspace
@@ -1598,6 +1616,18 @@ const Customization = () => {
                       text="New Workspace"
                       buttonClass="w-full text-base"
                       clickHandler={newWorkspaceHandler}
+                    />
+                  </div>
+
+                  <div className="flex w-full">
+                    <NewInputText
+                      type="text"
+                      labelTitle="Workspace Name"
+                      labelStyle="text-primary-main text-base font-semibold"
+                      inputStyle="mb-3 !bg-transparent"
+                      name="name"
+                      register={register}
+                      valueChangeHandler={valueChangeHandler}
                     />
                   </div>
                 </div>

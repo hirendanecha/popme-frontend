@@ -59,6 +59,13 @@ const workSpaceAPI = {
       `/api/workspace/${data?.workspaceId}/website/${data?.websiteId}/pages`
     );
   },
+
+  // detelet workspace website by id
+  deleteWorkspaceWebsiteByIdApi(data) {
+    return axios.delete(
+      `/api/workspace/${data?.workspaceId}/website/${data?.websiteId}`
+    );
+  },
 };
 
 export default workSpaceAPI;

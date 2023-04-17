@@ -675,20 +675,29 @@ const SettingsCom = () => {
                       </p>
 
                       <div className="flex flex-col mb-6">
-                        <h4 className="text-[#183169] text-2xl font-bold">
-                          ${(item?.amount / 100).toString().split(".")[0]}.
-                          <span className="text-lg font-bold">
-                            {(item?.amount / 100).toString().split(".")[1]}
-                          </span>
-                          {/* {console.log(
-                            "remov",
-                            (item?.amount / 100).toString().split(".")
-                          )} */}
-                        </h4>
+                        {/* {console.log("amount", item?.amount)} */}
 
-                        <span className="text-base text-primary-light">
-                          per month
-                        </span>
+                        {item?.amount === 0 ? (
+                          <>
+                            <h4 className="text-[#183169] text-2xl font-bold">
+                              Free
+                            </h4>
+                            <span className="text-base text-primary-light min-h-[24px]" />
+                          </>
+                        ) : (
+                          <>
+                            <h4 className="text-[#183169] text-2xl font-bold">
+                              ${(item?.amount / 100).toString().split(".")[0]}.
+                              <span className="text-lg font-bold">
+                                {(item?.amount / 100).toString().split(".")[1]}
+                              </span>
+                            </h4>
+
+                            <span className="text-base text-primary-light">
+                              per month
+                            </span>
+                          </>
+                        )}
                       </div>
 
                       {/* {console.log("item?._id", item?._id)} */}

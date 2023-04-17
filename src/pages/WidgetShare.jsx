@@ -305,7 +305,7 @@ const WidgetShare = () => {
             >
               <div className="flex justify-between w-full px-6 pt-5 pb-2 h-full">
                 <div className="flex justify-between play_area_button flex-col z-20 w-full">
-                  <div className="flex justify-between">
+                  <div className="flex justify-between items-center">
                     <h5
                       className="text-white text-base font-medium"
                       style={{
@@ -317,7 +317,21 @@ const WidgetShare = () => {
                     </h5>
 
                     <div className="flex items-center">
-                      <div className="flex mr-6">
+                      <div className="flex flex-col mr-4">
+                        <div className="play_icon cursor-pointer hidden z-30">
+                          <PlayerPlaySvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
+                        </div>
+
+                        <div className="pause_icon cursor-pointer z-30">
+                          <PauseSvg
+                            color={workspaceData?.colorStudio?.player?.control}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex mr-4">
                         <div className="inline-block volume_icon cursor-pointer z-30">
                           <VolumeSvg
                             color={workspaceData?.colorStudio?.player?.control}
@@ -350,7 +364,7 @@ const WidgetShare = () => {
                               workspaceData?.colorStudio?.general?.videoTitle,
                           }}
                         >
-                          {workspaceData?.title || "This is PopMe!"}
+                          {workspaceData?.title || ""}
                         </h4>
 
                         <p
@@ -361,12 +375,11 @@ const WidgetShare = () => {
                               workspaceData?.colorStudio?.general?.videoTitle,
                           }}
                         >
-                          {workspaceData?.description ||
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry."}
+                          {workspaceData?.description || ""}
                         </p>
                       </div>
 
-                      <div className="flex flex-col mb-4">
+                      {/* <div className="flex flex-col mb-4">
                         <div className="play_icon cursor-pointer hidden z-30">
                           <PlayerPlaySvg
                             color={workspaceData?.colorStudio?.player?.control}
@@ -378,7 +391,7 @@ const WidgetShare = () => {
                             color={workspaceData?.colorStudio?.player?.control}
                           />
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="flex mb-[20px]">

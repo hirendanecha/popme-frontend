@@ -10,6 +10,7 @@ import {
   setCurrentWebsiteUrl,
 } from "../workspaces/reducer/workspaceSlice";
 import AddInstantEmbedModal from "./AddInstantEmbedModal";
+import { toast } from "react-toastify";
 
 const ConnectWebsiteModal = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,19 @@ const ConnectWebsiteModal = () => {
 
   const updateValue = (data) => {
     // console.log("updateValue", data);
-    setWebUrl(data?.value);
+
+    try {
+      let website = new URL(data?.value);
+      // console.log("website", website?.hostname);
+      setWebUrl(website?.hostname);
+    } catch (error) {
+      if (error instanceof TypeError) {
+        // console.log("error", error);
+        // toast("Invalid URL", {
+        //   type: "error",
+        // });
+      }
+    }
   };
 
   return (
