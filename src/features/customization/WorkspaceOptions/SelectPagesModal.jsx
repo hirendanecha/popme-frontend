@@ -5,7 +5,11 @@ import NewInputText from "../../../components/Input/NewInputText";
 import { socket } from "../../../services/socketCon";
 import { useDispatch, useSelector } from "react-redux";
 import { updateWorkspaceOptions } from "../../workspaces/action";
-import { setModalData } from "../../../redux/slices/newModalSlice";
+import {
+  openNewModal,
+  setModalData,
+} from "../../../redux/slices/newModalSlice";
+import NotFoundWebsiteModal from "./NotFoundWebsiteModal";
 
 // const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -101,6 +105,28 @@ const SelectPagesModal = ({ url, websiteId }) => {
 
   // console.log("websitesData", websitesData);
 
+  // let filterData = modalData?.data?.filter((item) => {
+  //   return searchValue.toLowerCase() === ""
+  //     ? item
+  //     : item.toLowerCase().includes(searchValue);
+  // });
+
+  // console.log("filterData", filterData);
+
+  const filterDataHandler = (data, string) => {
+    let filterData = data?.filter((item) => {
+      return string.toLowerCase() === ""
+        ? item
+        : item.toLowerCase().includes(string);
+    });
+
+    return filterData;
+  };
+
+  const notFindWebsiteModalClickHandler = (props) => {
+    dispatch(openNewModal(props));
+  };
+
   return (
     <>
       <div className="flex flex-col">
@@ -143,6 +169,23 @@ const SelectPagesModal = ({ url, websiteId }) => {
                   </label>
                 </div>
               ))}
+
+          {modalData?.data?.length > 0 &&
+            filterDataHandler(modalData?.data, searchValue).length === 0 && (
+              <ModalButton
+                text="I can't find a page"
+                id="not-found-website"
+                buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                clickHandler={() =>
+                  notFindWebsiteModalClickHandler({
+                    id: "not-found-website",
+                    children: <NotFoundWebsiteModal />,
+                  })
+                }
+              />
+            )}
+
+          {/* {console.log("loghh", filterDataHandler(modalData?.data, searchValue))} */}
 
           <div className="inline-block mt-6 mr-3">
             <ModalButton
