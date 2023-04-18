@@ -713,7 +713,7 @@ const ClapprComponent = React.memo(
                   }}
                 /> */}
 
-                <div className="img-preview overflow-hidden !w-full !h-full" />
+                <div className="img-preview hhhhh overflow-hidden !w-full !h-full" />
 
                 {/* {animatedImage !== "https://popme-api.opash.in/undefined" &&
                   poster !==
@@ -805,8 +805,16 @@ const Customization = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { data, error, activeWorkspaceData, imageCrop, videoUploadedProcess } =
-    useSelector((state) => state.workspace);
+  const {
+    data,
+    error,
+    activeWorkspaceData,
+    imageCrop,
+    videoUploadedProcess,
+    cropSizee,
+  } = useSelector((state) => state.workspace);
+
+  // console.log("cropSizee", cropSizee);
 
   const [selectWorkspaceOptions, setSelectWorkspaceOptions] = useState([]);
   const [activeWorkspace, setActiveWorkspace] = useState(

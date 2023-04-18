@@ -1,6 +1,9 @@
 import React, { useState, useCallback, createRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setImageCrop } from "../../workspaces/reducer/workspaceSlice";
+import {
+  setCropSizee,
+  setImageCrop,
+} from "../../workspaces/reducer/workspaceSlice";
 import * as te from "tw-elements";
 // import defaultWorkspaceImage from "../../../assets/images/defaultWorkspaceImage.png";
 // import Cropper from "react-easy-crop";
@@ -41,6 +44,41 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
   }, []);
 
   const cropperRef = createRef();
+
+  const hh = (data) => {
+    // console.log("data", data);
+
+    // var styles = getComputedStyle(
+    //   document.getElementsByClassName("cropper-crop-box")
+    // );
+    // var display = styles.getPropertyValue("transform");
+    // var x = window
+    //   .getComputedStyle(document.getElementsByClassName("cropper-crop-box"))
+    //   .getPropertyValue("width");
+
+    const para = document.querySelector(".hhhhh img");
+    const compStyles = window.getComputedStyle(para);
+
+    console.log(
+      compStyles.getPropertyValue("transform").split(","),
+      "transform"
+    );
+
+    console.log(
+      compStyles.getPropertyValue("transform").split(",")[5].replace(")", ""),
+      "transform"
+    );
+    // console.log(compStyles.getPropertyValue("width"), "width");
+    // console.log(compStyles.getPropertyValue("height"), "height");
+
+    dispatch(
+      setCropSizee({
+        width: compStyles.getPropertyValue("width"),
+        height: compStyles.getPropertyValue("height"),
+        transform: compStyles.getPropertyValue("transform"),
+      })
+    );
+  };
 
   return (
     <>
@@ -226,9 +264,15 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                             // console.log(event.detail.rotate);
                             // console.log(event.detail.scaleX);
                             // console.log(event.detail.scaleY);
-                            console.log(event.detail);
+                            // console.log(event.detail);
                           }}
-                          cropend={(e) => console.log("e", e)}
+                          cropend={(e) => {
+                            // console.log("e", e);
+                            hh(e);
+                          }}
+                          zoom={(e) => {
+                            hh(e);
+                          }}
                         />
                       </div>
                     </div>

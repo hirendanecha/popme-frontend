@@ -22,6 +22,12 @@ const initialState = {
   currentWebsiteUrl: "",
   videoUploadedProcess: false,
 
+  cropSizee: {
+    width: "128px",
+    height: "227.328px",
+    transform: "",
+  },
+
   // imageCrop: {
   //   unit: "px", // Can be 'px' or '%'
   //   x: 0,
@@ -68,6 +74,9 @@ const workspaceSlice = createSlice({
           },
         },
       };
+    },
+    setCropSizee: (state, action) => {
+      state.cropSizee = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -240,6 +249,7 @@ export const {
   setCurrentWebsiteUrl,
   setImageCrop,
   setVideoUploadedProcess,
+  setCropSizee,
 } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
