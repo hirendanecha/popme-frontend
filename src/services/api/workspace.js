@@ -49,7 +49,12 @@ const workSpaceAPI = {
 
   // get workspace by identity
   getWorkspaceByIdentityApi(identity) {
-    return axios.get(`/api/workspaces/${identity}/data.json`);
+    return axios.get(`/api/workspaces/${identity}/data.json`, {
+      headers: {
+        site: window.location.href,
+        "site-origin": window.location.origin,
+      },
+    });
   },
 
   // get websites by workspace

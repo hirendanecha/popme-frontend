@@ -48,8 +48,6 @@ const WidgetShare = () => {
     dispatch(getWorkspaceByIdentity(splitId[1]))
       .unwrap()
       .then((res) => {
-        // console.log("res", res);
-
         if (res) {
           setWorkspaceData(res);
         }
@@ -305,16 +303,16 @@ const WidgetShare = () => {
             >
               <div className="flex justify-between w-full px-6 pt-5 pb-2 h-full">
                 <div className="flex justify-between play_area_button flex-col z-20 w-full">
-                  <div className="flex justify-between items-center">
-                    <h5
+                  <div className="flex justify-end items-center">
+                    {/* <h5
                       className="text-white text-base font-medium"
                       style={{
                         fontSize: `${workspaceData?.fontStudio?.authorName}px`,
                         color: workspaceData?.colorStudio?.player?.authorName,
                       }}
                     >
-                      {workspaceData?.designCustomization?.authorName}
-                    </h5>
+                      {workspaceData?.designCustomization?.authorName || ""}
+                    </h5> */}
 
                     <div className="flex items-center">
                       <div className="flex flex-col mr-4">
