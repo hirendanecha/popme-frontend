@@ -29,9 +29,11 @@ const EmbedInwebsiteSelect = ({ item }) => {
     dispatch(
       updateWorkspaceOptions({
         data: {
-          show: data?.value ? data?.value : "",
-          url: item?.url ? item?.url : "",
-          _id: item?._id ? item?._id : "",
+          website: {
+            show: data?.value ? data?.value : "",
+            url: item?.url ? item?.url : "",
+            _id: item?._id ? item?._id : "",
+          },
         },
         id: activeWorkspaceData?._id,
       })

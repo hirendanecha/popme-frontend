@@ -168,7 +168,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 </svg>
               </button>
 
-              <div
+              {/* <div
                 className="cursor-pointer hidden sidebar-expanded:block"
                 onClick={() => setSidebarExpanded(!sidebarExpanded)}
               >
@@ -186,7 +186,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </div>
+              </div> */}
             </div>
 
             <div
