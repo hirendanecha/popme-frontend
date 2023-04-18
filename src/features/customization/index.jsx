@@ -455,8 +455,8 @@ const ClapprComponent = React.memo(
             >
               <div className="flex justify-between w-full px-6 pt-5 pb-2 h-full">
                 <div className="flex justify-between flex-col w-full play_area_button z-20">
-                  <div className="flex justify-between items-center">
-                    <h5
+                  <div className="flex justify-end items-center">
+                    {/* <h5
                       className="text-white text-base font-medium"
                       style={{
                         fontSize: `${activeWorkspaceData?.fontStudio?.authorName}px`,
@@ -464,8 +464,9 @@ const ClapprComponent = React.memo(
                           activeWorkspaceData?.colorStudio?.player?.authorName,
                       }}
                     >
-                      {activeWorkspaceData?.designCustomization?.authorName}
-                    </h5>
+                      {activeWorkspaceData?.designCustomization?.authorName ||
+                        ""}
+                    </h5> */}
 
                     <div className="flex items-center">
                       <div className="flex flex-col mr-4">

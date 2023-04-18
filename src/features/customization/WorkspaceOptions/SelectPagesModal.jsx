@@ -146,46 +146,48 @@ const SelectPagesModal = ({ url, websiteId }) => {
         {/* {console.log("modalData?.data", modalData?.data)} */}
 
         <form>
-          {modalData?.data?.length > 0 &&
-            modalData?.data
-              ?.filter((item) => {
-                return searchValue.toLowerCase() === ""
-                  ? item
-                  : item.toLowerCase().includes(searchValue);
-              })
-              ?.map((item, index) => (
-                <div className="form-control" key={index}>
-                  <label className="label cursor-pointer">
-                    <h6 className="text-base font-normal text-primary-main">
-                      {item}
-                    </h6>
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2"
-                      name="website.pages"
-                      {...register(`website.pages`, {})}
-                      value={new URL(item)?.pathname}
-                    />
-                  </label>
-                </div>
-              ))}
+          <div className="inline-block w-full max-h-[200px] overflow-y-auto">
+            {modalData?.data?.length > 0 &&
+              modalData?.data
+                ?.filter((item) => {
+                  return searchValue.toLowerCase() === ""
+                    ? item
+                    : item.toLowerCase().includes(searchValue);
+                })
+                ?.map((item, index) => (
+                  <div className="form-control" key={index}>
+                    <label className="label cursor-pointer">
+                      <h6 className="text-base font-normal text-primary-main">
+                        {item}
+                      </h6>
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2"
+                        name="website.pages"
+                        {...register(`website.pages`, {})}
+                        value={new URL(item)?.pathname}
+                      />
+                    </label>
+                  </div>
+                ))}
 
-          {modalData?.data?.length > 0 &&
-            filterDataHandler(modalData?.data, searchValue).length === 0 && (
-              <ModalButton
-                text="I can't find a page"
-                id="not-found-website"
-                buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                clickHandler={() =>
-                  notFindWebsiteModalClickHandler({
-                    id: "not-found-website",
-                    children: (
-                      <NotFoundWebsiteModal url={url} websiteId={websiteId} />
-                    ),
-                  })
-                }
-              />
-            )}
+            {modalData?.data?.length > 0 &&
+              filterDataHandler(modalData?.data, searchValue).length === 0 && (
+                <ModalButton
+                  text="I can't find a page"
+                  id="not-found-website"
+                  buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+                  clickHandler={() =>
+                    notFindWebsiteModalClickHandler({
+                      id: "not-found-website",
+                      children: (
+                        <NotFoundWebsiteModal url={url} websiteId={websiteId} />
+                      ),
+                    })
+                  }
+                />
+              )}
+          </div>
 
           {/* {console.log("loghh", filterDataHandler(modalData?.data, searchValue))} */}
 
