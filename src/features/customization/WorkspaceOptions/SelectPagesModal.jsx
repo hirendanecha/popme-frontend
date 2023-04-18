@@ -179,7 +179,9 @@ const SelectPagesModal = ({ url, websiteId }) => {
                 clickHandler={() =>
                   notFindWebsiteModalClickHandler({
                     id: "not-found-website",
-                    children: <NotFoundWebsiteModal />,
+                    children: (
+                      <NotFoundWebsiteModal url={url} websiteId={websiteId} />
+                    ),
                   })
                 }
               />
