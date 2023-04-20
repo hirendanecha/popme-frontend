@@ -72,7 +72,13 @@ const RegisterComp = () => {
     const { confirmPassword, ...rest } = registerInfo;
     dispatch(registerUser(rest))
       .unwrap()
-      .then((res) => {})
+      .then((res) => {
+        if (res?.success) {
+          toast("Your account has been created, Please verify on you email", {
+            type: "success",
+          });
+        }
+      })
       .catch((err) => {
         if (err) {
           toast(err, {
@@ -139,7 +145,10 @@ const RegisterComp = () => {
                     target="_blank"
                     onClick={() => setAlertMessage(false)}
                   >
-                    <button className="btn btn-sm text-white normal-case">
+                    <button
+                      type="button"
+                      className="btn btn-sm text-white normal-case"
+                    >
                       Verify
                     </button>
                   </Link>
@@ -148,6 +157,7 @@ const RegisterComp = () => {
                 <button
                   className="btn btn-circle btn-xs btn-outline border-white hover:bg-transparent hover:border-white"
                   onClick={() => setAlertMessage(false)}
+                  type="button"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -252,7 +262,10 @@ const RegisterComp = () => {
             </div>
 
             <div className="inline-block w-full">
-              <button className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]">
+              <button
+                type="button"
+                className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]"
+              >
                 <img src={google} alt="google" className="mr-2" />
                 Login with Google
               </button>

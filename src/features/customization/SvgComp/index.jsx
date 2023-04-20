@@ -6,8 +6,8 @@ export const NewRightArrowSvg = ({
 }) => (
   <>
     <svg
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       className={`${color}`}
       fill="none"
       stroke="currentColor"
@@ -32,8 +32,8 @@ export const SendSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -56,8 +56,8 @@ export const NewPhoneSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -79,8 +79,8 @@ export const CheckSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -102,8 +102,8 @@ export const NewCalendarSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -129,8 +129,8 @@ export const ExternalLinkSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -154,8 +154,8 @@ export const GiftSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -180,8 +180,8 @@ export const InfoCircleSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -205,8 +205,8 @@ export const MessageSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -232,8 +232,8 @@ export const CloseSvg = ({
   <>
     <svg
       className={`${color}`}
-      width={w}
-      height={h}
+      width={+w + 4}
+      height={+h + 4}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
