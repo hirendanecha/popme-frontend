@@ -785,7 +785,9 @@ const ClapprComponent = React.memo(
                   }}
                 /> */}
 
-                {animatedImage !== "https://popme-api.opash.in/undefined" &&
+                <div className="img-preview image_preview_wrap overflow-hidden !w-full !h-full" />
+
+                {/* {animatedImage !== "https://popme-api.opash.in/undefined" &&
                   poster !==
                     "https://popme-api.opash.in/undefined/undefined" && (
                     <div
@@ -798,7 +800,7 @@ const ClapprComponent = React.memo(
                         backgroundPosition: `${activeWorkspaceData?.basicSetUp?.toggle?.x}% ${activeWorkspaceData?.basicSetUp?.toggle?.y}%`,
                       }}
                     />
-                  )}
+                  )} */}
 
                 {userPlanDetails !== null &&
                   userPlanDetails?.selectedPlan?.props?.watermark === true && (
@@ -1020,12 +1022,12 @@ const Customization = () => {
           : "",
 
         toggle: {
-          x: `-${
+          x: `${
             activeWorkspaceData?.basicSetUp?.toggle?.x
               ? activeWorkspaceData?.basicSetUp?.toggle?.x
               : 0
           }`,
-          y: `-${
+          y: `${
             activeWorkspaceData?.basicSetUp?.toggle?.y
               ? activeWorkspaceData?.basicSetUp?.toggle?.y
               : 0
@@ -1231,7 +1233,7 @@ const Customization = () => {
   const onSubmit = (data, isVideo, text) => {
     // console.log("activeWorkspaceData", activeWorkspaceData);
     // console.log("imageCrop", imageCrop);
-    // console.log("data", data);
+    console.log("data", data);
     // console.log("isVideo", isVideo);
     // console.log("text", text);
 

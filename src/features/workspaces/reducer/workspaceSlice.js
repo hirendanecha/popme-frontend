@@ -36,8 +36,8 @@ const initialState = {
   // },
 
   imageCrop: {
-    x: `${0}`,
-    y: `${0}`,
+    x: `0`,
+    y: `0`,
     scale: 1,
   },
 };
@@ -59,7 +59,7 @@ const workspaceSlice = createSlice({
       state.currentWebsiteUrl = action.payload;
     },
     setImageCrop: (state, action) => {
-      // console.log("payload", action.payload);
+      console.log("payload", action.payload);
 
       state.imageCrop = action.payload;
 
