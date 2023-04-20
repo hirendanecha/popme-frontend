@@ -302,7 +302,7 @@ const Workspaces = () => {
                 </div>
               </div>
 
-              <div className="inline-block w-full p-4 bg-white rounded-xl mt-2">
+              <div className="inline-block w-full p-4 bg-white rounded-xl">
                 <div className="flex justify-between items-start">
                   <div className="flex flex-col">
                     <h4 className=" text-primary-normal text-lg font-bold min-h-[55px] line-clamp-2">{`Workspace #${

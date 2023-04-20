@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateWorkspaceOptions } from "../../workspaces/action";
 import {
   openNewModal,
+  setCustomWebsites,
   setModalData,
+  setResetFormFun,
 } from "../../../redux/slices/newModalSlice";
 import NotFoundWebsiteModal from "./NotFoundWebsiteModal";
 
@@ -20,7 +22,39 @@ const SelectPagesModal = ({ url, websiteId }) => {
 
   // console.log("activeWorkspaceData", activeWorkspaceData);
   // console.log("url", url);
-  // console.log("modalData", modalData);
+  // console.log("modalData", modalData?.data);
+  // console.log("customWebsites", modalData?.customWebsites);
+
+  const [selectedValues, setSelectedValues] = useState([]);
+
+  const checkHandlerData = (data) => {
+    // console.log("checkHandlerData", data);
+
+    for (let i = 0; i < data.length; i++) {
+      try {
+        dispatch(setCustomWebsites(data[i]));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const checkBoxChangeHandler = (newValue) => {
+    // Check if the value is already in the array
+    const index = selectedValues.indexOf(newValue);
+
+    if (index === -1) {
+      // Value not found in state, add it to the array
+      setSelectedValues([...selectedValues, newValue]);
+    } else {
+      // Value found in state, remove it from the array
+      const newValues = [...selectedValues];
+      newValues.splice(index, 1);
+      setSelectedValues(newValues);
+    }
+  };
+
+  // console.log("selectedValues", selectedValues);
 
   const {
     register,
@@ -54,22 +88,23 @@ const SelectPagesModal = ({ url, websiteId }) => {
       .unwrap()
       .then((res) => {
         // console.log("res", res);
+        reset();
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const data = [
-    {
-      name: "first",
-      label: "website",
-    },
-    {
-      name: "second",
-      label: "website 2",
-    },
-  ];
+  // const data = [
+  //   {
+  //     name: "first",
+  //     label: "website",
+  //   },
+  //   {
+  //     name: "second",
+  //     label: "website 2",
+  //   },
+  // ];
 
   const [searchValue, setSearchValue] = useState("");
   // const [websitesData, setWebsitesData] = useState([]);
@@ -81,6 +116,8 @@ const SelectPagesModal = ({ url, websiteId }) => {
   // console.log("searchValue", searchValue);
 
   useEffect(() => {
+    dispatch(setResetFormFun(reset));
+
     socket.on("page", (resp) => {
       // console.log("page", resp);
       // setWebsitesData((prev) => [...prev, resp]);
@@ -105,24 +142,6 @@ const SelectPagesModal = ({ url, websiteId }) => {
 
   // console.log("websitesData", websitesData);
 
-  // let filterData = modalData?.data?.filter((item) => {
-  //   return searchValue.toLowerCase() === ""
-  //     ? item
-  //     : item.toLowerCase().includes(searchValue);
-  // });
-
-  // console.log("filterData", filterData);
-
-  const filterDataHandler = (data, string) => {
-    let filterData = data?.filter((item) => {
-      return string.toLowerCase() === ""
-        ? item
-        : item.toLowerCase().includes(string);
-    });
-
-    return filterData;
-  };
-
   const notFindWebsiteModalClickHandler = (props) => {
     dispatch(openNewModal(props));
   };
@@ -146,7 +165,7 @@ const SelectPagesModal = ({ url, websiteId }) => {
         {/* {console.log("modalData?.data", modalData?.data)} */}
 
         <form>
-          <div className="inline-block w-full max-h-[200px] overflow-y-auto">
+          <div className="inline-block w-full max-h-[200px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-xl">
             {modalData?.data?.length > 0 &&
               modalData?.data
                 ?.filter((item) => {
@@ -162,31 +181,38 @@ const SelectPagesModal = ({ url, websiteId }) => {
                       </h6>
                       <input
                         type="checkbox"
-                        className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2"
+                        className="checkbox checkbox-sm checkbox-borderColor-main rounded-md mr-2 border-borderColor-main"
                         name="website.pages"
                         {...register(`website.pages`, {})}
                         value={new URL(item)?.pathname}
+                        defaultChecked={
+                          modalData?.customWebsites &&
+                          modalData?.customWebsites.includes(item)
+                        }
+                        onChange={() =>
+                          checkBoxChangeHandler(new URL(item)?.href)
+                        }
                       />
                     </label>
                   </div>
                 ))}
+          </div>
 
-            {modalData?.data?.length > 0 &&
-              filterDataHandler(modalData?.data, searchValue).length === 0 && (
-                <ModalButton
-                  text="I can't find a page"
-                  id="not-found-website"
-                  buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
-                  clickHandler={() =>
-                    notFindWebsiteModalClickHandler({
-                      id: "not-found-website",
-                      children: (
-                        <NotFoundWebsiteModal url={url} websiteId={websiteId} />
-                      ),
-                    })
-                  }
-                />
-              )}
+          <div className="inline-block w-full mt-6">
+            <ModalButton
+              text="I can't find a page"
+              id="not-found-website"
+              buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
+              clickHandler={() => {
+                notFindWebsiteModalClickHandler({
+                  id: "not-found-website",
+                  children: (
+                    <NotFoundWebsiteModal url={url} websiteId={websiteId} />
+                  ),
+                });
+                checkHandlerData(selectedValues);
+              }}
+            />
           </div>
 
           {/* {console.log("loghh", filterDataHandler(modalData?.data, searchValue))} */}

@@ -92,8 +92,7 @@ const LoginComp = () => {
             Sign in to your account
           </h2>
           <h6 className="text-center text-base font-normal text-secondary-main mb-8">
-            <span className="text-[#4B5563]">Or</span> start your 3-day free
-            trial
+            <span className="text-[#4B5563]">And</span> start your free trial
           </h6>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
