@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -10,6 +10,7 @@ import LockSvg from "../../assets/svgs/LockSvg";
 import NewInputText from "../../components/Input/NewInputText";
 import google from "../../assets/images/google.png";
 import { registerUser } from "../../redux/actions/authAction";
+import { getGoogleUrl } from "../../utils/getGoogleUrl";
 
 const schema = yup
   .object({
@@ -36,6 +37,9 @@ const schema = yup
 const RegisterComp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/app/workspaces";
 
   const { loading, error, success, userToken, data } = useSelector(
     (state) => state.auth
@@ -262,13 +266,15 @@ const RegisterComp = () => {
             </div>
 
             <div className="inline-block w-full">
-              <button
-                type="button"
-                className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]"
-              >
-                <img src={google} alt="google" className="mr-2" />
-                Login with Google
-              </button>
+              <Link to={getGoogleUrl(from)}>
+                <button
+                  type="button"
+                  className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]"
+                >
+                  <img src={google} alt="google" className="mr-2" />
+                  Login with Google
+                </button>
+              </Link>
             </div>
           </form>
         </div>
