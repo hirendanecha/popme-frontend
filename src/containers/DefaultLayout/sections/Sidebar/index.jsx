@@ -10,7 +10,7 @@ import SmallSidebarLogo from "../../../../assets/svgs/SmallSidebarLogo";
 import CakeSvg from "../../../../assets/svgs/CakeSvg";
 import Button from "../../../../components/Button/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { currentUser } from "../../../../redux/actions/authAction";
+import { currentUser, getToken } from "../../../../redux/actions/authAction";
 import { getUserPlanDetails } from "../../../../features/settingsCom/action";
 // import SidebarLinkGroup from "./SidebarLinkGroup";
 
@@ -65,6 +65,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   //get data of currentUser
   useEffect(() => {
+    dispatch(getToken())
+      .unwrap()
+      .then((res) => {
+        if (res?.token) {
+          navigate("/app/workspaces");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     dispatch(currentUser());
     getUserPlanDetailsHandler();
   }, []);

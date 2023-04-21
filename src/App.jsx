@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useReducer, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import "./css/style.css";
 
 // Importing pages
@@ -14,7 +13,6 @@ const EmailVerify = lazy(() => import("./pages/EmailVerify"));
 const CheckoutStatus = lazy(() => import("./pages/CheckoutStatus"));
 
 function App() {
-  const navigate = useNavigate();
   const { userToken: token } = useSelector((state) => state.auth);
   // console.log({token});
   // const token = localStorage.getItem("token");
@@ -46,18 +44,6 @@ function App() {
       element: EmailVerify,
     },
   ];
-
-  const [cookies] = useCookies(["logged_in"]);
-  const [tokennn] = useCookies(["token"]);
-
-  console.log("logged_in", cookies);
-
-  useEffect(() => {
-    if (cookies.logged_in) {
-      localStorage.setItem("token", tokennn.token);
-      navigate("/app/workspaces");
-    }
-  }, []);
 
   return (
     <Suspense fallback={<>Loading... </>}>
