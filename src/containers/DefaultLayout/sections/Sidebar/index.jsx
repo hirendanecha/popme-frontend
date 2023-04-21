@@ -43,6 +43,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
         if (Object.keys(res?.selectedPlan).length === 0) {
           navigate("/app/setting", { state: { tab: 2 } });
+        } else {
+          navigate("/app/workspaces");
         }
 
         // if (
@@ -65,16 +67,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   //get data of currentUser
   useEffect(() => {
-    dispatch(getToken())
-      .unwrap()
-      .then((res) => {
-        if (res?.token) {
-          navigate("/app/workspaces");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(getToken());
     dispatch(currentUser());
     getUserPlanDetailsHandler();
   }, []);

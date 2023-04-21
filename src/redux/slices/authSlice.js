@@ -30,11 +30,18 @@ const authSlice = createSlice({
   //   }},
   extraReducers: (builder) => {
     // Get Token
+    builder.addCase(getToken.pending, (state, { payload }) => {
+      state.loading = true;
+    });
     builder.addCase(getToken.fulfilled, (state, { payload }) => {
       if (payload?.token) {
         state.userToken = payload.token;
         localStorage.setItem("token", payload.token);
       }
+      state.loading = false;
+    });
+    builder.addCase(getToken.rejected, (state, { payload }) => {
+      state.loading = false;
     });
     // registerUser
     builder.addCase(registerUser.pending, (state, { payload }) => {
