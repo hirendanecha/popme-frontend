@@ -72,10 +72,10 @@ const CheckoutStatus = () => {
                   : "You have successfully verified account."} */}
 
                 {searchParams.get("status") === "success" &&
-                  "You have successfully verified account."}
+                  "You have successfully purchased."}
 
                 {searchParams.get("status") === "cancel" &&
-                  "You have not verified account, so please check"}
+                  "Payment has been failed"}
               </p>
             </div>
 

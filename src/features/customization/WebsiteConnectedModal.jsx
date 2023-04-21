@@ -43,10 +43,10 @@ const WebsiteConnectedModal = () => {
         <span className="font-bold">Instant Embed</span> page.
       </p>
 
-      <p className="mb-8 text-base text-primary-normal font-semibold">
+      {/* <p className="mb-8 text-base text-primary-normal font-semibold">
         <span className="font-bold">Note:</span> For your conveniece, all widget
         are disabled from showing on your website by default.
-      </p>
+      </p> */}
 
       <div className="flex">
         <ModalButton

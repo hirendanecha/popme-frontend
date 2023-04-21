@@ -17,6 +17,7 @@ import ModalButton from "../../../../components/Button/ModalButton";
 import SelectPagesModal from "../SelectPagesModal";
 import { toast } from "react-toastify";
 import { setActiveWorkspaceData } from "../../../workspaces/reducer/workspaceSlice";
+import { getUserPlanDetails } from "../../../settingsCom/action";
 
 const EmbedInwebsiteSelect = ({ item }) => {
   //   console.log("item", item);
@@ -67,6 +68,8 @@ const EmbedInwebsiteSelect = ({ item }) => {
             type: "success",
           });
 
+          dispatch(getUserPlanDetails());
+
           dispatch(getWorkspaceById(activeWorkspaceData?._id))
             .unwrap()
             .then((res) => {
@@ -112,7 +115,7 @@ const EmbedInwebsiteSelect = ({ item }) => {
           </span>
 
           <div
-            className="inline-block"
+            className="inline-block cursor-pointer"
             onClick={() =>
               deleteWebsiteHandler({
                 websiteData: {
