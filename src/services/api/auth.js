@@ -20,7 +20,9 @@ const authAPI = {
     });
   },
   currentUserApi() {
-    return axios.get("/api/user/me");
+    return axios.get("/api/user/me", {
+      withCredentials: true,
+    });
   },
 
   verifyEmailApi(token) {
