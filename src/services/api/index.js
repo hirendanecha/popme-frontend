@@ -11,6 +11,7 @@ const requestHandler = (request) => {
 };
 
 axios.interceptors.request.use((request) => requestHandler(request));
+axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(
   function (response) {
