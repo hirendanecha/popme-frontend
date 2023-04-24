@@ -50,7 +50,7 @@ function App() {
   const [cookies] = useCookies(["logged_in"]);
   const [tokennn] = useCookies(["token"]);
 
-  console.log("logged_in", cookies);
+  // console.log("logged_in", cookies);
 
   useEffect(() => {
     if (cookies.logged_in) {

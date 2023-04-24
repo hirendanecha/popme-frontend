@@ -153,14 +153,14 @@ const SelectPagesModal = ({ url, websiteId }) => {
           Select pages
         </h3>
 
-        <NewInputText
+        {/* <NewInputText
           type="text"
           inputStyle="mb-3 !bg-transparent"
           name="searchWebsite"
           placeholder="Search..."
           defaultValue={searchValue}
           updateFormValue={updateValue}
-        />
+        /> */}
 
         {/* {console.log("modalData?.data", modalData?.data)} */}
 
@@ -198,9 +198,9 @@ const SelectPagesModal = ({ url, websiteId }) => {
                 ))}
           </div>
 
-          <div className="inline-block w-full mt-6">
+          <div className="inline-block w-full mt-4">
             <ModalButton
-              text="I can't find a page"
+              text="Add a new webpages"
               id="not-found-website"
               buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
               clickHandler={() => {
