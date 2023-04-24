@@ -63,6 +63,56 @@ import NewInputText from "../../components/Input/NewInputText";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
+const SmallClapprComp = React.memo(
+  ({ id, source = "https://www.w3schools.com/tags/movie.ogg", height }) => {
+    let playerrrrr = useRef();
+
+    useEffect(() => {
+      playerrrrr.current = new Clappr.Player({
+        source: source,
+        parentId: `#${id}`,
+        height,
+        width: "145px",
+        mute: true,
+        loop: true,
+        // autoPlay: true,
+        exitFullscreenOnEnd: true,
+        playback: {
+          playInline: true,
+          recycleVideo: true,
+          controls: false,
+        },
+        includeResetStyle: false,
+      });
+
+      // hide loader
+      playerrrrr.current.getPlugin("spinner").disable();
+      playerrrrr.current.play();
+
+      playerrrrr.current.on(window.Clappr.Events.PLAYER_PLAY, function () {
+        playerrrrr.current.core.mediaControl.disable();
+      });
+
+      return () => {
+        if (playerrrrr.current) {
+          playerrrrr.current.destroy();
+          playerrrrr.current = null;
+        }
+      };
+    }, []);
+
+    return (
+      <div className="inline-block">
+        <div
+          ref={playerrrrr}
+          className="small_clappr_player_custom"
+          id={id}
+        ></div>
+      </div>
+    );
+  }
+);
+
 const ClapprComponent = React.memo(
   ({
     id,
@@ -658,27 +708,37 @@ const ClapprComponent = React.memo(
               marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
             }}
           >
+            {/* {console.log(
+              "jhhhhh",
+              activeWorkspaceData?.designCustomization?.player?.height *
+                (activeWorkspaceData?.designCustomization?.toggle?.size / 100)
+            )} */}
+
             <div className="relative">
-              <img
+              {activeWorkspaceData !== null && (
+                <SmallClapprComp
+                  id="videooooooo"
+                  source={baseURL + "/" + activeWorkspaceData?.video?.path}
+                  height={`${
+                    activeWorkspaceData?.designCustomization?.player?.height *
+                    (activeWorkspaceData?.designCustomization?.toggle?.size /
+                      100)
+                  }px`}
+                />
+              )}
+
+              {/* <img
                 src={animatedImage || poster || ""}
-                // src={animatedImage ? animatedImage : workspace1}
                 alt="workspace1"
                 className="object-cover rounded-xl"
                 style={{
-                  // width:
-                  //   activeWorkspaceData?.designCustomization?.player?.size *
-                  //   (activeWorkspaceData?.designCustomization?.toggle?.size /
-                  //     100),
-
-                  width: "100%",
-                  maxWidth: "168px",
-
+                  width: "145px",
                   height:
                     activeWorkspaceData?.designCustomization?.player?.height *
                     (activeWorkspaceData?.designCustomization?.toggle?.size /
                       100),
                 }}
-              />
+              /> */}
 
               {userPlanDetails !== null &&
                 userPlanDetails?.selectedPlan?.props?.watermark === true && (
@@ -784,6 +844,27 @@ const ClapprComponent = React.memo(
                     transform: `translate3d(-${imageCrop.x}%, -${imageCrop.y}%, 0) scale3d(${imageCrop.scale},${imageCrop.scale},1)`,
                   }}
                 /> */}
+
+                {/* {activeWorkspaceData !== null &&
+                  baseURL + "/" + activeWorkspaceData?.video?.path !==
+                    "https://popme-api.opash.in/undefined" && (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        transform: `translate3d(-${activeWorkspaceData?.basicSetUp?.toggle?.x}%, -${activeWorkspaceData?.basicSetUp?.toggle?.y}%, 0) scale3d(${activeWorkspaceData?.basicSetUp?.toggle?.scale},${activeWorkspaceData?.basicSetUp?.toggle?.scale},1)`,
+                        "-webkit-transform": `translate3d(-${activeWorkspaceData?.basicSetUp?.toggle?.x}%, -${activeWorkspaceData?.basicSetUp?.toggle?.y}%, 0) scale3d(${activeWorkspaceData?.basicSetUp?.toggle?.scale},${activeWorkspaceData?.basicSetUp?.toggle?.scale},1)`,
+                      }}
+                      className="rounded-full overflow-hidden"
+                    >
+                      <SmallClapprComp
+                        id="videooooooo"
+                        source={
+                          baseURL + "/" + activeWorkspaceData?.video?.path
+                        }
+                      />
+                    </div>
+                  )} */}
 
                 {animatedImage !== "https://popme-api.opash.in/undefined" &&
                   poster !==
