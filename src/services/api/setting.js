@@ -11,7 +11,9 @@ const settingAPI = {
     return axios.post("/api/billing/customer-portal", data);
   },
   getUserPlanDetailsApi() {
-    return axios.get("/api/user/plan-details");
+    return axios.get("/api/user/plan-details", {
+      withCredentials: true,
+    });
   },
 };
 

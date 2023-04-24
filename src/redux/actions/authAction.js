@@ -43,6 +43,23 @@ export const loginUser = createAsyncThunk(
 );
 
 // current user action
+export const getToken = createAsyncThunk(
+  "user/token",
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await authAPI.getToken();
+      return data.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+// current user action
 export const currentUser = createAsyncThunk(
   "user/currentUser",
   async (userData, { rejectWithValue }) => {

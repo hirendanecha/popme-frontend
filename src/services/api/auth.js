@@ -19,8 +19,15 @@ const authAPI = {
       password,
     });
   },
+  getToken() {
+    return axios.get("/api/user/token", {
+      withCredentials: true,
+    });
+  },
   currentUserApi() {
-    return axios.get("/api/user/me");
+    return axios.get("/api/user/me", {
+      withCredentials: true,
+    });
   },
 
   verifyEmailApi(token) {
