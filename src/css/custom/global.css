@@ -51,7 +51,7 @@ body {
   background-color: transparent !important;
 }
 
-[data-player] {
+.clappr_player_customm [data-player] {
   /* border-radius: 1rem; */
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
@@ -247,8 +247,13 @@ body {
 }
 
 .clappr_player_custom video,
-.clappr_player_customm video {
+.clappr_player_customm video,
+.small_clappr_player_custom video {
   object-fit: cover;
+}
+
+.small_clappr_player_custom [data-player] {
+  border-radius: 0.75rem;
 }
 
 .clappr_player_custom .play-wrapper,
@@ -263,7 +268,8 @@ body {
   background-position: center;
 }
 
-.clappr_player_customm .play-wrapper svg {
+.clappr_player_customm .play-wrapper svg,
+.small_clappr_player_custom .play-wrapper svg {
   display: none !important;
 }
 
