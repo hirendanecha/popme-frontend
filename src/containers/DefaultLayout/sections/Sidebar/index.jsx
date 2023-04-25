@@ -43,9 +43,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
         if (Object.keys(res?.selectedPlan).length === 0) {
           navigate("/app/setting", { state: { tab: 2 } });
-        } else {
-          navigate("/app/workspaces");
         }
+
+        // else {
+        //   navigate("/app/workspaces");
+        // }
 
         // if (
         //   !(

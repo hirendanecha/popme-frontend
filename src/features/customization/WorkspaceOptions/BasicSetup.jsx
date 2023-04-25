@@ -1,7 +1,14 @@
-import React, { useState, useCallback } from "react";
-import Cropper from "react-easy-crop";
+import React, { useState, useCallback, createRef } from "react";
+// import Cropper from "react-easy-crop";
+
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
+
 import { useSelector, useDispatch } from "react-redux";
-import { setImageCrop } from "../../workspaces/reducer/workspaceSlice";
+import {
+  setImageCrop,
+  setIsCropMove,
+} from "../../workspaces/reducer/workspaceSlice";
 import * as te from "tw-elements";
 import NewInputText from "../../../components/Input/NewInputText";
 // import defaultWorkspaceImage from "../../../assets/images/defaultWorkspaceImage.png";
@@ -10,33 +17,19 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 
 const BasicSetupTest = ({ register, valueChangeHandler }) => {
   const dispatch = useDispatch();
-  const { masterWorkspaceOptions } = useSelector((state) => state.workspace);
-  const { activeWorkspaceData } = useSelector((state) => state.workspace);
-
-  // console.log("activeWorkspaceData", activeWorkspaceData);
+  const { masterWorkspaceOptions, activeWorkspaceData } = useSelector(
+    (state) => state.workspace
+  );
 
   const [crop, setCrop] = useState({
     x: 0,
     y: 65.625,
   });
-
   const [zoom, setZoom] = useState(1);
-
   const [croppedArea, setCroppedArea] = useState(null);
 
-  // const [mediaSize, setMediaSize] = useState({
-  //   width: 0,
-  //   height: 0,
-  //   naturalWidth: 0,
-  //   naturalHeight: 0,
-  // });
-
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    // console.log(croppedArea, "croppedArea");
-    // console.log("croppedAreaPixels", croppedAreaPixels);
-
     const scale = 100 / croppedArea.width;
-
     if (!Number.isNaN(scale)) {
       dispatch(
         setImageCrop({
@@ -48,9 +41,55 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
     }
   }, []);
 
-  // console.log("crop", crop);
+  const cropperRef = createRef();
 
-  // console.log("croppedArea", croppedArea);
+  const onChangeComplete = () => {
+    const para = document.querySelector(".image_preview_wrap img");
+    const compStyles = window.getComputedStyle(para);
+
+    // console.log(
+    //   compStyles.getPropertyValue("transform").split(","),
+    //   "transform"
+    // );
+
+    // console.log(
+    //   compStyles.getPropertyValue("transform").split(",")[4],
+    //   "transform - x"
+    // );
+
+    // console.log(
+    //   compStyles.getPropertyValue("transform").split(",")[5].replace(")", ""),
+    //   "transform - y"
+    // );
+
+    // console.log(
+    //   "scale",
+    //   parseInt(compStyles.getPropertyValue("width")) /
+    //     (activeWorkspaceData?.designCustomization?.player?.size *
+    //       (activeWorkspaceData?.designCustomization?.toggle?.size / 100))
+    // );
+
+    const scale =
+      parseInt(compStyles.getPropertyValue("width")) /
+      (activeWorkspaceData?.designCustomization?.player?.size *
+        (activeWorkspaceData?.designCustomization?.toggle?.size / 100));
+
+    if (!Number.isNaN(scale)) {
+      dispatch(
+        setImageCrop({
+          x: compStyles.getPropertyValue("transform").split(",")[4],
+          y: compStyles
+            .getPropertyValue("transform")
+            .split(",")[5]
+            .replace(")", ""),
+          scale: scale,
+        })
+      );
+    }
+
+    // console.log(compStyles.getPropertyValue("width"), "width");
+    // console.log(compStyles.getPropertyValue("height"), "height");
+  };
 
   return (
     <>
@@ -180,7 +219,7 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                   "circular" && (
                   <div className="inline-block w-full relative h-[300px]">
                     <div className="absolute top-0 bottom-0 left-0 right-0">
-                      <Cropper
+                      {/* <Cropper
                         image={
                           baseURL +
                           "/" +
@@ -206,28 +245,53 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                             y: 65.625,
                           })
                         }
-                        // setCropSize={(e) => console.log("e", e)}
-                        // setMediaSize={setMediaSize}
-
-                        // cropSize={{ width: 168, height: 168 }}
-
-                        // cropSize={{
-                        //   width: 168.75,
-                        //   height: 168.75,
-                        // }}
-                        // initialCroppedAreaPercentages={{
-                        //   width: 168.75,
-                        //   height: 168.75,
-                        //   x: 0,
-                        //   y: 0,
-                        // }}
                         style={{
                           cropAreaStyle: {
                             minWidth: "168.75px",
                             minHeight: "168.75px",
                           },
                         }}
-                      />
+                      /> */}
+
+                      <div style={{ width: "100%" }}>
+                        <Cropper
+                          ref={cropperRef}
+                          style={{ height: 260, width: "100%" }}
+                          zoomTo={0}
+                          initialAspectRatio={1}
+                          aspectRatio={1}
+                          preview=".img-preview"
+                          src={
+                            baseURL +
+                            "/" +
+                            activeWorkspaceData?.video?.thumbnailDestination +
+                            "/" +
+                            activeWorkspaceData?.video?.thumbnail
+                          }
+                          viewMode={1}
+                          minCropBoxHeight={100}
+                          minCropBoxWidth={100}
+                          minContainerWidth={260}
+                          minContainerHeight={307}
+                          background={false}
+                          responsive={true}
+                          autoCropArea={1}
+                          checkOrientation={false}
+                          guides={false}
+                          cropBoxResizable={false}
+                          className="croper_wrapperr"
+                          cropend={(e) => {
+                            onChangeComplete(e);
+                            dispatch(setIsCropMove(false));
+                          }}
+                          zoom={(e) => {
+                            onChangeComplete(e);
+                          }}
+                          cropstart={() => {
+                            dispatch(setIsCropMove(true));
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 )}

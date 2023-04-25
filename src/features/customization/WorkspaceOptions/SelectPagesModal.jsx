@@ -200,7 +200,7 @@ const SelectPagesModal = ({ url, websiteId }) => {
 
           <div className="inline-block w-full mt-4">
             <ModalButton
-              text="Add a new webpages"
+              text="Add a new page"
               id="not-found-website"
               buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
               clickHandler={() => {
