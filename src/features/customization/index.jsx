@@ -64,15 +64,22 @@ import NewInputText from "../../components/Input/NewInputText";
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 const SmallClapprComp = React.memo(
-  ({ id, source = "https://www.w3schools.com/tags/movie.ogg", height }) => {
-    let playerrrrr = useRef();
+  ({
+    id,
+    source = "https://www.w3schools.com/tags/movie.ogg",
+    height,
+    width = "145px",
+  }) => {
+    let smallPlayer = useRef();
+
+    const { activeWorkspaceData } = useSelector((state) => state.workspace);
 
     useEffect(() => {
-      playerrrrr.current = new Clappr.Player({
+      smallPlayer.current = new Clappr.Player({
         source: source,
         parentId: `#${id}`,
         height,
-        width: "145px",
+        width,
         mute: true,
         loop: true,
         // autoPlay: true,
@@ -86,26 +93,44 @@ const SmallClapprComp = React.memo(
       });
 
       // hide loader
-      playerrrrr.current.getPlugin("spinner").disable();
-      playerrrrr.current.play();
+      smallPlayer.current.getPlugin("spinner").disable();
+      smallPlayer.current.play();
 
-      playerrrrr.current.on(window.Clappr.Events.PLAYER_PLAY, function () {
-        playerrrrr.current.core.mediaControl.disable();
+      smallPlayer.current.on(window.Clappr.Events.PLAYER_PLAY, function () {
+        smallPlayer.current.core.mediaControl.disable();
       });
 
+      const note = document.querySelector(".round_small_video video");
+
+      // console.log("x", activeWorkspaceData?.basicSetUp?.toggle?.x);
+      // console.log("y", activeWorkspaceData?.basicSetUp?.toggle?.y);
+
+      // console.log("note", note);
+      // note.style.transform = "translate(" + 7 + "px, " + 7 + "px)";
+
+      if (note !== null) {
+        note.style.transform = `translate3d(${
+          activeWorkspaceData?.basicSetUp?.toggle?.x
+        }%, ${activeWorkspaceData?.basicSetUp?.toggle?.y / 2}%, 0) scale3d(${
+          activeWorkspaceData?.basicSetUp?.toggle?.scale
+        },${activeWorkspaceData?.basicSetUp?.toggle?.scale},1)`;
+      }
+
+      // note.style.borderRadius = "100px";
+
       return () => {
-        if (playerrrrr.current) {
-          playerrrrr.current.destroy();
-          playerrrrr.current = null;
+        if (smallPlayer.current) {
+          smallPlayer.current.destroy();
+          smallPlayer.current = null;
         }
       };
-    }, []);
+    }, [activeWorkspaceData]);
 
     return (
-      <div className="inline-block">
+      <div className="inline-block w-full h-full">
         <div
-          ref={playerrrrr}
-          className="small_clappr_player_custom"
+          ref={smallPlayer}
+          className="small_clappr_player_custom w-full h-full"
           id={id}
         ></div>
       </div>
@@ -124,7 +149,7 @@ const ClapprComponent = React.memo(
   }) => {
     // console.log("<<");
     let player = useRef();
-    const { activeWorkspaceData, imageCrop } = useSelector(
+    const { activeWorkspaceData, imageCrop, isCropMove } = useSelector(
       (state) => state.workspace
     );
 
@@ -475,7 +500,7 @@ const ClapprComponent = React.memo(
         <div
           className={`absolute ${
             activeWorkspaceData?.basicSetUp?.videoPosition || "bottom-0 left-3"
-          } rounded-2xl overflow-hidden`}
+          } big_player`}
           style={{
             marginBottom: `${activeWorkspaceData?.designCustomization?.verticalMargin}px`,
             marginLeft: `${activeWorkspaceData?.designCustomization?.horizontalMargin}px`,
@@ -714,10 +739,10 @@ const ClapprComponent = React.memo(
                 (activeWorkspaceData?.designCustomization?.toggle?.size / 100)
             )} */}
 
-            <div className="relative">
+            <div className="relative squere_small_video">
               {activeWorkspaceData !== null && (
                 <SmallClapprComp
-                  id="videooooooo"
+                  id="small_video"
                   source={baseURL + "/" + activeWorkspaceData?.video?.path}
                   height={`${
                     activeWorkspaceData?.designCustomization?.player?.height *
@@ -822,7 +847,7 @@ const ClapprComponent = React.memo(
           >
             <div className="relative">
               <div
-                className="relative overflow-hidden rounded-full"
+                className="relative round_small_video_wrap"
                 style={{
                   height:
                     activeWorkspaceData?.designCustomization?.player?.size *
@@ -845,28 +870,40 @@ const ClapprComponent = React.memo(
                   }}
                 /> */}
 
-                {/* {activeWorkspaceData !== null &&
+                {activeWorkspaceData !== null &&
                   baseURL + "/" + activeWorkspaceData?.video?.path !==
                     "https://popme-api.opash.in/undefined" && (
                     <div
                       style={{
                         width: "100%",
                         height: "100%",
-                        transform: `translate3d(-${activeWorkspaceData?.basicSetUp?.toggle?.x}%, -${activeWorkspaceData?.basicSetUp?.toggle?.y}%, 0) scale3d(${activeWorkspaceData?.basicSetUp?.toggle?.scale},${activeWorkspaceData?.basicSetUp?.toggle?.scale},1)`,
-                        "-webkit-transform": `translate3d(-${activeWorkspaceData?.basicSetUp?.toggle?.x}%, -${activeWorkspaceData?.basicSetUp?.toggle?.y}%, 0) scale3d(${activeWorkspaceData?.basicSetUp?.toggle?.scale},${activeWorkspaceData?.basicSetUp?.toggle?.scale},1)`,
+                        // transform: `translate3d(-${activeWorkspaceData?.basicSetUp?.toggle?.x}%, -${activeWorkspaceData?.basicSetUp?.toggle?.y}%, 0) scale3d(${activeWorkspaceData?.basicSetUp?.toggle?.scale},${activeWorkspaceData?.basicSetUp?.toggle?.scale},1)`,
+                        // "-webkit-transform": `translate3d(-${activeWorkspaceData?.basicSetUp?.toggle?.x}%, -${activeWorkspaceData?.basicSetUp?.toggle?.y}%, 0) scale3d(${activeWorkspaceData?.basicSetUp?.toggle?.scale},${activeWorkspaceData?.basicSetUp?.toggle?.scale},1)`,
                       }}
-                      className="rounded-full overflow-hidden"
+                      className="round_small_video"
                     >
                       <SmallClapprComp
-                        id="videooooooo"
+                        id="small_video"
                         source={
                           baseURL + "/" + activeWorkspaceData?.video?.path
                         }
+                        height={`307px`}
+                        width={`${
+                          activeWorkspaceData?.designCustomization?.player
+                            ?.size *
+                          (activeWorkspaceData?.designCustomization?.toggle
+                            ?.size /
+                            100)
+                        }px`}
                       />
                     </div>
-                  )} */}
+                  )}
 
-                {animatedImage !== "https://popme-api.opash.in/undefined" &&
+                {/* {console.log("isCropMove", isCropMove)} */}
+
+                <div className="img-preview image_preview_wrap overflow-hidden !w-full !h-full opacity-0" />
+
+                {/* {animatedImage !== "https://popme-api.opash.in/undefined" &&
                   poster !==
                     "https://popme-api.opash.in/undefined/undefined" && (
                     <div
@@ -879,7 +916,7 @@ const ClapprComponent = React.memo(
                         backgroundPosition: `${activeWorkspaceData?.basicSetUp?.toggle?.x}% ${activeWorkspaceData?.basicSetUp?.toggle?.y}%`,
                       }}
                     />
-                  )}
+                  )} */}
 
                 {userPlanDetails !== null &&
                   userPlanDetails?.selectedPlan?.props?.watermark === true && (
@@ -1101,16 +1138,14 @@ const Customization = () => {
           : "",
 
         toggle: {
-          x: `-${
-            activeWorkspaceData?.basicSetUp?.toggle?.x
-              ? activeWorkspaceData?.basicSetUp?.toggle?.x
-              : 0
-          }`,
-          y: `-${
-            activeWorkspaceData?.basicSetUp?.toggle?.y
-              ? activeWorkspaceData?.basicSetUp?.toggle?.y
-              : 0
-          }`,
+          x: activeWorkspaceData?.basicSetUp?.toggle?.x
+            ? activeWorkspaceData?.basicSetUp?.toggle?.x
+            : 0,
+
+          y: activeWorkspaceData?.basicSetUp?.toggle?.y
+            ? activeWorkspaceData?.basicSetUp?.toggle?.y
+            : 0,
+
           scale: activeWorkspaceData?.basicSetUp?.toggle?.scale
             ? activeWorkspaceData?.basicSetUp?.toggle?.scale
             : 1,
@@ -1282,12 +1317,6 @@ const Customization = () => {
       Object.keys(data).forEach((key) => {
         if (key === "video") {
           formData.append(key, data[key][0]);
-        } else if (["x", "y"].includes(key)) {
-          buildFormData(
-            formData,
-            Math.abs(data[key]),
-            parentKey ? `${parentKey}[${key}]` : key
-          );
         } else {
           buildFormData(
             formData,
