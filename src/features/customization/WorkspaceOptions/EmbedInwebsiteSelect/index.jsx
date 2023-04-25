@@ -8,17 +8,23 @@ import {
   getWorkspaceById,
   updateWorkspaceOptions,
 } from "../../../workspaces/action";
-import { openNewModal } from "../../../../redux/slices/newModalSlice";
+import {
+  openNewModal,
+  resetCustomWebsites,
+  resetModalData,
+} from "../../../../redux/slices/newModalSlice";
 import ModalButton from "../../../../components/Button/ModalButton";
 import SelectPagesModal from "../SelectPagesModal";
 import { toast } from "react-toastify";
 import { setActiveWorkspaceData } from "../../../workspaces/reducer/workspaceSlice";
+import { getUserPlanDetails } from "../../../settingsCom/action";
 
 const EmbedInwebsiteSelect = ({ item }) => {
   //   console.log("item", item);
 
   const dispatch = useDispatch();
   const { activeWorkspaceData } = useSelector((state) => state.workspace);
+  const { resetFormFun } = useSelector((state) => state.modal);
 
   const [inWebsiteSelect, setInWebsiteSelect] = useState("all");
 
@@ -44,6 +50,12 @@ const EmbedInwebsiteSelect = ({ item }) => {
     const { websiteData, ...rest } = props;
     dispatch(getWebsitesByWorkspaceId(websiteData));
     dispatch(openNewModal(rest));
+    dispatch(resetModalData());
+    dispatch(resetCustomWebsites());
+
+    if (resetFormFun !== null) {
+      resetFormFun();
+    }
   };
 
   const deleteWebsiteHandler = ({ websiteData }) => {
@@ -55,6 +67,8 @@ const EmbedInwebsiteSelect = ({ item }) => {
           toast(res?.message, {
             type: "success",
           });
+
+          dispatch(getUserPlanDetails());
 
           dispatch(getWorkspaceById(activeWorkspaceData?._id))
             .unwrap()
@@ -101,7 +115,7 @@ const EmbedInwebsiteSelect = ({ item }) => {
           </span>
 
           <div
-            className="inline-block"
+            className="inline-block cursor-pointer"
             onClick={() =>
               deleteWebsiteHandler({
                 websiteData: {
@@ -212,7 +226,6 @@ const EmbedInwebsiteSelect = ({ item }) => {
                 buttonClass="bg-transparent !text-primary-main hover:bg-transparent text-base !border border-borderColor-main hover:border-borderColor-main"
                 clickHandler={() =>
                   selectPagesModalClickHandler({
-                    data: [],
                     id: "select-pages",
                     children: (
                       <SelectPagesModal url={item?.url} websiteId={item?._id} />

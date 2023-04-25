@@ -281,7 +281,7 @@ const WidgetShare = () => {
 
     return (
       <div className="flex justify-center">
-        <div className="inline-block rounded-2xl overflow-hidden shadow-[0_10px_36px_0px_rgba(51,60,82,1)]">
+        <div className="inline-block widget_share_player shadow-[0_10px_36px_0px_rgba(51,60,82,1)]">
           <div
             className={`relative player_wrap ${workspaceData?.fontStudio?.fontFamily
               .split("+")

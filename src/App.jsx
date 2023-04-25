@@ -1,6 +1,6 @@
-import React, { lazy, Suspense, useReducer } from "react";
+import React, { lazy, Suspense, useReducer, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import "./css/style.css";
 
 // Importing pages

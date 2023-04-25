@@ -4,10 +4,18 @@ import NewTextArea from "../../../components/Input/NewTextArea";
 import { useDispatch, useSelector } from "react-redux";
 import { updateWorkspaceOptions } from "../../workspaces/action";
 import { toast } from "react-toastify";
+import {
+  openNewModal,
+  setCustomWebsites,
+  setModalData,
+} from "../../../redux/slices/newModalSlice";
+import SelectPagesModal from "./SelectPagesModal";
 
 const NotFoundWebsiteModal = ({ url, websiteId }) => {
   const dispatch = useDispatch();
   const { activeWorkspaceData } = useSelector((state) => state.workspace);
+
+  // console.log("url", url);
 
   const [multipleWebsiteManual, setMultipleWebsiteManual] = useState("");
 
@@ -21,16 +29,19 @@ const NotFoundWebsiteModal = ({ url, websiteId }) => {
     const pattern = /\s+/g;
     const stringWithoutSpaces = multipleWebsiteManual.replace(pattern, "");
     let dd = stringWithoutSpaces.split(",");
-    // console.log("fffff", stringWithoutSpaces.split(","));
 
     const newArray = [];
 
     for (let i = 0; i < dd.length; i++) {
       try {
         // Check the value of the current element and modify it
-        const newValue = new URL(dd[i])?.pathname;
-        if (newValue) {
+        const newValue = new URL(dd[i])?.href;
+        const hostName = new URL(dd[i])?.hostname;
+
+        if (newValue && hostName === url) {
           newArray.push(newValue);
+          dispatch(setModalData(newValue));
+          dispatch(setCustomWebsites(newValue));
         }
       } catch (error) {
         console.error(error);
@@ -40,31 +51,38 @@ const NotFoundWebsiteModal = ({ url, websiteId }) => {
     // console.log("newArray", newArray);
 
     dispatch(
-      updateWorkspaceOptions({
-        data: {
-          website: {
-            show: "some",
-            url: url ? url : "",
-            _id: websiteId ? websiteId : "",
-            pages: newArray,
-          },
-        },
-        id: activeWorkspaceData?._id,
+      openNewModal({
+        id: "select-pages",
+        children: <SelectPagesModal url={url} websiteId={websiteId} />,
       })
-    )
-      .unwrap()
-      .then((res) => {
-        // console.log("res", res);
-        toast("Websites updated", {
-          type: "success",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast(err, {
-          type: "error",
-        });
-      });
+    );
+
+    // dispatch(
+    //   updateWorkspaceOptions({
+    //     data: {
+    //       website: {
+    //         show: "some",
+    //         url: url ? url : "",
+    //         _id: websiteId ? websiteId : "",
+    //         pages: newArray,
+    //       },
+    //     },
+    //     id: activeWorkspaceData?._id,
+    //   })
+    // )
+    //   .unwrap()
+    //   .then((res) => {
+    //     // console.log("res", res);
+    //     toast("Websites updated", {
+    //       type: "success",
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     toast(err, {
+    //       type: "error",
+    //     });
+    //   });
   };
 
   return (

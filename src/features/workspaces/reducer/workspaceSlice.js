@@ -26,6 +26,8 @@ const initialState = {
   deleteWorkspaceId: null,
   workspaceList: [],
 
+  isCropMove: false,
+
   // imageCrop: {
   //   unit: "px", // Can be 'px' or '%'
   //   x: 0,
@@ -58,8 +60,11 @@ const workspaceSlice = createSlice({
     setCurrentWebsiteUrl: (state, action) => {
       state.currentWebsiteUrl = action.payload;
     },
+    setIsCropMove: (state, action) => {
+      state.isCropMove = action.payload;
+    },
     setImageCrop: (state, action) => {
-      console.log("payload", action.payload);
+      // console.log("payload", action.payload);
 
       state.imageCrop = action.payload;
 
@@ -289,6 +294,7 @@ export const {
   setActiveWorkspaceData,
   setCurrentWebsiteUrl,
   setImageCrop,
+  setIsCropMove,
   setVideoUploadedProcess,
   setDeleteWorkspaceId,
 } = workspaceSlice.actions;

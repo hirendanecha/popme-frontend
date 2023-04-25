@@ -104,7 +104,7 @@ const ClapprPlayer = React.forwardRef(({ id, source, item, event }, ref) => {
 
   return (
     <div className="inline-block w-full">
-      <div className="inline-block w-full h-full rounded-t-xl overflow-hidden">
+      <div className="inline-block w-full h-full overflow-hidden">
         <div
           className="clappr-player h-full clappr_player_customm"
           id={id}
@@ -242,16 +242,9 @@ const WorkspacePost = ({
 
   return (
     <>
-      <div
-        className="inline-block w-full bg-[#E5E7EB] border border-borderColor-main rounded-xl"
-        key={item._id}
-      >
+      <div className="inline-block w-full" key={item._id}>
         <div className="flex flex-col workspace_wraper">
-          <div
-            className="flex relative"
-            // onMouseOver={mouseOver}
-            // onMouseLeave={mouseOut}
-          >
+          <div className="flex relative h-[480px]">
             <ClapprPlayer
               id={item?._id}
               key={item?._id}
@@ -259,11 +252,10 @@ const WorkspacePost = ({
               item={item}
               ref={playerRef.current[item._id]}
               event={event}
-              // onClick=((e) => console.log(e))
             />
           </div>
 
-          <div className="inline-block w-full p-4 bg-white rounded-b-xl">
+          <div className="inline-block w-full p-4 bg-white rounded-b-xl border-r border-b border-l border-borderColor-main">
             <div className="flex justify-between items-start mb-5">
               <div className="flex flex-col">
                 <h4 className=" text-primary-normal text-lg font-bold min-h-[55px] line-clamp-2">
@@ -296,7 +288,6 @@ const WorkspacePost = ({
                       <a onClick={duplicateWorkspaceHandler}>Duplicate</a>
                     </li>
                     <li>
-                      {/* <a onClick={deleteWorkspaceHandler}>Delete</a> */}
                       <label
                         htmlFor="delete_verify_modal"
                         onClick={() => deleteWorkspaceHandler(item._id)}

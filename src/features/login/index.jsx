@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import logo from "../../assets/images/logo.png";
 import LockSvg from "../../assets/svgs/LockSvg";
 import google from "../../assets/images/google.png";
 import { loginUser, logoutUser } from "../../redux/actions/authAction";
+import { getGoogleUrl } from "../../utils/getGoogleUrl";
 
 const schema = yup.object({
   email: yup.string().required("Email is required"),
@@ -18,6 +19,9 @@ const schema = yup.object({
 const LoginComp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/app/workspaces";
 
   const { userToken } = useSelector((state) => state.auth);
 
@@ -92,8 +96,8 @@ const LoginComp = () => {
             Sign in to your account
           </h2>
           <h6 className="text-center text-base font-normal text-secondary-main mb-8">
-            <span className="text-[#4B5563]">Or</span> start your 3-day free
-            trial
+            <span className="text-[#4B5563]">Or </span>
+            <Link to="/register">Sign up</Link>
           </h6>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
@@ -186,13 +190,15 @@ const LoginComp = () => {
           </div>
 
           <div className="inline-block w-full">
-            <button
-              type="button"
-              className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]"
-            >
-              <img src={google} alt="google" className="mr-2" />
-              Login with Google
-            </button>
+            <Link to={getGoogleUrl(from)}>
+              <button
+                type="button"
+                className="btn btn-block bg-white border-[#E5E7EB] hover:bg-white hover:border-[#E5E7EB] capitalize text-base text-[#6B7280]"
+              >
+                <img src={google} alt="google" className="mr-2" />
+                Login with Google
+              </button>
+            </Link>
           </div>
         </div>
       </div>

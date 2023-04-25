@@ -5,7 +5,10 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setImageCrop } from "../../workspaces/reducer/workspaceSlice";
+import {
+  setImageCrop,
+  setIsCropMove,
+} from "../../workspaces/reducer/workspaceSlice";
 import * as te from "tw-elements";
 import NewInputText from "../../../components/Input/NewInputText";
 // import defaultWorkspaceImage from "../../../assets/images/defaultWorkspaceImage.png";
@@ -261,7 +264,9 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                           src={
                             baseURL +
                             "/" +
-                            activeWorkspaceData?.video?.animatedImage
+                            activeWorkspaceData?.video?.thumbnailDestination +
+                            "/" +
+                            activeWorkspaceData?.video?.thumbnail
                           }
                           viewMode={1}
                           minCropBoxHeight={100}
@@ -277,9 +282,13 @@ const BasicSetupTest = ({ register, valueChangeHandler }) => {
                           className="croper_wrapperr"
                           cropend={(e) => {
                             onChangeComplete(e);
+                            dispatch(setIsCropMove(false));
                           }}
                           zoom={(e) => {
                             onChangeComplete(e);
+                          }}
+                          cropstart={() => {
+                            dispatch(setIsCropMove(true));
                           }}
                         />
                       </div>

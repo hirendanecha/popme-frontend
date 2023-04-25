@@ -10,7 +10,7 @@ import SmallSidebarLogo from "../../../../assets/svgs/SmallSidebarLogo";
 import CakeSvg from "../../../../assets/svgs/CakeSvg";
 import Button from "../../../../components/Button/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { currentUser } from "../../../../redux/actions/authAction";
+import { currentUser, getToken } from "../../../../redux/actions/authAction";
 import { getUserPlanDetails } from "../../../../features/settingsCom/action";
 // import SidebarLinkGroup from "./SidebarLinkGroup";
 
@@ -32,7 +32,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
+    storedSidebarExpanded === null ? true : storedSidebarExpanded === "true"
   );
 
   const getUserPlanDetailsHandler = useCallback(() => {
@@ -44,6 +44,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         if (Object.keys(res?.selectedPlan).length === 0) {
           navigate("/app/setting", { state: { tab: 2 } });
         }
+
+        // else {
+        //   navigate("/app/workspaces");
+        // }
 
         // if (
         //   !(
@@ -65,6 +69,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   //get data of currentUser
   useEffect(() => {
+    dispatch(getToken());
     dispatch(currentUser());
     getUserPlanDetailsHandler();
   }, []);
