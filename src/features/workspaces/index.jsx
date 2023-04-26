@@ -31,6 +31,49 @@ const Workspaces = () => {
 
   const event = EventEmitter;
 
+  const renderSwitch = (width) => {
+    // console.log("width", width);
+
+    switch (width !== null) {
+      case width < 768:
+        return 1;
+
+      case width < 1024:
+        return 2;
+
+      case width < 1280:
+        return 3;
+
+      case width < 1536:
+        return 4;
+
+      default:
+        return 6;
+    }
+  };
+
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // console.log("windowDimensions", windowDimensions);
+  // console.log("renderSwitch", renderSwitch(windowDimensions?.width));
+
   const [workspacePosts, setWorkspacePosts] = useState([]);
   const [allPlayer, setAllPlayer] = useState([]);
   const [newWorkspaceNum, setNewWorkspaceNum] = useState("");
@@ -38,7 +81,7 @@ const Workspaces = () => {
   const [currentPage, setCurrentPage] = useState("");
   const [page, setPage] = useState(1);
 
-  const perPageSize = 4;
+  const perPageSize = 6;
 
   const { data } = useSelector((state) => state.auth);
   const { deleteWorkspaceId, workspaceList } = useSelector(
@@ -74,13 +117,16 @@ const Workspaces = () => {
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Workspaces" }));
-    workspaceListApi({ page: page, size: perPageSize });
+    workspaceListApi({
+      page: page,
+      size: renderSwitch(windowDimensions?.width) - 1,
+    });
   }, []);
 
   const loadmoreHandler = () => {
     setPage((prev) => prev + 1);
     workspaceListApi(
-      { page: page + 1, size: perPageSize },
+      { page: page + 1, size: renderSwitch(windowDimensions?.width) },
       {
         merge: true,
       }

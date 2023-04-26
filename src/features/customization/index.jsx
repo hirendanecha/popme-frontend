@@ -60,6 +60,7 @@ import GetLink from "./WorkspaceOptions/GetLink";
 import InstantEmbed from "./WorkspaceOptions/InstantEmbed";
 import { socket } from "../../services/socketCon";
 import NewInputText from "../../components/Input/NewInputText";
+import ErrorBoundary from "./ErrorBoundary";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -139,14 +140,7 @@ const SmallClapprComp = React.memo(
 );
 
 const ClapprComponent = React.memo(
-  ({
-    id,
-    source = "https://www.w3schools.com/tags/movie.ogg",
-    height,
-    width,
-    poster,
-    animatedImage,
-  }) => {
+  ({ id, source, height, width, poster, animatedImage }) => {
     // console.log("<<");
     let player = useRef();
     const { activeWorkspaceData, imageCrop, isCropMove } = useSelector(
@@ -229,6 +223,7 @@ const ClapprComponent = React.memo(
           );
       }
     };
+
     useEffect(() => {
       let imgPlayIcon = document.querySelector(".img_play_button");
       imgPlayIcon.addEventListener("click", function (event) {
@@ -292,7 +287,9 @@ const ClapprComponent = React.memo(
 
       // console.log("videoSeekTime", videoSeekTime);
 
-      player.current.seek(videoSeekTime);
+      if (videoSeekTime !== 0) {
+        player.current.seek(videoSeekTime);
+      }
 
       player.current.resize({
         height: activeWorkspaceData?.designCustomization?.player?.height,
@@ -1644,49 +1641,54 @@ const Customization = () => {
               {/* {console.log("activeWorkspaceData", activeWorkspaceData)} */}
               {/* {console.log("videoUploadedProcess", videoUploadedProcess)} */}
 
-              {activeWorkspaceData !== null &&
-              selectWorkspaceOptions.length > 0 &&
-              !videoUploadedProcess ? (
-                <div className="inline-block w-full h-[calc(100vh-183px)] relative">
-                  <ClapprComponent
-                    id="player"
-                    source={
-                      activeWorkspaceData !== null &&
-                      baseURL + "/" + activeWorkspaceData?.video?.path
-                    }
-                    // base api + video.path
-                    height={
-                      activeWorkspaceData?.designCustomization?.player
-                        ?.height || 461
-                    }
-                    width={
-                      activeWorkspaceData?.designCustomization?.player?.size ||
-                      261
-                    }
-                    poster={
-                      activeWorkspaceData !== null &&
-                      baseURL +
+              <ErrorBoundary>
+                {activeWorkspaceData !== null &&
+                selectWorkspaceOptions.length > 0 &&
+                !videoUploadedProcess ? (
+                  <div className="inline-block w-full h-[calc(100vh-183px)] relative">
+                    <ClapprComponent
+                      id="player"
+                      source={
+                        activeWorkspaceData !== null
+                          ? baseURL + "/" + activeWorkspaceData?.video?.path
+                          : "https://www.w3schools.com/tags/movie.ogg"
+                      }
+                      // base api + video.path
+                      height={
+                        activeWorkspaceData?.designCustomization?.player
+                          ?.height || 461
+                      }
+                      width={
+                        activeWorkspaceData?.designCustomization?.player
+                          ?.size || 261
+                      }
+                      poster={
+                        activeWorkspaceData !== null &&
+                        baseURL +
+                          "/" +
+                          activeWorkspaceData?.video?.thumbnailDestination +
+                          "/" +
+                          activeWorkspaceData?.video?.thumbnail
+                      }
+                      animatedImage={
+                        baseURL +
                         "/" +
-                        activeWorkspaceData?.video?.thumbnailDestination +
-                        "/" +
-                        activeWorkspaceData?.video?.thumbnail
-                    }
-                    animatedImage={
-                      baseURL + "/" + activeWorkspaceData?.video?.animatedImage
-                    }
-                  />
-                </div>
-              ) : (
-                <div className="inline-block w-full h-[calc(100vh-183px)] relative">
-                  {videoUploadedProcess ? (
-                    <div
-                      className={`video_upload_loader border-t-[5px solid] border-t-secondary-main absolute top-0 bottom-0 left-0 right-0 m-auto`}
+                        activeWorkspaceData?.video?.animatedImage
+                      }
                     />
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              )}
+                  </div>
+                ) : (
+                  <div className="inline-block w-full h-[calc(100vh-183px)] relative">
+                    {videoUploadedProcess ? (
+                      <div
+                        className={`video_upload_loader border-t-[5px solid] border-t-secondary-main absolute top-0 bottom-0 left-0 right-0 m-auto`}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                )}
+              </ErrorBoundary>
             </div>
           </div>
 
