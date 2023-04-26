@@ -703,7 +703,7 @@ const ClapprComponent = React.memo(
                 </div>
               </div>
 
-              <div className="absolute bottom-[2px] flex w-full rounded-xl px-2">
+              <div className="absolute progress_wrap bottom-[2px] flex w-full rounded-xl px-2">
                 <div
                   className="flex bg-secondary-main h-[7px] rounded-xl"
                   id="progress_calc"

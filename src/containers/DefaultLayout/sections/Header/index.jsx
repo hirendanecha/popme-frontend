@@ -6,7 +6,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
   const { pageTitle } = useSelector((state) => state.header);
 
   return (
-    <header className="sticky top-0 bg-white border-b border-slate-200 z-30 shadow-shadow-headerShadow">
+    <header className="sticky top-0 bg-white border-b border-slate-200 shadow-shadow-headerShadow">
       <div className="px-4 py-3 lg:px-6">
         <div className="flex items-center justify-between h-16 -mb-px">
           {/* Header: Left side */}

@@ -294,9 +294,23 @@ body {
 }
 
 @media (max-width: 575px) {
+  .big_player {
+    position: fixed !important;
+    margin-bottom: 0 !important;
+    margin-left: 0 !important;
+    top: 2rem !important;
+    bottom: 2rem !important;
+    left: 2rem !important;
+    right: 2rem !important;
+  }
+
   .big_player [data-player] {
-    width: 261px !important;
-    height: 431px !important;
+    width: 100% !important;
+    height: 100vh !important;
+  }
+
+  .progress_wrap {
+    bottom: 7.5% !important;
   }
 }
 
