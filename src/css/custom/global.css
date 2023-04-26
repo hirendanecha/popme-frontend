@@ -286,6 +286,20 @@ body {
   -webkit-transform: translate3d(0, 0, 0);
 }
 
+@media (max-width: 767px) {
+  .big_player [data-player] {
+    width: 300px !important;
+    height: 561px !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .big_player [data-player] {
+    width: 261px !important;
+    height: 431px !important;
+  }
+}
+
 .clappr_player_custom .play-wrapper,
 .clappr_player_customm .play-wrapper {
   display: flex;
