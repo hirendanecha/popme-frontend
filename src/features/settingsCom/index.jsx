@@ -498,7 +498,7 @@ const SettingsCom = () => {
           {activeTab === 2 && (
             <div className="flex flex-col">
               <div className="inline-block w-full pt-11 pb-6">
-                <div className="grid grid-cols-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
                   <div className="inline-block w-full">
                     <h3 className="text-primary-normal font-bold text-2xl">
                       Plans
