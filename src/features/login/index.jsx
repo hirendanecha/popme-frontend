@@ -71,7 +71,7 @@ const LoginComp = () => {
   return (
     <>
       <div className="min-h-screen flex items-center">
-        <div className="mx-auto w-full max-w-xl">
+        <div className="mx-auto w-full max-w-xl px-3">
           {errors.email?.message && (
             <div className="flex justify-center">
               <p className="mb-3 text-sm text-[#991B1B] py-1 px-3 bg-[#FEE2E2] rounded-xl text-center">
