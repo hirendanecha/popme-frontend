@@ -364,11 +364,13 @@ const ClapprComponent = React.memo(
           document.querySelector(".thumbnail_img").classList.remove("block");
           document.querySelector(".thumbnail_img").classList.add("hidden");
 
-          if (
-            document.querySelector(".player_wrap").classList.contains("z-0")
-          ) {
-            document.querySelector(".player_wrap").classList.remove("z-0");
-          }
+          document.querySelector(".player_wrap").classList.add("h-full");
+
+          // if (
+          //   document.querySelector(".player_wrap").classList.contains("z-0")
+          // ) {
+          //   document.querySelector(".player_wrap").classList.remove("z-0");
+          // }
 
           if (
             document.querySelector(".play_icon").classList.contains("block")
@@ -379,7 +381,7 @@ const ClapprComponent = React.memo(
             document.querySelector(".pause_icon").classList.add("block");
           }
 
-          document.querySelector(".player_wrap").classList.add("z-10");
+          // document.querySelector(".player_wrap").classList.add("z-10");
         }
       });
 
@@ -452,8 +454,11 @@ const ClapprComponent = React.memo(
         if (document.getElementById(id).classList.contains("block")) {
           document.getElementById(id).classList.remove("block");
           document.getElementById(id).classList.add("hidden");
-          document.querySelector(".player_wrap").classList.remove("z-10");
-          document.querySelector(".player_wrap").classList.add("z-0");
+
+          document.querySelector(".player_wrap").classList.remove("h-full");
+
+          // document.querySelector(".player_wrap").classList.remove("z-10");
+          // document.querySelector(".player_wrap").classList.add("z-0");
 
           // document
           //   .querySelector(".player_wrap")

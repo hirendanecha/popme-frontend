@@ -96,7 +96,7 @@ const RegisterComp = () => {
   return (
     <>
       <div className="min-h-screen flex items-center">
-        <div className="mx-auto w-full max-w-xl">
+        <div className="mx-auto w-full max-w-xl px-3">
           <div className="flex justify-center mb-2">
             <img src={logo} alt="logo" />
           </div>
