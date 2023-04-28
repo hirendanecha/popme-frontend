@@ -13,9 +13,9 @@ const EmailVerify = lazy(() => import("./pages/EmailVerify"));
 const CheckoutStatus = lazy(() => import("./pages/CheckoutStatus"));
 
 function App() {
-  //const { userToken: token } = useSelector((state) => state.auth);
+  const { userToken: token } = useSelector((state) => state.auth);
   // console.log({token});
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   // console.log("token",!token)
   const publicRoutes = [
     {
