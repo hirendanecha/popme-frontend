@@ -34,7 +34,7 @@ function App() {
       element: ForgotPassword,
     },
     {
-      path: "/register",
+      path: "/signup",
       name: "Register",
       element: Register,
     },

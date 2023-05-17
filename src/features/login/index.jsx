@@ -65,7 +65,7 @@ const LoginComp = () => {
   };
 
   const createAccoutHandler = () => {
-    navigate("/register");
+    navigate("/signup");
   };
 
   return (
@@ -97,7 +97,7 @@ const LoginComp = () => {
           </h2>
           <h6 className="text-center text-base font-normal text-secondary-main mb-8">
             <span className="text-[#4B5563]">Or </span>
-            <Link to="/register">Sign up</Link>
+            <Link to="/signup">Sign up</Link>
           </h6>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
