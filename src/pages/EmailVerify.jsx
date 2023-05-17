@@ -32,7 +32,7 @@ const EmailVerify = () => {
   };
 
   const registrationClickHandler = () => {
-    navigate("/register");
+    navigate("/signup");
   };
 
   return (
