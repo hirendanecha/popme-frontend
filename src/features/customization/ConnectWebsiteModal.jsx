@@ -66,8 +66,7 @@ const ConnectWebsiteModal = () => {
         Connect a Website
       </h3>
       <p className="mb-5 text-base text-primary-normal font-semibold">
-        Insert only your domain/subdomain without https and any other special
-        characters.
+        Insert your domain/subdomain with http or https.
       </p>
 
       <NewInputText
